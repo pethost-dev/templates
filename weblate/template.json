@@ -1,0 +1,337 @@
+{
+	"name": "Weblate",
+	"emoji": "🌍",
+	"category": "developer-tools",
+	"alternatives": [
+		"Crowdin",
+		"Transifex",
+		"Lokalise"
+	],
+	"plan": "starter",
+	"route": {
+		"service": "weblate",
+		"port": 8080
+	},
+	"variables": [
+		{
+			"name": "HOST",
+			"from": "host"
+		},
+		{
+			"name": "ADMIN_EMAIL",
+			"ask": "email"
+		},
+		{
+			"name": "ADMIN_PASSWORD",
+			"ask": "adminPassword"
+		}
+	],
+	"parts": {
+		"postgres": {
+			"memory_mib": 512
+		},
+		"valkey": {
+			"memory_mib": 256
+		},
+		"email": {
+			"variables": [
+				{
+					"name": "SMTP_HOST",
+					"value": "host"
+				},
+				{
+					"name": "SMTP_PORT",
+					"value": "port"
+				},
+				{
+					"name": "SMTP_USER",
+					"value": "user"
+				},
+				{
+					"name": "SMTP_PASSWORD",
+					"value": "password"
+				},
+				{
+					"name": "SMTP_FROM",
+					"value": "from"
+				},
+				{
+					"name": "SMTP_FROM_HEADER",
+					"value": "from_header"
+				},
+				{
+					"name": "SMTP_BACKEND",
+					"value": "enabled",
+					"on": "django.core.mail.backends.smtp.EmailBackend",
+					"off": "django.core.mail.backends.dummy.EmailBackend"
+				}
+			]
+		}
+	},
+	"texts": {
+		"en": {
+			"description": "A localization platform: translate apps and docs with your team, in sync with Git",
+			"notes": "Sign in as admin, or with the email you gave, and the admin password you gave. Sign-up is closed: Manage → Users invites people by email. Then add a project and a component from your repository; for a private one, add the public key from Manage → SSH keys to it. Weblate sets the admin's email and password from the project's .env at every start, so change them there, then deploy again. Weblate keeps its translations and history in the Postgres database linked to the project, its task queue in the Valkey one, and its clones of your repositories in the project's volume. Email goes through the provider you picked in New project, if any: change it in the SMTP_ lines of the project's .env, then deploy again. With none, SMTP_BACKEND names Django's dummy backend, which sends nothing: put django.core.mail.backends.smtp.EmailBackend there beside the provider's values.",
+			"sizing": "Weblate is moderate: about 1 GB of memory at rest and up to 1.5 GB while it imports a project, beside its Postgres of 512 MB and its Valkey of 256 MB; its disk holds a clone of each repository it translates.",
+			"summary": "Self-host Weblate, the open-source localization platform: translate apps and docs with your team, in sync with Git, with PostgreSQL, in one click.",
+			"about": [
+				"Weblate is an open-source, web-based localization platform. Developers, professional translators and volunteers translate software, websites and documentation in one place, with roles for who may translate, review and manage. Michal Čihař started it in 2012; it is copylefted libre software under the GNU GPL, and its developers also run it for others as Hosted Weblate.",
+				"Weblate is built for continuous localization. It keeps a clone of your Git repository, takes in new strings when you push, and commits the translations back with each translator credited, to push to your branch or to open a pull request. It reads and writes the files your project already has: GNU gettext, XLIFF, JSON for i18next, Vue I18n or go-i18n, Android and Apple strings, Java properties, YAML, Markdown and dozens more. Translators get context, screenshots, a glossary, translation memory and quality checks; machine translation and LLMs are optional, as suggestions or drafts that people review.",
+				"This template runs Weblate's official image, the 2026.10 line, with a Postgres 18 database and a Valkey 9 database that New project makes beside it, linked before Weblate first starts; for Postgres you may pick one of yours instead. That start makes the admin from the email and password you give, before Weblate answers anyone, and sign-up stays closed. Celery, which runs Weblate's background work, runs in one process, Weblate's documented way to save memory. Its email, for invitations, notifications and password resets, goes through Resend, SendGrid or Amazon SES, whichever you pick in New project, or nowhere until you pick one."
+			],
+			"faq": [
+				{
+					"q": "Is Weblate free and open source?",
+					"a": "Yes. Weblate is libre software under the GNU GPL, version 3 or later, so you can run, study, change and self-host it at no cost. Hosted Weblate is its developers' paid service, with a 14-day trial, and public libre projects can ask for its Libre plan gratis."
+				},
+				{
+					"q": "How does Weblate work with Git?",
+					"a": "Weblate keeps a clone of each repository you add. It pulls new strings when your code host notifies it of a push, and commits translations back, crediting each translator, then pushes them or opens a pull request. For a private repository, add the public key from Manage → SSH keys to it, or connect GitHub, GitLab and other hosts under Manage → Code-hosting connections."
+				},
+				{
+					"q": "Which file formats does Weblate support?",
+					"a": "Dozens: GNU gettext PO, XLIFF, JSON (i18next, Vue I18n, go-i18n, Format.JS and plain), Android string resources, Apple .strings and .stringsdict, ARB, Java and GWT properties, .NET RESX, Qt Linguist, YAML, TOML, PHP and Laravel strings, CSV, Markdown, HTML, subtitles and more. Weblate's documentation lists each format's variants and limits."
+				},
+				{
+					"q": "Can Weblate use machine translation or AI?",
+					"a": "Yes, if you want it. Weblate can ask DeepL, Google Cloud Translation, Azure AI Translator, Amazon Translate, LibreTranslate, OpenAI, Anthropic, Ollama and other services for suggestions, each set up under Automatic suggestions. Its own translation memory needs no outside service, and generated text can stay a suggestion until a person accepts it."
+				},
+				{
+					"q": "How much memory does Weblate need?",
+					"a": "Weblate's documentation names 3 GB of memory and 2 CPU cores as the least for Weblate, its database and a web server on one host, and 4 GB for hundreds of components. This template runs Weblate's background tasks in one process, its documented way to save memory: on our test machine Weblate took about 1 GB at rest and up to 1.5 GB while it imported a project, beside about 70 MB for Postgres and 12 MB for Valkey."
+				}
+			]
+		},
+		"de": {
+			"description": "Eine Lokalisierungsplattform: Übersetze Apps und Dokumentation mit deinem Team, synchron mit Git",
+			"notes": "Melde dich als admin oder mit der angegebenen E-Mail-Adresse an, jeweils mit dem angegebenen Admin-Passwort. Die Registrierung ist geschlossen: Unter „Verwalten → Benutzer“ lädst du Personen per E-Mail ein. Füg dann ein Projekt und eine Komponente aus deinem Repository hinzu; ist das Repository privat, trag dort den Public Key aus „Verwalten → SSH-Schlüssel“ ein. Weblate setzt E-Mail und Passwort des Admins bei jedem Start aus der .env des Projekts, also ändere sie dort und deploy dann neu. Übersetzungen und Verlauf speichert Weblate in der Postgres-Datenbank, die mit dem Projekt verbunden ist, die Aufgabenwarteschlange in der Valkey-Datenbank und die Klone deiner Repositorys im Volume des Projekts. E-Mails gehen über den Anbieter aus „Neues Projekt“, sofern du einen gewählt hast: Ändere ihn in den SMTP_-Zeilen der .env des Projekts und deploy dann neu. Ohne Anbieter steht in SMTP_BACKEND das Dummy-Backend von Django, das nichts verschickt: Trag dort django.core.mail.backends.smtp.EmailBackend ein, neben den Werten des Anbieters.",
+			"sizing": "Weblate ist mittelschwer: etwa 1 GB RAM im Leerlauf und bis zu 1,5 GB beim Import eines Projekts, neben seiner Postgres-Datenbank mit 512 MB und seiner Valkey-Datenbank mit 256 MB; auf seiner Disk liegt ein Klon jedes Repositorys, das es übersetzt.",
+			"summary": "Weblate selbst hosten: Open-Source-Lokalisierungsplattform. Übersetze Apps und Dokumentation im Team, synchron mit Git. Mit PostgreSQL, mit einem Klick.",
+			"about": [
+				"Weblate ist eine webbasierte Open-Source-Plattform für Lokalisierung. Entwicklungsteams, Übersetzungsprofis und Freiwillige übersetzen dort Software, Websites und Dokumentation an einem Ort, mit Rollen dafür, wer übersetzen, überprüfen und verwalten darf. Michal Čihař hat Weblate 2012 ins Leben gerufen; es ist freie Software mit Copyleft unter der GNU GPL, und das Weblate-Team betreibt es als Hosted Weblate auch für andere.",
+				"Weblate ist für kontinuierliche Lokalisierung gebaut. Es hält einen Klon deines Git-Repositorys, übernimmt neue Zeichenketten, wenn du pushst, und committet die Übersetzungen zurück, mit Nennung jeder Person, die übersetzt hat, um sie auf deinen Branch zu pushen oder einen Pull Request zu öffnen. Es liest und schreibt die Dateien, die dein Projekt schon hat: GNU gettext, XLIFF, JSON für i18next, Vue I18n oder go-i18n, Android- und Apple-Strings, Java Properties, YAML, Markdown und Dutzende mehr. Wer übersetzt, bekommt Kontext, Bildschirmfotos, ein Glossar, einen Übersetzungsspeicher und Qualitätsprüfungen; maschinelle Übersetzung und LLMs sind optional, als Vorschläge oder Entwürfe, die Menschen prüfen.",
+				"Diese Vorlage startet das offizielle Image von Weblate, die Versionsreihe 2026.10, mit einer Postgres-18- und einer Valkey-9-Datenbank, die „Neues Projekt“ daneben erstellt, verbunden vor dem ersten Start von Weblate; statt der neuen Postgres-Datenbank kannst du eine deiner wählen. Dieser Start legt den Admin mit der E-Mail-Adresse und dem Passwort an, die du angibst, bevor Weblate irgendwem antwortet, und die Registrierung bleibt geschlossen. Celery, das die Hintergrundarbeit von Weblate erledigt, läuft in einem einzigen Prozess: So spart Weblate laut seiner Dokumentation RAM. E-Mails, für Einladungen, Benachrichtigungen und das Zurücksetzen von Passwörtern, gehen über Resend, SendGrid oder Amazon SES, je nachdem, welchen Anbieter du in „Neues Projekt“ wählst, und gar keine, solange du keinen wählst."
+			],
+			"faq": [
+				{
+					"q": "Ist Weblate kostenlos und Open Source?",
+					"a": "Ja. Weblate ist freie Software unter der GNU GPL, Version 3 oder neuer, du kannst es also kostenlos betreiben, untersuchen, ändern und selbst hosten. Hosted Weblate ist der kostenpflichtige Dienst des Weblate-Teams, mit einer 14-tägigen Testphase, und öffentliche freie Projekte können dort das Paket „Freies Hosting“ kostenlos beantragen."
+				},
+				{
+					"q": "Wie arbeitet Weblate mit Git?",
+					"a": "Weblate hält einen Klon jedes Repositorys, das du hinzufügst. Neue Zeichenketten holt es, sobald dein Code-Host ihm einen Push meldet, und es committet Übersetzungen zurück, mit Nennung jeder Person, die übersetzt hat, und pusht sie dann oder öffnet einen Pull Request. Ist ein Repository privat, trag dort den Public Key aus „Verwalten → SSH-Schlüssel“ ein oder verbinde GitHub, GitLab und andere Hosts unter „Verwalten → Code-Hosting-Verbindungen“."
+				},
+				{
+					"q": "Welche Dateiformate unterstützt Weblate?",
+					"a": "Dutzende: GNU gettext PO, XLIFF, JSON (i18next, Vue I18n, go-i18n, Format.JS und einfaches JSON), Android String Resources, Apple .strings und .stringsdict, ARB, Java- und GWT-Properties, .NET RESX, Qt Linguist, YAML, TOML, PHP- und Laravel-Strings, CSV, Markdown, HTML, Untertitel und mehr. Die Dokumentation von Weblate nennt die Varianten und Grenzen jedes Formats."
+				},
+				{
+					"q": "Kann Weblate maschinelle Übersetzung oder KI nutzen?",
+					"a": "Ja, wenn du willst. Weblate kann DeepL, Google Cloud Translation, Azure AI Translator, Amazon Translate, LibreTranslate, OpenAI, Anthropic, Ollama und andere Dienste nach Vorschlägen fragen; jeden davon richtest du unter „Automatische Vorschläge“ ein. Der eingebaute Übersetzungsspeicher von Weblate braucht keinen externen Dienst, und generierter Text kann ein Vorschlag bleiben, bis eine Person ihn annimmt."
+				},
+				{
+					"q": "Wie viel RAM braucht Weblate?",
+					"a": "Die Dokumentation von Weblate nennt 3 GB RAM und 2 CPU-Kerne als Minimum für Weblate, seine Datenbank und einen Webserver auf einem Host, und 4 GB für Hunderte Komponenten. Diese Vorlage führt die Hintergrundaufgaben von Weblate in einem einzigen Prozess aus, wie es die Dokumentation zum RAM-Sparen beschreibt: Auf unserer Testmaschine brauchte Weblate etwa 1 GB im Leerlauf und bis zu 1,5 GB beim Import eines Projekts, dazu etwa 70 MB für Postgres und 12 MB für Valkey."
+				}
+			]
+		},
+		"es": {
+			"description": "Una plataforma de localización sincronizada con Git: traduce apps y documentación con tu equipo",
+			"notes": "Accede con el usuario admin, o con el correo que indicaste, y la contraseña de administrador que indicaste. El registro está cerrado: en Gestionar → Usuarios invitas a otras personas por correo. Luego agrega un proyecto y un componente desde tu repositorio; si es privado, agrégale la clave pública que muestra Gestionar → Claves SSH. En cada arranque, Weblate fija el correo y la contraseña del administrador a partir del .env del proyecto, así que cámbialos allí y vuelve a desplegar. Weblate guarda sus traducciones y su historial en la base de datos Postgres conectada al proyecto, su cola de tareas en la base de datos Valkey, y sus clones de tus repositorios en el volumen del proyecto. El correo sale por el proveedor que elegiste en Nuevo proyecto, si elegiste alguno: cámbialo en las líneas SMTP_ del .env del proyecto y vuelve a desplegar. Si no elegiste ninguno, SMTP_BACKEND indica el backend ficticio de Django, que no envía nada: pon ahí django.core.mail.backends.smtp.EmailBackend junto a los valores del proveedor.",
+			"sizing": "Weblate es moderado: cerca de 1 GB de memoria en reposo y hasta 1,5 GB mientras importa un proyecto, junto a su Postgres de 512 MB y su Valkey de 256 MB; su disco guarda un clon de cada repositorio que traduce.",
+			"summary": "Autoaloja Weblate, la plataforma de localización de código abierto: traduce apps y docs con tu equipo, en sincronía con Git, con PostgreSQL, en un clic.",
+			"about": [
+				"Weblate es una plataforma web de localización de código abierto. Desarrolladores, traductores profesionales y voluntarios traducen software, sitios web y documentación en un mismo lugar, con roles que definen quién puede traducir, revisar y administrar. Michal Čihař lo creó en 2012; es software libre con copyleft, bajo la GNU GPL, y sus desarrolladores también lo operan para otros como Hosted Weblate.",
+				"Weblate está pensado para la localización continua: mantiene un clon de tu repositorio Git, incorpora las cadenas nuevas cuando haces push y devuelve las traducciones en commits que acreditan a cada traductor, para hacer push a tu rama o abrir un pull request. Weblate lee y escribe los archivos que tu proyecto ya tiene: GNU gettext, XLIFF, JSON para i18next, Vue I18n o go-i18n, cadenas de Android y Apple, properties de Java, YAML, Markdown y decenas más. Los traductores tienen contexto, capturas de pantalla, un glosario, memoria de traducción y comprobaciones de calidad; la traducción automática y los LLM son opcionales, como sugerencias o borradores que una persona revisa.",
+				"Esta plantilla ejecuta la imagen oficial de Weblate, la serie 2026.10, con una base de datos Postgres 18 y una Valkey 9 que Nuevo proyecto crea a su lado, conectadas antes del primer arranque de Weblate; en lugar de la Postgres nueva puedes elegir una de las tuyas. Ese arranque crea la cuenta admin con el correo y la contraseña que indicas, antes de que Weblate responda a nadie, y el registro sigue cerrado. Celery, que se encarga del trabajo en segundo plano de Weblate, se ejecuta en un solo proceso, la forma que la documentación de Weblate indica para ahorrar memoria. Su correo, para invitaciones, notificaciones y restablecer contraseñas, sale por Resend, SendGrid o Amazon SES, el que elijas en Nuevo proyecto, y no envía ninguno hasta que elijas uno."
+			],
+			"faq": [
+				{
+					"q": "¿Weblate es gratis y de código abierto?",
+					"a": "Sí. Weblate es software libre bajo la GNU GPL, versión 3 o posterior, así que puedes ejecutarlo, estudiarlo, modificarlo y autoalojarlo gratis. Hosted Weblate es el servicio de pago de sus desarrolladores, con una prueba de 14 días, y los proyectos libres y públicos pueden pedir gratis su plan Libre."
+				},
+				{
+					"q": "¿Cómo funciona Weblate con Git?",
+					"a": "Weblate mantiene un clon de cada repositorio que agregas. Cuando el servicio que aloja tu código le avisa de un push, Weblate trae las cadenas nuevas y devuelve las traducciones en commits que acreditan a cada traductor; luego hace push o abre un pull request. Para un repositorio privado, agrégale la clave pública que muestra Gestionar → Claves SSH, o conecta GitHub, GitLab y otros servicios en Gestionar → Conexiones de alojamiento de código."
+				},
+				{
+					"q": "¿Qué formatos de archivo admite Weblate?",
+					"a": "Decenas: GNU gettext PO, XLIFF, JSON (i18next, Vue I18n, go-i18n, Format.JS y JSON simple), recursos de cadenas de Android, .strings y .stringsdict de Apple, ARB, properties de Java y GWT, RESX de .NET, Qt Linguist, YAML, TOML, cadenas de PHP y Laravel, CSV, Markdown, HTML, subtítulos y más. La documentación de Weblate detalla las variantes y los límites de cada formato."
+				},
+				{
+					"q": "¿Weblate puede usar traducción automática o IA?",
+					"a": "Sí, si quieres. Weblate puede pedir sugerencias a DeepL, Google Cloud Translation, Azure AI Translator, Amazon Translate, LibreTranslate, OpenAI, Anthropic, Ollama y otros servicios, cada uno configurado en Sugerencias automáticas. Su propia memoria de traducción no necesita ningún servicio externo, y el texto generado puede quedarse como sugerencia hasta que una persona lo acepte."
+				},
+				{
+					"q": "¿Cuánta memoria necesita Weblate?",
+					"a": "La documentación de Weblate indica como mínimo 3 GB de memoria y 2 núcleos de CPU para Weblate, su base de datos y un servidor web en una misma máquina, y 4 GB para cientos de componentes. Esta plantilla ejecuta las tareas en segundo plano de Weblate en un solo proceso, la forma que su documentación indica para ahorrar memoria: en nuestra máquina de prueba, Weblate ocupó cerca de 1 GB en reposo y hasta 1,5 GB mientras importaba un proyecto, junto a unos 70 MB de Postgres y 12 MB de Valkey."
+				}
+			]
+		},
+		"fr": {
+			"description": "Une plateforme de localisation synchronisée avec Git : traduisez vos applications et votre documentation en équipe",
+			"notes": "Connectez-vous avec le nom d’utilisateur admin, ou avec l’e-mail indiqué, et le mot de passe administrateur indiqué. L’inscription est fermée : dans Gérer → Utilisateurs, vous invitez des personnes par e-mail. Ajoutez ensuite un projet et un composant à partir de votre dépôt ; pour un dépôt privé, ajoutez-y la clé publique affichée dans Gérer → Clés SSH. À chaque démarrage, Weblate reprend l’e-mail et le mot de passe de l’administrateur dans le .env du projet : changez-les là, puis redéployez. Weblate garde ses traductions et leur historique dans la base de données Postgres connectée au projet, sa file de tâches dans la base Valkey, et ses clones de vos dépôts dans le volume du projet. Les e-mails passent par le fournisseur choisi dans Nouveau projet, s’il y en a un : changez-le dans les lignes SMTP_ du .env du projet, puis redéployez. Sans fournisseur, SMTP_BACKEND désigne le backend factice de Django, qui n’envoie rien : mettez-y django.core.mail.backends.smtp.EmailBackend, à côté des valeurs du fournisseur.",
+			"sizing": "Weblate est modéré : environ 1 GB de mémoire au repos et jusqu’à 1,5 GB pendant l’import d’un projet, à côté de sa base Postgres de 512 MB et de sa base Valkey de 256 MB ; son disque contient un clone de chaque dépôt qu’il traduit.",
+			"summary": "Auto-hébergez Weblate, plateforme de localisation open source : traduisez applications et docs en équipe, en phase avec Git, avec PostgreSQL, en un clic.",
+			"about": [
+				"Weblate est une plateforme web de localisation open source. Développeurs, traducteurs professionnels et bénévoles y traduisent logiciels, sites web et documentation au même endroit, avec des rôles qui définissent qui peut traduire, relire et gérer. Michal Čihař a lancé le projet en 2012 ; c’est un logiciel libre sous licence GNU GPL, une licence copyleft, et ses développeurs le font aussi tourner pour d’autres sous le nom de Hosted Weblate.",
+				"Weblate est conçu pour la localisation continue. Il garde un clone de votre dépôt Git, récupère les nouvelles chaînes à chaque push, et renvoie les traductions dans des commits qui créditent chaque traducteur, pour les pousser sur votre branche ou ouvrir une pull request. Il lit et écrit les fichiers que votre projet a déjà : GNU gettext, XLIFF, JSON pour i18next, Vue I18n ou go-i18n, les chaînes Android et Apple, les fichiers properties de Java, YAML, Markdown et des dizaines d’autres. Les traducteurs disposent du contexte, de captures d’écran, d’un glossaire, d’une mémoire de traduction et de contrôles qualité ; la traduction automatique et les LLM sont facultatifs, sous forme de suggestions ou de brouillons que des personnes relisent.",
+				"Ce template lance l’image officielle de Weblate, série 2026.10, avec une base de données Postgres 18 et une base Valkey 9 que Nouveau projet crée à côté, connectées avant le premier démarrage de Weblate ; à la place de la nouvelle base Postgres, vous pouvez choisir l’une des vôtres. Ce démarrage crée le compte admin à partir de l’e-mail et du mot de passe que vous indiquez, avant que Weblate ne réponde à quiconque, et l’inscription reste fermée. Celery, qui exécute les tâches de fond de Weblate, tourne dans un seul processus, la méthode que la documentation de Weblate donne pour économiser de la mémoire. Ses e-mails, pour les invitations, les notifications et la réinitialisation des mots de passe, passent par Resend, SendGrid ou Amazon SES, celui que vous choisissez dans Nouveau projet, et il n’en envoie aucun tant que vous n’en avez pas choisi."
+			],
+			"faq": [
+				{
+					"q": "Weblate est-il gratuit et open source ?",
+					"a": "Oui. Weblate est un logiciel libre sous licence GNU GPL, version 3 ou ultérieure : vous pouvez l’exécuter, l’étudier, le modifier et l’auto-héberger gratuitement. Hosted Weblate est le service payant de ses développeurs, avec un essai de 14 jours, et les projets libres publics peuvent demander gratuitement son offre Libre."
+				},
+				{
+					"q": "Comment Weblate fonctionne-t-il avec Git ?",
+					"a": "Weblate garde un clone de chaque dépôt que vous ajoutez. Il récupère les nouvelles chaînes quand votre hébergeur de code lui signale un push, et renvoie les traductions dans des commits qui créditent chaque traducteur, puis les pousse ou ouvre une pull request. Pour un dépôt privé, ajoutez-y la clé publique affichée dans Gérer → Clés SSH, ou connectez GitHub, GitLab et d’autres hébergeurs dans Gérer → Connexions aux services d’hébergement de code."
+				},
+				{
+					"q": "Quels formats de fichiers Weblate prend-il en charge ?",
+					"a": "Des dizaines : GNU gettext PO, XLIFF, JSON (i18next, Vue I18n, go-i18n, Format.JS et JSON simple), les ressources de chaînes Android, les fichiers Apple .strings et .stringsdict, ARB, les fichiers properties de Java et de GWT, RESX de .NET, Qt Linguist, YAML, TOML, les chaînes PHP et Laravel, CSV, Markdown, HTML, les sous-titres et bien d’autres. La documentation de Weblate donne les variantes et les limites de chaque format."
+				},
+				{
+					"q": "Weblate peut-il utiliser la traduction automatique ou l’IA ?",
+					"a": "Oui, si vous le souhaitez. Weblate peut demander des suggestions à DeepL, Google Cloud Translation, Azure AI Translator, Amazon Translate, LibreTranslate, OpenAI, Anthropic, Ollama et d’autres services, chacun configuré dans Suggestions automatiques. Sa propre mémoire de traduction ne demande aucun service extérieur, et un texte généré peut rester une suggestion jusqu’à ce qu’une personne l’accepte."
+				},
+				{
+					"q": "De combien de mémoire Weblate a-t-il besoin ?",
+					"a": "La documentation de Weblate indique au minimum 3 GB de mémoire et 2 cœurs de CPU pour Weblate, sa base de données et un serveur web sur une seule machine, et 4 GB pour des centaines de composants. Ce template fait tourner les tâches de fond de Weblate dans un seul processus, la méthode que sa documentation donne pour économiser de la mémoire : sur notre machine de test, Weblate prenait environ 1 GB au repos et jusqu’à 1,5 GB pendant l’import d’un projet, à côté d’environ 70 MB pour Postgres et 12 MB pour Valkey."
+				}
+			]
+		},
+		"pl": {
+			"description": "Platforma lokalizacji: tłumacz z zespołem aplikacje i dokumentację na bieżąco z Gitem",
+			"notes": "Zaloguj się jako admin albo podanym adresem e-mail, w obu przypadkach z podanym hasłem administratora. Rejestracja jest zamknięta: innych zapraszasz e-mailem na stronie Zarządzaj → Użytkownicy. Potem dodaj projekt i komponent ze swojego repozytorium; jeśli repozytorium jest prywatne, dodaj do niego klucz publiczny ze strony Zarządzaj → Klucze SSH. Weblate przy każdym starcie ustawia adres e-mail i hasło admina z pliku .env projektu, więc zmień je tam i wdróż ponownie. Weblate trzyma tłumaczenia i historię w bazie danych Postgres podłączonej do projektu, kolejkę zadań w bazie Valkey, a klony twoich repozytoriów w wolumenie projektu. E-maile idą przez dostawcę wybranego w oknie „Nowy projekt”, jeśli go wybrano: zmień go w wierszach SMTP_ pliku .env projektu i wdróż ponownie. Jeśli nie wybrano dostawcy, SMTP_BACKEND wskazuje backend dummy z Django, który niczego nie wysyła: wpisz tam django.core.mail.backends.smtp.EmailBackend obok wartości dostawcy.",
+			"sizing": "Weblate ma średnie wymagania: około 1 GB pamięci w spoczynku i do 1,5 GB podczas importu projektu, obok bazy Postgres z 512 MB i bazy Valkey z 256 MB; na dysku trzyma klon każdego repozytorium, które tłumaczy.",
+			"summary": "Hostuj u siebie Weblate, platformę lokalizacji open source: tłumacz z zespołem aplikacje i dokumentację na bieżąco z Gitem, z PostgreSQL, w jeden klik.",
+			"about": [
+				"Weblate to webowa platforma lokalizacji typu open source. Programiści, zawodowi tłumacze i wolontariusze tłumaczą w jednym miejscu oprogramowanie, strony internetowe i dokumentację, a role określają, kto może tłumaczyć, przeglądać i zarządzać. Michal Čihař zaczął go tworzyć w 2012 roku; to wolne oprogramowanie z copyleftem na licencji GNU GPL, a jego twórcy prowadzą go też dla innych jako Hosted Weblate.",
+				"Weblate powstał z myślą o ciągłej lokalizacji. Trzyma klon twojego repozytorium Git, przyjmuje nowe ciągi, gdy robisz push, i zapisuje tłumaczenia z powrotem w commitach, z wymienieniem każdego tłumacza, a potem robi push na twój branch albo otwiera pull request. Czyta i zapisuje pliki, które twój projekt już ma: GNU gettext, XLIFF, JSON dla i18next, Vue I18n lub go-i18n, ciągi Androida i Apple, properties Javy, YAML, Markdown i dziesiątki innych. Tłumacze dostają kontekst, zrzuty ekranu, słownik, pamięć tłumaczeniową i sprawdzenia jakości; tłumaczenie maszynowe i LLM-y są opcjonalne, jako sugestie albo szkice, które przeglądają ludzie.",
+				"Ten szablon uruchamia oficjalny obraz Weblate z serii 2026.10 z bazą danych Postgres 18 i bazą Valkey 9, które Nowy projekt tworzy obok niego, podłączonymi przed pierwszym startem Weblate; zamiast nowej bazy Postgres możesz wybrać jedną ze swoich. Ten start tworzy admina z adresu e-mail i hasła, które podasz, zanim Weblate komukolwiek odpowie, a rejestracja pozostaje zamknięta. Celery, który wykonuje pracę Weblate w tle, działa w jednym procesie: to opisany w dokumentacji Weblate sposób na oszczędzanie pamięci. E-maile, do zaproszeń, powiadomień i resetu hasła, idą przez Resend, SendGrid albo Amazon SES, zależnie od wyboru w oknie „Nowy projekt”, a dopóki żadnego nie wybierzesz, nie wychodzą wcale."
+			],
+			"faq": [
+				{
+					"q": "Czy Weblate jest darmowy i open source?",
+					"a": "Tak. Weblate to wolne oprogramowanie na licencji GNU GPL w wersji 3 lub nowszej, więc możesz je uruchamiać, analizować, zmieniać i hostować u siebie bez opłat. Hosted Weblate to płatna usługa jego twórców z 14-dniowym okresem próbnym, a publiczne wolne projekty mogą poprosić tam o hosting Libre za darmo."
+				},
+				{
+					"q": "Jak Weblate współpracuje z Gitem?",
+					"a": "Weblate trzyma klon każdego repozytorium, które dodasz. Pobiera nowe ciągi, gdy twój hosting kodu powiadomi go o pushu, i zapisuje tłumaczenia z powrotem w commitach, z wymienieniem każdego tłumacza, a potem robi push albo otwiera pull request. Do prywatnego repozytorium dodaj klucz publiczny ze strony Zarządzaj → Klucze SSH albo połącz GitHub, GitLab i inne hostingi na stronie Zarządzaj → Połączenia z hostingiem kodu."
+				},
+				{
+					"q": "Jakie formaty plików obsługuje Weblate?",
+					"a": "Dziesiątki: GNU gettext PO, XLIFF, JSON (i18next, Vue I18n, go-i18n, Format.JS i zwykły), Android String Resources, Apple .strings i .stringsdict, ARB, properties Javy i GWT, .NET RESX, Qt Linguist, YAML, TOML, ciągi PHP i Laravela, CSV, Markdown, HTML, napisy i inne. Dokumentacja Weblate opisuje warianty i ograniczenia każdego formatu."
+				},
+				{
+					"q": "Czy Weblate może używać tłumaczenia maszynowego albo AI?",
+					"a": "Tak, jeśli chcesz. Weblate może pytać o sugestie DeepL, Google Cloud Translation, Azure AI Translator, Amazon Translate, LibreTranslate, OpenAI, Anthropic, Ollama i inne usługi; każdą ustawiasz w sekcji Automatyczne sugestie. Wbudowana pamięć tłumaczeniowa Weblate nie potrzebuje żadnej zewnętrznej usługi, a wygenerowany tekst może pozostać sugestią, dopóki człowiek go nie zaakceptuje."
+				},
+				{
+					"q": "Ile pamięci potrzebuje Weblate?",
+					"a": "Dokumentacja Weblate podaje 3 GB pamięci i 2 rdzenie CPU jako minimum dla Weblate, jego bazy danych i serwera WWW na jednym hoście, a 4 GB dla setek komponentów. Ten szablon uruchamia zadania Weblate w tle w jednym procesie, co według dokumentacji oszczędza pamięć: na naszej maszynie testowej Weblate zajmował około 1 GB w spoczynku i do 1,5 GB podczas importu projektu, obok około 70 MB dla bazy Postgres i 12 MB dla bazy Valkey."
+				}
+			]
+		},
+		"pt": {
+			"description": "Uma plataforma de localização sincronizada com o Git: traduza apps e documentação com a sua equipe",
+			"notes": "Faça login com o usuário admin, ou com o e-mail que você informou, e a senha de administrador que você definiu. O cadastro está fechado: em Gerenciar → Usuários, você convida pessoas por e-mail. Depois adicione um projeto e um componente a partir do seu repositório; se ele for privado, adicione a ele a chave pública que aparece em Gerenciar → Chaves SSH. A cada início, o Weblate define o e-mail e a senha do administrador a partir do .env do projeto, então altere-os lá e faça o deploy de novo. O Weblate guarda as traduções e o histórico delas no banco de dados Postgres conectado ao projeto, a fila de tarefas no banco Valkey, e os clones dos seus repositórios no volume do projeto. O e-mail sai pelo provedor que você escolheu no Novo projeto, se escolheu algum: troque-o nas linhas SMTP_ do .env do projeto e faça o deploy de novo. Sem provedor, o SMTP_BACKEND aponta para o backend fictício do Django, que não envia nada: coloque ali django.core.mail.backends.smtp.EmailBackend, junto com os valores do provedor.",
+			"sizing": "O Weblate é moderado: cerca de 1 GB de memória em repouso e até 1,5 GB enquanto importa um projeto, ao lado do seu Postgres de 512 MB e do seu Valkey de 256 MB; o disco dele guarda um clone de cada repositório que ele traduz.",
+			"summary": "Auto-hospede o Weblate, a plataforma de localização de código aberto: traduza apps e docs em equipe, em sincronia com o Git, com PostgreSQL, em um clique.",
+			"about": [
+				"O Weblate é uma plataforma web de localização de código aberto. Desenvolvedores, tradutores profissionais e voluntários traduzem software, sites e documentação em um só lugar, com papéis que definem quem pode traduzir, revisar e gerenciar. Michal Čihař o criou em 2012; é software livre com copyleft, sob a GNU GPL, e os desenvolvedores dele também o rodam para outras pessoas como Hosted Weblate.",
+				"O Weblate é feito para a localização contínua. Ele mantém um clone do seu repositório Git, recebe as strings novas quando você faz push e devolve as traduções em commits que dão crédito a cada tradutor, para fazer o push na sua branch ou abrir um pull request. Ele lê e escreve os arquivos que o seu projeto já tem: GNU gettext, XLIFF, JSON para i18next, Vue I18n ou go-i18n, strings do Android e da Apple, properties do Java, YAML, Markdown e dezenas de outros. Os tradutores contam com contexto, capturas de tela, glossário, memória de tradução e verificações de qualidade; a tradução automática e os LLMs são opcionais, como sugestões ou rascunhos que uma pessoa revisa.",
+				"Este template roda a imagem oficial do Weblate, a série 2026.10, com um banco de dados Postgres 18 e um Valkey 9 que o Novo projeto cria ao lado dele, conectados antes do primeiro início do Weblate; no lugar do Postgres novo, você pode escolher um dos seus. Esse início cria o administrador com o e-mail e a senha que você informa, antes de o Weblate responder a qualquer pessoa, e o cadastro continua fechado. O Celery, que cuida do trabalho em segundo plano do Weblate, roda em um só processo, o jeito documentado pelo Weblate de economizar memória. Os e-mails dele, para convites, notificações e redefinição de senha, saem pelo Resend, SendGrid ou Amazon SES, o que você escolher no Novo projeto, e nenhum sai até você escolher um."
+			],
+			"faq": [
+				{
+					"q": "O Weblate é gratuito e de código aberto?",
+					"a": "Sim. O Weblate é software livre sob a GNU GPL, versão 3 ou posterior, então você pode rodá-lo, estudá-lo, alterá-lo e auto-hospedá-lo de graça. O Hosted Weblate é o serviço pago dos desenvolvedores dele, com um teste grátis de 14 dias, e projetos livres e públicos podem pedir o plano Libre dele sem pagar nada."
+				},
+				{
+					"q": "Como o Weblate funciona com o Git?",
+					"a": "O Weblate mantém um clone de cada repositório que você adiciona. Ele busca as strings novas quando o serviço que hospeda o seu código avisa de um push, e devolve as traduções em commits que dão crédito a cada tradutor; depois faz o push ou abre um pull request. Para um repositório privado, adicione a ele a chave pública que aparece em Gerenciar → Chaves SSH, ou conecte o GitHub, o GitLab e outros serviços em Gerenciar → Code-hosting connections."
+				},
+				{
+					"q": "Quais formatos de arquivo o Weblate suporta?",
+					"a": "Dezenas: GNU gettext PO, XLIFF, JSON (i18next, Vue I18n, go-i18n, Format.JS e JSON puro), recursos de string do Android, .strings e .stringsdict da Apple, ARB, properties do Java e do GWT, RESX do .NET, Qt Linguist, YAML, TOML, strings de PHP e Laravel, CSV, Markdown, HTML, legendas e outros. A documentação do Weblate lista as variantes e os limites de cada formato."
+				},
+				{
+					"q": "O Weblate pode usar tradução automática ou IA?",
+					"a": "Sim, se você quiser. O Weblate pode pedir sugestões ao DeepL, Google Cloud Translation, Azure AI Translator, Amazon Translate, LibreTranslate, OpenAI, Anthropic, Ollama e outros serviços, cada um configurado em Sugestões automáticas. A memória de tradução do próprio Weblate não precisa de nenhum serviço externo, e o texto gerado pode ficar como sugestão até uma pessoa aceitá-lo."
+				},
+				{
+					"q": "De quanta memória o Weblate precisa?",
+					"a": "A documentação do Weblate indica no mínimo 3 GB de memória e 2 núcleos de CPU para o Weblate, o banco de dados dele e um servidor web numa só máquina, e 4 GB para centenas de componentes. Este template roda as tarefas em segundo plano do Weblate em um só processo, o jeito documentado pelo Weblate de economizar memória: na nossa máquina de teste, o Weblate ocupou cerca de 1 GB em repouso e até 1,5 GB enquanto importava um projeto, ao lado de cerca de 70 MB do Postgres e 12 MB do Valkey."
+				}
+			]
+		},
+		"ru": {
+			"description": "Платформа локализации: переводите приложения и документацию вместе с командой, синхронно с Git",
+			"notes": "Войдите как admin или с почтой, которую вы указали, и с паролем администратора, который вы задали. Регистрация закрыта: людей приглашают по почте в разделе «Управление» → «Пользователи». Затем добавьте проект и компонент из своего репозитория; если репозиторий приватный, добавьте в него публичный ключ из раздела «Управление» → «SSH-ключи». Почту и пароль администратора Weblate берет из .env проекта при каждом запуске: меняйте их там, а затем задеплойте проект заново. Переводы и историю Weblate хранит в базе данных Postgres, подключенной к проекту, очередь задач — в базе Valkey, а клоны ваших репозиториев — в томе проекта. Почта уходит через сервис, выбранный в окне «Новый проект», если вы его выбрали: поменяйте его в строках SMTP_ в .env проекта и задеплойте проект заново. Если сервис не выбран, в SMTP_BACKEND стоит бэкенд-заглушка Django, который ничего не отправляет: впишите туда django.core.mail.backends.smtp.EmailBackend, а в остальные строки SMTP_ — значения почтового сервиса.",
+			"sizing": "Weblate: умеренные требования — около 1 GB памяти в простое и до 1,5 GB при импорте проекта, рядом с его базами Postgres на 512 MB и Valkey на 256 MB; диск хранит клон каждого репозитория, который переводят в Weblate.",
+			"summary": "Self-hosted Weblate — open source платформа локализации: переводите приложения и документацию командой, синхронно с Git. С PostgreSQL в один клик.",
+			"about": [
+				"Weblate — это open source веб-платформа для локализации. Разработчики, профессиональные переводчики и волонтеры переводят программы, сайты и документацию в одном месте, а роли задают, кто может переводить, рецензировать и управлять. Проект начал Michal Čihař в 2012 году; это свободное ПО под копилефт-лицензией GNU GPL, а его разработчики также запускают его для других как сервис Hosted Weblate.",
+				"Weblate создан для непрерывной локализации. Он держит клон вашего Git-репозитория, забирает новые строки после каждого пуша и коммитит переводы обратно с указанием авторства каждого переводчика, чтобы запушить их в вашу ветку или открыть pull request. Он читает и пишет те файлы, которые уже есть в вашем проекте: GNU gettext, XLIFF, JSON для i18next, Vue I18n или go-i18n, строки Android и Apple, properties-файлы Java, YAML, Markdown и еще десятки форматов. У переводчиков есть контекст, снимки экрана, словарь, память переводов и проверки качества; машинный перевод и LLM — по желанию, в виде предложений или черновиков, которые проверяют люди.",
+				"Этот шаблон запускает официальный образ Weblate линейки 2026.10 с базами данных Postgres 18 и Valkey 9, которые «Новый проект» создает рядом и подключает до первого запуска Weblate; вместо новой базы Postgres можно выбрать одну из ваших. При этом запуске создается администратор с почтой и паролем, которые вы укажете, еще до того, как Weblate кому-либо ответит, а регистрация остается закрытой. Celery, на котором работают фоновые задачи Weblate, запущен в одном процессе: так документация Weblate советует экономить память. Письма с приглашениями, уведомлениями и сбросом пароля Weblate отправляет через Resend, SendGrid или Amazon SES — какой сервис вы выберете в окне «Новый проект», а пока сервис не выбран, не отправляет вовсе."
+			],
+			"faq": [
+				{
+					"q": "Weblate бесплатный и с открытым кодом?",
+					"a": "Да. Weblate — свободное ПО под лицензией GNU GPL версии 3 или более поздней, так что запускать, изучать, менять и хостить его у себя можно бесплатно. Hosted Weblate — платный сервис его разработчиков с пробным периодом на 14 дней, а публичные свободные проекты могут бесплатно запросить его тариф Libre."
+				},
+				{
+					"q": "Как Weblate работает с Git?",
+					"a": "Weblate держит клон каждого репозитория, который вы добавите. Он забирает новые строки, когда хостинг кода сообщает ему о пуше, и коммитит переводы обратно с указанием авторства каждого переводчика, а затем пушит их или открывает pull request. Для приватного репозитория добавьте в него публичный ключ из раздела «Управление» → «SSH-ключи» или подключите GitHub, GitLab и другие хостинги кода в разделе «Управление» → «Подключения к хостингу кода»."
+				},
+				{
+					"q": "Какие форматы файлов поддерживает Weblate?",
+					"a": "Десятки: GNU gettext PO, XLIFF, JSON (i18next, Vue I18n, go-i18n, Format.JS и обычный), строковые ресурсы Android, .strings и .stringsdict от Apple, ARB, properties-файлы Java и GWT, .NET RESX, Qt Linguist, YAML, TOML, строки PHP и Laravel, CSV, Markdown, HTML, субтитры и другие. В документации Weblate перечислены варианты и ограничения каждого формата."
+				},
+				{
+					"q": "Может ли Weblate использовать машинный перевод или ИИ?",
+					"a": "Да, если вы этого хотите. Weblate может запрашивать предложения у DeepL, Google Cloud Translation, Azure AI Translator, Amazon Translate, LibreTranslate, OpenAI, Anthropic, Ollama и других сервисов; каждый настраивается в разделе «Автоматические предложения». Собственной памяти переводов Weblate внешний сервис не нужен, а сгенерированный текст может оставаться предложением, пока его не примет человек."
+				},
+				{
+					"q": "Сколько памяти нужно Weblate?",
+					"a": "Документация Weblate называет минимумом для Weblate, его базы данных и веб-сервера на одном хосте 3 GB памяти и 2 ядра CPU, а для сотен компонентов — 4 GB. Этот шаблон выполняет фоновые задачи Weblate в одном процессе, как советует документация, чтобы сэкономить память: на нашей тестовой машине Weblate занимал около 1 GB в простое и до 1,5 GB при импорте проекта, а Postgres и Valkey рядом с ним — около 70 MB и 12 MB."
+				}
+			]
+		},
+		"uk": {
+			"description": "Платформа локалізації: перекладайте застосунки й документацію разом із командою, синхронно з Git",
+			"notes": "Увійдіть як admin або з поштою, яку ви вказали, і з паролем адміністратора, який ви задали. Реєстрацію закрито: людей запрошують поштою в розділі «Управління» → «Користувачі». Потім додайте проєкт і складник зі свого репозиторію; якщо репозиторій приватний, додайте до нього публічний ключ із розділу «Управління» → «Ключі SSH». Пошту й пароль адміністратора Weblate бере з .env проєкту під час кожного запуску: змінюйте їх там, а потім задеплойте ще раз. Переклади й історію Weblate зберігає в базі даних Postgres, підключеній до проєкту, чергу завдань — у базі Valkey, а клони ваших репозиторіїв — у томі проєкту. Пошта йде через сервіс, обраний у вікні «Новий проєкт», якщо ви його обрали: змініть його в рядках SMTP_ у .env проєкту й задеплойте ще раз. Якщо сервіс не обрано, у SMTP_BACKEND стоїть бекенд-заглушка Django, що нічого не надсилає: впишіть туди django.core.mail.backends.smtp.EmailBackend, а в інші рядки SMTP_ — значення поштового сервісу.",
+			"sizing": "Weblate має помірні вимоги: близько 1 GB пам’яті без навантаження й до 1,5 GB під час імпорту проєкту, поруч із його базами Postgres на 512 MB і Valkey на 256 MB; на диску лежить клон кожного репозиторію, який перекладають у Weblate.",
+			"summary": "Self-hosted Weblate — платформа локалізації з відкритим кодом: перекладайте застосунки й документацію командою, синхронно з Git. З PostgreSQL в один клік.",
+			"about": [
+				"Weblate — це вебплатформа для локалізації з відкритим кодом. Розробники, професійні перекладачі й волонтери перекладають програми, сайти й документацію в одному місці, а ролі визначають, хто може перекладати, перевіряти й керувати. Проєкт започаткував Michal Čihař у 2012 році; це вільне програмне забезпечення за копілефт-ліцензією GNU GPL, а його розробники також запускають його для інших як сервіс Hosted Weblate.",
+				"Weblate створено для безперервної локалізації. Він тримає клон вашого Git-репозиторію, забирає нові рядки після кожного пушу й комітить переклади назад, зазначаючи авторство кожного перекладача, щоб запушити їх у вашу гілку або відкрити pull request. Він читає й записує ті файли, які вже є у вашому проєкті: GNU gettext, XLIFF, JSON для i18next, Vue I18n або go-i18n, рядки Android і Apple, properties-файли Java, YAML, Markdown і ще десятки форматів. Перекладачі мають контекст, знімки екрана, глосарій, пам’ять перекладів і перевірки якості; машинний переклад і LLM — за бажанням, у вигляді пропозицій або чернеток, які перевіряють люди.",
+				"Цей шаблон запускає офіційний образ Weblate лінійки 2026.10 з базами даних Postgres 18 і Valkey 9, які «Новий проєкт» створює поруч і підключає до першого запуску Weblate; замість нової бази Postgres можна обрати одну з ваших. Під час цього запуску створюється адміністратор із поштою та паролем, які ви вкажете, ще до того, як Weblate комусь відповість, а реєстрація лишається закритою. Celery, на якому працюють фонові завдання Weblate, запущено в одному процесі: так документація Weblate радить заощаджувати пам’ять. Листи із запрошеннями, сповіщеннями й скиданням пароля Weblate надсилає через Resend, SendGrid або Amazon SES — який сервіс ви оберете у вікні «Новий проєкт», а поки сервіс не обрано, не надсилає зовсім."
+			],
+			"faq": [
+				{
+					"q": "Weblate безплатний і з відкритим кодом?",
+					"a": "Так. Weblate — вільне програмне забезпечення за ліцензією GNU GPL версії 3 або новішої, тож його можна безкоштовно запускати, вивчати, змінювати й хостити у себе. Hosted Weblate — платний сервіс його розробників із пробним періодом на 14 днів, а публічні вільні проєкти можуть безкоштовно попросити його тариф Libre."
+				},
+				{
+					"q": "Як Weblate працює з Git?",
+					"a": "Weblate тримає клон кожного репозиторію, який ви додасте. Він забирає нові рядки, коли хостинг коду повідомляє йому про пуш, і комітить переклади назад, зазначаючи авторство кожного перекладача, а потім пушить їх або відкриває pull request. До приватного репозиторію додайте публічний ключ із розділу «Управління» → «Ключі SSH» або підключіть GitHub, GitLab та інші хостинги коду в розділі «Управління» → «З'єднання із сховищами програмного коду»."
+				},
+				{
+					"q": "Які формати файлів підтримує Weblate?",
+					"a": "Десятки: GNU gettext PO, XLIFF, JSON (i18next, Vue I18n, go-i18n, Format.JS і звичайний), рядки ресурсів Android, .strings і .stringsdict від Apple, ARB, properties-файли Java і GWT, .NET RESX, Qt Linguist, YAML, TOML, рядки PHP і Laravel, CSV, Markdown, HTML, субтитри та інші. У документації Weblate перелічено варіанти й обмеження кожного формату."
+				},
+				{
+					"q": "Чи може Weblate використовувати машинний переклад або ШІ?",
+					"a": "Так, якщо ви цього хочете. Weblate може запитувати пропозиції в DeepL, Google Cloud Translation, Azure AI Translator, Amazon Translate, LibreTranslate, OpenAI, Anthropic, Ollama та інших сервісів; кожен налаштовують у розділі «Автоматичні пропозиції». Власній пам’яті перекладів Weblate зовнішній сервіс не потрібен, а згенерований текст може лишатися пропозицією, доки його не прийме людина."
+				},
+				{
+					"q": "Скільки пам’яті потрібно Weblate?",
+					"a": "Документація Weblate називає мінімумом для Weblate, його бази даних і вебсервера на одному хості 3 GB пам’яті та 2 ядра CPU, а для сотень складників — 4 GB. Цей шаблон виконує фонові завдання Weblate в одному процесі, як радить документація, щоб заощадити пам’ять: на нашій тестовій машині Weblate займав близько 1 GB без навантаження й до 1,5 GB під час імпорту проєкту, а Postgres і Valkey поруч із ним — близько 70 MB і 12 MB."
+				}
+			]
+		}
+	}
+}

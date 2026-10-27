@@ -1,0 +1,54 @@
+services:
+  weblate:
+    image: weblate/weblate:2026.10
+    restart: unless-stopped
+    environment:
+      WEBLATE_SITE_DOMAIN: ${HOST}
+      # The admin account, made at the first start before Weblate answers anyone. Weblate sets
+      # its email and password again from these at every start.
+      WEBLATE_ADMIN_EMAIL: ${ADMIN_EMAIL}
+      WEBLATE_ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      WEBLATE_REGISTRATION_OPEN: "0"
+      # TLS ends at the machine's proxy, which says so in X-Forwarded-Proto and gives the
+      # visitor's address in X-Forwarded-For. It reaches the project from the machine's networks,
+      # 10.192.0.0/10, the one source Weblate's nginx takes that header from.
+      WEBLATE_ENABLE_HTTPS: "1"
+      WEBLATE_SECURE_PROXY_SSL_HEADER: HTTP_X_FORWARDED_PROTO,https
+      WEBLATE_IP_PROXY_HEADER: HTTP_X_FORWARDED_FOR
+      WEBLATE_TRUSTED_PROXY_ADDRESSES: 10.192.0.0/10
+      # Celery's queues in one process: Weblate's documented way to save memory on a small
+      # machine.
+      CELERY_WORKER_MODE: single
+      # Its translations, users and history, in the Postgres database linked to the project.
+      POSTGRES_HOST: ${DATABASE_HOST:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      POSTGRES_PORT: ${DATABASE_PORT:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      POSTGRES_DB: ${DATABASE_NAME:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      POSTGRES_USER: ${DATABASE_USER:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      # Its task queue and cache, in the Valkey database linked to the project.
+      REDIS_HOST: ${REDIS_HOST:?reload New project to link a Valkey database, or send link_databases with env_prefix REDIS}
+      REDIS_PORT: ${REDIS_PORT:?reload New project to link a Valkey database, or send link_databases with env_prefix REDIS}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:?reload New project to link a Valkey database, or send link_databases with env_prefix REDIS}
+      REDIS_DB: "0"
+      # The mail provider picked in New project, by STARTTLS on its port. With none, Weblate's
+      # mail goes nowhere, and its host stays set, which Weblate requires.
+      WEBLATE_EMAIL_BACKEND: ${SMTP_BACKEND:-django.core.mail.backends.dummy.EmailBackend}
+      WEBLATE_EMAIL_HOST: ${SMTP_HOST:-localhost}
+      WEBLATE_EMAIL_PORT: ${SMTP_PORT:-25}
+      WEBLATE_EMAIL_HOST_USER: ${SMTP_USER}
+      WEBLATE_EMAIL_HOST_PASSWORD: ${SMTP_PASSWORD}
+      WEBLATE_EMAIL_USE_TLS: "1"
+      WEBLATE_EMAIL_USE_SSL: "0"
+      WEBLATE_SERVER_EMAIL: ${SMTP_FROM}
+      WEBLATE_DEFAULT_FROM_EMAIL: ${SMTP_FROM_HEADER}
+    volumes:
+      # The repositories Weblate translates, its settings and media.
+      - data:/app/data
+      - cache:/app/cache
+    tmpfs:
+      - /run
+      - /tmp
+
+volumes:
+  data:
+  cache:
