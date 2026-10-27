@@ -1,0 +1,293 @@
+{
+	"name": "NocoDB",
+	"emoji": "🗃️",
+	"category": "productivity",
+	"alternatives": [
+		"Airtable"
+	],
+	"plan": "starter",
+	"route": {
+		"service": "nocodb",
+		"port": 8080
+	},
+	"variables": [
+		{
+			"name": "URL",
+			"from": "url"
+		},
+		{
+			"name": "POSTGRES_PASSWORD",
+			"secret": 24
+		},
+		{
+			"name": "JWT_SECRET",
+			"secret": 32
+		},
+		{
+			"name": "ADMIN_EMAIL",
+			"ask": "email"
+		},
+		{
+			"name": "ADMIN_PASSWORD",
+			"ask": "adminPassword"
+		}
+	],
+	"texts": {
+		"en": {
+			"description": "A no-code database: tables as spreadsheets, forms, kanban boards and calendars, with an API",
+			"notes": "Sign in with the email and the admin password you gave: that account is the super admin, and nobody can sign up on their own. NocoDB wants a password of 8 characters at least: with a shorter one it does not start, and its log says so. Start with New project, then make tables with Create New, or import a CSV, an Excel file or an Airtable base. Add people in Members & teams → Add Members, by email or with a private invite link; invitation emails need NC_SMTP_HOST and the other NC_SMTP_ settings in .env. The admin email and password are set again from .env at every start: change them there.",
+			"sizing": "NocoDB takes about 800 MB of memory with Postgres, and its database grows with your records; attachments take what their files take.",
+			"summary": "NocoDB turns a database into spreadsheets, forms and kanban boards anyone can use. Self-host this Airtable alternative with PostgreSQL in one click.",
+			"about": [
+				"NocoDB is a no-code database platform: tables look and work like a spreadsheet, and each one can also be seen as a form, a gallery, a kanban board, a calendar, a map or a Gantt chart. Fields hold text, numbers, dates, selections, attachments, formulas, links to other tables, lookups and rollups. Every table has a REST API, webhooks fire when records are created, updated or deleted, and tables can be imported from Airtable, CSV, Excel and JSON.",
+				"Teams use NocoDB in place of Airtable to keep a CRM, an inventory, a content calendar or any shared list in a database they control. This template runs the free Community edition with PostgreSQL, makes the super admin from the fields before NocoDB answers anyone, and closes sign-up, so people join only by invitation. The catch: NocoDB’s Sustainable Use License allows internal and personal use but not reselling it, and SSO and permissions per table and field are in the paid self-hosted plans."
+			],
+			"faq": [
+				{
+					"q": "Is NocoDB free?",
+					"a": "The self-hosted Community edition is free, with unlimited records and seats, under NocoDB’s Sustainable Use License: you may use it inside your own business or for personal use, but not sell it to others. Paid self-hosted plans start at $24 per seat a month, billed yearly, and add SSO and permissions per table and field."
+				},
+				{
+					"q": "NocoDB vs Airtable: what is the difference?",
+					"a": "Both show tables as spreadsheets with forms, kanban and galleries. Airtable runs only in its own cloud, priced per seat, while NocoDB runs where you deploy it, and its Community edition sets no limit on records."
+				},
+				{
+					"q": "Can I import my Airtable bases into NocoDB?",
+					"a": "Yes. NocoDB imports a base from its shared link with an Airtable personal access token that can read records, bringing tables, views and records over. Formula fields do not come over, and a shared view’s link brings only that one table."
+				},
+				{
+					"q": "Does NocoDB have an API?",
+					"a": "Yes. Every table has a REST API, called with an API token, and webhooks send a request when a record is created, updated or deleted, so other apps and scripts can read and write the data."
+				},
+				{
+					"q": "How do I add people to NocoDB?",
+					"a": "In Members & teams → Add Members, by email or with a private invite link, choosing their role. This template closes public sign-up, so nobody joins without one. NocoDB emails invitations once NC_SMTP_HOST and the other NC_SMTP_ settings are in the project’s .env."
+				}
+			]
+		},
+		"de": {
+			"description": "No-Code-Datenbank: Tabellen wie in einer Tabellenkalkulation, Formulare, Kanban-Boards und Kalender, mit API",
+			"notes": "Melde dich mit der E-Mail und dem Admin-Passwort an, die du angegeben hast: Dieses Konto ist der Super-Admin, und niemand kann sich selbst registrieren. NocoDB verlangt ein Passwort mit mindestens 8 Zeichen: Mit einem kürzeren startet es nicht, und das Log sagt, warum. Fang mit „Neues Projekt“ an und leg dann mit „Neu erstellen“ Tabellen an, oder importiere eine CSV-Datei, eine Excel-Datei oder eine Base aus Airtable. Weitere Personen lädst du unter „Members & teams“ → „Mitglieder hinzufügen“ ein, per E-Mail oder mit einem privaten Einladungslink; Einladungs-E-Mails brauchen NC_SMTP_HOST und die übrigen NC_SMTP_-Einstellungen in der .env. E-Mail und Passwort des Admins werden bei jedem Start neu aus der .env gesetzt: Ändere sie dort.",
+			"sizing": "NocoDB braucht mit Postgres etwa 800 MB RAM, und seine Datenbank wächst mit deinen Datensätzen; Anhänge belegen so viel, wie ihre Dateien groß sind.",
+			"summary": "NocoDB selbst hosten: eine Datenbank als Tabellen, Formulare und Kanban-Boards für alle. Die Airtable-Alternative mit PostgreSQL, mit einem Klick.",
+			"about": [
+				"NocoDB ist eine No-Code-Datenbankplattform: Tabellen sehen aus und funktionieren wie eine Tabellenkalkulation, und jede lässt sich auch als Formular, Galerie, Kanban-Board, Kalender, Karte oder Gantt-Diagramm ansehen. Felder enthalten Text, Zahlen, Datumsangaben, Auswahlen, Anhänge, Formeln, Verknüpfungen zu anderen Tabellen, Nachschlagefelder und Rollups. Jede Tabelle hat eine REST-API, Webhooks werden ausgelöst, wenn Datensätze erstellt, geändert oder gelöscht werden, und Tabellen lassen sich aus Airtable, CSV, Excel und JSON importieren.",
+				"Teams nutzen NocoDB statt Airtable, um ein CRM, ein Inventar, einen Redaktionskalender oder irgendeine gemeinsame Liste in einer Datenbank zu führen, die sie selbst kontrollieren. Diese Vorlage betreibt die kostenlose Community Edition mit PostgreSQL, legt den Super-Admin aus den Feldern an, bevor NocoDB irgendwem antwortet, und schließt die Registrierung, sodass nur dazukommt, wer eingeladen wurde. Der Haken: Die Sustainable Use License von NocoDB erlaubt interne und private Nutzung, aber keinen Weiterverkauf, und SSO sowie Berechtigungen pro Tabelle und Feld gehören zu den kostenpflichtigen Tarifen zum Selbsthosten."
+			],
+			"faq": [
+				{
+					"q": "Ist NocoDB kostenlos?",
+					"a": "Die Community Edition zum Selbsthosten ist kostenlos, mit unbegrenzt vielen Datensätzen und Benutzern, unter der Sustainable Use License von NocoDB: Du darfst sie in deinem eigenen Unternehmen oder privat nutzen, aber nicht an andere verkaufen. Die kostenpflichtigen Tarife zum Selbsthosten beginnen bei 24 $ pro Benutzer im Monat bei jährlicher Abrechnung und bringen SSO und Berechtigungen pro Tabelle und Feld dazu."
+				},
+				{
+					"q": "NocoDB oder Airtable: Was ist der Unterschied?",
+					"a": "Beide zeigen Tabellen wie eine Tabellenkalkulation, mit Formularen, Kanban und Galerien. Airtable läuft nur in seiner eigenen Cloud und kostet pro Benutzer, NocoDB dagegen läuft dort, wo du es deployst, und seine Community Edition begrenzt die Zahl der Datensätze nicht."
+				},
+				{
+					"q": "Kann ich meine Bases aus Airtable in NocoDB importieren?",
+					"a": "Ja. NocoDB importiert eine Base über ihren geteilten Link, mit einem Personal Access Token von Airtable, das Datensätze lesen darf, und übernimmt Tabellen, Ansichten und Datensätze. Formelfelder kommen nicht mit, und der Link einer geteilten Ansicht bringt nur diese eine Tabelle."
+				},
+				{
+					"q": "Hat NocoDB eine API?",
+					"a": "Ja. Jede Tabelle hat eine REST-API, die mit einem API-Token aufgerufen wird, und Webhooks schicken einen Request, wenn ein Datensatz erstellt, geändert oder gelöscht wird, sodass andere Apps und Skripte die Daten lesen und schreiben können."
+				},
+				{
+					"q": "Wie füge ich in NocoDB Personen hinzu?",
+					"a": "Unter „Members & teams“ → „Mitglieder hinzufügen“, per E-Mail oder mit einem privaten Einladungslink, mit der Rolle, die du wählst. Diese Vorlage schließt die öffentliche Registrierung, sodass ohne Einladung niemand dazukommt. NocoDB verschickt Einladungen per E-Mail, sobald NC_SMTP_HOST und die übrigen NC_SMTP_-Einstellungen in der .env des Projekts stehen."
+				}
+			]
+		},
+		"es": {
+			"description": "Una base de datos sin código: tablas como hojas de cálculo, formularios, tableros kanban y calendarios, con API",
+			"notes": "Inicia sesión con el correo y la contraseña de administrador que indicaste: esa cuenta es el Super Admin, y nadie puede registrarse por sí solo. NocoDB pide una contraseña de 8 caracteres como mínimo: con una más corta no se inicia, y su log lo indica. Empieza con “Nuevo proyecto” y luego crea tablas con “Crear nuevo”, o importa un CSV, un archivo de Excel o una base de Airtable. Agrega personas en Members & teams → Añadir miembros, por correo o con un enlace de invitación privado; los correos de invitación necesitan NC_SMTP_HOST y los demás ajustes NC_SMTP_ en .env. El correo y la contraseña de administrador se vuelven a fijar desde .env cada vez que NocoDB se inicia: cámbialos ahí.",
+			"sizing": "NocoDB ocupa unos 800 MB de memoria con Postgres, y su base de datos crece con tus registros; los adjuntos ocupan lo que ocupan sus archivos.",
+			"summary": "NocoDB convierte una base de datos en hojas de cálculo, formularios y kanban para todos. Autoaloja esta alternativa a Airtable con PostgreSQL en un clic.",
+			"about": [
+				"NocoDB es una plataforma de bases de datos sin código: las tablas se ven y funcionan como una hoja de cálculo, y cada una también se puede mostrar como formulario, galería, tablero kanban, calendario, mapa o diagrama de Gantt. Los campos guardan texto, números, fechas, selecciones, adjuntos, fórmulas, enlaces a otras tablas, búsquedas (lookup) y acumulados (rollup). Cada tabla tiene una API REST, los webhooks se disparan cuando se crean, actualizan o eliminan registros, y se pueden importar tablas desde Airtable, CSV, Excel y JSON.",
+				"Los equipos usan NocoDB en lugar de Airtable para llevar un CRM, un inventario, un calendario de contenidos o cualquier lista compartida en una base de datos que controlan. Esta plantilla ejecuta la edición Community gratuita con PostgreSQL, crea el Super Admin con los datos de los campos antes de que NocoDB responda a nadie y cierra el registro, así que solo se entra por invitación. El inconveniente: la Sustainable Use License de NocoDB permite usarlo de forma interna y personal, pero no revenderlo, y el SSO y los permisos por tabla y por campo están en los planes autoalojados de pago."
+			],
+			"faq": [
+				{
+					"q": "¿NocoDB es gratis?",
+					"a": "La edición Community autoalojada es gratis, con registros y puestos ilimitados, bajo la Sustainable Use License de NocoDB: puedes usarla dentro de tu propia empresa o para uso personal, pero no vendérsela a otros. Los planes autoalojados de pago cuestan desde 24 USD por puesto al mes, con facturación anual, y agregan SSO y permisos por tabla y por campo."
+				},
+				{
+					"q": "NocoDB frente a Airtable: ¿cuál es la diferencia?",
+					"a": "Los dos muestran las tablas como hojas de cálculo, con formularios, kanban y galerías. Airtable solo funciona en su propia nube, con precio por puesto, mientras que NocoDB funciona donde lo despliegues, y su edición Community no pone límite de registros."
+				},
+				{
+					"q": "¿Puedo importar mis bases de Airtable a NocoDB?",
+					"a": "Sí. NocoDB importa una base desde su enlace compartido con un token de acceso personal de Airtable que pueda leer registros, y trae sus tablas, vistas y registros. Los campos de fórmula no se importan, y el enlace de una vista compartida trae solo esa tabla."
+				},
+				{
+					"q": "¿NocoDB tiene una API?",
+					"a": "Sí. Cada tabla tiene una API REST, que se llama con un token de API, y los webhooks envían una petición cuando se crea, actualiza o elimina un registro, así que otras apps y scripts pueden leer y escribir los datos."
+				},
+				{
+					"q": "¿Cómo agrego personas a NocoDB?",
+					"a": "En Members & teams → Añadir miembros, por correo o con un enlace de invitación privado, eligiendo su rol. Esta plantilla cierra el registro público, así que nadie entra sin invitación. NocoDB envía las invitaciones por correo en cuanto NC_SMTP_HOST y los demás ajustes NC_SMTP_ están en el .env del proyecto."
+				}
+			]
+		},
+		"fr": {
+			"description": "Une base de données sans code : des tables façon tableur, des formulaires, des tableaux kanban et des calendriers, avec une API",
+			"notes": "Connectez-vous avec l’e-mail et le mot de passe administrateur indiqués : ce compte est le super administrateur, et personne ne peut s’inscrire de lui-même. NocoDB demande un mot de passe d’au moins 8 caractères : avec un mot de passe plus court, il ne démarre pas, et ses logs l’indiquent. Commencez par « Nouveau projet », puis créez des tables avec « Créer », ou importez un fichier CSV, un fichier Excel ou une base Airtable. Ajoutez des personnes dans Members & teams → Ajouter des membres, par e-mail ou avec un lien d’invitation privé ; les e-mails d’invitation demandent NC_SMTP_HOST et les autres réglages NC_SMTP_ dans .env. L’e-mail et le mot de passe administrateur sont repris de .env à chaque démarrage : c’est là qu’ils se changent.",
+			"sizing": "NocoDB prend environ 800 MB de mémoire avec Postgres, et sa base de données grossit avec vos enregistrements ; les pièces jointes prennent la place de leurs fichiers.",
+			"summary": "NocoDB fait d’une base de données des tableurs, formulaires et kanbans pour tous. Auto-hébergez cette alternative à Airtable avec PostgreSQL en un clic.",
+			"about": [
+				"NocoDB est une plateforme de base de données sans code : les tables ont l’aspect et le fonctionnement d’un tableur, et chacune peut aussi s’afficher en formulaire, en galerie, en tableau kanban, en calendrier, en carte ou en diagramme de Gantt. Les champs contiennent du texte, des nombres, des dates, des sélections, des pièces jointes, des formules, des liens vers d’autres tables, des lookups et des synthèses. Chaque table a une API REST, des webhooks se déclenchent quand des enregistrements sont créés, modifiés ou supprimés, et les tables s’importent depuis Airtable, CSV, Excel et JSON.",
+				"Des équipes utilisent NocoDB à la place d’Airtable pour tenir un CRM, un inventaire, un calendrier éditorial ou n’importe quelle liste partagée dans une base de données qu’elles contrôlent. Ce template fait tourner l’édition Community, gratuite, avec PostgreSQL, crée le super administrateur à partir des champs avant que NocoDB ne réponde à quiconque, et ferme l’inscription : on n’y entre que sur invitation. Le revers : la Sustainable Use License de NocoDB autorise l’usage interne et personnel mais pas la revente, et le SSO ainsi que les permissions par table et par champ font partie des offres auto-hébergées payantes."
+			],
+			"faq": [
+				{
+					"q": "NocoDB est-il gratuit ?",
+					"a": "L’édition Community auto-hébergée est gratuite, sans limite d’enregistrements ni d’utilisateurs, sous la Sustainable Use License de NocoDB : vous pouvez l’utiliser au sein de votre propre entreprise ou pour un usage personnel, mais pas la vendre à d’autres. Les offres auto-hébergées payantes commencent à 24 $ par utilisateur et par mois, en facturation annuelle, et ajoutent le SSO et les permissions par table et par champ."
+				},
+				{
+					"q": "NocoDB ou Airtable : quelle différence ?",
+					"a": "Les deux affichent les tables en tableur, avec formulaires, kanban et galeries. Airtable ne tourne que dans son propre cloud, facturé par utilisateur, alors que NocoDB tourne là où vous le déployez, et son édition Community ne limite pas le nombre d’enregistrements."
+				},
+				{
+					"q": "Puis-je importer mes bases Airtable dans NocoDB ?",
+					"a": "Oui. NocoDB importe une base à partir de son lien de partage, avec un token d’accès personnel Airtable autorisé à lire les enregistrements, et en reprend les tables, les vues et les enregistrements. Les champs de formule ne sont pas repris, et le lien d’une vue partagée n’apporte que cette table-là."
+				},
+				{
+					"q": "NocoDB a-t-il une API ?",
+					"a": "Oui. Chaque table a une API REST, appelée avec un token d’API, et des webhooks envoient une requête quand un enregistrement est créé, modifié ou supprimé : d’autres applications et des scripts peuvent ainsi lire et écrire les données."
+				},
+				{
+					"q": "Comment ajouter des personnes dans NocoDB ?",
+					"a": "Dans Members & teams → Ajouter des membres, par e-mail ou avec un lien d’invitation privé, en choisissant leur rôle. Ce template ferme l’inscription publique, donc personne n’entre sans invitation. NocoDB envoie les invitations par e-mail une fois que NC_SMTP_HOST et les autres réglages NC_SMTP_ sont dans le .env du projet."
+				}
+			]
+		},
+		"pl": {
+			"description": "Baza danych no-code: tabele jak arkusze kalkulacyjne, formularze, tablice kanban i kalendarze, z API",
+			"notes": "Zaloguj się adresem e-mail i hasłem administratora podanymi przy tworzeniu projektu: to konto ma rolę Superadministrator, a nikt nie zarejestruje się sam. NocoDB wymaga hasła o długości co najmniej 8 znaków: z krótszym się nie uruchomi, a jego log poda przyczynę. Zacznij od przycisku Nowy projekt, potem utwórz tabele przez Utwórz nowy albo zaimportuj plik CSV, plik Excela lub bazę z Airtable. Ludzi dodasz w zakładce Members & teams → Dodaj Członków, e-mailem albo prywatnym linkiem z zaproszeniem; e-maile z zaproszeniami wymagają NC_SMTP_HOST i pozostałych ustawień NC_SMTP_ w .env. Adres e-mail i hasło administratora są ustawiane z .env przy każdym uruchomieniu: zmieniaj je właśnie tam.",
+			"sizing": "NocoDB zajmuje około 800 MB pamięci razem z Postgresem, a jego baza danych rośnie wraz z rekordami; załączniki zajmują tyle miejsca, co ich pliki.",
+			"summary": "NocoDB zmienia bazę danych w arkusze, formularze i tablice kanban dla każdego. Hostuj tę alternatywę dla Airtable z PostgreSQL u siebie w jeden klik.",
+			"about": [
+				"NocoDB to platforma bazodanowa no-code: tabele wyglądają i działają jak arkusz kalkulacyjny, a każdą można też oglądać jako formularz, galerię, tablicę kanban, kalendarz, mapę albo wykres Gantta. Pola przechowują tekst, liczby, daty, opcje wyboru, załączniki, formuły, powiązania z innymi tabelami, wyszukiwania (lookup) i zestawienia (rollup). Każda tabela ma REST API, webhooki uruchamiają się, gdy rekord zostanie utworzony, zmieniony albo usunięty, a tabele można importować z Airtable, CSV, Excela i JSON-a.",
+				"Zespoły używają NocoDB zamiast Airtable, żeby prowadzić CRM, inwentarz, kalendarz treści albo dowolną wspólną listę w bazie danych, którą kontrolują. Ten szablon uruchamia darmową edycję Community z PostgreSQL, tworzy superadministratora z pól formularza, zanim NocoDB komukolwiek odpowie, i zamyka rejestrację, więc ludzie dołączają tylko przez zaproszenie. Haczyk: licencja Sustainable Use License od twórców NocoDB pozwala na użytek wewnętrzny i osobisty, ale nie na odsprzedawanie aplikacji, a SSO i uprawnienia do poszczególnych tabel i pól są w płatnych planach do hostowania u siebie."
+			],
+			"faq": [
+				{
+					"q": "Czy NocoDB jest darmowy?",
+					"a": "Edycja Community do hostowania u siebie jest darmowa, bez limitu rekordów i użytkowników, na licencji Sustainable Use License od twórców NocoDB: możesz jej używać we własnej firmie albo na własny użytek, ale nie możesz jej sprzedawać innym. Płatne plany do hostowania u siebie kosztują od 24 $ za użytkownika miesięcznie przy płatności rocznej i dodają SSO oraz uprawnienia do poszczególnych tabel i pól."
+				},
+				{
+					"q": "NocoDB czy Airtable: czym się różnią?",
+					"a": "Oba pokazują tabele jak arkusze kalkulacyjne, z formularzami, kanbanem i galeriami. Airtable działa tylko w chmurze Airtable, z ceną za użytkownika, a NocoDB tam, gdzie go wdrożysz, i jego edycja Community nie ogranicza liczby rekordów."
+				},
+				{
+					"q": "Czy mogę zaimportować bazy z Airtable do NocoDB?",
+					"a": "Tak. NocoDB importuje bazę z jej linku udostępniania, z osobistym tokenem dostępu Airtable, który może odczytywać rekordy, i przenosi tabele, widoki i rekordy. Pola formuł nie przechodzą, a link do udostępnionego widoku przenosi tylko tę jedną tabelę."
+				},
+				{
+					"q": "Czy NocoDB ma API?",
+					"a": "Tak. Każda tabela ma REST API, wywoływane z tokenem API, a webhooki wysyłają żądanie, gdy rekord zostanie utworzony, zmieniony albo usunięty, więc inne aplikacje i skrypty mogą czytać i zapisywać dane."
+				},
+				{
+					"q": "Jak dodać ludzi do NocoDB?",
+					"a": "W zakładce Members & teams → Dodaj Członków, e-mailem albo prywatnym linkiem z zaproszeniem, z wybraną rolą. Ten szablon zamyka publiczną rejestrację, więc bez zaproszenia nikt nie dołączy. NocoDB wysyła zaproszenia e-mailem, gdy w pliku .env projektu są NC_SMTP_HOST i pozostałe ustawienia NC_SMTP_."
+				}
+			]
+		},
+		"pt": {
+			"description": "Um banco de dados no-code: tabelas como planilhas, formulários, quadros kanban e calendários, com uma API",
+			"notes": "Entre com o e-mail e a senha de administrador que você informou: essa conta é o super administrador, e ninguém pode se cadastrar sozinho. O NocoDB exige uma senha de pelo menos 8 caracteres: com uma mais curta, ele não inicia e o log dele diz isso. Comece com “Novo projeto” e depois crie tabelas com “Criar novo”, ou importe um CSV, um arquivo do Excel ou uma base do Airtable. Adicione pessoas em Members & teams → Adicionar Membros, por e-mail ou com um link de convite privado; os e-mails de convite precisam do NC_SMTP_HOST e das outras variáveis NC_SMTP_ no .env. O e-mail e a senha de administrador voltam a ser definidos pelo .env a cada inicialização: altere-os lá.",
+			"sizing": "O NocoDB usa cerca de 800 MB de memória com o Postgres, e o banco de dados dele cresce com os seus registros; os anexos ocupam o que os arquivos deles ocupam.",
+			"summary": "O NocoDB transforma um banco de dados em planilhas, formulários e kanban para todos. Auto-hospede a alternativa ao Airtable com PostgreSQL em um clique.",
+			"about": [
+				"O NocoDB é uma plataforma de banco de dados no-code: as tabelas parecem e funcionam como uma planilha, e cada uma também pode ser vista como formulário, galeria, quadro kanban, calendário, mapa ou gráfico de Gantt. Os campos guardam texto, números, datas, seleções, anexos, fórmulas, links para outras tabelas, referências e valores acumulados. Cada tabela tem uma API REST, webhooks disparam quando registros são criados, atualizados ou excluídos, e as tabelas podem ser importadas do Airtable, de CSV, de Excel e de JSON.",
+				"Equipes usam o NocoDB no lugar do Airtable para manter um CRM, um inventário, um calendário de conteúdo ou qualquer lista compartilhada num banco de dados que elas controlam. Este template roda a edição Community, gratuita, com PostgreSQL, cria o super administrador a partir dos campos antes de o NocoDB responder a qualquer pessoa e fecha o cadastro, então as pessoas só entram por convite. O porém: a Sustainable Use License do NocoDB permite uso interno e pessoal, mas não revendê-lo, e SSO e permissões por tabela e por campo ficam nos planos pagos auto-hospedados."
+			],
+			"faq": [
+				{
+					"q": "O NocoDB é gratuito?",
+					"a": "A edição Community auto-hospedada é gratuita, com registros e usuários ilimitados, sob a Sustainable Use License do NocoDB: você pode usá-la dentro da sua própria empresa ou para uso pessoal, mas não vendê-la a outros. Os planos pagos auto-hospedados começam em US$ 24 por usuário por mês, com cobrança anual, e adicionam SSO e permissões por tabela e por campo."
+				},
+				{
+					"q": "NocoDB ou Airtable: qual é a diferença?",
+					"a": "Os dois mostram tabelas como planilhas, com formulários, kanban e galerias. O Airtable roda só na nuvem dele, cobrado por usuário, enquanto o NocoDB roda onde você fizer o deploy dele, e a edição Community não impõe limite de registros."
+				},
+				{
+					"q": "Posso importar minhas bases do Airtable para o NocoDB?",
+					"a": "Sim. O NocoDB importa uma base a partir do link compartilhado dela, com um token de acesso pessoal do Airtable que possa ler registros, e traz as tabelas, as visualizações e os registros. Campos de fórmula não vêm junto, e o link de uma visualização compartilhada traz só aquela tabela."
+				},
+				{
+					"q": "O NocoDB tem API?",
+					"a": "Sim. Cada tabela tem uma API REST, chamada com um token de API, e webhooks enviam uma requisição quando um registro é criado, atualizado ou excluído, então outros apps e scripts podem ler e gravar os dados."
+				},
+				{
+					"q": "Como adiciono pessoas ao NocoDB?",
+					"a": "Em Members & teams → Adicionar Membros, por e-mail ou com um link de convite privado, escolhendo a função de cada um. Este template fecha o cadastro público, então ninguém entra sem convite. O NocoDB envia os convites por e-mail depois que o NC_SMTP_HOST e as outras variáveis NC_SMTP_ estiverem no .env do projeto."
+				}
+			]
+		},
+		"ru": {
+			"description": "No-code база данных в виде электронных таблиц, с формами, канбан-досками, календарями и API",
+			"notes": "Войдите с почтой и паролем администратора, которые вы указали: этот аккаунт — супер-администратор, а зарегистрироваться самостоятельно никто не может. NocoDB требует пароль не короче 8 символов: с более коротким он не запускается и пишет об этом в лог. Начните с кнопки «Новый проект», затем создайте таблицы через «Создать новый» или импортируйте CSV, файл Excel или базу Airtable. Людей добавляйте в разделе «Members & teams» → «Добавить участников», по почте или по приватной ссылке-приглашению; чтобы приглашения уходили по почте, нужны NC_SMTP_HOST и остальные настройки NC_SMTP_ в .env. Почта и пароль администратора задаются заново из .env при каждом запуске: меняйте их там.",
+			"sizing": "NocoDB занимает около 800 MB памяти вместе с Postgres, а его база данных растет вместе с вашими записями; вложения занимают столько, сколько весят их файлы.",
+			"summary": "Self-hosted NocoDB превращает базу данных в электронные таблицы, формы и канбан-доски, понятные каждому. Альтернатива Airtable с PostgreSQL в один клик.",
+			"about": [
+				"NocoDB — no-code платформа для баз данных: таблицы выглядят и работают как электронные, а каждую из них можно показать еще и как форму, галерею, канбан-доску, календарь, карту или диаграмму Ганта. В полях хранятся текст, числа, даты, варианты выбора, вложения, формулы, ссылки на другие таблицы, подстановки (Lookup) и свертки (Rollup). У каждой таблицы есть REST API, вебхуки срабатывают, когда записи создаются, меняются или удаляются, а таблицы можно импортировать из Airtable, CSV, Excel и JSON.",
+				"Команды используют NocoDB вместо Airtable, чтобы вести CRM, учет инвентаря, контент-план или любой общий список в базе данных под своим контролем. Этот шаблон запускает бесплатную редакцию Community с PostgreSQL, создает супер-администратора по данным из полей еще до того, как NocoDB начнет кому-либо отвечать, и закрывает регистрацию, так что люди попадают в него только по приглашению. Подвох: лицензия Sustainable Use License от NocoDB разрешает внутреннее и личное использование, но не перепродажу, а SSO и права доступа на уровне таблиц и полей входят в платные тарифы для self-hosted."
+			],
+			"faq": [
+				{
+					"q": "NocoDB бесплатный?",
+					"a": "Self-hosted редакция Community бесплатна, без ограничений на число записей и пользователей, и распространяется по лицензии Sustainable Use License от NocoDB: ее можно использовать внутри своей компании или для личных целей, но не продавать другим. Платные тарифы для self-hosted стоят от 24 $ за пользователя в месяц при оплате за год и добавляют SSO и права доступа на уровне таблиц и полей."
+				},
+				{
+					"q": "NocoDB или Airtable: в чем разница?",
+					"a": "Оба показывают таблицы как электронные, с формами, канбаном и галереями. Airtable работает только в облаке Airtable, с оплатой за каждого пользователя, а NocoDB — там, где вы его задеплоите, и его редакция Community не ограничивает число записей."
+				},
+				{
+					"q": "Можно ли импортировать базы Airtable в NocoDB?",
+					"a": "Да. NocoDB импортирует базу по ее общей ссылке с персональным токеном доступа Airtable (personal access token), которому разрешено читать записи, и переносит таблицы, представления и записи. Поля с формулами не переносятся, а ссылка на общее представление переносит только одну эту таблицу."
+				},
+				{
+					"q": "Есть ли у NocoDB API?",
+					"a": "Да. У каждой таблицы есть REST API, который вызывают с API-токеном, а вебхуки отправляют запрос, когда запись создается, меняется или удаляется, так что другие приложения и скрипты могут читать и записывать данные."
+				},
+				{
+					"q": "Как добавить людей в NocoDB?",
+					"a": "В разделе «Members & teams» → «Добавить участников», по почте или по приватной ссылке-приглашению, с выбором роли. Этот шаблон закрывает публичную регистрацию, поэтому без приглашения никто не присоединится. Приглашения NocoDB отправляет по почте, как только в .env проекта появятся NC_SMTP_HOST и остальные настройки NC_SMTP_."
+				}
+			]
+		},
+		"uk": {
+			"description": "No-code база даних: таблиці у вигляді електронних таблиць, форми, канбан-дошки й календарі, з API",
+			"notes": "Увійдіть з електронною поштою й паролем адміністратора, які ви вказали: це акаунт із роллю «Головний адміністратор», а самостійно зареєструватися ніхто не може. NocoDB вимагає пароль щонайменше з 8 символів: з коротшим він не запуститься, і його лог про це скаже. Почніть із кнопки «Новий проєкт», потім створіть таблиці кнопкою «Створити новий» або імпортуйте CSV, файл Excel чи базу Airtable. Людей додавайте в розділі «Members & teams» кнопкою «Додати учасників» — поштою або за приватним посиланням-запрошенням; щоб запрошення надходили поштою, потрібні NC_SMTP_HOST та інші налаштування NC_SMTP_ у .env. Пошту й пароль адміністратора NocoDB бере з .env заново під час кожного запуску, тож змінюйте їх там.",
+			"sizing": "NocoDB займає близько 800 MB пам’яті разом із Postgres, а його база даних росте з вашими записами; вкладення займають стільки, скільки їхні файли.",
+			"summary": "NocoDB перетворює базу даних на електронні таблиці, форми й канбан-дошки, зрозумілі кожному. Self-hosted альтернатива Airtable з PostgreSQL в один клік.",
+			"about": [
+				"NocoDB — no-code платформа баз даних: таблиці виглядають і працюють як електронна таблиця, а кожну з них можна також показати як форму, галерею, канбан-дошку, календар, мапу чи діаграму Ганта. Поля містять текст, числа, дати, варіанти вибору, вкладення, формули й зв’язки з іншими таблицями, а також бувають типів «Пошук» і «Накопичення». Кожна таблиця має REST API, вебхуки спрацьовують, коли записи створюються, оновлюються чи видаляються, а таблиці можна імпортувати з Airtable, CSV, Excel і JSON.",
+				"Команди використовують NocoDB замість Airtable, щоб вести CRM, облік запасів, контент-календар чи будь-який спільний список у базі даних під своїм контролем. Цей шаблон запускає безкоштовну редакцію Community з PostgreSQL, створює головного адміністратора з полів ще до того, як NocoDB комусь відповість, і закриває реєстрацію, тож люди приєднуються лише за запрошенням. Підводний камінь: ліцензія NocoDB Sustainable Use License дозволяє внутрішнє й особисте використання, але не перепродаж, а SSO і права доступу до окремих таблиць і полів є лише в платних self-hosted тарифах."
+			],
+			"faq": [
+				{
+					"q": "NocoDB безкоштовний?",
+					"a": "Self-hosted редакція Community безкоштовна, без обмежень на кількість записів і користувачів, за ліцензією NocoDB Sustainable Use License: її можна використовувати всередині своєї компанії або для себе, але не продавати іншим. Платні self-hosted тарифи коштують від 24 $ за користувача на місяць з оплатою за рік і додають SSO та права доступу до окремих таблиць і полів."
+				},
+				{
+					"q": "NocoDB чи Airtable: у чому різниця?",
+					"a": "Обидва показують таблиці як електронні таблиці, з формами, канбаном і галереями. Airtable працює лише у своїй хмарі, з оплатою за кожного користувача, а NocoDB — там, де ви його задеплоїте, і його редакція Community не обмежує кількість записів."
+				},
+				{
+					"q": "Чи можна імпортувати бази Airtable в NocoDB?",
+					"a": "Так. NocoDB імпортує базу за її спільним посиланням з особистим токеном доступу Airtable, який може читати записи, і переносить таблиці, вигляди й записи. Поля з формулами не переносяться, а посилання на спільний вигляд переносить лише одну цю таблицю."
+				},
+				{
+					"q": "Чи є в NocoDB API?",
+					"a": "Так. Кожна таблиця має REST API, до якого звертаються з API-токеном, а вебхуки надсилають запит, коли запис створюється, оновлюється чи видаляється, тож інші застосунки й скрипти можуть читати й записувати дані."
+				},
+				{
+					"q": "Як додати людей у NocoDB?",
+					"a": "У розділі «Members & teams» кнопкою «Додати учасників» — поштою або за приватним посиланням-запрошенням, з вибором ролі. Цей шаблон закриває публічну реєстрацію, тож без запрошення ніхто не приєднається. Запрошення поштою NocoDB надсилає, щойно в .env проєкту з’являться NC_SMTP_HOST та інші налаштування NC_SMTP_."
+				}
+			]
+		}
+	}
+}

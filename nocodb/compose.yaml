@@ -1,0 +1,116 @@
+services:
+  nocodb:
+    image: nocodb/nocodb:2026.10.0
+    restart: unless-stopped
+    # Any setting of NocoDB can be added to the project's .env, such as NC_SMTP_HOST and the other
+    # NC_SMTP_ settings, which send its invitations and password resets by email.
+    env_file: .env
+    environment:
+      NC_DB: pg://postgres:5432?u=nocodb&p=${POSTGRES_PASSWORD}&d=nocodb
+      NC_AUTH_JWT_SECRET: ${JWT_SECRET}
+      NC_SITE_URL: ${URL}
+      # The super admin is made from these at the first start, before NocoDB answers anyone, and
+      # its email and password are set again from them at every start: change them here.
+      NC_ADMIN_EMAIL: ${ADMIN_EMAIL}
+      NC_ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      # Uploaded files are served only to those signed in, through links that expire.
+      NC_SECURE_ATTACHMENTS: "true"
+    # A new NocoDB lets anyone sign up, and only its super admin closes that, in Account → Setup.
+    # So until that setting has been saved once, NocoDB runs on port 8081, which nobody reaches,
+    # and the super admin closes sign-up there; only then does it answer on 8080. Turned on again
+    # in NocoDB later, sign-up stays open.
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        cd /usr/src/app
+        if ! node -e '
+          const { Client } = require("pg");
+          const url = new URL(process.env.NC_DB);
+          const params = url.searchParams;
+          const connection = { host: url.hostname, port: Number(url.port), user: params.get("u"), password: params.get("p"), database: params.get("d") };
+          (async () => {
+            for (let i = 0; i < 60; i++) {
+              const db = new Client(connection);
+              try {
+                await db.connect();
+                const result = await db.query("select 1 from nc_store where key = $$1", ["nc-app-settings"]);
+                process.exit(result.rowCount > 0 ? 0 : 1);
+              } catch (error) {
+                // No such table: a new database, which the migrations of NocoDB have yet to fill.
+                if (error.code === "42P01") process.exit(1);
+                await db.end().catch(() => {});
+                await new Promise((done) => setTimeout(done, 1000));
+              }
+            }
+            process.exit(1);
+          })();
+        '; then
+          PORT=8081 node --no-wasm-dynamic-tiering --no-wasm-tier-up docker/index.js &
+          setup=$$!
+          node -e '
+            const base = "http://127.0.0.1:8081";
+            const call = async (path, body, token) => {
+              const response = await fetch(base + path, {
+                method: "POST",
+                headers: { "content-type": "application/json", ...(token ? { "xc-auth": token } : {}) },
+                body: JSON.stringify(body)
+              });
+              if (!response.ok) throw new Error(path + ": " + response.status + " " + (await response.text()));
+              return response.json();
+            };
+            const closeSignUp = async () => {
+              const { token } = await call("/api/v1/auth/user/signin", { email: process.env.NC_ADMIN_EMAIL, password: process.env.NC_ADMIN_PASSWORD });
+              await call("/api/v1/app-settings", { invite_only_signup: true }, token);
+            };
+            (async () => {
+              let failure;
+              for (let i = 0; i < 300; i++) {
+                try {
+                  return await closeSignUp();
+                } catch (error) {
+                  failure = error;
+                  await new Promise((done) => setTimeout(done, 1000));
+                }
+              }
+              console.error(failure);
+              process.exit(1);
+            })();
+          '
+          kill $$setup
+          wait $$setup || true
+        fi
+        exec /usr/src/appEntry/start.sh
+    volumes:
+      - data:/usr/app/data
+    depends_on:
+      postgres:
+        condition: service_healthy
+    # The port listens before NocoDB is ready: the deploy waits for its health.
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --tries=1 --spider http://127.0.0.1:8080/api/v1/health || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 120s
+
+  postgres:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: nocodb
+      POSTGRES_USER: nocodb
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - db:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U nocodb -d nocodb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  data:
+  db:
