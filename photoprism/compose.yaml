@@ -1,0 +1,61 @@
+services:
+  photoprism:
+    image: photoprism/photoprism:261007
+    restart: unless-stopped
+    stop_grace_period: 15s
+    working_dir: /photoprism
+    environment:
+      PHOTOPRISM_SITE_URL: ${URL}/
+      # The administrator is made from these at the first start, before PhotoPrism answers anyone;
+      # every page and photo asks to sign in. Later the password is changed in PhotoPrism.
+      PHOTOPRISM_AUTH_MODE: password
+      PHOTOPRISM_ADMIN_USER: ${ADMIN_USERNAME}
+      PHOTOPRISM_ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      # The proxy serves HTTPS; requests come from it over the project's network.
+      PHOTOPRISM_DISABLE_TLS: "true"
+      PHOTOPRISM_DEFAULT_TLS: "false"
+      PHOTOPRISM_TRUSTED_PROXY: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+      PHOTOPRISM_DATABASE_DRIVER: mysql
+      PHOTOPRISM_DATABASE_SERVER: mariadb:3306
+      PHOTOPRISM_DATABASE_NAME: photoprism
+      PHOTOPRISM_DATABASE_USER: photoprism
+      PHOTOPRISM_DATABASE_PASSWORD: ${MARIADB_PASSWORD}
+      PHOTOPRISM_SIDECAR_YAML: "true"
+      PHOTOPRISM_BACKUP_ALBUMS: "true"
+      PHOTOPRISM_BACKUP_DATABASE: "true"
+      PHOTOPRISM_BACKUP_SCHEDULE: daily
+      PHOTOPRISM_UPLOAD_NSFW: "true"
+    volumes:
+      # The photos and videos as they were uploaded.
+      - originals:/photoprism/originals
+      # The index's thumbnails, sidecar files and backups.
+      - storage:/photoprism/storage
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+  mariadb:
+    image: mariadb:11.8
+    restart: unless-stopped
+    stop_grace_period: 15s
+    command: --innodb-buffer-pool-size=256M --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120
+    environment:
+      MARIADB_AUTO_UPGRADE: "1"
+      MARIADB_INITDB_SKIP_TZINFO: "1"
+      MARIADB_DATABASE: photoprism
+      MARIADB_USER: photoprism
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+    volumes:
+      - db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  originals:
+  storage:
+  db:

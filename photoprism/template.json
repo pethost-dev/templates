@@ -1,0 +1,294 @@
+{
+	"name": "PhotoPrism",
+	"emoji": "🖼️",
+	"category": "media",
+	"alternatives": [
+		"Google Photos",
+		"Apple Photos"
+	],
+	"plan": "starter",
+	"route": {
+		"service": "photoprism",
+		"port": 2342
+	},
+	"variables": [
+		{
+			"name": "URL",
+			"from": "url"
+		},
+		{
+			"name": "MARIADB_PASSWORD",
+			"secret": 24
+		},
+		{
+			"name": "MARIADB_ROOT_PASSWORD",
+			"secret": 24
+		},
+		{
+			"name": "ADMIN_USERNAME",
+			"ask": "username"
+		},
+		{
+			"name": "ADMIN_PASSWORD",
+			"ask": "adminPassword"
+		}
+	],
+	"texts": {
+		"en": {
+			"description": "An AI-powered photo library: browse, search, map and share your photos and videos",
+			"notes": "Sign in with the username and the admin password you gave, which needs 8 characters at least. Add photos with Upload… in the library’s menu, or have a phone sync them over WebDAV, as Settings → Account → Connect via WebDAV shows. PhotoPrism reads their dates, places and cameras, and labels what is in them. Change the password later in Settings → Account → Change Password.",
+			"sizing": "PhotoPrism takes about 300 MB of memory with MariaDB at rest, and about 550 MB while it imports; the disk holds the photos at their own size, plus thumbnails.",
+			"summary": "PhotoPrism is an AI-powered photo library that sorts, tags and maps your photos and videos. Self-host this Google Photos alternative in one click.",
+			"about": [
+				"PhotoPrism is a web app for a photo and video library. It reads each file’s date, camera and location, labels what a picture shows, finds faces and groups them into people, and spots duplicates. The library opens by search, albums, moments, a calendar, a world map of places, people, labels and folders, and it takes RAW files, videos and Live Photos. It installs on a phone as a progressive web app, and serves its originals over WebDAV, so apps such as PhotoSync upload a phone’s camera roll by themselves.",
+				"People self-host PhotoPrism to keep their photos off Google Photos and iCloud. This template runs the free Community edition with MariaDB, its photos and thumbnails in volumes, and makes the admin from the fields before PhotoPrism answers anyone. The catch: more user accounts are added from the command line, since the user management screen, more roles and 3D maps are in its paid memberships, and there are no native phone apps."
+			],
+			"faq": [
+				{
+					"q": "Is PhotoPrism free?",
+					"a": "Yes. The Community edition is open source under the AGPL-3.0 and free. The Essentials membership, from €2 a month billed yearly, adds more user roles and better maps, and Plus, from €6 a month, adds a user management screen."
+				},
+				{
+					"q": "PhotoPrism or Immich?",
+					"a": "Both are self-hosted photo libraries with face recognition and maps. Immich comes with native apps that back up a phone, while PhotoPrism is a web app that phones sync with over WebDAV."
+				},
+				{
+					"q": "Does PhotoPrism recognize faces?",
+					"a": "Yes. It detects faces as it indexes, groups those of the same person, and once you name a group in People, finds that person in the rest of the library."
+				},
+				{
+					"q": "How do I upload photos from my phone to PhotoPrism?",
+					"a": "Open it in the phone’s browser and upload, or sync over WebDAV with an app such as PhotoSync, using the address and the account shown in Settings → Account → Connect via WebDAV."
+				},
+				{
+					"q": "How do I add users to PhotoPrism?",
+					"a": "In the Community edition, from the command line: photoprism users add with a username, a role and a password, run in the photoprism service’s shell. The user management screen is part of the paid Plus membership."
+				}
+			]
+		},
+		"de": {
+			"description": "KI-gestützte Fotobibliothek: deine Fotos und Videos ansehen, durchsuchen, auf der Karte zeigen und teilen",
+			"notes": "Melde dich mit dem Benutzernamen und dem Admin-Passwort an, die du angegeben hast; das Passwort braucht mindestens 8 Zeichen. Füg Fotos mit „Upload…“ im Menü der Bibliothek hinzu, oder lass ein Handy sie per WebDAV synchronisieren, wie „Einstellungen“ → „Konto“ → „Mit WebDAV verbinden“ zeigt. PhotoPrism liest Datum, Ort und Kamera aus und versieht die Fotos mit Kategorien für das, was darauf zu sehen ist. Das Passwort änderst du später unter „Einstellungen“ → „Konto“ → „Passwort ändern“.",
+			"sizing": "PhotoPrism braucht mit MariaDB im Ruhezustand etwa 300 MB RAM und etwa 550 MB, während es importiert; auf der Disk liegen die Fotos in ihrer eigenen Größe, plus Vorschaubilder.",
+			"summary": "PhotoPrism selbst hosten: KI-Fotobibliothek, die deine Fotos und Videos sortiert, verschlagwortet und kartiert. Google-Photos-Alternative mit einem Klick.",
+			"about": [
+				"PhotoPrism ist eine Web-App für eine Foto- und Videobibliothek. Es liest Datum, Kamera und Ort jeder Datei aus, ordnet Bilder nach ihrem Inhalt in Kategorien ein, findet Gesichter und gruppiert sie zu Personen und erkennt Duplikate. Die Bibliothek erschließt sich über die Suche, Alben, Ereignisse, einen Kalender, eine Weltkarte der Orte, Personen, Kategorien und Ordner, und sie nimmt RAW-Dateien, Videos und Live Photos auf. Auf dem Handy lässt sich PhotoPrism als Progressive Web App installieren, und seine Originale stellt es über WebDAV bereit, sodass Apps wie PhotoSync die Kamerarolle eines Handys von selbst hochladen.",
+				"Viele hosten PhotoPrism selbst, um ihre Fotos von Google Photos und iCloud fernzuhalten. Diese Vorlage betreibt die kostenlose Community Edition mit MariaDB, die Fotos und Vorschaubilder in Volumes, und legt den Admin aus den Feldern an, bevor PhotoPrism irgendwem antwortet. Der Haken: Weitere Benutzerkonten kommen über die Kommandozeile dazu, denn die Benutzerverwaltung, weitere Rollen und 3D-Karten gehören zu den kostenpflichtigen Mitgliedschaften, und native Apps fürs Handy gibt es nicht."
+			],
+			"faq": [
+				{
+					"q": "Ist PhotoPrism kostenlos?",
+					"a": "Ja. Die Community Edition ist Open Source unter der AGPL-3.0 und kostenlos. Die Mitgliedschaft Essentials, ab 2 € im Monat bei jährlicher Abrechnung, bringt weitere Benutzerrollen und bessere Karten, und Plus, ab 6 € im Monat, eine Seite zur Benutzerverwaltung."
+				},
+				{
+					"q": "PhotoPrism oder Immich?",
+					"a": "Beide sind selbst gehostete Fotobibliotheken mit Gesichtserkennung und Karten. Immich bringt native Apps mit, die ein Handy sichern, PhotoPrism dagegen ist eine Web-App, mit der sich Handys über WebDAV synchronisieren."
+				},
+				{
+					"q": "Erkennt PhotoPrism Gesichter?",
+					"a": "Ja. PhotoPrism erkennt beim Indexieren Gesichter, gruppiert die derselben Person, und sobald du einer Gruppe unter „Personen“ einen Namen gibst, findet es diese Person im Rest der Bibliothek."
+				},
+				{
+					"q": "Wie lade ich Fotos von meinem Handy zu PhotoPrism hoch?",
+					"a": "Öffne PhotoPrism im Browser des Handys und lade dort hoch, oder synchronisiere über WebDAV mit einer App wie PhotoSync, mit der Adresse und dem Konto, die „Einstellungen“ → „Konto“ → „Mit WebDAV verbinden“ zeigt."
+				},
+				{
+					"q": "Wie füge ich in PhotoPrism Benutzer hinzu?",
+					"a": "In der Community Edition über die Kommandozeile: photoprism users add mit Benutzername, Rolle und Passwort, ausgeführt in der Shell des Service photoprism. Die Benutzerverwaltung gehört zur kostenpflichtigen Mitgliedschaft Plus."
+				}
+			]
+		},
+		"es": {
+			"description": "Una biblioteca de fotos con IA para explorar, buscar, ver en un mapa y compartir tus fotos y videos",
+			"notes": "Inicia sesión con el nombre de usuario y la contraseña de administrador que indicaste, de al menos 8 caracteres. Agrega fotos con “Subir…” en el menú de la biblioteca, o haz que un teléfono las sincronice por WebDAV, como muestra Ajustes → Cuenta → Conectar através de WebDAV. PhotoPrism lee sus fechas, lugares y cámaras, y etiqueta lo que aparece en ellas. Cambia la contraseña más adelante en Ajustes → Cuenta → Cambiar la contraseña.",
+			"sizing": "PhotoPrism ocupa unos 300 MB de memoria con MariaDB en reposo, y unos 550 MB mientras importa; el disco guarda las fotos a su propio tamaño, más las miniaturas.",
+			"summary": "PhotoPrism: biblioteca de fotos con IA que ordena, etiqueta y ubica en un mapa tus fotos y videos. Autoaloja esta alternativa a Google Photos en un clic.",
+			"about": [
+				"PhotoPrism es una app web para una biblioteca de fotos y videos. Lee la fecha, la cámara y la ubicación de cada archivo, etiqueta lo que muestra una imagen, encuentra rostros y los agrupa en personas, y detecta duplicados. A la biblioteca se entra por la búsqueda, los álbumes, los momentos, un calendario, un mapamundi de lugares, las personas, las etiquetas y las carpetas, y admite archivos RAW, videos y Live Photos. Se instala en un teléfono como app web progresiva y sirve sus originales por WebDAV, así que apps como PhotoSync suben solas la galería del teléfono.",
+				"La gente autoaloja PhotoPrism para tener sus fotos fuera de Google Photos y iCloud. Esta plantilla ejecuta la edición Community gratuita con MariaDB, con sus fotos y miniaturas en volúmenes, y crea el administrador con los datos de los campos antes de que PhotoPrism responda a nadie. El inconveniente: las demás cuentas de usuario se agregan desde la línea de comandos, ya que la pantalla de administración de usuarios, más roles y los mapas 3D están en sus membresías de pago, y no hay apps nativas para teléfonos."
+			],
+			"faq": [
+				{
+					"q": "¿PhotoPrism es gratis?",
+					"a": "Sí. La edición Community es de código abierto bajo la AGPL-3.0 y gratis. La membresía Essentials, desde 2 € al mes con facturación anual, agrega más roles de usuario y mejores mapas, y Plus, desde 6 € al mes, agrega una pantalla de administración de usuarios."
+				},
+				{
+					"q": "¿PhotoPrism o Immich?",
+					"a": "Los dos son bibliotecas de fotos autoalojadas con reconocimiento facial y mapas. Immich trae apps nativas que hacen backup del teléfono, mientras que PhotoPrism es una app web con la que los teléfonos se sincronizan por WebDAV."
+				},
+				{
+					"q": "¿PhotoPrism reconoce rostros?",
+					"a": "Sí. Detecta los rostros mientras indexa, agrupa los de una misma persona y, en cuanto le pones nombre a un grupo en “Gente”, encuentra a esa persona en el resto de la biblioteca."
+				},
+				{
+					"q": "¿Cómo subo fotos de mi teléfono a PhotoPrism?",
+					"a": "Ábrelo en el navegador del teléfono y sube las fotos, o sincronízalas por WebDAV con una app como PhotoSync, con la dirección y la cuenta que muestra Ajustes → Cuenta → Conectar através de WebDAV."
+				},
+				{
+					"q": "¿Cómo agrego usuarios a PhotoPrism?",
+					"a": "En la edición Community, desde la línea de comandos: photoprism users add con un nombre de usuario, un rol y una contraseña, ejecutado en el shell del servicio photoprism. La pantalla de administración de usuarios es parte de la membresía Plus, que es de pago."
+				}
+			]
+		},
+		"fr": {
+			"description": "Une bibliothèque de photos animée par l’IA, pour parcourir, rechercher, situer sur une carte et partager vos photos et vidéos",
+			"notes": "Connectez-vous avec le nom d’utilisateur et le mot de passe administrateur indiqués : le mot de passe doit compter au moins 8 caractères. Ajoutez des photos avec « Chargement… » dans le menu de la bibliothèque, ou laissez un téléphone les synchroniser en WebDAV, comme l’indique Paramètres → Compte → Se connecter via le protocole WebDAV. PhotoPrism lit leurs dates, leurs lieux et leurs appareils photo, et étiquette ce qu’elles montrent. Changez le mot de passe par la suite dans Paramètres → Compte → Changer le mot de passe.",
+			"sizing": "PhotoPrism prend environ 300 MB de mémoire au repos avec MariaDB, et environ 550 MB pendant une importation ; le disque contient les photos à leur taille d’origine, plus les miniatures.",
+			"summary": "PhotoPrism, photothèque qui trie, étiquette et cartographie vos photos et vidéos grâce à l’IA. Auto-hébergez cette alternative à Google Photos en un clic.",
+			"about": [
+				"PhotoPrism est une application web pour une bibliothèque de photos et de vidéos. Il lit la date, l’appareil et le lieu de chaque fichier, étiquette ce que montre une image, trouve les visages et les regroupe par personne, et repère les doublons. On parcourt la bibliothèque par la recherche, les albums, les moments, un calendrier, une carte du monde des lieux, les personnes, les étiquettes et les dossiers, et il accepte les fichiers RAW, les vidéos et les Live Photos. Il s’installe sur un téléphone comme application web progressive, et sert ses originaux en WebDAV, si bien que des applications comme PhotoSync y envoient d’elles-mêmes la pellicule d’un téléphone.",
+				"On auto-héberge PhotoPrism pour garder ses photos hors de Google Photos et d’iCloud. Ce template fait tourner l’édition Community, gratuite, avec MariaDB, ses photos et ses miniatures dans des volumes, et crée l’administrateur à partir des champs avant que PhotoPrism ne réponde à quiconque. Le revers : les autres comptes s’ajoutent en ligne de commande, puisque l’écran de gestion des utilisateurs, d’autres rôles et les cartes 3D font partie de ses abonnements payants, et il n’existe pas d’application native pour téléphone."
+			],
+			"faq": [
+				{
+					"q": "PhotoPrism est-il gratuit ?",
+					"a": "Oui. L’édition Community est open source sous licence AGPL-3.0 et gratuite. L’abonnement Essentials, à partir de 2 € par mois en facturation annuelle, ajoute d’autres rôles d’utilisateur et de meilleures cartes, et Plus, à partir de 6 € par mois, ajoute un écran de gestion des utilisateurs."
+				},
+				{
+					"q": "PhotoPrism ou Immich ?",
+					"a": "Ce sont deux bibliothèques de photos auto-hébergées, avec reconnaissance faciale et cartes. Immich est livré avec des applications natives qui sauvegardent un téléphone, alors que PhotoPrism est une application web avec laquelle les téléphones se synchronisent en WebDAV."
+				},
+				{
+					"q": "PhotoPrism reconnaît-il les visages ?",
+					"a": "Oui. Il détecte les visages pendant l’indexation, regroupe ceux d’une même personne et, une fois que vous avez nommé un groupe dans « Personnes », retrouve cette personne dans le reste de la bibliothèque."
+				},
+				{
+					"q": "Comment envoyer les photos de mon téléphone dans PhotoPrism ?",
+					"a": "Ouvrez-le dans le navigateur du téléphone et envoyez-les, ou synchronisez-les en WebDAV avec une application comme PhotoSync, en utilisant l’adresse et le compte qu’indique Paramètres → Compte → Se connecter via le protocole WebDAV."
+				},
+				{
+					"q": "Comment ajouter des utilisateurs dans PhotoPrism ?",
+					"a": "Dans l’édition Community, en ligne de commande : photoprism users add avec un nom d’utilisateur, un rôle et un mot de passe, à lancer dans le shell du service photoprism. L’écran de gestion des utilisateurs fait partie de l’abonnement Plus, payant."
+				}
+			]
+		},
+		"pl": {
+			"description": "Biblioteka zdjęć z AI: przeglądaj, wyszukuj, oglądaj na mapie i udostępniaj swoje zdjęcia i filmy",
+			"notes": "Zaloguj się nazwą użytkownika i hasłem administratora podanymi przy tworzeniu projektu; to hasło musi mieć co najmniej 8 znaków. Zdjęcia dodasz przez Wgraj… w menu biblioteki albo zsynchronizujesz z telefonu przez WebDAV, jak pokazuje okno Ustawienia → Konto → Połącz przez WebDAV. PhotoPrism odczytuje ich daty, miejsca i aparaty oraz oznacza etykietami to, co na nich jest. Hasło zmienisz później na stronie Ustawienia → Konto → Zmień hasło.",
+			"sizing": "PhotoPrism w spoczynku zajmuje razem z MariaDB około 300 MB pamięci, a podczas importu około 550 MB; na dysku zdjęcia zajmują tyle, ile ważą, plus miniatury.",
+			"summary": "PhotoPrism to biblioteka z AI, która sortuje, taguje i nanosi na mapę twoje zdjęcia i filmy. Hostuj tę alternatywę dla Google Photos u siebie w jeden klik.",
+			"about": [
+				"PhotoPrism to aplikacja webowa do biblioteki zdjęć i filmów. Odczytuje datę, aparat i miejsce każdego pliku, oznacza etykietami to, co widać na zdjęciu, znajduje twarze i grupuje je według osób oraz wykrywa duplikaty. Bibliotekę przegląda się przez wyszukiwanie, albumy, chwile, kalendarz, mapę świata z miejscami, ludzi, etykiety i foldery, a obsługuje ona pliki RAW, filmy i Live Photos. PhotoPrism instaluje się na telefonie jako progresywna aplikacja webowa i udostępnia oryginały przez WebDAV, więc aplikacje takie jak PhotoSync same wgrywają zdjęcia z aparatu telefonu.",
+				"Ludzie hostują PhotoPrism u siebie, żeby ich zdjęcia nie trafiały do Google Photos i iCloud. Ten szablon uruchamia darmową edycję Community z MariaDB, ze zdjęciami i miniaturami na wolumenach, i tworzy administratora z pól formularza, zanim PhotoPrism komukolwiek odpowie. Haczyk: kolejne konta użytkowników dodaje się z wiersza poleceń, bo ekran zarządzania użytkownikami, dodatkowe role i mapy 3D są w płatnych członkostwach, a natywnych aplikacji na telefon nie ma."
+			],
+			"faq": [
+				{
+					"q": "Czy PhotoPrism jest darmowy?",
+					"a": "Tak. Edycja Community to open source na licencji AGPL-3.0 i jest darmowa. Członkostwo Essentials, od 2 € miesięcznie przy płatności rocznej, dodaje więcej ról użytkowników i lepsze mapy, a Plus, od 6 € miesięcznie, dodaje ekran zarządzania użytkownikami."
+				},
+				{
+					"q": "PhotoPrism czy Immich?",
+					"a": "Oba to hostowane u siebie biblioteki zdjęć z rozpoznawaniem twarzy i mapami. Immich ma natywne aplikacje, które robią backup telefonu, a PhotoPrism to aplikacja webowa, z którą telefony synchronizują się przez WebDAV."
+				},
+				{
+					"q": "Czy PhotoPrism rozpoznaje twarze?",
+					"a": "Tak. Podczas indeksowania wykrywa twarze, grupuje te należące do tej samej osoby, a gdy nadasz grupie imię w sekcji Ludzie, znajduje tę osobę w reszcie biblioteki."
+				},
+				{
+					"q": "Jak wgrać zdjęcia z telefonu do PhotoPrisma?",
+					"a": "Otwórz go w przeglądarce telefonu i wgraj zdjęcia albo synchronizuj je przez WebDAV aplikacją taką jak PhotoSync, z adresem i kontem pokazanymi w oknie Ustawienia → Konto → Połącz przez WebDAV."
+				},
+				{
+					"q": "Jak dodać użytkowników do PhotoPrisma?",
+					"a": "W edycji Community z wiersza poleceń: photoprism users add z nazwą użytkownika, rolą i hasłem, uruchomione w powłoce usługi photoprism. Ekran zarządzania użytkownikami jest częścią płatnego członkostwa Plus."
+				}
+			]
+		},
+		"pt": {
+			"description": "Uma biblioteca de fotos com IA: navegue, busque, veja no mapa e compartilhe suas fotos e vídeos",
+			"notes": "Entre com o usuário e a senha de administrador que você informou; a senha precisa ter pelo menos 8 caracteres. Adicione fotos com “Enviar…” no menu da biblioteca, ou deixe um celular sincronizá-las por WebDAV, como mostra Configurações → Conta → Conectar via WebDAV. O PhotoPrism lê as datas, os lugares e as câmeras delas e marca com etiquetas o que aparece nelas. Altere a senha depois em Configurações → Conta → Alterar Senha.",
+			"sizing": "O PhotoPrism usa cerca de 300 MB de memória com o MariaDB em repouso e cerca de 550 MB enquanto importa; o disco guarda as fotos no tamanho original delas, mais as miniaturas.",
+			"summary": "PhotoPrism: biblioteca de fotos com IA que organiza, etiqueta e põe no mapa suas fotos e vídeos. Auto-hospede a alternativa ao Google Photos em um clique.",
+			"about": [
+				"O PhotoPrism é um app web para uma biblioteca de fotos e vídeos. Ele lê a data, a câmera e o local de cada arquivo, marca com etiquetas o que uma foto mostra, encontra rostos e os agrupa em pessoas, e detecta duplicatas. A biblioteca pode ser explorada por busca, álbuns, momentos, calendário, um mapa-múndi de lugares, pessoas, etiquetas e pastas, e aceita arquivos RAW, vídeos e Live Photos. Ele se instala no celular como progressive web app e serve os originais por WebDAV, então apps como o PhotoSync enviam sozinhos as fotos da câmera de um celular.",
+				"As pessoas auto-hospedam o PhotoPrism para manter as fotos fora do Google Photos e do iCloud. Este template roda a edição Community, gratuita, com MariaDB, as fotos e as miniaturas em volumes, e cria o administrador a partir dos campos antes de o PhotoPrism responder a qualquer pessoa. O porém: outras contas de usuário são adicionadas pela linha de comando, já que a tela de gerenciamento de usuários, mais papéis e os mapas 3D ficam nas assinaturas pagas, e não há apps nativos para celular."
+			],
+			"faq": [
+				{
+					"q": "O PhotoPrism é gratuito?",
+					"a": "Sim. A edição Community é de código aberto sob a AGPL-3.0 e gratuita. A assinatura Essentials, a partir de € 2 por mês com cobrança anual, adiciona mais papéis de usuário e mapas melhores, e a Plus, a partir de € 6 por mês, adiciona uma tela de gerenciamento de usuários."
+				},
+				{
+					"q": "PhotoPrism ou Immich?",
+					"a": "Os dois são bibliotecas de fotos auto-hospedadas com reconhecimento facial e mapas. O Immich vem com apps nativos que fazem backup do celular, enquanto o PhotoPrism é um app web com o qual os celulares sincronizam por WebDAV."
+				},
+				{
+					"q": "O PhotoPrism reconhece rostos?",
+					"a": "Sim. Ele detecta rostos enquanto indexa, agrupa os da mesma pessoa e, depois que você dá nome a um grupo em “Pessoas”, encontra essa pessoa no resto da biblioteca."
+				},
+				{
+					"q": "Como envio fotos do celular para o PhotoPrism?",
+					"a": "Abra-o no navegador do celular e envie, ou sincronize por WebDAV com um app como o PhotoSync, usando o endereço e a conta que aparecem em Configurações → Conta → Conectar via WebDAV."
+				},
+				{
+					"q": "Como adiciono usuários ao PhotoPrism?",
+					"a": "Na edição Community, pela linha de comando: photoprism users add com um nome de usuário, um papel e uma senha, rodado no shell do serviço photoprism. A tela de gerenciamento de usuários faz parte da assinatura Plus, paga."
+				}
+			]
+		},
+		"ru": {
+			"description": "Фотобиблиотека с ИИ: просмотр, поиск, карта и общий доступ к вашим фото и видео",
+			"notes": "Войдите с именем пользователя и паролем администратора, которые вы указали; пароль должен быть не короче 8 символов. Добавляйте фото через «Загрузка…» в меню библиотеки или настройте синхронизацию с телефона по WebDAV, как показано в разделе «Настройки» → «Учетная запись» → «Соединиться через WebDAV». PhotoPrism считывает их даты, места и камеры и ставит метки по тому, что на них изображено. Пароль потом можно сменить в разделе «Настройки» → «Учетная запись» → «Изменить пароль».",
+			"sizing": "PhotoPrism в простое занимает около 300 MB памяти вместе с MariaDB и около 550 MB во время импорта; на диске фото занимают столько, сколько весят, плюс миниатюры.",
+			"summary": "Self-hosted PhotoPrism — фотобиблиотека с ИИ: сортирует, размечает и показывает на карте ваши фото и видео. Альтернатива Google Photos в один клик.",
+			"about": [
+				"PhotoPrism — веб-приложение для библиотеки фото и видео. Он считывает у каждого файла дату, камеру и место съемки, ставит метки по тому, что изображено на снимке, находит лица и группирует их по людям, а также замечает дубликаты. Библиотеку можно открыть через поиск, альбомы, моменты, календарь, карту мира с местами съемки, людей, метки и папки, а принимает она RAW-файлы, видео и Live Photos. На телефон PhotoPrism ставится как прогрессивное веб-приложение и отдает оригиналы по WebDAV, так что приложения вроде PhotoSync сами загружают фотопленку телефона.",
+				"PhotoPrism хостят у себя, чтобы не держать фото в Google Photos и iCloud. Этот шаблон запускает бесплатную редакцию Community с MariaDB, хранит фото и миниатюры в томах и создает администратора по данным из полей еще до того, как PhotoPrism начнет кому-либо отвечать. Подвох: новые аккаунты пользователей добавляются из командной строки, потому что экран управления пользователями, дополнительные роли и 3D-карты входят в платные подписки, а нативных приложений для телефона нет."
+			],
+			"faq": [
+				{
+					"q": "PhotoPrism бесплатный?",
+					"a": "Да. Редакция Community распространяется с открытым кодом под лицензией AGPL-3.0 и бесплатна. Подписка Essentials — от 2 € в месяц при оплате за год — добавляет больше ролей пользователей и улучшенные карты, а Plus — от 6 € в месяц — экран управления пользователями."
+				},
+				{
+					"q": "PhotoPrism или Immich?",
+					"a": "Оба — self-hosted фотобиблиотеки с распознаванием лиц и картами. У Immich есть нативные приложения, которые делают бэкап телефона, а PhotoPrism — веб-приложение, с которым телефоны синхронизируются по WebDAV."
+				},
+				{
+					"q": "Распознает ли PhotoPrism лица?",
+					"a": "Да. Во время индексации он находит лица и группирует лица одного человека, а когда вы даете группе имя в разделе «Люди», находит этого человека в остальной библиотеке."
+				},
+				{
+					"q": "Как загрузить фото с телефона в PhotoPrism?",
+					"a": "Откройте его в браузере телефона и загрузите фото или синхронизируйте их по WebDAV приложением вроде PhotoSync, с адресом и аккаунтом, которые показаны в разделе «Настройки» → «Учетная запись» → «Соединиться через WebDAV»."
+				},
+				{
+					"q": "Как добавить пользователей в PhotoPrism?",
+					"a": "В редакции Community — из командной строки: photoprism users add с именем пользователя, ролью и паролем, в шелле сервиса photoprism. Экран управления пользователями входит в платную подписку Plus."
+				}
+			]
+		},
+		"uk": {
+			"description": "Бібліотека фото з ШІ: переглядайте, шукайте, показуйте на мапі й діліться своїми фото та відео",
+			"notes": "Увійдіть з іменем користувача й паролем адміністратора, які ви вказали; пароль має містити щонайменше 8 символів. Додавайте фото пунктом «Вивантажити…» в меню бібліотеки або синхронізуйте їх із телефона через WebDAV, як показує кнопка «Під’єднати через WebDAV» у розділі «Налаштування → Обліковий запис». PhotoPrism читає їхні дати, місця й камери та позначає мітками те, що на них є. Пароль згодом можна змінити в розділі «Налаштування → Обліковий запис» кнопкою «Змінити пароль».",
+			"sizing": "PhotoPrism у спокої займає близько 300 MB пам’яті разом із MariaDB і близько 550 MB під час імпорту; на диску лежать фото в повному розмірі плюс мініатюри.",
+			"summary": "PhotoPrism — бібліотека фото з ШІ, що сортує, позначає мітками й показує на мапі ваші фото та відео. Self-hosted альтернатива Google Photos в один клік.",
+			"about": [
+				"PhotoPrism — вебзастосунок для бібліотеки фото й відео. Він читає дату, камеру й місце зйомки кожного файлу, позначає мітками те, що на знімку, знаходить обличчя й групує їх за людьми, а також помічає дублікати. Бібліотеку можна відкривати через пошук, альбоми, моменти, календар, світову мапу місць, людей, мітки й папки, і вона приймає RAW-файли, відео та Live Photos. PhotoPrism встановлюється на телефон як прогресивний вебзастосунок і віддає оригінали через WebDAV, тож застосунки на кшталт PhotoSync самі завантажують фотоплівку телефона.",
+				"PhotoPrism хостять у себе, щоб фото не лежали в Google Photos та iCloud. Цей шаблон запускає безкоштовну редакцію Community з MariaDB, тримає фото й мініатюри в томах і створює адміністратора з полів ще до того, як PhotoPrism комусь відповість. Підводний камінь: інші акаунти користувачів додаються з командного рядка, бо екран керування користувачами, додаткові ролі й 3D-мапи є лише в платних членствах, а нативних застосунків для телефона немає."
+			],
+			"faq": [
+				{
+					"q": "PhotoPrism безкоштовний?",
+					"a": "Так. Редакція Community має відкритий код за ліцензією AGPL-3.0 і безкоштовна. Членство Essentials, від 2 € на місяць з оплатою за рік, додає більше ролей користувачів і кращі мапи, а Plus, від 6 € на місяць, — екран керування користувачами."
+				},
+				{
+					"q": "PhotoPrism чи Immich?",
+					"a": "Обидва — self-hosted бібліотеки фото з розпізнаванням облич і мапами. Immich має нативні застосунки, що роблять бекап телефона, а PhotoPrism — вебзастосунок, з яким телефони синхронізуються через WebDAV."
+				},
+				{
+					"q": "Чи розпізнає PhotoPrism обличчя?",
+					"a": "Так. Під час індексації він знаходить обличчя, групує обличчя однієї людини, а щойно ви дасте групі ім’я в розділі «Люди», знаходить цю людину в решті бібліотеки."
+				},
+				{
+					"q": "Як завантажити фото з телефона в PhotoPrism?",
+					"a": "Відкрийте його в браузері телефона й завантажте фото або синхронізуйте їх через WebDAV застосунком на кшталт PhotoSync з адресою й акаунтом, які показує кнопка «Під’єднати через WebDAV» у розділі «Налаштування → Обліковий запис»."
+				},
+				{
+					"q": "Як додати користувачів у PhotoPrism?",
+					"a": "У редакції Community — з командного рядка: виконайте в оболонці сервісу photoprism команду photoprism users add з іменем користувача, роллю й паролем. Екран керування користувачами входить до платного членства Plus."
+				}
+			]
+		}
+	}
+}
