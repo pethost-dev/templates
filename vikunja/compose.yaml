@@ -12,6 +12,15 @@ services:
       VIKUNJA_DATABASE_PATH: /db/vikunja.db
       # Open until the first account is made; the notes say how to close it.
       VIKUNJA_SERVICE_ENABLEREGISTRATION: ${ENABLE_REGISTRATION:-true}
+      # The mail provider picked in New project, by STARTTLS on its port. With none, the mailer
+      # is off: accounts need no confirmation, and passwords are not reset by mail.
+      VIKUNJA_MAILER_ENABLED: ${SMTP_ENABLED:-false}
+      VIKUNJA_MAILER_HOST: ${SMTP_HOST}
+      VIKUNJA_MAILER_PORT: ${SMTP_PORT:-587}
+      VIKUNJA_MAILER_USERNAME: ${SMTP_USER}
+      VIKUNJA_MAILER_PASSWORD: ${SMTP_PASSWORD}
+      VIKUNJA_MAILER_FROMEMAIL: ${SMTP_FROM}
+      VIKUNJA_MAILER_FORCESSL: "false"
     volumes:
       - files:/app/vikunja/files
       - db:/db

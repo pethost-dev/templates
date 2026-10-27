@@ -22,21 +22,50 @@
 		{
 			"name": "PAPERLESS_SECRET_KEY",
 			"secret": 32
-		},
-		{
-			"name": "POSTGRES_PASSWORD",
-			"secret": 16
 		}
 	],
+	"parts": {
+		"postgres": {
+			"memory_mib": 512
+		},
+		"valkey": {
+			"memory_mib": 256
+		},
+		"email": {
+			"variables": [
+				{
+					"name": "SMTP_HOST",
+					"value": "host"
+				},
+				{
+					"name": "SMTP_PORT",
+					"value": "port"
+				},
+				{
+					"name": "SMTP_USER",
+					"value": "user"
+				},
+				{
+					"name": "SMTP_PASSWORD",
+					"value": "password"
+				},
+				{
+					"name": "SMTP_FROM",
+					"value": "from_header"
+				}
+			]
+		}
+	},
 	"texts": {
 		"en": {
 			"description": "A document archive with OCR and full-text search",
-			"notes": "Sign in as admin with the password you gave. Documents are read as English until you change the OCR language under Configuration.",
-			"sizing": "Paperless-ngx is moderate: about 1 GB at rest, more while it reads a scan; years of paperwork take a few gigabytes.",
-			"summary": "Self-host Paperless-ngx, the open-source document manager that turns scans into a searchable archive with OCR, on your own machine in one click.",
+			"notes": "Sign in as admin with the password you gave. Documents are read as English until you change the OCR language under Configuration. Paperless-ngx keeps the documents' files in the project's volumes, their records in the Postgres database linked to the project, and its task queue in the Valkey one. Email goes through the provider you picked in New project, if any: change it in the SMTP_ lines of the project's .env, then deploy again.",
+			"sizing": "Paperless-ngx is moderate: about 1 GB at rest beside its Postgres of 512 MB and its Valkey of 256 MB, more while it reads a scan; years of paperwork take a few gigabytes.",
+			"summary": "Self-host Paperless-ngx, the open-source document manager that turns scans into a searchable archive with OCR, in one click.",
 			"about": [
 				"Paperless-ngx is an open-source document management system, a self-hosted alternative to Evernote for bills, letters and receipts. Scan a page or drop in a PDF, and Tesseract OCR adds text you can search and select, even to an image-only scan. Each document gets tags, a correspondent and a document type, and a local machine-learning model learns to fill them in from what you have already sorted. Mail rules pull attachments from your email accounts.",
-				"People run it themselves because the archive holds tax records, invoices and insurance papers they would rather not hand to a cloud service. Originals stay as plain files that it never modifies, so leaving later means copying them out. Several people can share one archive: each document has an owner who decides who else may see or edit it. The catch: Paperless-ngx stores everything unencrypted, and its makers say never to run it on a host you do not trust."
+				"People run it themselves because the archive holds tax records, invoices and insurance papers they would rather not hand to a cloud service. Originals stay as plain files that it never modifies, so leaving later means copying them out. Several people can share one archive: each document has an owner who decides who else may see or edit it. The catch: Paperless-ngx stores everything unencrypted, and its makers say never to run it on a host you do not trust.",
+				"This template runs Paperless-ngx's official image, version 3.3, with a Postgres 18 database and a Valkey 9 database that New project makes beside it, linked before Paperless-ngx first starts; for Postgres you may pick one of yours instead. That start makes its tables and the admin account, so no sign-up page is left open. Its email, for password resets and documents sent from it, goes through Resend, SendGrid or Amazon SES, whichever you pick in New project, or nowhere until you pick one."
 			],
 			"faq": [
 				{
@@ -63,12 +92,13 @@
 		},
 		"de": {
 			"description": "Ein Dokumentenarchiv mit OCR und Volltextsuche",
-			"notes": "Melde dich als admin mit dem Passwort an, das du festgelegt hast. Dokumente werden als englischer Text gelesen, bis du unter „Configuration“ die OCR-Sprache änderst.",
-			"sizing": "Paperless-ngx ist mittelschwer: etwa 1 GB im Leerlauf, mehr beim Lesen eines Scans; Papierkram aus Jahren braucht ein paar GB.",
+			"notes": "Melde dich als admin mit dem Passwort an, das du festgelegt hast. Dokumente werden als englischer Text gelesen, bis du unter „Configuration“ die OCR-Sprache änderst. Die Dateien der Dokumente liegen in den Volumes des Projekts, ihre Daten in der Postgres-Datenbank, die mit dem Projekt verbunden ist, und die Aufgabenwarteschlange in der Valkey-Datenbank. E-Mails gehen über den Anbieter aus „Neues Projekt“, sofern du einen gewählt hast: Ändere ihn in den SMTP_-Zeilen der .env des Projekts und deploy dann neu.",
+			"sizing": "Paperless-ngx ist mittelschwer: etwa 1 GB im Leerlauf neben seiner Postgres-Datenbank mit 512 MB und seiner Valkey-Datenbank mit 256 MB, mehr beim Lesen eines Scans; Papierkram aus Jahren braucht ein paar GB.",
 			"summary": "Paperless-ngx selbst hosten: Open-Source-Dokumentenverwaltung, die Scans per OCR zum durchsuchbaren Archiv macht. Mit einem Klick auf deiner Maschine.",
 			"about": [
 				"Paperless-ngx ist ein Open-Source-Dokumentenmanagementsystem, eine selbst gehostete Alternative zu Evernote für Rechnungen, Briefe und Belege. Scanne eine Seite oder zieh ein PDF hinein, und Tesseract OCR fügt Text hinzu, den du durchsuchen und markieren kannst, sogar bei einem Scan, der nur aus einem Bild besteht. Jedes Dokument bekommt Tags, einen Korrespondenten und einen Dokumenttyp, und ein lokales Machine-Learning-Modell lernt aus dem, was du schon einsortiert hast, sie selbst zu vergeben. Mail-Regeln holen Anhänge aus deinen E-Mail-Konten.",
-				"Man hostet Paperless-ngx selbst, weil das Archiv Steuerunterlagen, Rechnungen und Versicherungspapiere enthält, die man lieber keinem Cloud-Dienst anvertraut. Die Originale bleiben als einfache Dateien erhalten, die Paperless-ngx nie verändert; wer später wechseln will, kopiert sie einfach heraus. Mehrere Personen können sich ein Archiv teilen: Jedes Dokument gehört jemandem, und wer es besitzt, entscheidet, wer es sonst sehen oder bearbeiten darf. Der Haken: Paperless-ngx speichert alles unverschlüsselt, und die Entwickler sagen, man solle es nie auf einem Host betreiben, dem man nicht vertraut."
+				"Man hostet Paperless-ngx selbst, weil das Archiv Steuerunterlagen, Rechnungen und Versicherungspapiere enthält, die man lieber keinem Cloud-Dienst anvertraut. Die Originale bleiben als einfache Dateien erhalten, die Paperless-ngx nie verändert; wer später wechseln will, kopiert sie einfach heraus. Mehrere Personen können sich ein Archiv teilen: Jedes Dokument gehört jemandem, und wer es besitzt, entscheidet, wer es sonst sehen oder bearbeiten darf. Der Haken: Paperless-ngx speichert alles unverschlüsselt, und die Entwickler sagen, man solle es nie auf einem Host betreiben, dem man nicht vertraut.",
+				"Diese Vorlage startet das offizielle Image von Paperless-ngx, Version 3.3, mit einer Postgres-18- und einer Valkey-9-Datenbank, die „Neues Projekt“ daneben erstellt, verbunden vor dem ersten Start von Paperless-ngx; statt der neuen Postgres-Datenbank kannst du eine deiner wählen. Dieser Start legt die Tabellen und das Admin-Konto an, sodass keine Registrierungsseite offen bleibt. E-Mails, etwa zum Zurücksetzen von Passwörtern und für Dokumente, die du daraus verschickst, gehen über Resend, SendGrid oder Amazon SES, je nachdem, welchen Anbieter du in „Neues Projekt“ wählst, und gar keine, solange du keinen wählst."
 			],
 			"faq": [
 				{
@@ -95,12 +125,13 @@
 		},
 		"es": {
 			"description": "Un archivo digital de documentos con OCR y búsqueda de texto completo",
-			"notes": "Inicia sesión como admin con la contraseña que indicaste. Los documentos se leen como si estuvieran en inglés hasta que cambies el idioma del OCR en Configuration.",
-			"sizing": "Paperless-ngx es moderado: cerca de 1 GB en reposo, más mientras lee un escaneo; años de papeleo ocupan unos pocos GB.",
+			"notes": "Inicia sesión como admin con la contraseña que indicaste. Los documentos se leen como si estuvieran en inglés hasta que cambies el idioma del OCR en Configuration. Paperless-ngx guarda los archivos de los documentos en los volúmenes del proyecto, sus registros en la base de datos Postgres conectada al proyecto, y su cola de tareas en la base de datos Valkey. El correo sale por el proveedor que elegiste en Nuevo proyecto, si elegiste alguno: cámbialo en las líneas SMTP_ del .env del proyecto y vuelve a desplegar.",
+			"sizing": "Paperless-ngx es moderado: cerca de 1 GB en reposo junto a su Postgres de 512 MB y su Valkey de 256 MB, más mientras lee un escaneo; años de papeleo ocupan unos pocos GB.",
 			"summary": "Autoaloja Paperless-ngx, el gestor de documentos de código abierto que convierte escaneos en un archivo con búsqueda por OCR. En tu máquina, en un clic.",
 			"about": [
 				"Paperless-ngx es un sistema de gestión de documentos de código abierto, una alternativa autoalojada a Evernote para facturas, cartas y recibos. Escanea una página o suelta un PDF, y Tesseract OCR agrega texto que puedes buscar y seleccionar, incluso en un escaneo que es solo una imagen. Cada documento recibe etiquetas, un corresponsal y un tipo de documento, y un modelo local de machine learning aprende a completarlos a partir de lo que ya clasificaste. Las reglas de correo traen los adjuntos de tus cuentas de correo.",
-				"Mucha gente autoaloja Paperless-ngx porque el archivo digital guarda documentos fiscales, facturas y papeles del seguro que prefiere no entregar a un servicio en la nube. Los originales se quedan como archivos normales que nunca modifica, así que irse más adelante es cuestión de copiarlos. Varias personas pueden compartir un mismo archivo digital: cada documento tiene un propietario que decide quién más puede verlo o editarlo. El inconveniente: Paperless-ngx guarda todo sin cifrar, y sus creadores piden no ejecutarlo nunca en un host en el que no confíes."
+				"Mucha gente autoaloja Paperless-ngx porque el archivo digital guarda documentos fiscales, facturas y papeles del seguro que prefiere no entregar a un servicio en la nube. Los originales se quedan como archivos normales que nunca modifica, así que irse más adelante es cuestión de copiarlos. Varias personas pueden compartir un mismo archivo digital: cada documento tiene un propietario que decide quién más puede verlo o editarlo. El inconveniente: Paperless-ngx guarda todo sin cifrar, y sus creadores piden no ejecutarlo nunca en un host en el que no confíes.",
+				"Esta plantilla ejecuta la imagen oficial de Paperless-ngx, versión 3.3, con una base de datos Postgres 18 y una Valkey 9 que Nuevo proyecto crea a su lado, conectadas antes del primer arranque de Paperless-ngx; en lugar de la Postgres nueva puedes elegir una de las tuyas. Ese arranque crea sus tablas y la cuenta admin, así que no queda abierta ninguna página de registro. Su correo, para restablecer contraseñas y enviar documentos desde él, sale por Resend, SendGrid o Amazon SES, el que elijas en Nuevo proyecto, y no envía ninguno hasta que elijas uno."
 			],
 			"faq": [
 				{
@@ -127,12 +158,13 @@
 		},
 		"fr": {
 			"description": "Une archive de documents avec OCR et recherche plein texte",
-			"notes": "Connectez-vous avec le nom d’utilisateur admin et le mot de passe que vous avez choisi. Les documents sont lus comme de l’anglais tant que vous n’avez pas changé la langue de l’OCR dans Configuration.",
-			"sizing": "Paperless-ngx est modéré : environ 1 GB au repos, plus pendant la lecture d’un scan ; des années de papiers prennent quelques GB.",
+			"notes": "Connectez-vous avec le nom d’utilisateur admin et le mot de passe que vous avez choisi. Les documents sont lus comme de l’anglais tant que vous n’avez pas changé la langue de l’OCR dans Configuration. Paperless-ngx garde les fichiers des documents dans les volumes du projet, leurs données dans la base de données Postgres connectée au projet, et sa file de tâches dans la base Valkey. Les e-mails passent par le fournisseur choisi dans Nouveau projet, s’il y en a un : changez-le dans les lignes SMTP_ du .env du projet, puis redéployez.",
+			"sizing": "Paperless-ngx est modéré : environ 1 GB au repos à côté de sa base Postgres de 512 MB et de sa base Valkey de 256 MB, plus pendant la lecture d’un scan ; des années de papiers prennent quelques GB.",
 			"summary": "Auto-hébergez Paperless-ngx, le gestionnaire de documents open source qui transforme vos scans en archive avec recherche. En un clic sur votre machine.",
 			"about": [
 				"Paperless-ngx est un système de gestion de documents open source, une alternative auto-hébergée à Evernote pour les factures, les courriers et les reçus. Scannez une page ou déposez un PDF, et Tesseract OCR ajoute un texte dans lequel vous pouvez chercher et que vous pouvez sélectionner, même sur un scan qui n’est qu’une image. Chaque document reçoit des étiquettes, un correspondant et un type de document, et un modèle local d’apprentissage automatique apprend à les attribuer d’après ce que vous avez déjà classé. Des règles de messagerie récupèrent les pièces jointes de vos comptes e-mail.",
-				"On auto-héberge Paperless-ngx parce que l’archive contient des documents fiscaux, des factures et des papiers d’assurance qu’on préfère ne pas confier à un service cloud. Les originaux restent des fichiers ordinaires que l’application ne modifie jamais ; partir plus tard revient donc à les copier. Plusieurs personnes peuvent partager une même archive : chaque document a un propriétaire qui décide qui d’autre peut le voir ou le modifier. Le revers : Paperless-ngx stocke tout sans chiffrement, et ses développeurs demandent de ne jamais le faire tourner sur un hôte auquel vous ne faites pas confiance."
+				"On auto-héberge Paperless-ngx parce que l’archive contient des documents fiscaux, des factures et des papiers d’assurance qu’on préfère ne pas confier à un service cloud. Les originaux restent des fichiers ordinaires que l’application ne modifie jamais ; partir plus tard revient donc à les copier. Plusieurs personnes peuvent partager une même archive : chaque document a un propriétaire qui décide qui d’autre peut le voir ou le modifier. Le revers : Paperless-ngx stocke tout sans chiffrement, et ses développeurs demandent de ne jamais le faire tourner sur un hôte auquel vous ne faites pas confiance.",
+				"Ce template lance l’image officielle de Paperless-ngx, version 3.3, avec une base de données Postgres 18 et une base Valkey 9 que Nouveau projet crée à côté, connectées avant le premier démarrage de Paperless-ngx ; à la place de la nouvelle base Postgres, vous pouvez choisir l’une des vôtres. Ce démarrage crée ses tables et le compte admin, si bien qu’aucune page d’inscription ne reste ouverte. Ses e-mails, pour réinitialiser un mot de passe et envoyer des documents, passent par Resend, SendGrid ou Amazon SES, celui que vous choisissez dans Nouveau projet, et il n’en envoie aucun tant que vous n’en avez pas choisi."
 			],
 			"faq": [
 				{
@@ -159,12 +191,13 @@
 		},
 		"pl": {
 			"description": "Archiwum dokumentów z OCR i wyszukiwaniem pełnotekstowym",
-			"notes": "Zaloguj się jako admin z hasłem podanym przy tworzeniu projektu. Dokumenty są odczytywane jako angielskie, dopóki nie zmienisz języka OCR w Configuration.",
-			"sizing": "Paperless-ngx ma średnie wymagania: około 1 GB w spoczynku, więcej gdy czyta skan; lata dokumentów zajmują kilka GB.",
+			"notes": "Zaloguj się jako admin z hasłem podanym przy tworzeniu projektu. Dokumenty są odczytywane jako angielskie, dopóki nie zmienisz języka OCR w Configuration. Paperless-ngx trzyma pliki dokumentów w wolumenach projektu, ich dane w bazie danych Postgres podłączonej do projektu, a kolejkę zadań w bazie Valkey. E-maile idą przez dostawcę wybranego w oknie „Nowy projekt”, jeśli go wybrano: zmień go w wierszach SMTP_ pliku .env projektu i wdróż ponownie.",
+			"sizing": "Paperless-ngx ma średnie wymagania: około 1 GB w spoczynku obok bazy Postgres z 512 MB i bazy Valkey z 256 MB, więcej gdy czyta skan; lata dokumentów zajmują kilka GB.",
 			"summary": "Hostuj u siebie Paperless-ngx, menedżer dokumentów open source z OCR, który robi ze skanów przeszukiwalne archiwum. Na twojej maszynie, w jeden klik.",
 			"about": [
 				"Paperless-ngx to system do zarządzania dokumentami typu open source, alternatywa dla Evernote hostowana u siebie, do rachunków, listów i paragonów. Zeskanuj stronę albo wrzuć PDF, a Tesseract OCR doda tekst, który można przeszukiwać i zaznaczać, nawet w skanie będącym samym obrazem. Każdy dokument dostaje tagi, korespondenta i typ dokumentu, a lokalny model uczenia maszynowego uczy się je uzupełniać na podstawie tego, co już posortowano. Reguły poczty pobierają załączniki z twoich kont e-mail.",
-				"Ludzie hostują Paperless-ngx u siebie, bo archiwum zawiera dokumenty podatkowe, faktury i papiery ubezpieczeniowe, których wolą nie powierzać usłudze w chmurze. Oryginały zostają zwykłymi plikami, których Paperless-ngx nigdy nie modyfikuje, więc żeby odejść, wystarczy je skopiować. Kilka osób może dzielić jedno archiwum: każdy dokument ma właściciela, który decyduje, kto jeszcze może go widzieć lub edytować. Haczyk: Paperless-ngx przechowuje wszystko bez szyfrowania, a jego twórcy mówią, żeby nigdy nie uruchamiać go na hoście, któremu nie ufasz."
+				"Ludzie hostują Paperless-ngx u siebie, bo archiwum zawiera dokumenty podatkowe, faktury i papiery ubezpieczeniowe, których wolą nie powierzać usłudze w chmurze. Oryginały zostają zwykłymi plikami, których Paperless-ngx nigdy nie modyfikuje, więc żeby odejść, wystarczy je skopiować. Kilka osób może dzielić jedno archiwum: każdy dokument ma właściciela, który decyduje, kto jeszcze może go widzieć lub edytować. Haczyk: Paperless-ngx przechowuje wszystko bez szyfrowania, a jego twórcy mówią, żeby nigdy nie uruchamiać go na hoście, któremu nie ufasz.",
+				"Ten szablon uruchamia oficjalny obraz Paperless-ngx w wersji 3.3 z bazą danych Postgres 18 i bazą Valkey 9, które Nowy projekt tworzy obok niego, podłączonymi przed pierwszym startem Paperless-ngx; zamiast nowej bazy Postgres możesz wybrać jedną ze swoich. Ten start tworzy tabele i konto admin, więc żadna strona rejestracji nie zostaje otwarta. E-maile, do resetu hasła i wysyłania dokumentów, idą przez Resend, SendGrid albo Amazon SES, zależnie od wyboru w oknie „Nowy projekt”, a dopóki żadnego nie wybierzesz, nie wychodzą wcale."
 			],
 			"faq": [
 				{
@@ -191,12 +224,13 @@
 		},
 		"pt": {
 			"description": "Um acervo de documentos com OCR e busca em texto completo",
-			"notes": "Entre como admin com a senha que você definiu. Os documentos são lidos como se estivessem em inglês até você alterar o idioma do OCR em Configuration.",
-			"sizing": "Paperless-ngx é moderado: cerca de 1 GB em repouso, mais enquanto lê um scan; anos de papelada ocupam alguns GB.",
+			"notes": "Entre como admin com a senha que você definiu. Os documentos são lidos como se estivessem em inglês até você alterar o idioma do OCR em Configuration. O Paperless-ngx guarda os arquivos dos documentos nos volumes do projeto, os registros deles no banco de dados Postgres conectado ao projeto, e a fila de tarefas no banco Valkey. O e-mail sai pelo provedor que você escolheu no Novo projeto, se escolheu algum: troque-o nas linhas SMTP_ do .env do projeto e faça o deploy de novo.",
+			"sizing": "Paperless-ngx é moderado: cerca de 1 GB em repouso ao lado do seu Postgres de 512 MB e do seu Valkey de 256 MB, mais enquanto lê um scan; anos de papelada ocupam alguns GB.",
 			"summary": "Auto-hospede o Paperless-ngx: gerenciador de documentos de código aberto que transforma scans em acervo pesquisável com OCR. Na sua máquina, em um clique.",
 			"about": [
 				"O Paperless-ngx é um sistema de gerenciamento de documentos de código aberto, uma alternativa auto-hospedada ao Evernote para contas, cartas e recibos. Escaneie uma página ou solte um PDF, e o Tesseract OCR adiciona um texto que você pode pesquisar e selecionar, mesmo em um scan que é só imagem. Cada documento recebe tags, um correspondente e um tipo de documento, e um modelo local de aprendizado de máquina aprende a preenchê-los com base no que você já organizou. Regras de e-mail buscam anexos nas suas contas de e-mail.",
-				"Muita gente auto-hospeda o Paperless-ngx porque o acervo guarda documentos fiscais, faturas e papéis do seguro que prefere não entregar a um serviço de nuvem. Os originais continuam como arquivos comuns que ele nunca modifica, então sair depois é só copiá-los. Várias pessoas podem compartilhar um acervo: cada documento tem um dono que decide quem mais pode vê-lo ou editá-lo. O porém: o Paperless-ngx guarda tudo sem criptografia, e os criadores dele dizem para nunca rodá-lo em um host em que você não confia."
+				"Muita gente auto-hospeda o Paperless-ngx porque o acervo guarda documentos fiscais, faturas e papéis do seguro que prefere não entregar a um serviço de nuvem. Os originais continuam como arquivos comuns que ele nunca modifica, então sair depois é só copiá-los. Várias pessoas podem compartilhar um acervo: cada documento tem um dono que decide quem mais pode vê-lo ou editá-lo. O porém: o Paperless-ngx guarda tudo sem criptografia, e os criadores dele dizem para nunca rodá-lo em um host em que você não confia.",
+				"Este template roda a imagem oficial do Paperless-ngx, versão 3.3, com um banco de dados Postgres 18 e um Valkey 9 que o Novo projeto cria ao lado dele, conectados antes do primeiro início do Paperless-ngx; no lugar do Postgres novo, você pode escolher um dos seus. Esse início cria as tabelas e a conta admin, então nenhuma página de cadastro fica aberta. Os e-mails dele, para redefinir senha e enviar documentos, saem pelo Resend, SendGrid ou Amazon SES, o que você escolher no Novo projeto, e nenhum sai até você escolher um."
 			],
 			"faq": [
 				{
@@ -223,12 +257,13 @@
 		},
 		"ru": {
 			"description": "Архив документов с OCR и полнотекстовым поиском",
-			"notes": "Войдите как admin с паролем, который вы задали. Документы распознаются как английские, пока вы не смените язык OCR в разделе Configuration.",
-			"sizing": "Paperless-ngx: умеренные требования — около 1 GB в простое, больше при чтении скана; годы документов занимают несколько GB.",
+			"notes": "Войдите как admin с паролем, который вы задали. Документы распознаются как английские, пока вы не смените язык OCR в разделе Configuration. Файлы документов Paperless-ngx хранит в томах проекта, данные о них — в базе данных Postgres, подключенной к проекту, а очередь задач — в базе Valkey. Почта уходит через сервис, выбранный в окне «Новый проект», если вы его выбрали: поменяйте его в строках SMTP_ в .env проекта и задеплойте проект заново.",
+			"sizing": "Paperless-ngx: умеренные требования — около 1 GB в простое рядом с его базами Postgres на 512 MB и Valkey на 256 MB, больше при чтении скана; годы документов занимают несколько GB.",
 			"summary": "Self-hosted Paperless-ngx — open source менеджер документов, который превращает сканы в архив с поиском через OCR. На вашей машине в один клик.",
 			"about": [
 				"Paperless-ngx — это open source система управления документами, self-hosted альтернатива Evernote для счетов, писем и чеков. Отсканируйте страницу или закиньте PDF, и Tesseract OCR добавит текст, по которому можно искать и который можно выделять, даже в скане, где есть только картинка. У каждого документа есть теги, корреспондент и тип документа, а локальная модель машинного обучения учится заполнять их по тому, что вы уже разобрали. Правила для почты забирают вложения из ваших почтовых аккаунтов.",
-				"Paperless-ngx хостят у себя, потому что в архиве лежат налоговые документы, счета и страховые бумаги, которые люди предпочитают не отдавать облачному сервису. Оригиналы остаются обычными файлами, которые Paperless-ngx никогда не изменяет, так что переехать потом — значит просто скопировать их. Одним архивом могут пользоваться несколько человек: у каждого документа есть владелец, который решает, кто еще может его видеть или редактировать. Но есть нюанс: Paperless-ngx хранит все без шифрования, а его авторы советуют никогда не запускать его на хосте, которому вы не доверяете."
+				"Paperless-ngx хостят у себя, потому что в архиве лежат налоговые документы, счета и страховые бумаги, которые люди предпочитают не отдавать облачному сервису. Оригиналы остаются обычными файлами, которые Paperless-ngx никогда не изменяет, так что переехать потом — значит просто скопировать их. Одним архивом могут пользоваться несколько человек: у каждого документа есть владелец, который решает, кто еще может его видеть или редактировать. Но есть нюанс: Paperless-ngx хранит все без шифрования, а его авторы советуют никогда не запускать его на хосте, которому вы не доверяете.",
+				"Этот шаблон запускает официальный образ Paperless-ngx версии 3.3 с базами данных Postgres 18 и Valkey 9, которые «Новый проект» создает рядом и подключает до первого запуска Paperless-ngx; вместо новой базы Postgres можно выбрать одну из ваших. При этом запуске создаются таблицы и аккаунт admin, так что страница регистрации не остается открытой. Письма для сброса пароля и документы, отправленные из Paperless-ngx, уходят через Resend, SendGrid или Amazon SES — какой сервис вы выберете в окне «Новый проект», а пока сервис не выбран, не уходят вовсе."
 			],
 			"faq": [
 				{
@@ -255,12 +290,13 @@
 		},
 		"uk": {
 			"description": "Архів документів з OCR і повнотекстовим пошуком",
-			"notes": "Увійдіть як admin із паролем, який ви вказали. Документи розпізнаються як англомовні, доки ви не зміните мову OCR у розділі Configuration.",
-			"sizing": "Paperless-ngx має помірні вимоги: близько 1 GB без навантаження, більше — коли читає скан; роки документів займають кілька GB.",
+			"notes": "Увійдіть як admin із паролем, який ви вказали. Документи розпізнаються як англомовні, доки ви не зміните мову OCR у розділі Configuration. Файли документів Paperless-ngx зберігає в томах проєкту, дані про них — у базі даних Postgres, підключеній до проєкту, а чергу завдань — у базі Valkey. Пошта йде через сервіс, обраний у вікні «Новий проєкт», якщо ви його обрали: змініть його в рядках SMTP_ у .env проєкту й задеплойте ще раз.",
+			"sizing": "Paperless-ngx має помірні вимоги: близько 1 GB без навантаження поруч із його базами Postgres на 512 MB і Valkey на 256 MB, більше — коли читає скан; роки документів займають кілька GB.",
 			"summary": "Self-hosted Paperless-ngx — менеджер документів із відкритим кодом, що перетворює скани на архів із пошуком через OCR. На вашій машині в один клік.",
 			"about": [
 				"Paperless-ngx — це система керування документами з відкритим кодом, self-hosted альтернатива Evernote для рахунків, листів і чеків. Відскануйте сторінку або киньте PDF, і Tesseract OCR додасть текст, у якому можна шукати й який можна виділяти, навіть у скані, що є лише зображенням. Кожен документ отримує теги, кореспондента й тип документа, а локальна модель машинного навчання вчиться заповнювати їх за тим, що ви вже розсортували. Правила для пошти забирають вкладення з ваших поштових акаунтів.",
-				"Paperless-ngx хостять у себе, бо в архіві лежать податкові документи, рахунки й страхові папери, які люди воліють не віддавати хмарному сервісу. Оригінали лишаються звичайними файлами, яких Paperless-ngx ніколи не змінює, тож переїхати пізніше — це просто скопіювати їх. Одним архівом можуть користуватися кілька людей: у кожного документа є власник, який вирішує, хто ще може його бачити чи редагувати. Але є нюанс: Paperless-ngx зберігає все без шифрування, а його автори радять ніколи не запускати його на хості, якому ви не довіряєте."
+				"Paperless-ngx хостять у себе, бо в архіві лежать податкові документи, рахунки й страхові папери, які люди воліють не віддавати хмарному сервісу. Оригінали лишаються звичайними файлами, яких Paperless-ngx ніколи не змінює, тож переїхати пізніше — це просто скопіювати їх. Одним архівом можуть користуватися кілька людей: у кожного документа є власник, який вирішує, хто ще може його бачити чи редагувати. Але є нюанс: Paperless-ngx зберігає все без шифрування, а його автори радять ніколи не запускати його на хості, якому ви не довіряєте.",
+				"Цей шаблон запускає офіційний образ Paperless-ngx версії 3.3 з базами даних Postgres 18 і Valkey 9, які «Новий проєкт» створює поруч і підключає до першого запуску Paperless-ngx; замість нової бази Postgres можна обрати одну з ваших. Під час цього запуску створюються таблиці й акаунт admin, тож сторінка реєстрації не лишається відкритою. Листи для скидання пароля й документи, надіслані з Paperless-ngx, ідуть через Resend, SendGrid або Amazon SES — який сервіс ви оберете у вікні «Новий проєкт», а поки сервіс не обрано, не йдуть зовсім."
 			],
 			"faq": [
 				{

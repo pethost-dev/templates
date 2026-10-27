@@ -1,45 +1,17 @@
 services:
-  broker:
-    image: valkey/valkey:9-alpine
-    restart: unless-stopped
-    volumes:
-      - redisdata:/data
-    healthcheck:
-      test: ["CMD-SHELL", "valkey-cli ping | grep -q PONG"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
-
-  db:
-    image: postgres:18
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: paperless
-      POSTGRES_USER: paperless
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - pgdata:/var/lib/postgresql
-    healthcheck:
-      # Over TCP: the server of the first start's initialisation listens on
-      # the socket alone, and is not the one the app will reach.
-      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U paperless -d paperless"]
-      interval: 5s
-      timeout: 3s
-      retries: 20
-
   webserver:
     image: ghcr.io/paperless-ngx/paperless-ngx:3.3
     restart: unless-stopped
-    depends_on:
-      db:
-        condition: service_healthy
-      broker:
-        condition: service_healthy
     environment:
-      PAPERLESS_REDIS: redis://broker:6379
+      # Its task queue and cache, in the Valkey database linked to the project, and its
+      # documents' records in the Postgres one: it waits for both at its start, then migrates.
+      PAPERLESS_REDIS: ${REDIS_URL:?reload New project to link a Valkey database, or send link_databases with env_prefix REDIS}
       PAPERLESS_DBENGINE: postgresql
-      PAPERLESS_DBHOST: db
-      PAPERLESS_DBPASS: ${POSTGRES_PASSWORD}
+      PAPERLESS_DBHOST: ${DATABASE_HOST:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      PAPERLESS_DBPORT: ${DATABASE_PORT:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      PAPERLESS_DBNAME: ${DATABASE_NAME:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      PAPERLESS_DBUSER: ${DATABASE_USER:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      PAPERLESS_DBPASS: ${DATABASE_PASSWORD:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
       PAPERLESS_URL: ${PAPERLESS_URL}
       PAPERLESS_SECRET_KEY: ${PAPERLESS_SECRET_KEY}
       # The first start makes this superuser, so no sign-up page is left open.
@@ -47,6 +19,14 @@ services:
       PAPERLESS_ADMIN_PASSWORD: ${ADMIN_PASSWORD}
       # TLS ends at the machine's proxy, which says so in X-Forwarded-Proto.
       PAPERLESS_PROXY_SSL_HEADER: '["HTTP_X_FORWARDED_PROTO", "https"]'
+      # The mail provider picked in New project, by STARTTLS on its port. With none, the host
+      # is localhost, which Paperless-ngx takes for no mail, and the port stays a number.
+      PAPERLESS_EMAIL_HOST: ${SMTP_HOST:-localhost}
+      PAPERLESS_EMAIL_PORT: ${SMTP_PORT:-25}
+      PAPERLESS_EMAIL_HOST_USER: ${SMTP_USER}
+      PAPERLESS_EMAIL_HOST_PASSWORD: ${SMTP_PASSWORD}
+      PAPERLESS_EMAIL_FROM: ${SMTP_FROM}
+      PAPERLESS_EMAIL_USE_TLS: "true"
     volumes:
       - data:/usr/src/paperless/data
       - media:/usr/src/paperless/media
@@ -61,8 +41,6 @@ services:
       start_period: 180s
 
 volumes:
-  redisdata:
-  pgdata:
   data:
   media:
   export:

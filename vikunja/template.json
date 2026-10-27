@@ -22,15 +22,46 @@
 			"secret": 32
 		}
 	],
+	"parts": {
+		"email": {
+			"variables": [
+				{
+					"name": "SMTP_HOST",
+					"value": "host"
+				},
+				{
+					"name": "SMTP_PORT",
+					"value": "port"
+				},
+				{
+					"name": "SMTP_USER",
+					"value": "user"
+				},
+				{
+					"name": "SMTP_PASSWORD",
+					"value": "password"
+				},
+				{
+					"name": "SMTP_FROM",
+					"value": "from"
+				},
+				{
+					"name": "SMTP_ENABLED",
+					"value": "enabled"
+				}
+			]
+		}
+	},
 	"texts": {
 		"en": {
 			"description": "To-do lists and projects, with kanban and Gantt views",
-			"notes": "Open the address and register your account. Then add ENABLE_REGISTRATION=false to the project’s .env and deploy again, so that nobody else can sign up.",
+			"notes": "Open the address and register your account; with email set up, confirm it from the email Vikunja sends. Then add ENABLE_REGISTRATION=false to the project’s .env and deploy again, so that nobody else can sign up. Email goes through the provider you picked in New project, if any: change it in the SMTP_ lines of the project’s .env, then deploy again.",
 			"sizing": "Vikunja is very light: under 100 MB of memory, and years of tasks with their attachments take little disk.",
-			"summary": "Vikunja is an open-source to-do app with list, Kanban and Gantt views. Self-host it on your own machine in one click, in place of Todoist.",
+			"summary": "Vikunja is an open-source to-do app with list, Kanban and Gantt views. Self-host it in one click, in place of Todoist.",
 			"about": [
-				"Vikunja is an open-source to-do app and task manager, a free alternative to Todoist that you run on your own server. A project shows as a list, a Kanban board, a Gantt chart or a table. Tasks carry due dates, reminders, priorities and labels, and can repeat at an interval. Quick Add Magic turns a date or a keyword typed into a task's title into its due date, label or assignee. A project can be shared with other users, a team, or by a link that needs no account.",
-				"People self-host Vikunja to keep their tasks in their own hands, with no caps on projects or tasks and no price per user. It suits one person, a household or a small team. CalDAV lets the calendar and task apps you already use sync with it. The catch: without an SMTP server, Vikunja sends no email, so password resets and reminder emails do not work."
+				"Vikunja is an open-source to-do app and task manager, a free alternative to Todoist that you host yourself. A project shows as a list, a Kanban board, a Gantt chart or a table. Tasks carry due dates, reminders, priorities and labels, and can repeat at an interval. Quick Add Magic turns a date or a keyword typed into a task's title into its due date, label or assignee. A project can be shared with other users, a team, or by a link that needs no account.",
+				"People self-host Vikunja to keep their tasks in their own hands, with no caps on projects or tasks and no price per user. It suits one person, a household or a small team. CalDAV lets the calendar and task apps you already use sync with it. Password resets, reminders and the confirmation of new accounts go out by email, which needs a mail provider: without one, Vikunja sends none.",
+				"This template runs Vikunja's official image, version 2, with its tasks in SQLite and their attachments in volumes. Its email goes through Resend, SendGrid or Amazon SES, whichever you pick in New project, or nowhere until you pick one."
 			],
 			"faq": [
 				{
@@ -57,12 +88,13 @@
 		},
 		"de": {
 			"description": "To-do-Listen und Projekte, mit Kanban- und Gantt-Ansicht",
-			"notes": "Öffne die Adresse und registrier dein Konto. Trag dann ENABLE_REGISTRATION=false in die .env des Projekts ein und deploy neu, damit sich sonst niemand registrieren kann.",
+			"notes": "Öffne die Adresse und registrier dein Konto; ist E-Mail eingerichtet, bestätige es über die E-Mail, die Vikunja schickt. Trag dann ENABLE_REGISTRATION=false in die .env des Projekts ein und deploy neu, damit sich sonst niemand registrieren kann. E-Mails gehen über den Anbieter aus „Neues Projekt“, sofern du einen gewählt hast: Ändere ihn in den SMTP_-Zeilen der .env des Projekts und deploy dann neu.",
 			"sizing": "Vikunja ist sehr leicht: unter 100 MB RAM, und Aufgaben aus Jahren samt Anhängen brauchen wenig Disk.",
-			"summary": "Vikunja in einem Klick selbst hosten: Open-Source-To-do-App mit Listen-, Kanban- und Gantt-Ansicht, auf deiner eigenen Maschine, als Ersatz für Todoist.",
+			"summary": "Vikunja in einem Klick selbst hosten: Open-Source-To-do-App mit Listen-, Kanban- und Gantt-Ansicht, als Ersatz für Todoist.",
 			"about": [
-				"Vikunja ist eine Open-Source-To-do-App und Aufgabenverwaltung, eine kostenlose Alternative zu Todoist, die du auf deinem eigenen Server betreibst. Ein Projekt zeigt sich als Liste, Kanban-Board, Gantt-Diagramm oder Tabelle. Aufgaben haben Fälligkeitsdaten, Erinnerungen, Prioritäten und Labels und lassen sich in festen Abständen wiederholen. Quick Add Magic macht aus einem Datum oder Stichwort im Titel einer Aufgabe ihr Fälligkeitsdatum, ihr Label oder die zugewiesene Person. Ein Projekt lässt sich mit anderen Personen, mit einem Team oder über einen Link teilen, für den kein Konto nötig ist.",
-				"Du hostest Vikunja selbst, damit deine Aufgaben in deiner eigenen Hand bleiben, ohne Obergrenzen für Projekte oder Aufgaben und ohne Preis pro Person. Es passt zu einer einzelnen Person, einem Haushalt oder einem kleinen Team. Über CalDAV synchronisieren sich die Kalender- und Aufgaben-Apps, die du schon nutzt, mit Vikunja. Der Haken: Ohne SMTP-Server verschickt Vikunja keine E-Mails, deshalb funktionieren das Zurücksetzen von Passwörtern und Erinnerungs-E-Mails nicht."
+				"Vikunja ist eine Open-Source-To-do-App und Aufgabenverwaltung, eine kostenlose Alternative zu Todoist, die du selbst hostest. Ein Projekt zeigt sich als Liste, Kanban-Board, Gantt-Diagramm oder Tabelle. Aufgaben haben Fälligkeitsdaten, Erinnerungen, Prioritäten und Labels und lassen sich in festen Abständen wiederholen. Quick Add Magic macht aus einem Datum oder Stichwort im Titel einer Aufgabe ihr Fälligkeitsdatum, ihr Label oder die zugewiesene Person. Ein Projekt lässt sich mit anderen Personen, mit einem Team oder über einen Link teilen, für den kein Konto nötig ist.",
+				"Du hostest Vikunja selbst, damit deine Aufgaben in deiner eigenen Hand bleiben, ohne Obergrenzen für Projekte oder Aufgaben und ohne Preis pro Person. Es passt zu einer einzelnen Person, einem Haushalt oder einem kleinen Team. Über CalDAV synchronisieren sich die Kalender- und Aufgaben-Apps, die du schon nutzt, mit Vikunja. Das Zurücksetzen von Passwörtern, Erinnerungen und die Bestätigung neuer Konten laufen per E-Mail, und dafür braucht es einen Mail-Anbieter: Ohne einen verschickt Vikunja keine E-Mails.",
+				"Diese Vorlage startet das offizielle Image von Vikunja, Version 2, mit den Aufgaben in SQLite und ihren Anhängen in Volumes. E-Mails verschickt Vikunja über Resend, SendGrid oder Amazon SES, je nachdem, welchen Anbieter du in „Neues Projekt“ wählst, und gar keine, solange du keinen wählst."
 			],
 			"faq": [
 				{
@@ -89,12 +121,13 @@
 		},
 		"es": {
 			"description": "Listas de tareas y proyectos, con vistas kanban y Gantt",
-			"notes": "Abre la dirección y registra tu cuenta. Luego agrega ENABLE_REGISTRATION=false al .env del proyecto y vuelve a desplegar, para que nadie más pueda registrarse.",
+			"notes": "Abre la dirección y registra tu cuenta; si configuraste el correo, confírmala desde el correo que envía Vikunja. Luego agrega ENABLE_REGISTRATION=false al .env del proyecto y vuelve a desplegar, para que nadie más pueda registrarse. El correo sale por el proveedor que elegiste en Nuevo proyecto, si elegiste alguno: cámbialo en las líneas SMTP_ del .env del proyecto y vuelve a desplegar.",
 			"sizing": "Vikunja es muy ligero: menos de 100 MB de memoria, y años de tareas con sus adjuntos ocupan poco disco.",
-			"summary": "Autoaloja Vikunja en tu propia máquina en un clic: la app de tareas de código abierto con vistas de lista, Kanban y Gantt, en lugar de Todoist.",
+			"summary": "Autoaloja Vikunja en un clic: la app de tareas de código abierto con vistas de lista, Kanban y Gantt, en lugar de Todoist.",
 			"about": [
-				"Vikunja es una app de tareas de código abierto para administrar pendientes, una alternativa gratuita a Todoist que ejecutas en tu propio servidor. Un proyecto se muestra como lista, tablero Kanban, diagrama de Gantt o tabla. Las tareas llevan fecha de vencimiento, recordatorios, prioridades y etiquetas, y pueden repetirse a intervalos. Quick Add Magic convierte una fecha o una palabra clave escrita en el título de una tarea en su fecha de vencimiento, su etiqueta o la persona asignada. Un proyecto se puede compartir con otros usuarios, con un equipo o mediante un enlace que no requiere cuenta.",
-				"Autoalojas Vikunja para tener tus tareas en tus propias manos, sin límites de proyectos ni de tareas y sin precio por usuario. Sirve para una persona, un hogar o un equipo pequeño. CalDAV permite que los calendarios y las apps de tareas que ya usas se sincronicen con él. El inconveniente: sin un servidor SMTP, Vikunja no envía correos, así que no funcionan el restablecimiento de contraseña ni los correos de recordatorio."
+				"Vikunja es una app de tareas de código abierto para administrar pendientes, una alternativa gratuita a Todoist que alojas por tu cuenta. Un proyecto se muestra como lista, tablero Kanban, diagrama de Gantt o tabla. Las tareas llevan fecha de vencimiento, recordatorios, prioridades y etiquetas, y pueden repetirse a intervalos. Quick Add Magic convierte una fecha o una palabra clave escrita en el título de una tarea en su fecha de vencimiento, su etiqueta o la persona asignada. Un proyecto se puede compartir con otros usuarios, con un equipo o mediante un enlace que no requiere cuenta.",
+				"Autoalojas Vikunja para tener tus tareas en tus propias manos, sin límites de proyectos ni de tareas y sin precio por usuario. Sirve para una persona, un hogar o un equipo pequeño. CalDAV permite que los calendarios y las apps de tareas que ya usas se sincronicen con él. El restablecimiento de contraseña, los recordatorios y la confirmación de cuentas nuevas van por correo, que necesita un proveedor de correo: sin él, Vikunja no envía ninguno.",
+				"Esta plantilla ejecuta la imagen oficial de Vikunja, versión 2, con sus tareas en SQLite y sus adjuntos en volúmenes. Su correo sale por Resend, SendGrid o Amazon SES, el que elijas en Nuevo proyecto, y no envía ninguno hasta que elijas uno."
 			],
 			"faq": [
 				{
@@ -121,12 +154,13 @@
 		},
 		"fr": {
 			"description": "Listes de tâches et projets, avec vues kanban et Gantt",
-			"notes": "Ouvrez l’adresse et créez votre compte. Ajoutez ensuite ENABLE_REGISTRATION=false au .env du projet et redéployez, pour que personne d’autre ne puisse s’inscrire.",
+			"notes": "Ouvrez l’adresse et créez votre compte ; si l’e-mail est configuré, confirmez-le depuis l’e-mail que Vikunja envoie. Ajoutez ensuite ENABLE_REGISTRATION=false au .env du projet et redéployez, pour que personne d’autre ne puisse s’inscrire. Les e-mails passent par le fournisseur choisi dans Nouveau projet, s’il y en a un : changez-le dans les lignes SMTP_ du .env du projet, puis redéployez.",
 			"sizing": "Vikunja est très léger : moins de 100 MB de mémoire, et des années de tâches avec leurs pièces jointes pèsent peu sur le disque.",
-			"summary": "Auto-hébergez Vikunja en un clic : l’application de tâches open source avec vues liste, Kanban et Gantt, sur votre propre machine, à la place de Todoist.",
+			"summary": "Auto-hébergez Vikunja en un clic : l’application de tâches open source avec vues liste, Kanban et Gantt, à la place de Todoist.",
 			"about": [
-				"Vikunja est une application de tâches et un gestionnaire de tâches open source, une alternative gratuite à Todoist que vous faites tourner sur votre propre serveur. Un projet s’affiche sous forme de liste, de tableau Kanban, de diagramme de Gantt ou de table. Les tâches ont des échéances, des rappels, des priorités et des étiquettes, et peuvent se répéter à intervalle régulier. Quick Add Magic transforme une date ou un mot-clé saisi dans le titre d’une tâche en son échéance, son étiquette ou la personne assignée. Un projet peut être partagé avec d’autres utilisateurs, avec une équipe ou par un lien qui n’exige aucun compte.",
-				"Vous auto-hébergez Vikunja pour garder vos tâches entre vos mains, sans plafond de projets ni de tâches et sans prix par utilisateur. Il convient à une personne, à un foyer ou à une petite équipe. CalDAV permet aux applications de calendrier et de tâches que vous utilisez déjà de se synchroniser avec lui. Le revers : sans serveur SMTP, Vikunja n’envoie aucun e-mail, si bien que la réinitialisation de mot de passe et les e-mails de rappel ne fonctionnent pas."
+				"Vikunja est une application de tâches et un gestionnaire de tâches open source, une alternative gratuite à Todoist que vous hébergez vous-même. Un projet s’affiche sous forme de liste, de tableau Kanban, de diagramme de Gantt ou de table. Les tâches ont des échéances, des rappels, des priorités et des étiquettes, et peuvent se répéter à intervalle régulier. Quick Add Magic transforme une date ou un mot-clé saisi dans le titre d’une tâche en son échéance, son étiquette ou la personne assignée. Un projet peut être partagé avec d’autres utilisateurs, avec une équipe ou par un lien qui n’exige aucun compte.",
+				"Vous auto-hébergez Vikunja pour garder vos tâches entre vos mains, sans plafond de projets ni de tâches et sans prix par utilisateur. Il convient à une personne, à un foyer ou à une petite équipe. CalDAV permet aux applications de calendrier et de tâches que vous utilisez déjà de se synchroniser avec lui. La réinitialisation de mot de passe, les rappels et la confirmation des nouveaux comptes passent par e-mail, ce qui demande un fournisseur d’e-mail : sans lui, Vikunja n’en envoie aucun.",
+				"Ce template lance l’image officielle de Vikunja, version 2, avec ses tâches dans SQLite et leurs pièces jointes dans des volumes. Ses e-mails passent par Resend, SendGrid ou Amazon SES, celui que vous choisissez dans Nouveau projet, et il n’en envoie aucun tant que vous n’en avez pas choisi."
 			],
 			"faq": [
 				{
@@ -153,12 +187,13 @@
 		},
 		"pl": {
 			"description": "Listy zadań i projekty, z widokiem kanban i Gantta",
-			"notes": "Otwórz adres projektu i zarejestruj swoje konto. Potem dodaj ENABLE_REGISTRATION=false do pliku .env projektu i wdróż ponownie, żeby nikt inny nie mógł założyć konta.",
+			"notes": "Otwórz adres projektu i zarejestruj swoje konto; jeśli e-mail jest skonfigurowany, potwierdź je linkiem z e-maila od Vikunji. Potem dodaj ENABLE_REGISTRATION=false do pliku .env projektu i wdróż ponownie, żeby nikt inny nie mógł założyć konta. E-maile idą przez dostawcę wybranego w oknie „Nowy projekt”, jeśli go wybrano: zmień go w wierszach SMTP_ pliku .env projektu i wdróż ponownie.",
 			"sizing": "Vikunja ma bardzo małe wymagania: poniżej 100 MB pamięci, a lata zadań z załącznikami zajmują mało miejsca na dysku.",
-			"summary": "Vikunja to aplikacja do zadań open source z widokami listy, Kanban i Gantta. Hostuj ją u siebie, na własnej maszynie, w jeden klik, zamiast Todoista.",
+			"summary": "Vikunja to aplikacja do zadań open source z widokami listy, Kanban i Gantta. Hostuj ją u siebie w jeden klik, zamiast Todoista.",
 			"about": [
-				"Vikunja to aplikacja open source do list zadań i zarządzania nimi, darmowa alternatywa dla Todoista, którą uruchamiasz na własnym serwerze. Projekt wyświetla się jako lista, tablica Kanban, wykres Gantta albo tabela. Zadania mają terminy, przypomnienia, priorytety i etykiety oraz mogą się powtarzać w stałych odstępach. Quick Add Magic zamienia datę albo słowo kluczowe wpisane w tytule zadania w jego termin, etykietę lub przypisaną osobę. Projekt można udostępnić innym użytkownikom, zespołowi albo przez link, który nie wymaga konta.",
-				"Vikunję hostujesz u siebie, żeby zadania zostały w twoich rękach, bez limitów projektów i zadań oraz bez ceny za użytkownika. Nadaje się dla jednej osoby, domowników albo małego zespołu. Dzięki CalDAV aplikacje kalendarza i zadań, z których już korzystasz, mogą się synchronizować z Vikunją. Haczyk: bez serwera SMTP Vikunja nie wysyła e-maili, więc nie działają resety haseł ani e-maile z przypomnieniami."
+				"Vikunja to aplikacja open source do list zadań i zarządzania nimi, darmowa alternatywa dla Todoista, którą hostujesz u siebie. Projekt wyświetla się jako lista, tablica Kanban, wykres Gantta albo tabela. Zadania mają terminy, przypomnienia, priorytety i etykiety oraz mogą się powtarzać w stałych odstępach. Quick Add Magic zamienia datę albo słowo kluczowe wpisane w tytule zadania w jego termin, etykietę lub przypisaną osobę. Projekt można udostępnić innym użytkownikom, zespołowi albo przez link, który nie wymaga konta.",
+				"Vikunję hostujesz u siebie, żeby zadania zostały w twoich rękach, bez limitów projektów i zadań oraz bez ceny za użytkownika. Nadaje się dla jednej osoby, domowników albo małego zespołu. Dzięki CalDAV aplikacje kalendarza i zadań, z których już korzystasz, mogą się synchronizować z Vikunją. Resety haseł, przypomnienia i potwierdzanie nowych kont idą e-mailem, który wymaga dostawcy poczty: bez niego Vikunja nie wysyła żadnych e-maili.",
+				"Ten szablon uruchamia oficjalny obraz Vikunji w wersji 2, z zadaniami w SQLite i ich załącznikami w wolumenach. E-maile wysyła przez Resend, SendGrid albo Amazon SES, zależnie od wyboru w oknie „Nowy projekt”, a dopóki żadnego nie wybierzesz, nie wysyła ich wcale."
 			],
 			"faq": [
 				{
@@ -185,12 +220,13 @@
 		},
 		"pt": {
 			"description": "Listas de tarefas e projetos, com visões kanban e Gantt",
-			"notes": "Abra o endereço e cadastre sua conta. Depois adicione ENABLE_REGISTRATION=false ao .env do projeto e faça o deploy de novo, para que mais ninguém possa se cadastrar.",
+			"notes": "Abra o endereço e cadastre sua conta; com o e-mail configurado, confirme-a pelo e-mail que o Vikunja envia. Depois adicione ENABLE_REGISTRATION=false ao .env do projeto e faça o deploy de novo, para que mais ninguém possa se cadastrar. O e-mail sai pelo provedor que você escolheu no Novo projeto, se escolheu algum: troque-o nas linhas SMTP_ do .env do projeto e faça o deploy de novo.",
 			"sizing": "Vikunja é muito leve: menos de 100 MB de memória, e anos de tarefas com seus anexos ocupam pouco disco.",
-			"summary": "Auto-hospede o Vikunja em um clique: app de tarefas de código aberto com visões de lista, Kanban e Gantt, na sua própria máquina, no lugar do Todoist.",
+			"summary": "Auto-hospede o Vikunja em um clique: app de tarefas de código aberto com visões de lista, Kanban e Gantt, no lugar do Todoist.",
 			"about": [
-				"O Vikunja é um app de tarefas e gerenciador de tarefas de código aberto, uma alternativa gratuita ao Todoist que você roda no seu próprio servidor. Um projeto aparece como lista, quadro Kanban, gráfico de Gantt ou tabela. As tarefas têm datas de vencimento, lembretes, prioridades e etiquetas, e podem se repetir em um intervalo. O Quick Add Magic transforma uma data ou uma palavra-chave digitada no título de uma tarefa em data de vencimento, etiqueta ou responsável. Um projeto pode ser compartilhado com outros usuários, com uma equipe ou por um link que não exige conta.",
-				"Quem auto-hospeda o Vikunja quer manter as tarefas nas próprias mãos, sem limite de projetos ou de tarefas e sem preço por usuário. Ele serve para uma pessoa, uma família ou uma equipe pequena. O CalDAV permite que os apps de calendário e de tarefas que você já usa se sincronizem com ele. O porém: sem um servidor SMTP, o Vikunja não envia e-mails, então a redefinição de senha e os e-mails de lembrete não funcionam."
+				"O Vikunja é um app de tarefas e gerenciador de tarefas de código aberto, uma alternativa gratuita ao Todoist que você hospeda por conta própria. Um projeto aparece como lista, quadro Kanban, gráfico de Gantt ou tabela. As tarefas têm datas de vencimento, lembretes, prioridades e etiquetas, e podem se repetir em um intervalo. O Quick Add Magic transforma uma data ou uma palavra-chave digitada no título de uma tarefa em data de vencimento, etiqueta ou responsável. Um projeto pode ser compartilhado com outros usuários, com uma equipe ou por um link que não exige conta.",
+				"Quem auto-hospeda o Vikunja quer manter as tarefas nas próprias mãos, sem limite de projetos ou de tarefas e sem preço por usuário. Ele serve para uma pessoa, uma família ou uma equipe pequena. O CalDAV permite que os apps de calendário e de tarefas que você já usa se sincronizem com ele. A redefinição de senha, os lembretes e a confirmação de contas novas vão por e-mail, que precisa de um provedor de e-mail: sem ele, o Vikunja não envia nenhum.",
+				"Este template roda a imagem oficial do Vikunja, versão 2, com as tarefas em SQLite e os anexos delas em volumes. Os e-mails dele saem pelo Resend, SendGrid ou Amazon SES, o que você escolher no Novo projeto, e nenhum sai até você escolher um."
 			],
 			"faq": [
 				{
@@ -217,12 +253,13 @@
 		},
 		"ru": {
 			"description": "Списки задач и проекты, с канбаном и диаграммой Ганта",
-			"notes": "Откройте адрес и зарегистрируйте свой аккаунт. Затем добавьте ENABLE_REGISTRATION=false в .env проекта и задеплойте проект заново, чтобы больше никто не мог зарегистрироваться.",
+			"notes": "Откройте адрес и зарегистрируйте свой аккаунт; если почта настроена, подтвердите его по письму от Vikunja. Затем добавьте ENABLE_REGISTRATION=false в .env проекта и задеплойте проект заново, чтобы больше никто не мог зарегистрироваться. Почта уходит через сервис, выбранный в окне «Новый проект», если вы его выбрали: поменяйте его в строках SMTP_ в .env проекта и задеплойте проект заново.",
 			"sizing": "Vikunja: совсем небольшие требования — менее 100 MB памяти, а годы задач с вложениями занимают мало диска.",
 			"summary": "Self-hosted Vikunja — open source менеджер задач со списком, канбаном и диаграммой Ганта. Запускается на вашей машине в один клик, вместо Todoist.",
 			"about": [
-				"Vikunja — это open source приложение для списков дел и менеджер задач, бесплатная альтернатива Todoist, которую вы запускаете на своем сервере. Проект показывается как список, канбан-доска, диаграмма Ганта или таблица. У задач есть сроки, напоминания, приоритеты и метки, а еще они могут повторяться через заданный интервал. Quick Add Magic превращает дату или ключевое слово, набранные в названии задачи, в ее срок, метку или исполнителя. Проектом можно делиться с другими пользователями, с командой или по ссылке, для которой не нужен аккаунт.",
-				"Vikunja хостят у себя, чтобы держать задачи в своих руках: без лимитов на проекты и задачи и без цены за пользователя. Он подходит одному человеку, семье или небольшой команде. CalDAV позволяет календарям и приложениям для задач, которыми вы уже пользуетесь, синхронизироваться с ним. Но есть нюанс: без SMTP-сервера Vikunja не отправляет письма, поэтому сброс пароля и письма с напоминаниями не работают."
+				"Vikunja — это open source приложение для списков дел и менеджер задач, бесплатная альтернатива Todoist, которую вы хостите у себя. Проект показывается как список, канбан-доска, диаграмма Ганта или таблица. У задач есть сроки, напоминания, приоритеты и метки, а еще они могут повторяться через заданный интервал. Quick Add Magic превращает дату или ключевое слово, набранные в названии задачи, в ее срок, метку или исполнителя. Проектом можно делиться с другими пользователями, с командой или по ссылке, для которой не нужен аккаунт.",
+				"Vikunja хостят у себя, чтобы держать задачи в своих руках: без лимитов на проекты и задачи и без цены за пользователя. Он подходит одному человеку, семье или небольшой команде. CalDAV позволяет календарям и приложениям для задач, которыми вы уже пользуетесь, синхронизироваться с ним. Сброс пароля, напоминания и подтверждение новых аккаунтов идут по почте, а для нее нужен почтовый сервис: без него Vikunja писем не отправляет.",
+				"Этот шаблон запускает официальный образ Vikunja версии 2: задачи лежат в SQLite, а вложения к ним — в томах. Почту Vikunja отправляет через Resend, SendGrid или Amazon SES — какой сервис вы выберете в окне «Новый проект», а пока сервис не выбран, не отправляет вовсе."
 			],
 			"faq": [
 				{
@@ -249,12 +286,13 @@
 		},
 		"uk": {
 			"description": "Списки завдань і проєкти, з канбаном і діаграмою Ганта",
-			"notes": "Відкрийте адресу й зареєструйте свій акаунт. Потім додайте ENABLE_REGISTRATION=false у файл .env проєкту й задеплойте ще раз, щоб більше ніхто не міг зареєструватися.",
+			"notes": "Відкрийте адресу й зареєструйте свій акаунт; якщо пошту налаштовано, підтвердьте його за листом від Vikunja. Потім додайте ENABLE_REGISTRATION=false у файл .env проєкту й задеплойте ще раз, щоб більше ніхто не міг зареєструватися. Пошта йде через сервіс, обраний у вікні «Новий проєкт», якщо ви його обрали: змініть його в рядках SMTP_ у .env проєкту й задеплойте ще раз.",
 			"sizing": "Vikunja має дуже скромні вимоги: менше 100 MB пам’яті, а роки завдань із вкладеннями займають мало місця на диску.",
 			"summary": "Self-hosted Vikunja — менеджер завдань із відкритим кодом: список, канбан і діаграма Ганта. Запускається на вашій машині в один клік, замість Todoist.",
 			"about": [
-				"Vikunja — це застосунок для списків справ і менеджер завдань із відкритим кодом, безплатна альтернатива Todoist, яку ви запускаєте на власному сервері. Проєкт показується як список, канбан-дошка, діаграма Ганта або таблиця. У завдань є терміни, нагадування, пріоритети й мітки, а ще вони можуть повторюватися через заданий інтервал. Quick Add Magic перетворює дату або ключове слово, набране в назві завдання, на його термін, мітку чи виконавця. Проєктом можна ділитися з іншими користувачами, з командою або за посиланням, для якого не потрібен акаунт.",
-				"Vikunja хостять у себе, щоб тримати завдання у власних руках: без лімітів на проєкти й завдання та без ціни за користувача. Він підходить одній людині, родині чи невеликій команді. CalDAV дає змогу календарям і застосункам для завдань, якими ви вже користуєтеся, синхронізуватися з ним. Але є нюанс: без SMTP-сервера Vikunja не надсилає листи, тому скидання пароля й листи з нагадуваннями не працюють."
+				"Vikunja — це застосунок для списків справ і менеджер завдань із відкритим кодом, безплатна альтернатива Todoist, яку ви хостите в себе. Проєкт показується як список, канбан-дошка, діаграма Ганта або таблиця. У завдань є терміни, нагадування, пріоритети й мітки, а ще вони можуть повторюватися через заданий інтервал. Quick Add Magic перетворює дату або ключове слово, набране в назві завдання, на його термін, мітку чи виконавця. Проєктом можна ділитися з іншими користувачами, з командою або за посиланням, для якого не потрібен акаунт.",
+				"Vikunja хостять у себе, щоб тримати завдання у власних руках: без лімітів на проєкти й завдання та без ціни за користувача. Він підходить одній людині, родині чи невеликій команді. CalDAV дає змогу календарям і застосункам для завдань, якими ви вже користуєтеся, синхронізуватися з ним. Скидання пароля, нагадування й підтвердження нових акаунтів ідуть поштою, а для неї потрібен поштовий сервіс: без нього Vikunja листів не надсилає.",
+				"Цей шаблон запускає офіційний образ Vikunja версії 2: завдання лежать у SQLite, а вкладення до них — у томах. Пошту Vikunja надсилає через Resend, SendGrid або Amazon SES — який сервіс ви оберете у вікні «Новий проєкт», а поки сервіс не обрано, не надсилає зовсім."
 			],
 			"faq": [
 				{

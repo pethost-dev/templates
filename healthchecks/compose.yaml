@@ -4,10 +4,11 @@ services:
     restart: unless-stopped
     environment:
       DB: postgres
-      DB_HOST: postgres
-      DB_NAME: hc
-      DB_USER: hc
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_HOST: ${DATABASE_HOST:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      DB_PORT: ${DATABASE_PORT:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      DB_NAME: ${DATABASE_NAME:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      DB_USER: ${DATABASE_USER:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      DB_PASSWORD: ${DATABASE_PASSWORD:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
       SECRET_KEY: ${SECRET_KEY}
       SITE_ROOT: ${URL}
       PING_ENDPOINT: ${URL}/ping/
@@ -17,37 +18,26 @@ services:
       REGISTRATION_OPEN: "False"
       ADMIN_EMAIL: ${ADMIN_EMAIL}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
-    # The account is made before the server answers, the first time only.
+      # The mail provider picked in New project, by STARTTLS on its port. With none, the host is
+      # empty and Healthchecks sends no mail; the port then stays a number, which it requires.
+      EMAIL_HOST: ${SMTP_HOST}
+      EMAIL_PORT: ${SMTP_PORT:-587}
+      EMAIL_USE_TLS: "True"
+      EMAIL_USE_SSL: "False"
+      EMAIL_HOST_USER: ${SMTP_USER}
+      EMAIL_HOST_PASSWORD: ${SMTP_PASSWORD}
+      DEFAULT_FROM_EMAIL: ${SMTP_FROM:-healthchecks@example.org}
+    # The tables and the account are made before the server answers, the account the first time
+    # only; a database that does not answer yet fails the start, and the container starts again.
     command:
       - sh
       - -c
       - |
-        ./manage.py migrate || exit 1
+        set -e
+        ./manage.py migrate
         ./manage.py shell -c '
         import os, sys
         from django.contrib.auth.models import User
         sys.exit(0 if User.objects.filter(email=os.environ["ADMIN_EMAIL"].lower()).exists() else 1)
-        ' || ./manage.py createsuperuser --email "$$ADMIN_EMAIL" --password "$$ADMIN_PASSWORD" || exit 1
+        ' || ./manage.py createsuperuser --email "$$ADMIN_EMAIL" --password "$$ADMIN_PASSWORD"
         exec uwsgi /opt/healthchecks/docker/uwsgi.ini
-    depends_on:
-      postgres:
-        condition: service_healthy
-
-  postgres:
-    image: postgres:17-alpine
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: hc
-      POSTGRES_USER: hc
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - db:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U hc -d hc"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-      start_period: 30s
-
-volumes:
-  db:

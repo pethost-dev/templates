@@ -22,15 +22,45 @@
 			"secret": 32
 		}
 	],
+	"parts": {
+		"valkey": {
+			"memory_mib": 256
+		},
+		"email": {
+			"variables": [
+				{
+					"name": "SMTP_HOST",
+					"value": "host"
+				},
+				{
+					"name": "SMTP_PORT",
+					"value": "port"
+				},
+				{
+					"name": "SMTP_USER",
+					"value": "user"
+				},
+				{
+					"name": "SMTP_PASSWORD",
+					"value": "password"
+				},
+				{
+					"name": "SMTP_FROM",
+					"value": "from_header"
+				}
+			]
+		}
+	},
 	"texts": {
 		"en": {
 			"description": "A status page with uptime monitors and incidents",
-			"notes": "Open the address, choose Login and create the admin account. Do it right away: until then the page is open to whoever has the address. Then put https://{host} in Site URL under Site Configurations: the links in emails and in the RSS feed are made from it.",
-			"sizing": "Kener is light: about 350 MB of memory with Redis, and its monitor history stays small.",
+			"notes": "Open the address, choose Login and create the admin account. Do it right away: until then the page is open to whoever has the address. Then put https://{host} in Site URL under Site Configurations: the links in emails and in the RSS feed are made from it. Kener keeps its monitors and incidents in the project's volume, and its queues in the Valkey database linked to the project. Email goes through the provider you picked in New project, if any: change it in the SMTP_ lines of the project's .env, then deploy again.",
+			"sizing": "Kener is light: about 350 MB of memory beside its Valkey of 256 MB, and its monitor history stays small.",
 			"summary": "Kener is an open-source status page that checks your services and posts incidents. Self-host it in one click instead of Atlassian Statuspage.",
 			"about": [
 				"Kener is an open-source status page system, an alternative to Atlassian Statuspage that also watches the services it reports on. It checks your sites, APIs and servers on cron schedules you set, and alerts you by email, webhook, Slack or Discord. When something breaks, you post an incident and add timeline updates as you work, or have an alert open it. Maintenance windows can repeat, and badges and embeds put a monitor's status on other sites.",
-				"People self-host Kener to own the page and its subscriber list, with no plan that caps monitors or subscribers. One instance serves several pages, each with its own monitors and logo. Teammates sign in as admin, editor or member. The catch is email: invites and subscriber notifications need an SMTP server or a Resend key."
+				"People self-host Kener to own the page and its subscriber list, with no plan that caps monitors or subscribers. One instance serves several pages, each with its own monitors and logo. Teammates sign in as admin, editor or member. Invites and subscriber notifications go out by email, which needs a mail provider.",
+				"This template runs Kener's official image, release 4.1.7, with its monitors, history and settings in SQLite on a volume, and its queues and scheduler in a Valkey 9 database that New project makes beside it, linked before Kener first starts. Its email goes through Resend, SendGrid or Amazon SES, whichever you pick in New project, or nowhere until you pick one."
 			],
 			"faq": [
 				{
@@ -51,18 +81,19 @@
 				},
 				{
 					"q": "How do I set up email for Kener on Pethost?",
-					"a": "Add SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM_EMAIL and SMTP_SECURE, or RESEND_API_KEY and RESEND_SENDER_EMAIL, to the kener service's environment in compose.yaml. The template sets no mail server, so until then invites and subscriber emails are off."
+					"a": "Pick Resend, SendGrid or Amazon SES in New project, with the provider's key and a sender address on a domain you verified there. Later, change the SMTP_ lines of the project's .env and deploy again. Until Kener has a provider, invites and subscriber emails are off."
 				}
 			]
 		},
 		"de": {
 			"description": "Eine Statusseite mit Uptime-Monitoren und Störungsmeldungen",
-			"notes": "Öffne die Adresse, wähl „Login“ und erstell das Admin-Konto. Mach das gleich: Bis dahin steht die Seite allen offen, die die Adresse haben. Trag dann unter „Site Configurations“ https://{host} als „Site URL“ ein: Daraus entstehen die Links in E-Mails und im RSS-Feed.",
-			"sizing": "Kener ist leicht: etwa 350 MB RAM mit Redis, und der Verlauf seiner Monitore bleibt klein.",
+			"notes": "Öffne die Adresse, wähl „Login“ und erstell das Admin-Konto. Mach das gleich: Bis dahin steht die Seite allen offen, die die Adresse haben. Trag dann unter „Site Configurations“ https://{host} als „Site URL“ ein: Daraus entstehen die Links in E-Mails und im RSS-Feed. Monitore und Vorfälle speichert Kener im Volume des Projekts, seine Warteschlangen in der Valkey-Datenbank, die mit dem Projekt verbunden ist. E-Mails gehen über den Anbieter aus „Neues Projekt“, sofern du einen gewählt hast: Ändere ihn in den SMTP_-Zeilen der .env des Projekts und deploy dann neu.",
+			"sizing": "Kener ist leicht: etwa 350 MB RAM neben seiner Valkey-Datenbank mit 256 MB, und der Verlauf seiner Monitore bleibt klein.",
 			"summary": "Kener selbst hosten: Open-Source-Statusseite, die deine Services prüft und Vorfälle meldet. In einem Klick statt Atlassian Statuspage.",
 			"about": [
 				"Kener ist ein Open-Source-System für Statusseiten, eine Alternative zu Atlassian Statuspage, die auch selbst überwacht, worüber sie berichtet. Es prüft deine Websites, APIs und Server nach Cron-Zeitplänen, die du festlegst, und alarmiert dich per E-Mail, Webhook, Slack oder Discord. Wenn etwas ausfällt, meldest du einen Vorfall und ergänzt Updates im Verlauf, während du daran arbeitest, oder lässt ihn von einem Alert öffnen. Wartungsfenster lassen sich wiederholen, und Badges und Embeds zeigen den Status eines Monitors auf anderen Seiten.",
-				"Wer Kener selbst hostet, will die Seite und ihre Abonnentenliste besitzen, ohne Tarif, der Monitore oder Abonnenten begrenzt. Eine Instanz bedient mehrere Seiten, jede mit eigenen Monitoren und eigenem Logo. Teammitglieder melden sich als Admin, Editor oder Member an. Der Haken ist die E-Mail: Einladungen und Benachrichtigungen an Abonnenten brauchen einen SMTP-Server oder einen Resend-Key."
+				"Wer Kener selbst hostet, will die Seite und ihre Abonnentenliste besitzen, ohne Tarif, der Monitore oder Abonnenten begrenzt. Eine Instanz bedient mehrere Seiten, jede mit eigenen Monitoren und eigenem Logo. Teammitglieder melden sich als Admin, Editor oder Member an. Einladungen und Benachrichtigungen an Abonnenten gehen per E-Mail raus, dafür braucht es einen Mail-Anbieter.",
+				"Diese Vorlage startet das offizielle Image von Kener, Release 4.1.7, mit Monitoren, Verlauf und Einstellungen in SQLite auf einem Volume und den Warteschlangen und dem Scheduler in einer Valkey-9-Datenbank, die „Neues Projekt“ daneben erstellt, verbunden vor dem ersten Start von Kener. E-Mails verschickt Kener über Resend, SendGrid oder Amazon SES, je nachdem, welchen Anbieter du in „Neues Projekt“ wählst, und gar keine, solange du keinen wählst."
 			],
 			"faq": [
 				{
@@ -83,18 +114,19 @@
 				},
 				{
 					"q": "Wie richte ich E-Mail für Kener auf Pethost ein?",
-					"a": "Füg SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM_EMAIL und SMTP_SECURE oder RESEND_API_KEY und RESEND_SENDER_EMAIL in der compose.yaml zur Umgebung des Service kener hinzu. Die Vorlage legt keinen Mailserver fest, bis dahin bleiben Einladungen und E-Mails an Abonnenten aus."
+					"a": "Wähl in „Neues Projekt“ Resend, SendGrid oder Amazon SES, mit dem Key des Anbieters und einer Absenderadresse auf einer Domain, die du dort verifiziert hast. Später änderst du die SMTP_-Zeilen in der .env des Projekts und deployst neu. Solange Kener keinen Anbieter hat, bleiben Einladungen und E-Mails an Abonnenten aus."
 				}
 			]
 		},
 		"es": {
 			"description": "Una página de estado con monitores de disponibilidad e incidentes",
-			"notes": "Abre la dirección, elige Login y crea la cuenta de administrador. Hazlo enseguida: hasta entonces la página está abierta para cualquiera que tenga la dirección. Luego pon https://{host} en Site URL, en Site Configurations: con ella se forman los enlaces de los correos y del feed RSS.",
-			"sizing": "Kener es ligero: unos 350 MB de memoria con Redis, y el historial de sus monitores se mantiene pequeño.",
+			"notes": "Abre la dirección, elige Login y crea la cuenta de administrador. Hazlo enseguida: hasta entonces la página está abierta para cualquiera que tenga la dirección. Luego pon https://{host} en Site URL, en Site Configurations: con ella se forman los enlaces de los correos y del feed RSS. Kener guarda sus monitores e incidentes en el volumen del proyecto, y sus colas en la base de datos Valkey conectada al proyecto. El correo sale por el proveedor que elegiste en Nuevo proyecto, si elegiste alguno: cámbialo en las líneas SMTP_ del .env del proyecto y vuelve a desplegar.",
+			"sizing": "Kener es ligero: unos 350 MB de memoria junto a su Valkey de 256 MB, y el historial de sus monitores se mantiene pequeño.",
 			"summary": "Kener es una página de estado de código abierto que comprueba tus servicios y publica incidentes. Autoalójala en un clic, en lugar de Atlassian Statuspage.",
 			"about": [
 				"Kener es un sistema de páginas de estado de código abierto, una alternativa a Atlassian Statuspage que además vigila los servicios sobre los que informa. Comprueba tus sitios, APIs y servidores con las programaciones cron que defines y te avisa por correo, webhook, Slack o Discord. Cuando algo falla, publicas un incidente y agregas actualizaciones en la línea de tiempo mientras trabajas, o dejas que una alerta lo abra. Las ventanas de mantenimiento pueden repetirse, y los badges y embeds muestran el estado de un monitor en otros sitios.",
-				"Quienes autoalojan Kener lo hacen para ser dueños de la página y de su lista de suscriptores, sin ningún plan que limite monitores ni suscriptores. Una instancia sirve varias páginas, cada una con sus propios monitores y su logo. Los miembros del equipo inician sesión como admin, editor o member. El inconveniente es el correo: las invitaciones y las notificaciones a suscriptores necesitan un servidor SMTP o una clave de Resend."
+				"Quienes autoalojan Kener lo hacen para ser dueños de la página y de su lista de suscriptores, sin ningún plan que limite monitores ni suscriptores. Una instancia sirve varias páginas, cada una con sus propios monitores y su logo. Los miembros del equipo inician sesión como admin, editor o member. Las invitaciones y las notificaciones a suscriptores salen por correo, que necesita un proveedor de correo.",
+				"Esta plantilla ejecuta la imagen oficial de Kener, versión 4.1.7, con sus monitores, su historial y sus ajustes en SQLite sobre un volumen, y sus colas y su programador en una base de datos Valkey 9 que Nuevo proyecto crea a su lado, conectada antes del primer arranque de Kener. Su correo sale por Resend, SendGrid o Amazon SES, el que elijas en Nuevo proyecto, y no envía ninguno hasta que elijas uno."
 			],
 			"faq": [
 				{
@@ -115,18 +147,19 @@
 				},
 				{
 					"q": "¿Cómo configuro el correo de Kener en Pethost?",
-					"a": "Agrega SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM_EMAIL y SMTP_SECURE, o RESEND_API_KEY y RESEND_SENDER_EMAIL, al entorno del servicio kener en compose.yaml. La plantilla no define ningún servidor de correo, así que hasta entonces las invitaciones y los correos a suscriptores están desactivados."
+					"a": "Elige Resend, SendGrid o Amazon SES en Nuevo proyecto, con la clave del proveedor y una dirección de remitente en un dominio que verificaste allí. Más adelante, cambia las líneas SMTP_ del .env del proyecto y vuelve a desplegar. Mientras Kener no tenga proveedor, las invitaciones y los correos a suscriptores están desactivados."
 				}
 			]
 		},
 		"fr": {
 			"description": "Une page de statut avec sondes de disponibilité et incidents",
-			"notes": "Ouvrez l’adresse, choisissez Login et créez le compte administrateur. Faites-le tout de suite : d’ici là, la page est ouverte à quiconque connaît l’adresse. Mettez ensuite https://{host} dans Site URL, sous Site Configurations : les liens des e-mails et du flux RSS en sont tirés.",
-			"sizing": "Kener est léger : environ 350 MB de mémoire avec Redis, et l’historique de ses moniteurs reste petit.",
+			"notes": "Ouvrez l’adresse, choisissez Login et créez le compte administrateur. Faites-le tout de suite : d’ici là, la page est ouverte à quiconque connaît l’adresse. Mettez ensuite https://{host} dans Site URL, sous Site Configurations : les liens des e-mails et du flux RSS en sont tirés. Kener garde ses sondes et ses incidents dans le volume du projet, et ses files d’attente dans la base de données Valkey connectée au projet. Les e-mails passent par le fournisseur choisi dans Nouveau projet, s’il y en a un : changez-le dans les lignes SMTP_ du .env du projet, puis redéployez.",
+			"sizing": "Kener est léger : environ 350 MB de mémoire à côté de sa base Valkey de 256 MB, et l’historique de ses moniteurs reste petit.",
 			"summary": "Kener est une page de statut open source qui surveille vos services et publie les incidents. Auto-hébergez-la en un clic au lieu d’Atlassian Statuspage.",
 			"about": [
 				"Kener est un système de pages de statut open source, une alternative à Atlassian Statuspage qui surveille aussi les services dont il rend compte. Il vérifie vos sites, vos API et vos serveurs selon des horaires cron que vous définissez, et vous alerte par e-mail, webhook, Slack ou Discord. Quand quelque chose tombe en panne, vous publiez un incident et ajoutez des mises à jour à la chronologie au fil du travail, ou vous laissez une alerte l’ouvrir. Les fenêtres de maintenance peuvent se répéter, et des badges et des embeds affichent l’état d’une sonde sur d’autres sites.",
-				"On auto-héberge Kener pour que la page et sa liste d’abonnés vous appartiennent, sans offre qui plafonne les sondes ou les abonnés. Une instance sert plusieurs pages, chacune avec ses propres sondes et son logo. Les membres de l’équipe se connectent en tant qu’admin, editor ou member. Le revers, c’est l’e-mail : les invitations et les notifications aux abonnés demandent un serveur SMTP ou une clé Resend."
+				"On auto-héberge Kener pour que la page et sa liste d’abonnés vous appartiennent, sans offre qui plafonne les sondes ou les abonnés. Une instance sert plusieurs pages, chacune avec ses propres sondes et son logo. Les membres de l’équipe se connectent en tant qu’admin, editor ou member. Les invitations et les notifications aux abonnés partent par e-mail, ce qui demande un fournisseur d’e-mail.",
+				"Ce template lance l’image officielle de Kener, version 4.1.7, avec ses sondes, leur historique et ses réglages dans SQLite sur un volume, et ses files d’attente et son planificateur dans une base de données Valkey 9 que Nouveau projet crée à côté, connectée avant le premier démarrage de Kener. Ses e-mails passent par Resend, SendGrid ou Amazon SES, celui que vous choisissez dans Nouveau projet, et il n’en envoie aucun tant que vous n’en avez pas choisi."
 			],
 			"faq": [
 				{
@@ -147,18 +180,19 @@
 				},
 				{
 					"q": "Comment configurer l’e-mail de Kener sur Pethost ?",
-					"a": "Ajoutez SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM_EMAIL et SMTP_SECURE, ou RESEND_API_KEY et RESEND_SENDER_EMAIL, à l’environnement du service kener dans compose.yaml. Le template ne définit aucun serveur de mail : tant que ce n’est pas fait, les invitations et les e-mails aux abonnés sont désactivés."
+					"a": "Choisissez Resend, SendGrid ou Amazon SES dans Nouveau projet, avec la clé du fournisseur et une adresse d’expéditeur sur un domaine que vous y avez vérifié. Plus tard, modifiez les lignes SMTP_ du .env du projet, puis redéployez. Tant que Kener n’a pas de fournisseur, les invitations et les e-mails aux abonnés sont désactivés."
 				}
 			]
 		},
 		"pl": {
 			"description": "Strona statusu z monitorami dostępności i incydentami",
-			"notes": "Otwórz adres projektu, wybierz Login i załóż konto administratora. Zrób to od razu: do tego czasu strona jest otwarta dla każdego, kto zna adres. Potem w Site Configurations wpisz https://{host} w polu Site URL: z niego powstają linki w e-mailach i w kanale RSS.",
-			"sizing": "Kener ma małe wymagania: około 350 MB pamięci z Redisem, a historia monitorów zostaje niewielka.",
+			"notes": "Otwórz adres projektu, wybierz Login i załóż konto administratora. Zrób to od razu: do tego czasu strona jest otwarta dla każdego, kto zna adres. Potem w Site Configurations wpisz https://{host} w polu Site URL: z niego powstają linki w e-mailach i w kanale RSS. Kener trzyma monitory i incydenty w wolumenie projektu, a kolejki w bazie danych Valkey podłączonej do projektu. E-maile idą przez dostawcę wybranego w oknie „Nowy projekt”, jeśli go wybrano: zmień go w wierszach SMTP_ pliku .env projektu i wdróż ponownie.",
+			"sizing": "Kener ma małe wymagania: około 350 MB pamięci obok bazy Valkey z 256 MB, a historia monitorów zostaje niewielka.",
 			"summary": "Kener to strona statusu open source, która sprawdza twoje usługi i publikuje incydenty. Hostuj ją u siebie jednym kliknięciem zamiast Atlassian Statuspage.",
 			"about": [
 				"Kener to system stron statusu open source, alternatywa dla Atlassian Statuspage, który sam też pilnuje usług, o których informuje. Sprawdza twoje strony, API i serwery według harmonogramów cron, które ustawiasz, i powiadamia cię przez e-mail, webhook, Slack lub Discord. Gdy coś przestaje działać, publikujesz incydent i dopisujesz aktualizacje na osi czasu, w miarę jak nad tym pracujesz, albo pozwalasz, żeby otworzył go alert. Okna serwisowe mogą się powtarzać, a badge’e i embedy pokazują status monitora na innych stronach.",
-				"Kener hostują u siebie ci, którzy chcą mieć na własność stronę i listę subskrybentów, bez planu ograniczającego liczbę monitorów czy subskrybentów. Jedna instancja obsługuje kilka stron, każdą z własnymi monitorami i logo. Członkowie zespołu logują się jako admin, editor lub member. Haczyk to e-mail: zaproszenia i powiadomienia dla subskrybentów wymagają serwera SMTP albo klucza Resend."
+				"Kener hostują u siebie ci, którzy chcą mieć na własność stronę i listę subskrybentów, bez planu ograniczającego liczbę monitorów czy subskrybentów. Jedna instancja obsługuje kilka stron, każdą z własnymi monitorami i logo. Członkowie zespołu logują się jako admin, editor lub member. Zaproszenia i powiadomienia dla subskrybentów wychodzą e-mailem, który wymaga dostawcy poczty.",
+				"Ten szablon uruchamia oficjalny obraz Kenera w wersji 4.1.7, z monitorami, historią i ustawieniami w SQLite na wolumenie, a kolejkami i harmonogramem w bazie danych Valkey 9, którą Nowy projekt tworzy obok niego, podłączonej przed pierwszym startem Kenera. E-maile wysyła przez Resend, SendGrid albo Amazon SES, zależnie od wyboru w oknie „Nowy projekt”, a dopóki żadnego nie wybierzesz, nie wysyła ich wcale."
 			],
 			"faq": [
 				{
@@ -179,18 +213,19 @@
 				},
 				{
 					"q": "Jak skonfigurować e-mail dla Kenera na Pethost?",
-					"a": "Dodaj SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM_EMAIL i SMTP_SECURE albo RESEND_API_KEY i RESEND_SENDER_EMAIL do środowiska usługi kener w compose.yaml. Szablon nie ustawia serwera pocztowego, więc do tego czasu zaproszenia i e-maile dla subskrybentów są wyłączone."
+					"a": "Wybierz Resend, SendGrid albo Amazon SES w oknie „Nowy projekt”, z kluczem dostawcy i adresem nadawcy w domenie zweryfikowanej w tej usłudze. Później zmień wiersze SMTP_ w pliku .env projektu i wdróż ponownie. Dopóki Kener nie ma dostawcy, zaproszenia i e-maile dla subskrybentów są wyłączone."
 				}
 			]
 		},
 		"pt": {
 			"description": "Uma página de status com monitores de disponibilidade e incidentes",
-			"notes": "Abra o endereço, escolha Login e crie a conta de administrador. Faça isso logo: até lá, a página fica aberta para quem tiver o endereço. Depois coloque https://{host} em Site URL, em Site Configurations: os links dos e-mails e do feed RSS são montados a partir dele.",
-			"sizing": "Kener é leve: cerca de 350 MB de memória com o Redis, e o histórico dos monitores continua pequeno.",
+			"notes": "Abra o endereço, escolha Login e crie a conta de administrador. Faça isso logo: até lá, a página fica aberta para quem tiver o endereço. Depois coloque https://{host} em Site URL, em Site Configurations: os links dos e-mails e do feed RSS são montados a partir dele. O Kener guarda os monitores e incidentes no volume do projeto, e as filas no banco de dados Valkey conectado ao projeto. O e-mail sai pelo provedor que você escolheu no Novo projeto, se escolheu algum: troque-o nas linhas SMTP_ do .env do projeto e faça o deploy de novo.",
+			"sizing": "Kener é leve: cerca de 350 MB de memória ao lado do seu Valkey de 256 MB, e o histórico dos monitores continua pequeno.",
 			"summary": "Kener é uma página de status open source que checa seus serviços e publica incidentes. Auto-hospede em um clique, em vez do Atlassian Statuspage.",
 			"about": [
 				"O Kener é um sistema de páginas de status open source, uma alternativa ao Atlassian Statuspage que também monitora os serviços sobre os quais informa. Ele verifica seus sites, APIs e servidores em agendas cron que você define e alerta você por e-mail, webhook, Slack ou Discord. Quando algo quebra, você publica um incidente e vai adicionando atualizações na linha do tempo enquanto trabalha, ou deixa um alerta abri-lo. As janelas de manutenção podem se repetir, e badges e embeds mostram o status de um monitor em outros sites.",
-				"Quem hospeda o Kener por conta própria quer ser dono da página e da lista de assinantes, sem um plano que limite monitores ou assinantes. Uma instância atende várias páginas, cada uma com seus próprios monitores e seu logo. Os colegas de equipe entram como admin, editor ou member. O porém é o e-mail: convites e notificações para assinantes exigem um servidor SMTP ou uma chave do Resend."
+				"Quem hospeda o Kener por conta própria quer ser dono da página e da lista de assinantes, sem um plano que limite monitores ou assinantes. Uma instância atende várias páginas, cada uma com seus próprios monitores e seu logo. Os colegas de equipe entram como admin, editor ou member. Convites e notificações para assinantes saem por e-mail, que precisa de um provedor de e-mail.",
+				"Este template roda a imagem oficial do Kener, versão 4.1.7, com os monitores, o histórico e as configurações em SQLite num volume, e as filas e o agendador em um banco de dados Valkey 9 que o Novo projeto cria ao lado dele, conectado antes do primeiro início do Kener. Os e-mails dele saem pelo Resend, SendGrid ou Amazon SES, o que você escolher no Novo projeto, e nenhum sai até você escolher um."
 			],
 			"faq": [
 				{
@@ -211,18 +246,19 @@
 				},
 				{
 					"q": "Como configuro o e-mail do Kener no Pethost?",
-					"a": "Adicione SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM_EMAIL e SMTP_SECURE, ou RESEND_API_KEY e RESEND_SENDER_EMAIL, ao ambiente do serviço kener no compose.yaml. O template não define nenhum servidor de e-mail, então até lá convites e e-mails para assinantes ficam desativados."
+					"a": "Escolha Resend, SendGrid ou Amazon SES no Novo projeto, com a chave do provedor e um endereço de remetente em um domínio que você verificou lá. Depois, troque as linhas SMTP_ do .env do projeto e faça o deploy de novo. Enquanto o Kener não tiver provedor, convites e e-mails para assinantes ficam desativados."
 				}
 			]
 		},
 		"ru": {
 			"description": "Страница статуса с мониторами доступности и инцидентами",
-			"notes": "Откройте адрес, выберите Login и создайте аккаунт администратора. Сделайте это сразу: до тех пор страница открыта любому, кто знает адрес. Затем в Site Configurations укажите https://{host} в поле Site URL: из него собираются ссылки в письмах и в RSS-ленте.",
-			"sizing": "Kener: небольшие требования — около 350 MB памяти вместе с Redis, а история мониторов остается небольшой.",
+			"notes": "Откройте адрес, выберите Login и создайте аккаунт администратора. Сделайте это сразу: до тех пор страница открыта любому, кто знает адрес. Затем в Site Configurations укажите https://{host} в поле Site URL: из него собираются ссылки в письмах и в RSS-ленте. Мониторы и инциденты Kener хранит в томе проекта, а очереди — в базе данных Valkey, подключенной к проекту. Почта уходит через сервис, выбранный в окне «Новый проект», если вы его выбрали: поменяйте его в строках SMTP_ в .env проекта и задеплойте проект заново.",
+			"sizing": "Kener: небольшие требования — около 350 MB памяти рядом с его базой Valkey на 256 MB, а история мониторов остается небольшой.",
 			"summary": "Kener — open source страница статуса: проверяет ваши сервисы и публикует инциденты. Self-hosted в один клик вместо Atlassian Statuspage.",
 			"about": [
 				"Kener — это open source система страниц статуса, альтернатива Atlassian Statuspage, которая еще и сама следит за сервисами, о которых сообщает. Она проверяет ваши сайты, API и серверы по расписанию cron, которое вы задаете, и оповещает вас по почте, через вебхук, Slack или Discord. Когда что-то ломается, вы публикуете инцидент и дополняете хронологию обновлениями по ходу работы или поручаете открыть его оповещению. Окна обслуживания могут повторяться, а бейджи и встраиваемые виджеты показывают статус монитора на других сайтах.",
-				"Kener ставят на своем сервере, чтобы страница и список подписчиков принадлежали вам, без тарифа, который ограничивает число мониторов или подписчиков. Один экземпляр обслуживает несколько страниц, у каждой свои мониторы и свой логотип. Коллеги по команде входят как admin, editor или member. Есть нюанс с почтой: приглашениям и уведомлениям подписчикам нужен SMTP-сервер или ключ Resend."
+				"Kener хостят у себя, чтобы страница и список подписчиков принадлежали вам, без тарифа, который ограничивает число мониторов или подписчиков. Один экземпляр обслуживает несколько страниц, у каждой свои мониторы и свой логотип. Коллеги по команде входят как admin, editor или member. Приглашения и уведомления подписчикам уходят по почте, а для нее нужен почтовый сервис.",
+				"Этот шаблон запускает официальный образ Kener версии 4.1.7: мониторы, их история и настройки лежат в SQLite на томе, а очереди и планировщик — в базе данных Valkey 9, которую «Новый проект» создает рядом и подключает до первого запуска Kener. Почту Kener отправляет через Resend, SendGrid или Amazon SES — какой сервис вы выберете в окне «Новый проект», а пока сервис не выбран, не отправляет вовсе."
 			],
 			"faq": [
 				{
@@ -243,18 +279,19 @@
 				},
 				{
 					"q": "Как настроить почту для Kener на Pethost?",
-					"a": "Добавьте SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM_EMAIL и SMTP_SECURE или RESEND_API_KEY и RESEND_SENDER_EMAIL в окружение сервиса kener в compose.yaml. Шаблон не задает почтовый сервер, поэтому до тех пор приглашения и письма подписчикам отключены."
+					"a": "Выберите Resend, SendGrid или Amazon SES в окне «Новый проект», с ключом сервиса и адресом отправителя на домене, который вы там подтвердили. Позже поменяйте строки SMTP_ в .env проекта и задеплойте проект заново. Пока у Kener нет почтового сервиса, приглашения и письма подписчикам отключены."
 				}
 			]
 		},
 		"uk": {
 			"description": "Сторінка статусу з моніторами доступності та інцидентами",
-			"notes": "Відкрийте адресу, оберіть Login і створіть акаунт адміністратора. Зробіть це одразу: доти сторінка відкрита кожному, хто знає адресу. Потім у Site Configurations вкажіть https://{host} у полі Site URL: з нього складаються посилання в листах і в RSS-стрічці.",
-			"sizing": "Kener має скромні вимоги: близько 350 MB пам’яті з Redis, а історія моніторів лишається невеликою.",
+			"notes": "Відкрийте адресу, оберіть Login і створіть акаунт адміністратора. Зробіть це одразу: доти сторінка відкрита кожному, хто знає адресу. Потім у Site Configurations вкажіть https://{host} у полі Site URL: з нього складаються посилання в листах і в RSS-стрічці. Монітори й інциденти Kener зберігає в томі проєкту, а черги — у базі даних Valkey, підключеній до проєкту. Пошта йде через сервіс, обраний у вікні «Новий проєкт», якщо ви його обрали: змініть його в рядках SMTP_ у .env проєкту й задеплойте ще раз.",
+			"sizing": "Kener має скромні вимоги: близько 350 MB пам’яті поруч із його базою Valkey на 256 MB, а історія моніторів лишається невеликою.",
 			"summary": "Kener — open source сторінка статусу: перевіряє ваші сервіси й публікує інциденти. Self-hosted в один клік замість Atlassian Statuspage.",
 			"about": [
 				"Kener — це open source система сторінок статусу, альтернатива Atlassian Statuspage, яка ще й сама стежить за сервісами, про які повідомляє. Вона перевіряє ваші сайти, API й сервери за розкладом cron, який ви задаєте, і сповіщає вас поштою, через вебхук, Slack або Discord. Коли щось ламається, ви публікуєте інцидент і доповнюєте хронологію оновленнями по ходу роботи або дозволяєте сповіщенню відкрити його. Вікна обслуговування можуть повторюватися, а бейджі й вбудовувані віджети показують статус монітора на інших сайтах.",
-				"Kener хостять на власному сервері, щоб сторінка та список підписників належали вам, без тарифу, який обмежує кількість моніторів чи підписників. Один екземпляр обслуговує кілька сторінок, у кожної свої монітори й логотип. Колеги по команді входять як admin, editor або member. Є нюанс із поштою: запрошенням і сповіщенням підписникам потрібен SMTP-сервер або ключ Resend."
+				"Kener хостять у себе, щоб сторінка та список підписників належали вам, без тарифу, який обмежує кількість моніторів чи підписників. Один екземпляр обслуговує кілька сторінок, у кожної свої монітори й логотип. Колеги по команді входять як admin, editor або member. Запрошення й сповіщення підписникам ідуть поштою, а для неї потрібен поштовий сервіс.",
+				"Цей шаблон запускає офіційний образ Kener версії 4.1.7: монітори, їхня історія й налаштування лежать у SQLite на томі, а черги й планувальник — у базі даних Valkey 9, яку «Новий проєкт» створює поруч і підключає до першого запуску Kener. Пошту Kener надсилає через Resend, SendGrid або Amazon SES — який сервіс ви оберете у вікні «Новий проєкт», а поки сервіс не обрано, не надсилає зовсім."
 			],
 			"faq": [
 				{
@@ -275,7 +312,7 @@
 				},
 				{
 					"q": "Як налаштувати пошту для Kener на Pethost?",
-					"a": "Додайте SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM_EMAIL і SMTP_SECURE або RESEND_API_KEY і RESEND_SENDER_EMAIL до середовища сервісу kener у compose.yaml. Шаблон не задає поштовий сервер, тому до того часу запрошення й листи підписникам вимкнено."
+					"a": "Оберіть Resend, SendGrid або Amazon SES у вікні «Новий проєкт», із ключем сервісу й адресою відправника на домені, який ви там підтвердили. Пізніше змініть рядки SMTP_ у .env проєкту й задеплойте ще раз. Поки в Kener немає поштового сервісу, запрошення й листи підписникам вимкнено."
 				}
 			]
 		}

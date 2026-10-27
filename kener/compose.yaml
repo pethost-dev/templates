@@ -5,20 +5,19 @@ services:
     environment:
       KENER_SECRET_KEY: ${SECRET_KEY}
       ORIGIN: ${URL}
-      REDIS_URL: redis://redis:6379
+      # Kener's queues and scheduler, in the Valkey database linked to the project.
+      REDIS_URL: ${REDIS_URL:?reload New project to link a Valkey database, or send link_databases with env_prefix REDIS}
+      # The mail provider picked in New project, by STARTTLS on its port (SMTP_SECURE 0). With
+      # none, these are empty and Kener sends no mail.
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASSWORD}
+      SMTP_FROM_EMAIL: ${SMTP_FROM}
+      SMTP_SECURE: "0"
     volumes:
       # The SQLite database: monitors, their history, incidents and settings.
       - data:/app/database
-    depends_on:
-      - redis
-
-  # Kener's queues and scheduler.
-  redis:
-    image: redis:8-alpine
-    restart: unless-stopped
-    volumes:
-      - redis:/data
 
 volumes:
   data:
-  redis:

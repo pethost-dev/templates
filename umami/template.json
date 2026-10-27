@@ -19,21 +19,23 @@
 		{
 			"name": "TWO_FACTOR_ENCRYPTION_KEY",
 			"secret": 32
-		},
-		{
-			"name": "POSTGRES_PASSWORD",
-			"secret": 16
 		}
 	],
+	"parts": {
+		"postgres": {
+			"memory_mib": 512
+		}
+	},
 	"texts": {
 		"en": {
 			"description": "Web analytics for your sites, without cookies",
-			"notes": "Sign in as admin with the password umami and change it at once in your profile. Then add your website and put its tracking script on your pages.",
-			"sizing": "Umami is light: about 250 MB of memory, and tens of gigabytes of disk hold millions of events.",
-			"summary": "Self-host Umami, an open-source Google Analytics alternative without cookies, with PostgreSQL and HTTPS on your own machine in one click.",
+			"notes": "Sign in as admin with the password umami and change it at once in your profile. Then add your website and put its tracking script on your pages. Umami keeps its events in the Postgres database linked to the project.",
+			"sizing": "Umami is light: about 200 MB of memory beside its Postgres of 512 MB, and tens of gigabytes of disk hold millions of events.",
+			"summary": "Self-host Umami, an open-source Google Analytics alternative without cookies, with PostgreSQL and HTTPS, in one click.",
 			"about": [
 				"Umami is an open-source web analytics tool, a privacy-focused alternative to Google Analytics. One script tag on your site counts visitors with no cookies, no cross-site tracking and no personal data. The dashboard shows views, visitors, bounce rate, referrers, UTM campaigns, countries and devices, and Realtime shows visits as they happen. Custom events record signups and checkouts, and the Funnel, Journey, Retention and Revenue reports build on them. Single-page apps need no extra setup.",
-				"People self-host Umami so the numbers about their visitors stay on a server they control: every event sits in its PostgreSQL database until they delete it. It is MIT-licensed, and one instance serves several people and websites, with team roles and a share link that makes chosen views public. Since version 3.4, an optional read-only MCP endpoint lets assistants such as Claude, ChatGPT and Cursor query your stats."
+				"People self-host Umami so the numbers about their visitors stay on a server they control: every event sits in its PostgreSQL database until they delete it. It is MIT-licensed, and one instance serves several people and websites, with team roles and a share link that makes chosen views public. Since version 3.4, an optional read-only MCP endpoint lets assistants such as Claude, ChatGPT and Cursor query your stats.",
+				"This template runs Umami's official image, version 3, with a Postgres 18 database that New project makes beside it, or one of yours that you pick, linked before Umami first starts. Umami makes its tables there at that start, and signs in with the address the machine writes into the project's .env."
 			],
 			"faq": [
 				{
@@ -54,18 +56,19 @@
 				},
 				{
 					"q": "How do I export data from a self-hosted Umami?",
-					"a": "With pg_dump or plain SQL: it keeps everything in PostgreSQL, and its CSV export is for Umami Cloud only. Here the database runs in the db container, reachable from the panel's web terminal or over SSH."
+					"a": "With pg_dump or plain SQL: it keeps everything in PostgreSQL, and its CSV export is for Umami Cloud only. Here the database is the Postgres project linked to Umami: its Backups tab downloads a dump, and its Data tab runs SQL."
 				}
 			]
 		},
 		"de": {
 			"description": "Webanalyse für deine Websites, ohne Cookies",
-			"notes": "Melde dich als admin mit dem Passwort umami an und ändere es sofort in deinem Profil. Füg dann deine Website hinzu und bau ihr Tracking-Skript in deine Seiten ein.",
-			"sizing": "Umami ist leicht: etwa 250 MB RAM, und Dutzende GB Disk fassen Millionen Events.",
+			"notes": "Melde dich als admin mit dem Passwort umami an und ändere es sofort in deinem Profil. Füg dann deine Website hinzu und bau ihr Tracking-Skript in deine Seiten ein. Seine Events speichert Umami in der Postgres-Datenbank, die mit dem Projekt verbunden ist.",
+			"sizing": "Umami ist leicht: etwa 200 MB RAM neben seiner Postgres-Datenbank mit 512 MB, und Dutzende GB Disk fassen Millionen Events.",
 			"summary": "Umami selbst hosten: die Open-Source-Alternative zu Google Analytics ohne Cookies, mit PostgreSQL und HTTPS auf deiner Maschine, mit einem Klick.",
 			"about": [
 				"Umami ist ein Open-Source-Tool für Web-Analytics, eine datenschutzfreundliche Alternative zu Google Analytics. Ein Script-Tag auf deiner Website zählt Besucher ohne Cookies, ohne websiteübergreifendes Tracking und ohne personenbezogene Daten. Das Dashboard zeigt Aufrufe, Besucher, Absprungrate, Referrer, UTM-Kampagnen, Länder und Geräte, Realtime zeigt Besuche, während sie passieren. Custom Events erfassen Anmeldungen und Checkouts, und die Reports Funnel, Journey, Retention und Revenue bauen darauf auf. Single-Page-Apps brauchen keine zusätzliche Einrichtung.",
-				"Du hostest Umami selbst, damit die Zahlen über die Menschen auf deiner Website auf einer Maschine bleiben, die du kontrollierst: Jedes Event liegt in der PostgreSQL-Datenbank, bis du es löschst. Umami steht unter der MIT-Lizenz, und eine Instanz bedient mehrere Personen und Websites, mit Teamrollen und einem Share-Link, der ausgewählte Ansichten öffentlich macht. Seit Version 3.4 lässt ein optionaler, schreibgeschützter MCP-Endpoint Assistenten wie Claude, ChatGPT und Cursor deine Statistiken abfragen."
+				"Du hostest Umami selbst, damit die Zahlen über die Menschen auf deiner Website auf einer Maschine bleiben, die du kontrollierst: Jedes Event liegt in der PostgreSQL-Datenbank, bis du es löschst. Umami steht unter der MIT-Lizenz, und eine Instanz bedient mehrere Personen und Websites, mit Teamrollen und einem Share-Link, der ausgewählte Ansichten öffentlich macht. Seit Version 3.4 lässt ein optionaler, schreibgeschützter MCP-Endpoint Assistenten wie Claude, ChatGPT und Cursor deine Statistiken abfragen.",
+				"Diese Vorlage startet das offizielle Image von Umami, Version 3, mit einer Postgres-18-Datenbank, die „Neues Projekt“ daneben erstellt, oder einer deiner Datenbanken, die du wählst, verbunden vor dem ersten Start von Umami. Umami legt dort bei diesem Start seine Tabellen an und meldet sich mit der Adresse an, die die Maschine in die .env des Projekts schreibt."
 			],
 			"faq": [
 				{
@@ -86,18 +89,19 @@
 				},
 				{
 					"q": "Wie exportiere ich Daten aus einem selbst gehosteten Umami?",
-					"a": "Mit pg_dump oder per SQL: Umami hält alles in PostgreSQL, und einen CSV-Export gibt es nur für Umami Cloud. In dieser Vorlage läuft die Datenbank im Container db, erreichbar über das Web-Terminal des Panels oder per SSH."
+					"a": "Mit pg_dump oder per SQL: Umami hält alles in PostgreSQL, und einen CSV-Export gibt es nur für Umami Cloud. Hier ist die Datenbank das Postgres-Projekt, das mit Umami verbunden ist: Im Tab „Backups“ lädst du einen Dump herunter, im Tab „Daten“ führst du SQL aus."
 				}
 			]
 		},
 		"es": {
 			"description": "Analítica web para tus sitios, sin cookies",
-			"notes": "Inicia sesión como admin con la contraseña umami y cámbiala de inmediato en tu perfil. Luego agrega tu sitio web y pon su script de seguimiento en tus páginas.",
-			"sizing": "Umami es ligero: unos 250 MB de memoria, y decenas de GB de disco guardan millones de eventos.",
-			"summary": "Autoaloja Umami, la alternativa de código abierto a Google Analytics sin cookies, con PostgreSQL y HTTPS en tu propia máquina en un clic.",
+			"notes": "Inicia sesión como admin con la contraseña umami y cámbiala de inmediato en tu perfil. Luego agrega tu sitio web y pon su script de seguimiento en tus páginas. Umami guarda sus eventos en la base de datos Postgres conectada al proyecto.",
+			"sizing": "Umami es ligero: unos 200 MB de memoria junto a su Postgres de 512 MB, y decenas de GB de disco guardan millones de eventos.",
+			"summary": "Autoaloja Umami, la alternativa de código abierto a Google Analytics sin cookies, con PostgreSQL y HTTPS en tu máquina en un clic.",
 			"about": [
 				"Umami es una herramienta de analítica web de código abierto, una alternativa a Google Analytics centrada en la privacidad. Una sola etiqueta script en tu sitio cuenta visitantes sin cookies, sin seguimiento entre sitios y sin datos personales. El panel muestra vistas, visitantes, tasa de rebote, referrers, campañas UTM, países y dispositivos, y Realtime muestra las visitas según ocurren. Los eventos personalizados guardan acciones como registros y checkouts, y los informes Funnel, Journey, Retention y Revenue se apoyan en ellos. Las single-page apps no necesitan configuración adicional.",
-				"Autoalojas Umami para que las cifras de tus visitantes se queden en una máquina que controlas: cada evento está en su base de datos PostgreSQL hasta que lo eliminas. Tiene licencia MIT y una sola instancia sirve a varias personas y sitios, con roles de equipo y un enlace para compartir que hace públicas las vistas que elijas. Desde la versión 3.4, un endpoint MCP opcional de solo lectura permite que asistentes como Claude, ChatGPT y Cursor consulten tus estadísticas."
+				"Autoalojas Umami para que las cifras de tus visitantes se queden en una máquina que controlas: cada evento está en su base de datos PostgreSQL hasta que lo eliminas. Tiene licencia MIT y una sola instancia sirve a varias personas y sitios, con roles de equipo y un enlace para compartir que hace públicas las vistas que elijas. Desde la versión 3.4, un endpoint MCP opcional de solo lectura permite que asistentes como Claude, ChatGPT y Cursor consulten tus estadísticas.",
+				"Esta plantilla ejecuta la imagen oficial de Umami, versión 3, con una base de datos Postgres 18 que Nuevo proyecto crea a su lado, o una de las tuyas que elijas, conectada antes del primer arranque de Umami. Umami crea allí sus tablas en ese arranque e inicia sesión con la dirección que la máquina escribe en el .env del proyecto."
 			],
 			"faq": [
 				{
@@ -118,18 +122,19 @@
 				},
 				{
 					"q": "¿Cómo exporto los datos de un Umami autoalojado?",
-					"a": "Con pg_dump o con SQL: lo guarda todo en PostgreSQL, y su exportación a CSV es solo para Umami Cloud. En esta plantilla la base de datos se ejecuta en el contenedor db, al que llegas desde el panel, con su Terminal web, o por SSH."
+					"a": "Con pg_dump o con SQL: lo guarda todo en PostgreSQL, y su exportación a CSV es solo para Umami Cloud. Aquí la base de datos es el proyecto Postgres conectado a Umami: en su pestaña Backups descargas un dump, y en su pestaña Datos ejecutas SQL."
 				}
 			]
 		},
 		"fr": {
 			"description": "Mesure d’audience pour vos sites, sans cookies",
-			"notes": "Connectez-vous avec le nom d’utilisateur admin et le mot de passe umami, puis changez aussitôt ce mot de passe dans votre profil. Ajoutez ensuite votre site et placez son script de suivi sur vos pages.",
-			"sizing": "Umami est léger : environ 250 MB de mémoire, et des dizaines de GB de disque contiennent des millions d’événements.",
+			"notes": "Connectez-vous avec le nom d’utilisateur admin et le mot de passe umami, puis changez aussitôt ce mot de passe dans votre profil. Ajoutez ensuite votre site et placez son script de suivi sur vos pages. Umami garde ses événements dans la base de données Postgres connectée au projet.",
+			"sizing": "Umami est léger : environ 200 MB de mémoire à côté de sa base Postgres de 512 MB, et des dizaines de GB de disque contiennent des millions d’événements.",
 			"summary": "Auto-hébergez Umami, l’alternative open source à Google Analytics sans cookies, avec PostgreSQL et HTTPS sur votre machine, en un clic.",
 			"about": [
 				"Umami est un outil d’analytics web open source, une alternative à Google Analytics axée sur la vie privée. Une seule balise script sur votre site compte les visiteurs sans cookies, sans suivi inter-sites et sans données personnelles. Le tableau de bord affiche les vues, les visiteurs, le taux de rebond, les sites référents, les campagnes UTM, les pays et les appareils, et Realtime montre les visites au moment où elles ont lieu. Les événements personnalisés enregistrent inscriptions et paiements, et les rapports Funnel, Journey, Retention et Revenue s’appuient dessus. Les applications monopages ne demandent aucune configuration supplémentaire.",
-				"Vous auto-hébergez Umami pour que les chiffres sur vos visiteurs restent sur une machine que vous contrôlez : chaque événement est conservé dans sa base PostgreSQL jusqu’à ce que vous le supprimiez. Il est sous licence MIT, et une même instance sert plusieurs personnes et plusieurs sites, avec des rôles d’équipe et un lien de partage qui rend publiques les vues de votre choix. Depuis la version 3.4, un endpoint MCP facultatif en lecture seule permet à des assistants comme Claude, ChatGPT et Cursor d’interroger vos statistiques."
+				"Vous auto-hébergez Umami pour que les chiffres sur vos visiteurs restent sur une machine que vous contrôlez : chaque événement est conservé dans sa base PostgreSQL jusqu’à ce que vous le supprimiez. Il est sous licence MIT, et une même instance sert plusieurs personnes et plusieurs sites, avec des rôles d’équipe et un lien de partage qui rend publiques les vues de votre choix. Depuis la version 3.4, un endpoint MCP facultatif en lecture seule permet à des assistants comme Claude, ChatGPT et Cursor d’interroger vos statistiques.",
+				"Ce template lance l’image officielle d’Umami, version 3, avec une base de données Postgres 18 que Nouveau projet crée à côté, ou l’une des vôtres que vous choisissez, connectée avant le premier démarrage d’Umami. Umami y crée ses tables à ce démarrage et se connecte avec l’adresse que la machine écrit dans le .env du projet."
 			],
 			"faq": [
 				{
@@ -150,18 +155,19 @@
 				},
 				{
 					"q": "Comment exporter les données d’un Umami auto-hébergé ?",
-					"a": "Avec pg_dump ou en SQL : Umami garde tout dans PostgreSQL, et son export CSV n’existe que pour Umami Cloud. Dans ce template, la base de données tourne dans le conteneur db, accessible depuis le terminal web de la console ou en SSH."
+					"a": "Avec pg_dump ou en SQL : Umami garde tout dans PostgreSQL, et son export CSV n’existe que pour Umami Cloud. Ici, la base de données est le projet Postgres connecté à Umami : son onglet Sauvegardes télécharge un dump, et son onglet Données exécute du SQL."
 				}
 			]
 		},
 		"pl": {
 			"description": "Analityka webowa twoich stron, bez plików cookie",
-			"notes": "Zaloguj się jako admin z hasłem umami i od razu zmień je w swoim profilu. Potem dodaj swoją witrynę i umieść jej skrypt śledzący na swoich stronach.",
-			"sizing": "Umami ma małe wymagania: około 250 MB pamięci, a dziesiątki GB dysku mieszczą miliony zdarzeń.",
-			"summary": "Hostuj u siebie Umami, alternatywę dla Google Analytics typu open source, bez plików cookie, z PostgreSQL i HTTPS na własnej maszynie jednym kliknięciem.",
+			"notes": "Zaloguj się jako admin z hasłem umami i od razu zmień je w swoim profilu. Potem dodaj swoją witrynę i umieść jej skrypt śledzący na swoich stronach. Umami trzyma zdarzenia w bazie danych Postgres podłączonej do projektu.",
+			"sizing": "Umami ma małe wymagania: około 200 MB pamięci obok bazy Postgres z 512 MB, a dziesiątki GB dysku mieszczą miliony zdarzeń.",
+			"summary": "Hostuj u siebie Umami, alternatywę dla Google Analytics typu open source, bez plików cookie, z PostgreSQL i HTTPS na twojej maszynie jednym kliknięciem.",
 			"about": [
 				"Umami to narzędzie do analityki webowej typu open source, alternatywa dla Google Analytics nastawiona na prywatność. Jeden tag script na twojej stronie liczy odwiedzających bez plików cookie, bez śledzenia między witrynami i bez danych osobowych. Panel pokazuje wyświetlenia, odwiedzających, współczynnik odrzuceń, źródła odesłań, kampanie UTM, kraje i urządzenia, a Realtime pokazuje wizyty na bieżąco. Zdarzenia niestandardowe zapisują rejestracje i finalizacje zamówień, a raporty Funnel, Journey, Retention i Revenue się na nich opierają. Aplikacje jednostronicowe nie wymagają dodatkowej konfiguracji.",
-				"Umami hostujesz u siebie, żeby liczby o odwiedzających zostały na maszynie, którą kontrolujesz: każde zdarzenie leży w bazie PostgreSQL, dopóki go nie usuniesz. Działa na licencji MIT, jedna instancja obsługuje kilka osób i witryn, z rolami w zespole i linkiem do udostępniania, który upublicznia wybrane widoki. Od wersji 3.4 opcjonalny endpoint MCP tylko do odczytu pozwala asystentom takim jak Claude, ChatGPT i Cursor pytać o twoje statystyki."
+				"Umami hostujesz u siebie, żeby liczby o odwiedzających zostały na maszynie, którą kontrolujesz: każde zdarzenie leży w bazie PostgreSQL, dopóki go nie usuniesz. Działa na licencji MIT, jedna instancja obsługuje kilka osób i witryn, z rolami w zespole i linkiem do udostępniania, który upublicznia wybrane widoki. Od wersji 3.4 opcjonalny endpoint MCP tylko do odczytu pozwala asystentom takim jak Claude, ChatGPT i Cursor pytać o twoje statystyki.",
+				"Ten szablon uruchamia oficjalny obraz Umami w wersji 3 z bazą danych Postgres 18, którą Nowy projekt tworzy obok niego, albo jedną z twoich, którą wybierzesz, podłączoną przed pierwszym startem Umami. Umami tworzy w niej swoje tabele przy tym starcie i loguje się adresem, który maszyna wpisuje do pliku .env projektu."
 			],
 			"faq": [
 				{
@@ -182,18 +188,19 @@
 				},
 				{
 					"q": "Jak wyeksportować dane z Umami hostowanego u siebie?",
-					"a": "Przez pg_dump albo zwykłym SQL-em: wszystko trzyma w PostgreSQL, a eksport do CSV jest tylko w Umami Cloud. W tym szablonie baza działa w kontenerze db, do którego dojdziesz z terminala webowego w panelu albo przez SSH."
+					"a": "Przez pg_dump albo zwykłym SQL-em: wszystko trzyma w PostgreSQL, a eksport do CSV jest tylko w Umami Cloud. Tu baza to projekt Postgres podłączony do Umami: w zakładce Backupy pobierzesz dump, a w zakładce Dane uruchomisz SQL."
 				}
 			]
 		},
 		"pt": {
 			"description": "Web analytics para os seus sites, sem cookies",
-			"notes": "Entre como admin com a senha umami e altere-a na hora, no seu perfil. Depois adicione seu site e coloque o script de rastreamento dele nas suas páginas.",
-			"sizing": "Umami é leve: cerca de 250 MB de memória, e dezenas de GB de disco guardam milhões de eventos.",
+			"notes": "Entre como admin com a senha umami e altere-a na hora, no seu perfil. Depois adicione seu site e coloque o script de rastreamento dele nas suas páginas. O Umami guarda os eventos no banco de dados Postgres conectado ao projeto.",
+			"sizing": "Umami é leve: cerca de 200 MB de memória ao lado do seu Postgres de 512 MB, e dezenas de GB de disco guardam milhões de eventos.",
 			"summary": "Hospede o Umami por conta própria, uma alternativa de código aberto ao Google Analytics sem cookies, com PostgreSQL e HTTPS na sua máquina em um clique.",
 			"about": [
 				"O Umami é uma ferramenta de analytics web de código aberto, uma alternativa ao Google Analytics focada em privacidade. Uma única tag script no seu site conta visitantes sem cookies, sem rastreamento entre sites e sem dados pessoais. O painel mostra visualizações, visitantes, taxa de rejeição, referrers, campanhas UTM, países e dispositivos, e o Realtime mostra as visitas enquanto acontecem. Eventos personalizados registram cadastros e checkouts, e os relatórios Funnel, Journey, Retention e Revenue se baseiam neles. Apps de página única não precisam de configuração extra.",
-				"Auto-hospedar o Umami mantém os números sobre seus visitantes em uma máquina que você controla: cada evento fica no banco de dados PostgreSQL até você excluí-lo. Ele tem licença MIT, e uma instância atende várias pessoas e sites, com papéis de equipe e um link de compartilhamento que torna públicas as visualizações que você escolher. Desde a versão 3.4, um endpoint MCP opcional somente leitura permite que assistentes como Claude, ChatGPT e Cursor consultem suas estatísticas."
+				"Auto-hospedar o Umami mantém os números sobre seus visitantes em uma máquina que você controla: cada evento fica no banco de dados PostgreSQL até você excluí-lo. Ele tem licença MIT, e uma instância atende várias pessoas e sites, com papéis de equipe e um link de compartilhamento que torna públicas as visualizações que você escolher. Desde a versão 3.4, um endpoint MCP opcional somente leitura permite que assistentes como Claude, ChatGPT e Cursor consultem suas estatísticas.",
+				"Este template roda a imagem oficial do Umami, versão 3, com um banco de dados Postgres 18 que o Novo projeto cria ao lado dele, ou um dos seus que você escolher, conectado antes do primeiro início do Umami. O Umami cria ali as tabelas nesse início e entra com o endereço que a máquina escreve no .env do projeto."
 			],
 			"faq": [
 				{
@@ -214,18 +221,19 @@
 				},
 				{
 					"q": "Como exporto os dados de um Umami auto-hospedado?",
-					"a": "Com pg_dump ou com SQL: ele guarda tudo no PostgreSQL, e a exportação em CSV existe só no Umami Cloud. Neste template, o banco de dados roda no container db, que você alcança pelo terminal web do painel ou por SSH."
+					"a": "Com pg_dump ou com SQL: ele guarda tudo no PostgreSQL, e a exportação em CSV existe só no Umami Cloud. Aqui o banco de dados é o projeto Postgres conectado ao Umami: na aba Backups dele você baixa um dump, e na aba Dados roda SQL."
 				}
 			]
 		},
 		"ru": {
 			"description": "Веб-аналитика для ваших сайтов, без cookie",
-			"notes": "Войдите как admin с паролем umami и сразу смените его в профиле. Затем добавьте свой сайт и поставьте его скрипт отслеживания на свои страницы.",
-			"sizing": "Umami: небольшие требования — около 250 MB памяти, а десятков GB диска хватит на миллионы событий.",
+			"notes": "Войдите как admin с паролем umami и сразу смените его в профиле. Затем добавьте свой сайт и поставьте его скрипт отслеживания на свои страницы. События Umami хранит в базе данных Postgres, подключенной к проекту.",
+			"sizing": "Umami: небольшие требования — около 200 MB памяти рядом с его базой Postgres на 512 MB, а десятков GB диска хватит на миллионы событий.",
 			"summary": "Self-hosted Umami — open source альтернатива Google Analytics без cookie. С PostgreSQL и HTTPS на вашей машине в один клик.",
 			"about": [
 				"Umami — это open source инструмент веб-аналитики, альтернатива Google Analytics, ориентированная на приватность. Один тег script на вашем сайте считает посетителей без cookie, без межсайтового отслеживания и без персональных данных. Панель показывает просмотры, посетителей, показатель отказов, источники переходов, UTM-кампании, страны и устройства, а Realtime показывает визиты по мере того, как они происходят. Пользовательские события записывают регистрации и оформление заказов, и на них строятся отчеты Funnel, Journey, Retention и Revenue. Одностраничным приложениям не нужна дополнительная настройка.",
-				"Umami хостят у себя, чтобы цифры о посетителях оставались на машине, которую вы контролируете: каждое событие лежит в базе PostgreSQL, пока вы его не удалите. Лицензия MIT, один экземпляр обслуживает нескольких людей и сайтов, есть роли в командах и общая ссылка, которая делает выбранные разделы публичными. Начиная с версии 3.4 необязательный MCP-эндпоинт только для чтения позволяет ассистентам вроде Claude, ChatGPT и Cursor запрашивать вашу статистику."
+				"Umami хостят у себя, чтобы цифры о посетителях оставались на машине, которую вы контролируете: каждое событие лежит в базе PostgreSQL, пока вы его не удалите. Лицензия MIT, один экземпляр обслуживает нескольких людей и сайтов, есть роли в командах и общая ссылка, которая делает выбранные разделы публичными. Начиная с версии 3.4 необязательный MCP-эндпоинт только для чтения позволяет ассистентам вроде Claude, ChatGPT и Cursor запрашивать вашу статистику.",
+				"Этот шаблон запускает официальный образ Umami версии 3 с базой данных Postgres 18, которую «Новый проект» создает рядом, или одной из ваших, которую вы выберете, — она подключается до первого запуска Umami. При этом запуске Umami создает в ней свои таблицы и подключается по адресу, который машина пишет в .env проекта."
 			],
 			"faq": [
 				{
@@ -246,18 +254,19 @@
 				},
 				{
 					"q": "Как экспортировать данные из self-hosted Umami?",
-					"a": "Через pg_dump или обычным SQL: все лежит в PostgreSQL, а экспорт в CSV есть только в Umami Cloud. В этом шаблоне база работает в контейнере db, к которому можно попасть из веб-терминала панели или по SSH."
+					"a": "Через pg_dump или обычным SQL: все лежит в PostgreSQL, а экспорт в CSV есть только в Umami Cloud. Здесь база — это проект Postgres, подключенный к Umami: на вкладке «Бэкапы» можно скачать дамп, а на вкладке «Данные» — выполнить SQL."
 				}
 			]
 		},
 		"uk": {
 			"description": "Вебаналітика для ваших сайтів, без cookie",
-			"notes": "Увійдіть як admin із паролем umami й одразу змініть його у своєму профілі. Потім додайте свій сайт і розмістіть його скрипт відстеження на своїх сторінках.",
-			"sizing": "Umami має скромні вимоги: близько 250 MB пам’яті, а десятки GB диска вміщують мільйони подій.",
+			"notes": "Увійдіть як admin із паролем umami й одразу змініть його у своєму профілі. Потім додайте свій сайт і розмістіть його скрипт відстеження на своїх сторінках. Події Umami зберігає в базі даних Postgres, підключеній до проєкту.",
+			"sizing": "Umami має скромні вимоги: близько 200 MB пам’яті поруч із його базою Postgres на 512 MB, а десятки GB диска вміщують мільйони подій.",
 			"summary": "Self-hosted Umami — альтернатива Google Analytics з відкритим кодом без cookie. З PostgreSQL і HTTPS на вашій машині в один клік.",
 			"about": [
 				"Umami — це інструмент вебаналітики з відкритим кодом, альтернатива Google Analytics, зосереджена на приватності. Один тег script на вашому сайті рахує відвідувачів без cookie, без міжсайтового стеження і без персональних даних. Панель показує перегляди, відвідувачів, показник відмов, джерела переходів, UTM-кампанії, країни та пристрої, а Realtime показує візити в міру того, як вони відбуваються. Користувацькі події записують реєстрації та оформлення замовлень, і на них будуються звіти Funnel, Journey, Retention та Revenue. Односторінковим застосункам не потрібне додаткове налаштування.",
-				"Umami хостять у себе, щоб цифри про відвідувачів лишалися на машині, яку ви контролюєте: кожна подія лежить у базі PostgreSQL, доки ви її не видалите. Ліцензія MIT, один екземпляр обслуговує кількох людей і кілька сайтів, є ролі в командах і спільне посилання, яке робить обрані розділи публічними. Починаючи з версії 3.4, необов’язковий MCP-ендпоінт лише для читання дає змогу ШІ-асистентам на кшталт Claude, ChatGPT і Cursor запитувати вашу статистику."
+				"Umami хостять у себе, щоб цифри про відвідувачів лишалися на машині, яку ви контролюєте: кожна подія лежить у базі PostgreSQL, доки ви її не видалите. Ліцензія MIT, один екземпляр обслуговує кількох людей і кілька сайтів, є ролі в командах і спільне посилання, яке робить обрані розділи публічними. Починаючи з версії 3.4, необов’язковий MCP-ендпоінт лише для читання дає змогу ШІ-асистентам на кшталт Claude, ChatGPT і Cursor запитувати вашу статистику.",
+				"Цей шаблон запускає офіційний образ Umami версії 3 з базою даних Postgres 18, яку «Новий проєкт» створює поруч, або однією з ваших, яку ви оберете, — її підключають до першого запуску Umami. Під час цього запуску Umami створює в ній свої таблиці й підключається за адресою, яку машина записує в .env проєкту."
 			],
 			"faq": [
 				{
@@ -278,7 +287,7 @@
 				},
 				{
 					"q": "Як експортувати дані зі self-hosted Umami?",
-					"a": "Через pg_dump або звичайним SQL: усе лежить у PostgreSQL, а експорт у CSV є лише в Umami Cloud. У цьому шаблоні база працює в контейнері db, до якого можна дістатися з вебтерміналу панелі або через SSH."
+					"a": "Через pg_dump або звичайним SQL: усе лежить у PostgreSQL, а експорт у CSV є лише в Umami Cloud. Тут база — це проєкт Postgres, підключений до Umami: на вкладці «Бекапи» можна звантажити дамп, а на вкладці «Дані» — виконати SQL."
 				}
 			]
 		}

@@ -4,34 +4,12 @@ services:
     restart: unless-stopped
     init: true
     environment:
-      DATABASE_URL: postgresql://umami:${POSTGRES_PASSWORD}@db:5432/umami
+      DATABASE_URL: ${DATABASE_URL:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
       APP_SECRET: ${APP_SECRET}
       TWO_FACTOR_ENCRYPTION_KEY: ${TWO_FACTOR_ENCRYPTION_KEY}
-    depends_on:
-      db:
-        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://localhost:3000/api/heartbeat"]
       interval: 5s
       timeout: 5s
       retries: 5
       start_period: 60s
-
-  db:
-    image: postgres:15-alpine
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: umami
-      POSTGRES_USER: umami
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
-
-volumes:
-  db-data:

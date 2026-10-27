@@ -17,10 +17,6 @@
 			"from": "url"
 		},
 		{
-			"name": "POSTGRES_PASSWORD",
-			"secret": 24
-		},
-		{
 			"name": "SECRET_KEY",
 			"secret": 40
 		},
@@ -33,15 +29,45 @@
 			"ask": "adminPassword"
 		}
 	],
+	"parts": {
+		"postgres": {
+			"memory_mib": 256
+		},
+		"email": {
+			"variables": [
+				{
+					"name": "SMTP_HOST",
+					"value": "host"
+				},
+				{
+					"name": "SMTP_PORT",
+					"value": "port"
+				},
+				{
+					"name": "SMTP_USER",
+					"value": "user"
+				},
+				{
+					"name": "SMTP_PASSWORD",
+					"value": "password"
+				},
+				{
+					"name": "SMTP_FROM",
+					"value": "from_header"
+				}
+			]
+		}
+	},
 	"texts": {
 		"en": {
 			"description": "Monitoring for cron jobs and background tasks: each job pings its URL, and you hear when a ping is late",
-			"notes": "Sign in with the email and the admin password you gave; sign-up is closed, so nobody else gets an account. Add a check, then have your job call its ping URL. Alerts go to the integrations you add under Integrations: email needs an SMTP server first.",
-			"sizing": "Healthchecks is light: about 200 MB with Postgres, and it keeps only the latest pings of each job.",
+			"notes": "Sign in with the email and the admin password you gave; sign-up is closed, so nobody else gets an account. Add a check, then have your job call its ping URL. Alerts go to the integrations you add under Integrations. Healthchecks keeps its checks in the Postgres database linked to the project. Email goes through the provider you picked in New project, if any: change it in the SMTP_ lines of the project's .env, then deploy again.",
+			"sizing": "Healthchecks is light: about 300 MB of memory beside its Postgres of 256 MB, and it keeps only the latest pings of each job.",
 			"summary": "Healthchecks is open-source cron job monitoring that alerts you when a job stops pinging. A Cronitor alternative you self-host in one click.",
 			"about": [
 				"Healthchecks is an open-source cron job monitoring tool, run in place of Cronitor to watch jobs that fail without a sound, such as backups and certificate renewals. Each check gets its own ping URL, which the job calls every time it runs. The check's schedule is a period or a cron expression, plus a grace time. If no ping arrives before the grace time runs out, the check goes Down and alerts go out by email, Slack, ntfy, PagerDuty, a webhook or another of its 25-plus integrations.",
-				"People self-host Healthchecks to keep job names, ping logs and the output their jobs send on their own server. Your own instance allows 10,000 checks per account, and a project can be shared with a team, each person as a Team Member, a Manager or Read-only. The catch: email alerts need an SMTP server, while Slack, ntfy and webhook alerts work without one."
+				"People self-host Healthchecks to keep job names, ping logs and the output their jobs send on a machine they control. Your own instance allows 10,000 checks per account, and a project can be shared with a team, each person as a Team Member, a Manager or Read-only. Email alerts need a mail provider, while Slack, ntfy and webhook alerts work without one.",
+				"This template runs Healthchecks' official image, version 4.4, with a Postgres 18 database that New project makes beside it, or one of yours that you pick, linked before Healthchecks first starts. That start makes its tables there and the account of the email and password you gave. Its email goes through Resend, SendGrid or Amazon SES, whichever you pick in New project, or nowhere until you pick one."
 			],
 			"faq": [
 				{
@@ -68,12 +94,13 @@
 		},
 		"de": {
 			"description": "Überwachung für Cronjobs und Hintergrundaufgaben: Jeder Job pingt seine URL, und du erfährst es, wenn ein Ping ausbleibt",
-			"notes": "Melde dich mit der angegebenen E-Mail und dem Admin-Passwort an; die Registrierung ist geschlossen, sodass niemand sonst ein Konto bekommt. Lege einen Check an und lass deinen Job seine Ping-URL aufrufen. Alarme gehen an die Integrationen, die du unter Integrations hinzufügst: E-Mail braucht zuerst einen SMTP-Server.",
-			"sizing": "Healthchecks ist leicht: etwa 200 MB mit Postgres, und es behält nur die letzten Pings jedes Jobs.",
+			"notes": "Melde dich mit der angegebenen E-Mail und dem Admin-Passwort an; die Registrierung ist geschlossen, sodass niemand sonst ein Konto bekommt. Lege einen Check an und lass deinen Job seine Ping-URL aufrufen. Alarme gehen an die Integrationen, die du unter Integrations hinzufügst. Seine Checks speichert Healthchecks in der Postgres-Datenbank, die mit dem Projekt verbunden ist. E-Mails gehen über den Anbieter aus „Neues Projekt“, sofern du einen gewählt hast: Ändere ihn in den SMTP_-Zeilen der .env des Projekts und deploy dann neu.",
+			"sizing": "Healthchecks ist leicht: etwa 300 MB RAM neben seiner Postgres-Datenbank mit 256 MB, und es behält nur die letzten Pings jedes Jobs.",
 			"summary": "Healthchecks selbst hosten: Open-Source-Cronjob-Monitoring, das Alarm schlägt, wenn ein Job nicht mehr pingt. Cronitor-Alternative mit einem Klick.",
 			"about": [
 				"Healthchecks ist ein Open-Source-Tool zur Überwachung von Cronjobs, das du statt Cronitor einsetzt, um Jobs im Blick zu behalten, die lautlos scheitern, etwa Backups und Zertifikatserneuerungen. Jeder Check bekommt eine eigene Ping-URL, die der Job bei jedem Lauf aufruft. Der Zeitplan eines Checks ist ein Intervall oder ein Cron-Ausdruck, dazu kommt eine Grace Time. Trifft vor Ablauf der Grace Time kein Ping ein, wechselt der Check auf Down, und Alerts gehen per E-Mail, Slack, ntfy, PagerDuty, Webhook oder über eine andere seiner über 25 Integrationen raus.",
-				"Du hostest Healthchecks selbst, damit Jobnamen, Ping-Logs und die Ausgabe, die deine Jobs mitschicken, auf deiner eigenen Maschine bleiben. Deine eigene Instanz erlaubt 10.000 Checks pro Konto, und ein Projekt lässt sich mit einem Team teilen, jede Person als Team Member, Manager oder Read-only. Der Haken: E-Mail-Alerts brauchen einen SMTP-Server, Alerts über Slack, ntfy und Webhooks funktionieren auch ohne."
+				"Du hostest Healthchecks selbst, damit Jobnamen, Ping-Logs und die Ausgabe, die deine Jobs mitschicken, auf einer Maschine bleiben, die du kontrollierst. Deine eigene Instanz erlaubt 10.000 Checks pro Konto, und ein Projekt lässt sich mit einem Team teilen, jede Person als Team Member, Manager oder Read-only. E-Mail-Alerts brauchen einen Mail-Anbieter, Alerts über Slack, ntfy und Webhooks funktionieren auch ohne.",
+				"Diese Vorlage startet das offizielle Image von Healthchecks, Version 4.4, mit einer Postgres-18-Datenbank, die „Neues Projekt“ daneben erstellt, oder einer deiner Datenbanken, die du wählst, verbunden vor dem ersten Start von Healthchecks. Bei diesem Start legt Healthchecks dort seine Tabellen an und erstellt das Konto mit der E-Mail und dem Passwort, die du angegeben hast. E-Mails verschickt Healthchecks über Resend, SendGrid oder Amazon SES, je nachdem, welchen Anbieter du in „Neues Projekt“ wählst, und gar keine, solange du keinen wählst."
 			],
 			"faq": [
 				{
@@ -100,12 +127,13 @@
 		},
 		"es": {
 			"description": "Monitorización de tareas cron y en segundo plano: cada tarea hace ping a su URL y te enteras cuando un ping se retrasa",
-			"notes": "Entra con el correo y la contraseña de administrador que indicaste; el registro está cerrado, así que nadie más obtiene una cuenta. Añade un check y haz que tu tarea llame a su URL de ping. Las alertas van a las integraciones que añadas en Integrations: el correo necesita antes un servidor SMTP.",
-			"sizing": "Healthchecks es ligero: unos 200 MB con Postgres, y solo guarda los últimos pings de cada tarea.",
+			"notes": "Entra con el correo y la contraseña de administrador que indicaste; el registro está cerrado, así que nadie más obtiene una cuenta. Añade un check y haz que tu tarea llame a su URL de ping. Las alertas van a las integraciones que añadas en Integrations. Healthchecks guarda sus checks en la base de datos Postgres conectada al proyecto. El correo sale por el proveedor que elegiste en Nuevo proyecto, si elegiste alguno: cámbialo en las líneas SMTP_ del .env del proyecto y vuelve a desplegar.",
+			"sizing": "Healthchecks es ligero: unos 300 MB de memoria junto a su Postgres de 256 MB, y solo guarda los últimos pings de cada tarea.",
 			"summary": "Autoaloja Healthchecks en un clic: monitoreo de tareas cron de código abierto que avisa cuando una tarea deja de hacer ping. Alternativa a Cronitor.",
 			"about": [
 				"Healthchecks es una herramienta de código abierto para monitorear tareas cron, que se usa en lugar de Cronitor para vigilar las tareas que fallan en silencio, como los backups y las renovaciones de certificados. Cada check recibe su propia URL de ping, que la tarea llama cada vez que se ejecuta. El horario de un check es un periodo o una expresión cron, más un Grace Time. Si no llega ningún ping antes de que termine el Grace Time, el check pasa a Down y las alertas salen por correo, Slack, ntfy, PagerDuty, un webhook o alguna de sus más de 25 integraciones.",
-				"Autoalojas Healthchecks para que los nombres de tus tareas, los logs de ping y la salida que estas envían se queden en tu propia máquina. Tu propia instancia permite 10 000 checks por cuenta, y un proyecto se puede compartir con un equipo, con cada persona como Team Member, Manager o Read-only. El inconveniente: las alertas por correo necesitan un servidor SMTP, mientras que las de Slack, ntfy y webhook funcionan sin él."
+				"Autoalojas Healthchecks para que los nombres de tus tareas, los logs de ping y la salida que estas envían se queden en una máquina que controlas. Tu propia instancia permite 10 000 checks por cuenta, y un proyecto se puede compartir con un equipo, con cada persona como Team Member, Manager o Read-only. Las alertas por correo necesitan un proveedor de correo, mientras que las de Slack, ntfy y webhook funcionan sin él.",
+				"Esta plantilla ejecuta la imagen oficial de Healthchecks, versión 4.4, con una base de datos Postgres 18 que Nuevo proyecto crea a su lado, o una de las tuyas que elijas, conectada antes del primer arranque de Healthchecks. En ese arranque crea allí sus tablas y la cuenta con el correo y la contraseña que indicaste. Su correo sale por Resend, SendGrid o Amazon SES, el que elijas en Nuevo proyecto, y no envía ninguno hasta que elijas uno."
 			],
 			"faq": [
 				{
@@ -132,12 +160,13 @@
 		},
 		"fr": {
 			"description": "La surveillance des tâches cron et en arrière-plan : chaque tâche appelle son URL, et vous êtes prévenu quand un ping tarde",
-			"notes": "Connectez-vous avec l’e-mail et le mot de passe administrateur indiqués ; l’inscription est fermée, donc personne d’autre n’obtient de compte. Ajoutez un check, puis faites appeler son URL de ping par votre tâche. Les alertes partent vers les intégrations ajoutées dans Integrations : l’e-mail demande d’abord un serveur SMTP.",
-			"sizing": "Healthchecks est léger : environ 200 MB avec Postgres, et il ne garde que les derniers pings de chaque job.",
+			"notes": "Connectez-vous avec l’e-mail et le mot de passe administrateur indiqués ; l’inscription est fermée, donc personne d’autre n’obtient de compte. Ajoutez un check, puis faites appeler son URL de ping par votre tâche. Les alertes partent vers les intégrations ajoutées dans Integrations. Healthchecks garde ses checks dans la base de données Postgres connectée au projet. Les e-mails passent par le fournisseur choisi dans Nouveau projet, s’il y en a un : changez-le dans les lignes SMTP_ du .env du projet, puis redéployez.",
+			"sizing": "Healthchecks est léger : environ 300 MB de mémoire à côté de sa base Postgres de 256 MB, et il ne garde que les derniers pings de chaque job.",
 			"summary": "Auto-hébergez Healthchecks en un clic : surveillance open source de tâches cron qui vous alerte quand un ping manque. Alternative à Cronitor.",
 			"about": [
 				"Healthchecks est un outil open source de surveillance de tâches cron, utilisé à la place de Cronitor pour suivre les tâches qui échouent en silence, comme les sauvegardes et les renouvellements de certificats. Chaque check reçoit sa propre URL de ping, que la tâche appelle à chaque exécution. Le calendrier d’un check est une période ou une expression cron, plus un Grace Time. Si aucun ping n’arrive avant la fin du Grace Time, le check passe à Down, et des alertes partent par e-mail, Slack, ntfy, PagerDuty, un webhook ou l’une de ses 25 intégrations et plus.",
-				"Vous auto-hébergez Healthchecks pour que les noms de vos tâches, les journaux de ping et la sortie que vos tâches envoient restent sur votre propre machine. Votre instance permet 10 000 checks par compte, et un projet peut être partagé avec une équipe, chaque personne en Team Member, Manager ou Read-only. Le revers : les alertes par e-mail demandent un serveur SMTP, alors que celles de Slack, ntfy et des webhooks fonctionnent sans."
+				"Vous auto-hébergez Healthchecks pour que les noms de vos tâches, les journaux de ping et la sortie que vos tâches envoient restent sur une machine que vous contrôlez. Votre instance permet 10 000 checks par compte, et un projet peut être partagé avec une équipe, chaque personne en Team Member, Manager ou Read-only. Les alertes par e-mail demandent un fournisseur d’e-mail, alors que celles de Slack, ntfy et des webhooks fonctionnent sans.",
+				"Ce template lance l’image officielle de Healthchecks, version 4.4, avec une base de données Postgres 18 que Nouveau projet crée à côté, ou l’une des vôtres que vous choisissez, connectée avant le premier démarrage de Healthchecks. À ce démarrage, il y crée ses tables et le compte avec l’e-mail et le mot de passe indiqués. Ses e-mails passent par Resend, SendGrid ou Amazon SES, celui que vous choisissez dans Nouveau projet, et il n’en envoie aucun tant que vous n’en avez pas choisi."
 			],
 			"faq": [
 				{
@@ -164,12 +193,13 @@
 		},
 		"pl": {
 			"description": "Monitorowanie zadań cron i zadań w tle: każde zadanie pinguje swój URL, a ty dowiadujesz się, gdy ping się spóźnia",
-			"notes": "Zaloguj się adresem e-mail i hasłem administratora, które podano; rejestracja jest zamknięta, więc nikt inny nie dostanie konta. Dodaj check i niech twoje zadanie wywołuje jego URL pingu. Alerty trafiają do integracji dodanych w Integrations: e-mail wymaga najpierw serwera SMTP.",
-			"sizing": "Healthchecks ma małe wymagania: około 200 MB z Postgresem, a z każdego zadania trzyma tylko ostatnie pingi.",
+			"notes": "Zaloguj się adresem e-mail i hasłem administratora, które podano; rejestracja jest zamknięta, więc nikt inny nie dostanie konta. Dodaj check i niech twoje zadanie wywołuje jego URL pingu. Alerty trafiają do integracji dodanych w Integrations. Healthchecks trzyma checki w bazie danych Postgres podłączonej do projektu. E-maile idą przez dostawcę wybranego w oknie „Nowy projekt”, jeśli go wybrano: zmień go w wierszach SMTP_ pliku .env projektu i wdróż ponownie.",
+			"sizing": "Healthchecks ma małe wymagania: około 300 MB pamięci obok bazy Postgres z 256 MB, a z każdego zadania trzyma tylko ostatnie pingi.",
 			"summary": "Hostuj Healthchecks u siebie jednym kliknięciem: monitoring zadań cron open source, który alarmuje, gdy zadanie przestaje pingować. Zamiennik Cronitora.",
 			"about": [
 				"Healthchecks to narzędzie typu open source do monitorowania zadań cron, używane zamiast Cronitora do pilnowania zadań, które zawodzą po cichu, jak backupy i odnowienia certyfikatów. Każdy check dostaje własny URL pingu, który zadanie wywołuje przy każdym uruchomieniu. Harmonogram checka to okres albo wyrażenie cron, plus Grace Time. Jeśli ping nie dotrze przed upływem Grace Time, check przechodzi w stan Down, a alerty wychodzą e-mailem albo przez Slack, ntfy, PagerDuty, webhook lub inną z ponad 25 integracji.",
-				"Healthchecks hostujesz u siebie, żeby nazwy zadań, logi pingów i dane wyjściowe, które wysyłają twoje zadania, zostały na twojej własnej maszynie. Twoja instancja pozwala na 10 000 checków na konto, a projekt można udostępnić zespołowi, każdą osobę jako Team Member, Manager albo Read-only. Haczyk: alerty e-mailowe wymagają serwera SMTP, a alerty przez Slack, ntfy i webhook działają bez niego."
+				"Healthchecks hostujesz u siebie, żeby nazwy zadań, logi pingów i dane wyjściowe, które wysyłają twoje zadania, zostały na maszynie, którą kontrolujesz. Twoja instancja pozwala na 10 000 checków na konto, a projekt można udostępnić zespołowi, każdą osobę jako Team Member, Manager albo Read-only. Alerty e-mailowe wymagają dostawcy poczty, a alerty przez Slack, ntfy i webhook działają bez niego.",
+				"Ten szablon uruchamia oficjalny obraz Healthchecks w wersji 4.4 z bazą danych Postgres 18, którą Nowy projekt tworzy obok niego, albo jedną z twoich, którą wybierzesz, podłączoną przed pierwszym startem Healthchecks. Przy tym starcie Healthchecks tworzy w niej swoje tabele i konto z podanym adresem e-mail i hasłem. E-maile wysyła przez Resend, SendGrid albo Amazon SES, zależnie od wyboru w oknie „Nowy projekt”, a dopóki żadnego nie wybierzesz, nie wysyła ich wcale."
 			],
 			"faq": [
 				{
@@ -196,12 +226,13 @@
 		},
 		"pt": {
 			"description": "Monitoramento de tarefas cron e em segundo plano: cada tarefa faz ping na sua URL, e você fica sabendo quando um ping atrasa",
-			"notes": "Entre com o e-mail e a senha de administrador que você informou; o cadastro está fechado, então ninguém mais obtém uma conta. Adicione um check e faça sua tarefa chamar a URL de ping dele. Os alertas vão para as integrações que você adicionar em Integrations: o e-mail precisa antes de um servidor SMTP.",
-			"sizing": "Healthchecks é leve: cerca de 200 MB com o Postgres, e guarda só os últimos pings de cada tarefa.",
+			"notes": "Entre com o e-mail e a senha de administrador que você informou; o cadastro está fechado, então ninguém mais obtém uma conta. Adicione um check e faça sua tarefa chamar a URL de ping dele. Os alertas vão para as integrações que você adicionar em Integrations. O Healthchecks guarda os checks no banco de dados Postgres conectado ao projeto. O e-mail sai pelo provedor que você escolheu no Novo projeto, se escolheu algum: troque-o nas linhas SMTP_ do .env do projeto e faça o deploy de novo.",
+			"sizing": "Healthchecks é leve: cerca de 300 MB de memória ao lado do seu Postgres de 256 MB, e guarda só os últimos pings de cada tarefa.",
 			"summary": "Auto-hospede o Healthchecks em um clique: monitor de tarefas cron de código aberto que avisa quando uma tarefa para de pingar. Alternativa ao Cronitor.",
 			"about": [
 				"O Healthchecks é uma ferramenta de código aberto para monitorar tarefas cron, usada no lugar do Cronitor para vigiar tarefas que falham em silêncio, como backups e renovações de certificado. Cada check recebe sua própria URL de ping, que a tarefa chama a cada execução. O agendamento de um check é um período ou uma expressão cron, mais um Grace Time. Se nenhum ping chegar antes de o Grace Time acabar, o check passa para Down e os alertas saem por e-mail, Slack, ntfy, PagerDuty, webhook ou outra das suas mais de 25 integrações.",
-				"Auto-hospedar o Healthchecks mantém os nomes das tarefas, os logs de ping e a saída que as tarefas enviam na sua própria máquina. Sua instância permite 10.000 checks por conta, e um projeto pode ser compartilhado com uma equipe, cada pessoa como Team Member, Manager ou Read-only. O porém: os alertas por e-mail precisam de um servidor SMTP, enquanto os alertas de Slack, ntfy e webhook funcionam sem ele."
+				"Auto-hospedar o Healthchecks mantém os nomes das tarefas, os logs de ping e a saída que as tarefas enviam em uma máquina que você controla. Sua instância permite 10.000 checks por conta, e um projeto pode ser compartilhado com uma equipe, cada pessoa como Team Member, Manager ou Read-only. Os alertas por e-mail precisam de um provedor de e-mail, enquanto os alertas de Slack, ntfy e webhook funcionam sem ele.",
+				"Este template roda a imagem oficial do Healthchecks, versão 4.4, com um banco de dados Postgres 18 que o Novo projeto cria ao lado dele, ou um dos seus que você escolher, conectado antes do primeiro início do Healthchecks. Nesse início, o Healthchecks cria ali as tabelas e a conta com o e-mail e a senha que você informou. Os e-mails dele saem pelo Resend, SendGrid ou Amazon SES, o que você escolher no Novo projeto, e nenhum sai até você escolher um."
 			],
 			"faq": [
 				{
@@ -228,12 +259,13 @@
 		},
 		"ru": {
 			"description": "Мониторинг cron-задач и фоновых заданий: каждое задание пингует свой URL, и вы узнаёте, когда пинг опаздывает",
-			"notes": "Войдите с почтой и паролем администратора, которые вы указали; регистрация закрыта, поэтому больше никто аккаунт не получит. Добавьте check и пусть задание вызывает его URL пинга. Оповещения уходят в интеграции, добавленные в Integrations: для почты сначала нужен SMTP-сервер.",
-			"sizing": "Healthchecks: небольшие требования — около 200 MB вместе с Postgres, а от каждой задачи хранятся только последние пинги.",
+			"notes": "Войдите с почтой и паролем администратора, которые вы указали; регистрация закрыта, поэтому больше никто аккаунт не получит. Добавьте check и пусть задание вызывает его URL пинга. Оповещения уходят в интеграции, добавленные в Integrations. Свои check Healthchecks хранит в базе данных Postgres, подключенной к проекту. Почта уходит через сервис, выбранный в окне «Новый проект», если вы его выбрали: поменяйте его в строках SMTP_ в .env проекта и задеплойте проект заново.",
+			"sizing": "Healthchecks: небольшие требования — около 300 MB памяти рядом с его базой Postgres на 256 MB, а от каждой задачи хранятся только последние пинги.",
 			"summary": "Self-hosted Healthchecks в один клик: open source мониторинг cron-задач, который оповещает, когда задание перестает пинговать. Альтернатива Cronitor.",
 			"about": [
 				"Healthchecks — это open source инструмент мониторинга cron-задач, который используют вместо Cronitor, чтобы следить за заданиями, которые падают молча, например за бэкапами и продлением сертификатов. У каждого check свой URL пинга, который задание вызывает при каждом запуске. Расписание check — это период или cron-выражение плюс Grace Time. Если пинг не пришел до конца Grace Time, check переходит в Down, и оповещения уходят по почте, в Slack, ntfy, PagerDuty, вебхуком или через другую из более чем 25 интеграций.",
-				"Healthchecks хостят у себя, чтобы названия заданий, логи пингов и вывод, который присылают задания, оставались на вашей собственной машине. Ваш экземпляр допускает 10 000 check на аккаунт, а проектом можно поделиться с командой, и каждый человек получает роль Team Member, Manager или Read-only. Подвох: оповещения по почте требуют SMTP-сервера, а оповещения в Slack, ntfy и вебхуки работают без него."
+				"Healthchecks хостят у себя, чтобы названия заданий, логи пингов и вывод, который присылают задания, оставались на машине, которую вы контролируете. Ваш экземпляр допускает 10 000 check на аккаунт, а проектом можно поделиться с командой, и каждый человек получает роль Team Member, Manager или Read-only. Оповещениям по почте нужен почтовый сервис, а оповещения в Slack, ntfy и вебхуки работают без него.",
+				"Этот шаблон запускает официальный образ Healthchecks версии 4.4 с базой данных Postgres 18, которую «Новый проект» создает рядом, или одной из ваших, которую вы выберете, — она подключается до первого запуска Healthchecks. При этом запуске Healthchecks создает в ней свои таблицы и аккаунт с почтой и паролем, которые вы указали. Почту Healthchecks отправляет через Resend, SendGrid или Amazon SES — какой сервис вы выберете в окне «Новый проект», а пока сервис не выбран, не отправляет вовсе."
 			],
 			"faq": [
 				{
@@ -260,12 +292,13 @@
 		},
 		"uk": {
 			"description": "Моніторинг cron-задач і фонових завдань: кожне завдання пінгує свій URL, і ви дізнаєтеся, коли пінг запізнюється",
-			"notes": "Увійдіть із поштою й паролем адміністратора, які ви вказали; реєстрацію закрито, тож більше ніхто акаунт не отримає. Додайте check і нехай завдання викликає його URL пінгу. Сповіщення йдуть в інтеграції, додані в Integrations: для пошти спершу потрібен SMTP-сервер.",
-			"sizing": "Healthchecks має скромні вимоги: близько 200 MB з Postgres, а від кожного завдання зберігає лише останні пінги.",
+			"notes": "Увійдіть із поштою й паролем адміністратора, які ви вказали; реєстрацію закрито, тож більше ніхто акаунт не отримає. Додайте check і нехай завдання викликає його URL пінгу. Сповіщення йдуть в інтеграції, додані в Integrations. Свої check Healthchecks зберігає в базі даних Postgres, підключеній до проєкту. Пошта йде через сервіс, обраний у вікні «Новий проєкт», якщо ви його обрали: змініть його в рядках SMTP_ у .env проєкту й задеплойте ще раз.",
+			"sizing": "Healthchecks має скромні вимоги: близько 300 MB пам’яті поруч із його базою Postgres на 256 MB, а від кожного завдання зберігає лише останні пінги.",
 			"summary": "Self-hosted Healthchecks в один клік: моніторинг cron-задач з відкритим кодом, що сповіщає, коли завдання перестає пінгувати. Альтернатива Cronitor.",
 			"about": [
 				"Healthchecks — це інструмент моніторингу cron-задач з відкритим кодом, який використовують замість Cronitor, щоб стежити за завданнями, що падають мовчки, як-от бекапи й оновлення сертифікатів. Кожен check має власний URL пінгу, який завдання викликає під час кожного запуску. Розклад check — це період або cron-вираз плюс Grace Time. Якщо пінг не надійшов до кінця Grace Time, check переходить у Down, а сповіщення надходять поштою, у Slack, ntfy, PagerDuty, вебхуком або через іншу з понад 25 інтеграцій.",
-				"Healthchecks хостять у себе, щоб назви завдань, логи пінгів і вивід, який надсилають завдання, залишалися на вашій власній машині. Ваш екземпляр допускає 10 000 check на акаунт, а проєктом можна поділитися з командою, і кожна людина отримує роль Team Member, Manager або Read-only. Підводний камінь: сповіщення поштою потребують SMTP-сервера, а сповіщення в Slack, ntfy і вебхуки працюють без нього."
+				"Healthchecks хостять у себе, щоб назви завдань, логи пінгів і вивід, який надсилають завдання, залишалися на машині, яку ви контролюєте. Ваш екземпляр допускає 10 000 check на акаунт, а проєктом можна поділитися з командою, і кожна людина отримує роль Team Member, Manager або Read-only. Сповіщенням поштою потрібен поштовий сервіс, а сповіщення в Slack, ntfy і вебхуки працюють без нього.",
+				"Цей шаблон запускає офіційний образ Healthchecks версії 4.4 з базою даних Postgres 18, яку «Новий проєкт» створює поруч, або однією з ваших, яку ви оберете, — її підключають до першого запуску Healthchecks. Під час цього запуску Healthchecks створює в ній свої таблиці й акаунт із поштою та паролем, які ви вказали. Пошту Healthchecks надсилає через Resend, SendGrid або Amazon SES — який сервіс ви оберете у вікні «Новий проєкт», а поки сервіс не обрано, не надсилає зовсім."
 			],
 			"faq": [
 				{
