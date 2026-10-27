@@ -1,0 +1,298 @@
+{
+	"name": "Docmost",
+	"emoji": "📝",
+	"category": "notes",
+	"alternatives": [
+		"Notion",
+		"Confluence"
+	],
+	"plan": "starter",
+	"route": {
+		"service": "docmost",
+		"port": 3000
+	},
+	"variables": [
+		{
+			"name": "URL",
+			"from": "url"
+		},
+		{
+			"name": "APP_SECRET",
+			"secret": 32
+		},
+		{
+			"name": "POSTGRES_PASSWORD",
+			"secret": 24
+		},
+		{
+			"name": "ADMIN_NAME",
+			"ask": "username"
+		},
+		{
+			"name": "ADMIN_EMAIL",
+			"ask": "email"
+		},
+		{
+			"name": "ADMIN_PASSWORD",
+			"ask": "adminPassword"
+		}
+	],
+	"texts": {
+		"en": {
+			"description": "A collaborative wiki and docs, with spaces, real-time editing and diagrams",
+			"notes": "Sign in with the email and the admin password you gave: that account owns the workspace, named Docmost, which you can rename in Settings → General. Docmost wants a password of 8 characters at least: with a shorter one it does not start, and its log says so. Write your first page in the General space with New page. Invite people with Invite People, by email and with a role: nobody signs up without an invitation. Without SMTP_HOST and the other SMTP_ settings in .env no email goes out, so copy the invitation’s link from Settings → Members → Pending and send it yourself.",
+			"sizing": "Docmost is light: about 300 MB of memory with Postgres and Redis, and pages grow slowly; attachments take what their files take.",
+			"summary": "Docmost is open-source wiki and docs software with spaces, real-time editing and diagrams. Self-host this Confluence and Notion alternative in one click.",
+			"about": [
+				"Docmost is open-source software for wikis and documentation. Pages live in spaces, each with its own members and permissions, and several people can edit the same page at once. The editor takes slash commands, tables, file attachments and embeds such as Airtable, Loom and Miro, and draws diagrams with Draw.io, Excalidraw and Mermaid. Every page keeps its history, which can be restored, people comment on what they read, search covers the full text, and a page can be shared publicly by link.",
+				"Teams self-host Docmost as a knowledge base or an internal wiki in place of Confluence or Notion, with pages imported from Notion, Markdown or HTML. This template runs the free Community edition with PostgreSQL and Redis, and makes the workspace and its owner from the fields before Docmost answers anyone. The catch: SSO, two-factor authentication, AI, API keys, permissions per page and the Confluence importer are in the paid Business edition."
+			],
+			"faq": [
+				{
+					"q": "Is Docmost free?",
+					"a": "Yes. The Community edition is open source under the AGPL-3.0 and free to self-host, with real-time collaboration, spaces and full-text search. The Business edition costs $6 per seat a month, billed yearly for at least 10 seats, and adds SSO, two-factor authentication, AI, API keys and permissions per page."
+				},
+				{
+					"q": "Docmost vs Confluence or Notion?",
+					"a": "Docmost covers the same ground as a wiki: spaces, pages in a tree, real-time editing, comments and page history. Confluence and Notion run in their makers’ clouds, while Docmost runs where you deploy it, and its Community edition is free for any number of users."
+				},
+				{
+					"q": "Can I import my Notion pages into Docmost?",
+					"a": "Yes. Docmost imports a Notion export, and Markdown and HTML files, into a space. The Confluence importer is part of the paid Business edition."
+				},
+				{
+					"q": "Can several people edit a Docmost page at once?",
+					"a": "Yes. Its editor is collaborative in real time: everyone on a page sees the others’ changes as they type, and the page history keeps each version."
+				},
+				{
+					"q": "How do I invite people to Docmost?",
+					"a": "With Invite People, by email and with a role. Docmost has no public sign-up, so a person joins through their invitation, which it emails once SMTP_HOST and the other SMTP_ settings are in the project’s .env. Until then, Copy link on a pending invitation in Settings → Members gives the link to send yourself."
+				}
+			]
+		},
+		"de": {
+			"description": "Gemeinsames Wiki und Dokumentation, mit Bereichen, Bearbeitung in Echtzeit und Diagrammen",
+			"notes": "Melde dich mit der E-Mail und dem Admin-Passwort an, die du angegeben hast: Diesem Konto gehört der Workspace namens Docmost, den du unter „Einstellungen“ → „Allgemein“ umbenennen kannst. Docmost verlangt ein Passwort mit mindestens 8 Zeichen: Mit einem kürzeren startet es nicht, und das Log sagt, warum. Schreib deine erste Seite im Bereich General mit „Neue Seite“. Lade Leute mit „Personen einladen“ ein, per E-Mail und mit einer Rolle: Ohne Einladung kann sich niemand registrieren. Ohne SMTP_HOST und die übrigen SMTP_-Einstellungen in der .env geht keine E-Mail raus, also kopier den Link der Einladung unter „Einstellungen“ → „Mitglieder“ → „Ausstehend“ und schick ihn selbst.",
+			"sizing": "Docmost ist leicht: etwa 300 MB RAM mit Postgres und Redis, und Seiten wachsen langsam; Anhänge belegen so viel, wie ihre Dateien groß sind.",
+			"summary": "Docmost selbst hosten: Open-Source-Wiki und Doku mit Bereichen, Echtzeit-Bearbeitung und Diagrammen. Confluence- und Notion-Alternative mit einem Klick.",
+			"about": [
+				"Docmost ist Open-Source-Software für Wikis und Dokumentation. Seiten liegen in Bereichen, jeder mit eigenen Mitgliedern und Berechtigungen, und mehrere Personen können dieselbe Seite gleichzeitig bearbeiten. Der Editor bietet Slash-Befehle, Tabellen, Dateianhänge und Einbettungen etwa von Airtable, Loom und Miro und zeichnet Diagramme mit Draw.io, Excalidraw und Mermaid. Jede Seite behält ihren Verlauf, der sich wiederherstellen lässt, alle können kommentieren, was sie lesen, die Suche erfasst den gesamten Text, und eine Seite lässt sich per Link öffentlich teilen.",
+				"Teams hosten Docmost selbst als Wissensdatenbank oder internes Wiki statt Confluence oder Notion und importieren Seiten aus Notion, Markdown oder HTML. Diese Vorlage betreibt die kostenlose Community Edition mit PostgreSQL und Redis und legt den Workspace und seinen Besitzer aus den Feldern an, bevor Docmost irgendwem antwortet. Der Haken: SSO, Zwei-Faktor-Authentifizierung, KI, API-Keys, Berechtigungen pro Seite und der Import aus Confluence gehören zur kostenpflichtigen Business Edition."
+			],
+			"faq": [
+				{
+					"q": "Ist Docmost kostenlos?",
+					"a": "Ja. Die Community Edition ist Open Source unter der AGPL-3.0 und kostenlos selbst zu hosten, mit Zusammenarbeit in Echtzeit, Bereichen und Volltextsuche. Die Business Edition kostet 6 $ pro Benutzer im Monat, jährlich abgerechnet für mindestens 10 Benutzer, und bringt SSO, Zwei-Faktor-Authentifizierung, KI, API-Keys und Berechtigungen pro Seite dazu."
+				},
+				{
+					"q": "Docmost, Confluence oder Notion?",
+					"a": "Docmost deckt als Wiki dasselbe ab: Bereiche, Seiten in einem Baum, Bearbeitung in Echtzeit, Kommentare und Seitenverlauf. Confluence und Notion laufen in der Cloud ihrer Hersteller, Docmost dagegen dort, wo du es deployst, und seine Community Edition ist für beliebig viele Benutzer kostenlos."
+				},
+				{
+					"q": "Kann ich meine Notion-Seiten in Docmost importieren?",
+					"a": "Ja. Docmost importiert einen Export aus Notion sowie Markdown- und HTML-Dateien in einen Bereich. Der Import aus Confluence gehört zur kostenpflichtigen Business Edition."
+				},
+				{
+					"q": "Können mehrere Personen eine Seite in Docmost gleichzeitig bearbeiten?",
+					"a": "Ja. Der Editor ist für die Zusammenarbeit in Echtzeit gebaut: Alle auf einer Seite sehen die Änderungen der anderen, während sie tippen, und der Seitenverlauf behält jede Version."
+				},
+				{
+					"q": "Wie lade ich Personen in Docmost ein?",
+					"a": "Mit „Personen einladen“, per E-Mail und mit einer Rolle. Docmost hat keine öffentliche Registrierung, also kommt eine Person über ihre Einladung dazu, die Docmost per E-Mail verschickt, sobald SMTP_HOST und die übrigen SMTP_-Einstellungen in der .env des Projekts stehen. Bis dahin gibt dir „Link kopieren“ bei einer ausstehenden Einladung unter „Einstellungen“ → „Mitglieder“ den Link, den du selbst verschickst."
+				}
+			]
+		},
+		"es": {
+			"description": "Wiki y documentación colaborativas, con espacios, edición en tiempo real y diagramas",
+			"notes": "Inicia sesión con el correo y la contraseña de administrador que indicaste: esa cuenta es la propietaria del espacio de trabajo, llamado Docmost, que puedes renombrar en Configuración → General. Docmost pide una contraseña de 8 caracteres como mínimo: con una más corta no se inicia, y su log lo indica. Escribe tu primera página en el espacio General con “Nueva página”. Invita a personas con “Invitar personas”, por correo y con un rol: nadie se registra sin una invitación. Sin SMTP_HOST y los demás ajustes SMTP_ en .env no sale ningún correo, así que copia el enlace de la invitación en Configuración → Miembros → Pendiente y envíalo tú.",
+			"sizing": "Docmost es ligero: unos 300 MB de memoria con Postgres y Redis, y las páginas crecen despacio; los adjuntos ocupan lo que ocupan sus archivos.",
+			"summary": "Docmost, wiki y documentación de código abierto: espacios, edición en tiempo real y diagramas. Autoaloja esta alternativa a Confluence y Notion en un clic.",
+			"about": [
+				"Docmost es software de código abierto para wikis y documentación. Las páginas viven en espacios, cada uno con sus propios miembros y permisos, y varias personas pueden editar la misma página a la vez. El editor admite comandos de barra, tablas, archivos adjuntos y contenido incrustado como Airtable, Loom y Miro, y dibuja diagramas con Draw.io, Excalidraw y Mermaid. Cada página conserva su historial, que se puede restaurar, la gente comenta lo que lee, la búsqueda abarca el texto completo y una página se puede compartir públicamente con un enlace.",
+				"Los equipos autoalojan Docmost como base de conocimiento o wiki interna en lugar de Confluence o Notion, con páginas importadas de Notion, Markdown o HTML. Esta plantilla ejecuta la edición Community gratuita con PostgreSQL y Redis, y crea el espacio de trabajo y su propietario con los datos de los campos antes de que Docmost responda a nadie. El inconveniente: el SSO, la autenticación de dos factores, la IA, las claves de API, los permisos por página y el importador de Confluence están en la edición Business, que es de pago."
+			],
+			"faq": [
+				{
+					"q": "¿Docmost es gratis?",
+					"a": "Sí. La edición Community es de código abierto bajo la AGPL-3.0 y gratis de autoalojar, con colaboración en tiempo real, espacios y búsqueda de texto completo. La edición Business cuesta 6 USD por puesto al mes, con facturación anual de al menos 10 puestos, y agrega SSO, autenticación de dos factores, IA, claves de API y permisos por página."
+				},
+				{
+					"q": "¿Docmost frente a Confluence o Notion?",
+					"a": "Docmost cubre lo mismo que una wiki: espacios, páginas en árbol, edición en tiempo real, comentarios e historial de las páginas. Confluence y Notion funcionan en la nube de sus creadores, mientras que Docmost funciona donde lo despliegues, y su edición Community es gratis para cualquier número de usuarios."
+				},
+				{
+					"q": "¿Puedo importar mis páginas de Notion a Docmost?",
+					"a": "Sí. Docmost importa a un espacio una exportación de Notion, y también archivos Markdown y HTML. El importador de Confluence es parte de la edición Business, que es de pago."
+				},
+				{
+					"q": "¿Varias personas pueden editar una página de Docmost a la vez?",
+					"a": "Sí. Su editor es colaborativo en tiempo real: cada persona en una página ve los cambios de las demás mientras escriben, y el historial de la página guarda cada versión."
+				},
+				{
+					"q": "¿Cómo invito a personas a Docmost?",
+					"a": "Con “Invitar personas”, por correo y con un rol. Docmost no tiene registro público, así que cada persona entra con su invitación, que Docmost envía por correo en cuanto SMTP_HOST y los demás ajustes SMTP_ están en el .env del proyecto. Mientras tanto, “Copiar enlace” en una invitación pendiente de Configuración → Miembros te da el enlace para que lo envíes tú."
+				}
+			]
+		},
+		"fr": {
+			"description": "Un wiki et une documentation collaboratifs, avec des espaces, l’édition en temps réel et des diagrammes",
+			"notes": "Connectez-vous avec l’e-mail et le mot de passe administrateur indiqués : ce compte est propriétaire de l’espace de travail, nommé Docmost, que vous pouvez renommer dans Paramètres → Général. Docmost demande un mot de passe d’au moins 8 caractères : avec un mot de passe plus court, il ne démarre pas, et ses logs l’indiquent. Écrivez votre première page dans l’espace General avec « Nouvelle page ». Invitez des personnes avec « Inviter des personnes », par e-mail et avec un rôle : personne ne s’inscrit sans invitation. Sans SMTP_HOST et les autres réglages SMTP_ dans .env, aucun e-mail ne part : copiez donc le lien de l’invitation dans Paramètres → Membres → En attente et envoyez-le vous-même.",
+			"sizing": "Docmost est léger : environ 300 MB de mémoire avec Postgres et Redis, et les pages grossissent lentement ; les pièces jointes prennent la place de leurs fichiers.",
+			"summary": "Docmost, wiki et documentation open source : espaces, édition en temps réel, diagrammes. Auto-hébergez cette alternative à Confluence et Notion en un clic.",
+			"about": [
+				"Docmost est un logiciel open source pour les wikis et la documentation. Les pages sont rangées dans des espaces, chacun avec ses membres et ses permissions, et plusieurs personnes peuvent modifier la même page en même temps. L’éditeur accepte les commandes slash, les tableaux, les fichiers joints et des contenus intégrés comme Airtable, Loom et Miro, et dessine des diagrammes avec Draw.io, Excalidraw et Mermaid. Chaque page garde son historique, que l’on peut restaurer, chacun commente ce qu’il lit, la recherche porte sur le texte intégral, et une page peut être partagée publiquement par lien.",
+				"Des équipes auto-hébergent Docmost comme base de connaissances ou wiki interne à la place de Confluence ou de Notion, avec des pages importées depuis Notion, Markdown ou HTML. Ce template fait tourner l’édition Community, gratuite, avec PostgreSQL et Redis, et crée l’espace de travail et son propriétaire à partir des champs avant que Docmost ne réponde à quiconque. Le revers : le SSO, l’authentification à deux facteurs, l’IA, les clés d’API, les permissions par page et l’import depuis Confluence font partie de l’édition Business, payante."
+			],
+			"faq": [
+				{
+					"q": "Docmost est-il gratuit ?",
+					"a": "Oui. L’édition Community est open source sous licence AGPL-3.0 et gratuite à auto-héberger, avec la collaboration en temps réel, les espaces et la recherche en texte intégral. L’édition Business coûte 6 $ par utilisateur et par mois, en facturation annuelle pour 10 utilisateurs au moins, et ajoute le SSO, l’authentification à deux facteurs, l’IA, les clés d’API et les permissions par page."
+				},
+				{
+					"q": "Docmost, Confluence ou Notion ?",
+					"a": "Docmost couvre le même terrain en tant que wiki : espaces, pages en arborescence, édition en temps réel, commentaires et historique des pages. Confluence et Notion tournent dans le cloud de leurs éditeurs, alors que Docmost tourne là où vous le déployez, et son édition Community est gratuite quel que soit le nombre d’utilisateurs."
+				},
+				{
+					"q": "Puis-je importer mes pages Notion dans Docmost ?",
+					"a": "Oui. Docmost importe dans un espace un export Notion, ainsi que des fichiers Markdown et HTML. L’import depuis Confluence fait partie de l’édition Business, payante."
+				},
+				{
+					"q": "Plusieurs personnes peuvent-elles modifier une page Docmost en même temps ?",
+					"a": "Oui. Son éditeur est collaboratif en temps réel : sur une page, chacun voit les modifications des autres à mesure qu’ils tapent, et l’historique de la page garde chaque version."
+				},
+				{
+					"q": "Comment inviter des personnes dans Docmost ?",
+					"a": "Avec « Inviter des personnes », par e-mail et avec un rôle. Docmost n’a pas d’inscription publique : on le rejoint par son invitation, qu’il envoie par e-mail une fois que SMTP_HOST et les autres réglages SMTP_ sont dans le .env du projet. D’ici là, « Copier le lien » sur une invitation en attente, dans Paramètres → Membres, donne le lien à envoyer vous-même."
+				}
+			]
+		},
+		"pl": {
+			"description": "Wiki i dokumentacja do wspólnej pracy, z przestrzeniami, edycją w czasie rzeczywistym i diagramami",
+			"notes": "Zaloguj się adresem e-mail i hasłem administratora podanymi przy tworzeniu projektu: to konto jest właścicielem przestrzeni roboczej o nazwie Docmost, którą możesz przemianować na stronie Settings → General. Docmost wymaga hasła o długości co najmniej 8 znaków: z krótszym się nie uruchomi, a jego log poda przyczynę. Pierwszą stronę napiszesz w przestrzeni General przyciskiem New page. Ludzi zaprosisz przez Invite People, e-mailem i z rolą: bez zaproszenia nikt się nie zarejestruje. Bez SMTP_HOST i pozostałych ustawień SMTP_ w .env żaden e-mail nie wychodzi, więc skopiuj link z zaproszenia na stronie Settings → Members → Pending i wyślij go samodzielnie.",
+			"sizing": "Docmost ma małe wymagania: około 300 MB pamięci razem z Postgresem i Redisem, a strony rosną powoli; załączniki zajmują tyle miejsca, co ich pliki.",
+			"summary": "Docmost to wiki i dokumentacja open source: przestrzenie, edycja na żywo i diagramy. Hostuj tę alternatywę dla Confluence i Notion u siebie w jeden klik.",
+			"about": [
+				"Docmost to oprogramowanie open source do wiki i dokumentacji. Strony są w przestrzeniach, z których każda ma własnych członków i uprawnienia, a tę samą stronę może edytować kilka osób naraz. Edytor obsługuje polecenia po ukośniku, tabele, załączniki i osadzanie treści z usług takich jak Airtable, Loom czy Miro, a diagramy tworzy za pomocą Draw.io, Excalidraw i Mermaid. Każda strona zachowuje swoją historię, z której można przywrócić wersję, ludzie komentują to, co czytają, wyszukiwanie obejmuje pełny tekst, a stronę można udostępnić publicznie przez link.",
+				"Zespoły hostują Docmost u siebie jako bazę wiedzy albo wewnętrzne wiki zamiast Confluence czy Notion, ze stronami zaimportowanymi z Notion, Markdowna albo HTML-a. Ten szablon uruchamia darmową edycję Community z PostgreSQL i Redisem oraz tworzy przestrzeń roboczą i jej właściciela z pól formularza, zanim Docmost komukolwiek odpowie. Haczyk: SSO, uwierzytelnianie dwuskładnikowe, AI, klucze API, uprawnienia do poszczególnych stron i import z Confluence są w płatnej edycji Business."
+			],
+			"faq": [
+				{
+					"q": "Czy Docmost jest darmowy?",
+					"a": "Tak. Edycja Community to open source na licencji AGPL-3.0, którą można za darmo hostować u siebie, ze współpracą w czasie rzeczywistym, przestrzeniami i wyszukiwaniem pełnotekstowym. Edycja Business kosztuje 6 $ za użytkownika miesięcznie, przy płatności rocznej za co najmniej 10 użytkowników, i dodaje SSO, uwierzytelnianie dwuskładnikowe, AI, klucze API i uprawnienia do poszczególnych stron."
+				},
+				{
+					"q": "Docmost czy Confluence albo Notion?",
+					"a": "Jako wiki Docmost daje to samo: przestrzenie, drzewo stron, edycję w czasie rzeczywistym, komentarze i historię stron. Confluence i Notion działają w chmurach swoich twórców, a Docmost tam, gdzie go wdrożysz, i jego edycja Community jest darmowa dla dowolnej liczby użytkowników."
+				},
+				{
+					"q": "Czy mogę zaimportować strony z Notion do Docmosta?",
+					"a": "Tak. Docmost importuje do przestrzeni eksport z Notion oraz pliki Markdown i HTML. Import z Confluence jest częścią płatnej edycji Business."
+				},
+				{
+					"q": "Czy kilka osób może naraz edytować tę samą stronę Docmosta?",
+					"a": "Tak. Jego edytor działa wspólnie w czasie rzeczywistym: każdy na stronie widzi zmiany innych w trakcie pisania, a historia strony zachowuje każdą wersję."
+				},
+				{
+					"q": "Jak zaprosić ludzi do Docmosta?",
+					"a": "Przez Invite People, e-mailem i z rolą. Docmost nie ma publicznej rejestracji, więc każdy dołącza przez swoje zaproszenie, które Docmost wysyła e-mailem, gdy w pliku .env projektu są SMTP_HOST i pozostałe ustawienia SMTP_. Do tego czasu link wyślesz samodzielnie: skopiujesz go przez Copy link przy oczekującym zaproszeniu na stronie Settings → Members."
+				}
+			]
+		},
+		"pt": {
+			"description": "Wiki e documentação colaborativas, com espaços, edição em tempo real e diagramas",
+			"notes": "Entre com o e-mail e a senha de administrador que você informou: essa conta é a proprietária do workspace, chamado Docmost, que você pode renomear em Configurações → Geral. O Docmost exige uma senha de pelo menos 8 caracteres: com uma mais curta, ele não inicia e o log dele diz isso. Escreva sua primeira página no espaço General com “Nova página”. Para convidar pessoas, use “Convidar pessoas”, por e-mail e com uma função: ninguém se cadastra sem convite. Sem o SMTP_HOST e as outras variáveis SMTP_ no .env, nenhum e-mail é enviado, então copie o link do convite em Configurações → Membros → Pendente e envie você mesmo.",
+			"sizing": "O Docmost é leve: cerca de 300 MB de memória com o Postgres e o Redis, e as páginas crescem devagar; os anexos ocupam o que os arquivos deles ocupam.",
+			"summary": "Docmost: wiki e documentação open source com espaços, edição em tempo real e diagramas. Auto-hospede a alternativa ao Confluence e ao Notion em um clique.",
+			"about": [
+				"O Docmost é um software de código aberto para wikis e documentação. As páginas ficam em espaços, cada um com os próprios membros e permissões, e várias pessoas podem editar a mesma página ao mesmo tempo. O editor aceita comandos slash, tabelas, anexos de arquivos e incorporações como Airtable, Loom e Miro, e desenha diagramas com Draw.io, Excalidraw e Mermaid. Cada página guarda o seu histórico, que pode ser restaurado, as pessoas comentam o que leem, a busca cobre o texto completo, e uma página pode ser compartilhada publicamente por link.",
+				"Equipes auto-hospedam o Docmost como base de conhecimento ou wiki interna no lugar do Confluence ou do Notion, com páginas importadas do Notion, de Markdown ou de HTML. Este template roda a edição Community, gratuita, com PostgreSQL e Redis, e cria o workspace e o proprietário dele a partir dos campos antes de o Docmost responder a qualquer pessoa. O porém: SSO, autenticação de dois fatores, IA, chaves de API, permissões por página e o importador do Confluence ficam na edição Business, paga."
+			],
+			"faq": [
+				{
+					"q": "O Docmost é gratuito?",
+					"a": "Sim. A edição Community é de código aberto sob a AGPL-3.0 e gratuita para auto-hospedar, com colaboração em tempo real, espaços e busca no texto completo. A edição Business custa US$ 6 por usuário por mês, com cobrança anual de pelo menos 10 usuários, e adiciona SSO, autenticação de dois fatores, IA, chaves de API e permissões por página."
+				},
+				{
+					"q": "Docmost, Confluence ou Notion?",
+					"a": "Como wiki, o Docmost cobre o mesmo terreno: espaços, páginas em árvore, edição em tempo real, comentários e histórico da página. O Confluence e o Notion rodam na nuvem das empresas que os fazem, enquanto o Docmost roda onde você fizer o deploy dele, e a edição Community é gratuita para qualquer número de usuários."
+				},
+				{
+					"q": "Posso importar minhas páginas do Notion para o Docmost?",
+					"a": "Sim. O Docmost importa para um espaço uma exportação do Notion e arquivos Markdown e HTML. O importador do Confluence faz parte da edição Business, paga."
+				},
+				{
+					"q": "Várias pessoas podem editar uma página do Docmost ao mesmo tempo?",
+					"a": "Sim. O editor dele é colaborativo em tempo real: todos numa página veem as alterações dos outros enquanto eles digitam, e o histórico da página guarda cada versão."
+				},
+				{
+					"q": "Como convido pessoas para o Docmost?",
+					"a": "Com “Convidar pessoas”, por e-mail e com uma função. O Docmost não tem cadastro público, então uma pessoa entra pelo convite dela, que ele envia por e-mail depois que o SMTP_HOST e as outras variáveis SMTP_ estiverem no .env do projeto. Até lá, “Copiar link” num convite pendente em Configurações → Membros dá o link para você mesmo enviar."
+				}
+			]
+		},
+		"ru": {
+			"description": "Вики и документация для совместной работы: пространства, редактирование в реальном времени и диаграммы",
+			"notes": "Войдите с почтой и паролем администратора, которые вы указали: этот аккаунт — владелец рабочего пространства под названием Docmost, которое можно переименовать в разделе «Настройки» → «Основные». Docmost требует пароль не короче 8 символов: с более коротким он не запускается и пишет об этом в лог. Первую страницу напишите в пространстве General кнопкой «Новая страница». Людей приглашайте кнопкой «Пригласить людей», по почте и с ролью: без приглашения никто не зарегистрируется. Без SMTP_HOST и остальных настроек SMTP_ в .env письма не уходят, поэтому скопируйте ссылку приглашения в разделе «Настройки» → «Участники» → «В ожидании» и отправьте ее сами.",
+			"sizing": "Docmost: небольшие требования — около 300 MB памяти вместе с Postgres и Redis, а страницы растут медленно; вложения занимают столько, сколько весят их файлы.",
+			"summary": "Self-hosted Docmost — open source вики и документация: пространства, правка в реальном времени и диаграммы. Альтернатива Confluence и Notion в один клик.",
+			"about": [
+				"Docmost — программа с открытым кодом для вики и документации. Страницы живут в пространствах, у каждого из которых свои участники и права доступа, а одну и ту же страницу могут одновременно редактировать несколько человек. Редактор понимает слэш-команды, таблицы, вложенные файлы и встраивания вроде Airtable, Loom и Miro, а диаграммы рисует в Draw.io, Excalidraw и Mermaid. Каждая страница хранит свою историю, которую можно восстановить, люди комментируют то, что читают, поиск идет по всему тексту, а страницей можно поделиться публично по ссылке.",
+				"Команды хостят Docmost у себя как базу знаний или внутреннюю вики вместо Confluence или Notion и импортируют в него страницы из Notion, Markdown или HTML. Этот шаблон запускает бесплатную редакцию Community с PostgreSQL и Redis и создает рабочее пространство и его владельца по данным из полей еще до того, как Docmost начнет кому-либо отвечать. Подвох: SSO, двухфакторная аутентификация, ИИ, API-ключи, права доступа на уровне страниц и импорт из Confluence входят в платную редакцию Business."
+			],
+			"faq": [
+				{
+					"q": "Docmost бесплатный?",
+					"a": "Да. Редакция Community распространяется с открытым кодом под лицензией AGPL-3.0, и ее можно бесплатно хостить у себя — с совместной работой в реальном времени, пространствами и полнотекстовым поиском. Редакция Business стоит 6 $ за пользователя в месяц при оплате за год, минимум за 10 пользователей, и добавляет SSO, двухфакторную аутентификацию, ИИ, API-ключи и права доступа на уровне страниц."
+				},
+				{
+					"q": "Чем Docmost отличается от Confluence и Notion?",
+					"a": "Как вики Docmost закрывает те же задачи: пространства, дерево страниц, редактирование в реальном времени, комментарии и история страниц. Confluence и Notion работают в облаках своих разработчиков, а Docmost — там, где вы его задеплоите, и его редакция Community бесплатна для любого числа пользователей."
+				},
+				{
+					"q": "Можно ли импортировать страницы из Notion в Docmost?",
+					"a": "Да. Docmost импортирует в пространство экспорт из Notion, а также файлы Markdown и HTML. Импорт из Confluence входит в платную редакцию Business."
+				},
+				{
+					"q": "Могут ли несколько человек одновременно редактировать страницу в Docmost?",
+					"a": "Да. Его редактор работает совместно в реальном времени: все, кто открыл страницу, видят изменения остальных по мере набора, а история страницы хранит каждую версию."
+				},
+				{
+					"q": "Как пригласить людей в Docmost?",
+					"a": "Кнопкой «Пригласить людей», по почте и с ролью. Публичной регистрации в Docmost нет, поэтому человек присоединяется по своему приглашению, которое Docmost отправляет по почте, как только в .env проекта появятся SMTP_HOST и остальные настройки SMTP_. До тех пор кнопка «Копировать ссылку» у ожидающего приглашения в разделе «Настройки» → «Участники» дает ссылку, которую можно отправить самому."
+				}
+			]
+		},
+		"uk": {
+			"description": "Вікі й документація для спільної роботи: простори, редагування в реальному часі й діаграми",
+			"notes": "Увійдіть з електронною поштою й паролем адміністратора, які ви вказали: цей акаунт — власник робочого простору з назвою Docmost, яку можна змінити в розділі «Налаштування → Загальні». Docmost вимагає пароль щонайменше з 8 символів: з коротшим він не запуститься, і його лог про це скаже. Напишіть першу сторінку в просторі General кнопкою «Нова сторінка». Людей запрошуйте кнопкою «Запросити людей», поштою та з роллю: без запрошення ніхто не зареєструється. Без SMTP_HOST та інших налаштувань SMTP_ у .env жоден лист не надсилається, тож скопіюйте посилання із запрошення в розділі «Налаштування → Учасники → В очікуванні» й надішліть його самі.",
+			"sizing": "Docmost має скромні вимоги: близько 300 MB пам’яті разом із Postgres і Redis, а сторінки ростуть повільно; вкладення займають стільки, скільки їхні файли.",
+			"summary": "Docmost — вікі й документи з відкритим кодом: простори, редагування в реальному часі й діаграми. Self-hosted альтернатива Confluence і Notion в один клік.",
+			"about": [
+				"Docmost — програма з відкритим кодом для вікі й документації. Сторінки живуть у просторах, кожен зі своїми учасниками й правами доступу, і кілька людей можуть редагувати одну сторінку водночас. Редактор розуміє слеш-команди, таблиці, вкладені файли й вбудовування на кшталт Airtable, Loom і Miro, а діаграми малює за допомогою Draw.io, Excalidraw і Mermaid. Кожна сторінка зберігає свою історію, з якої її можна відновити, люди коментують прочитане, пошук іде по всьому тексту, а сторінкою можна публічно поділитися за посиланням.",
+				"Команди хостять Docmost у себе як базу знань чи внутрішню вікі замість Confluence або Notion і переносять туди сторінки з Notion, Markdown чи HTML. Цей шаблон запускає безкоштовну редакцію Community з PostgreSQL і Redis та створює робочий простір і його власника з полів ще до того, як Docmost комусь відповість. Підводний камінь: SSO, двофакторна автентифікація, ШІ, API-ключі, права доступу до окремих сторінок та імпорт із Confluence є лише в платній редакції Business."
+			],
+			"faq": [
+				{
+					"q": "Docmost безкоштовний?",
+					"a": "Так. Редакція Community має відкритий код за ліцензією AGPL-3.0, і її можна безкоштовно хостити в себе, зі спільною роботою в реальному часі, просторами й повнотекстовим пошуком. Редакція Business коштує 6 $ за користувача на місяць з оплатою за рік, щонайменше за 10 користувачів, і додає SSO, двофакторну автентифікацію, ШІ, API-ключі та права доступу до окремих сторінок."
+				},
+				{
+					"q": "Docmost, Confluence чи Notion?",
+					"a": "Як вікі Docmost уміє те саме: простори, дерево сторінок, редагування в реальному часі, коментарі й історію сторінок. Confluence і Notion працюють у хмарах своїх розробників, а Docmost — там, де ви його задеплоїте, і його редакція Community безкоштовна для будь-якої кількості користувачів."
+				},
+				{
+					"q": "Чи можна імпортувати сторінки Notion у Docmost?",
+					"a": "Так. Docmost імпортує в простір експорт із Notion, а також файли Markdown і HTML. Імпорт із Confluence входить до платної редакції Business."
+				},
+				{
+					"q": "Чи можуть кілька людей редагувати сторінку Docmost водночас?",
+					"a": "Так. Його редактор розрахований на спільну роботу в реальному часі: кожен на сторінці бачить зміни інших, поки ті друкують, а історія сторінки зберігає кожну версію."
+				},
+				{
+					"q": "Як запросити людей у Docmost?",
+					"a": "Кнопкою «Запросити людей», поштою та з роллю. Публічної реєстрації в Docmost немає, тож людина приєднується за своїм запрошенням, яке Docmost надсилає поштою, щойно в .env проєкту з’являться SMTP_HOST та інші налаштування SMTP_. Доти пункт «Копіювати посилання» біля запрошення, що очікує, у розділі «Налаштування → Учасники» дає посилання, яке ви надішлете самі."
+				}
+			]
+		}
+	}
+}

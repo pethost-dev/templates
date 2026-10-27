@@ -1,0 +1,123 @@
+services:
+  docmost:
+    image: docmost/docmost:0.97
+    restart: unless-stopped
+    # Docmost does not stop on SIGTERM as the first process: an init passes it on.
+    init: true
+    # Any setting of Docmost can be added to the project's .env, such as SMTP_HOST and the other
+    # SMTP_ settings, which send its invitations and password resets by email.
+    env_file: .env
+    environment:
+      APP_URL: ${URL}
+      APP_SECRET: ${APP_SECRET}
+      DATABASE_URL: postgresql://docmost:${POSTGRES_PASSWORD}@postgres:5432/docmost
+      REDIS_URL: redis://redis:6379
+      ADMIN_NAME: ${ADMIN_NAME}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+    # A new Docmost offers its setup, which makes the workspace and its owner, to whoever opens it
+    # first. So while it has no workspace, it runs on port 3001, which nobody reaches, and the
+    # owner is made there from the fields; only then does Docmost answer on 3000.
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        cd /app/apps/server
+        if ! node -e '
+          const sql = require("postgres")(process.env.DATABASE_URL, { max: 1 });
+          (async () => {
+            for (let i = 0; i < 60; i++) {
+              try {
+                const [row] = await sql`select count(*)::int as n from workspaces`;
+                process.exit(row.n > 0 ? 0 : 1);
+              } catch (error) {
+                // No such table: a new database, which the migrations of Docmost have yet to fill.
+                if (error.code === "42P01") process.exit(1);
+                await new Promise((done) => setTimeout(done, 1000));
+              }
+            }
+            process.exit(1);
+          })();
+        '; then
+          NODE_ENV=production PORT=3001 node dist/main &
+          setup=$$!
+          node -e '
+            const setUp = async () => {
+              const response = await fetch("http://127.0.0.1:3001/api/auth/setup", {
+                method: "POST",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify({
+                  workspaceName: "Docmost",
+                  name: process.env.ADMIN_NAME,
+                  email: process.env.ADMIN_EMAIL,
+                  password: process.env.ADMIN_PASSWORD
+                })
+              });
+              // 403: a workspace exists already, made by an earlier start.
+              if (response.ok || response.status === 403) return;
+              const body = await response.text();
+              if (response.status === 400) {
+                console.error("Docmost refused the administrator: " + body);
+                process.exit(1);
+              }
+              throw new Error("setup: " + response.status + " " + body);
+            };
+            (async () => {
+              let failure;
+              for (let i = 0; i < 180; i++) {
+                try {
+                  return await setUp();
+                } catch (error) {
+                  failure = error;
+                  await new Promise((done) => setTimeout(done, 1000));
+                }
+              }
+              console.error(failure);
+              process.exit(1);
+            })();
+          '
+          kill $$setup
+          wait $$setup || true
+        fi
+        NODE_ENV=production exec node dist/main
+    volumes:
+      - data:/app/data/storage
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: docmost
+      POSTGRES_USER: docmost
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - db:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U docmost -d docmost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
+    volumes:
+      - redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  data:
+  db:
+  redis:
