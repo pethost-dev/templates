@@ -1,0 +1,46 @@
+services:
+  copyparty:
+    image: copyparty/ac:1.20.26
+    restart: unless-stopped
+    # As copyparty's own instructions run it: as a user, not as root.
+    user: "1000:1000"
+    environment:
+      # copyparty would read a $ in an argument as a variable of its own, and the password may
+      # hold one: the arguments below are taken as they are.
+      PRTY_NO_ENVEXPAND: "1"
+    # Given no volume, copyparty shares its folder with anyone, to read and write. So the files
+    # volume is shared at the address's root with the one account made from the fields, which may
+    # do everything there (A: read, write, move, delete, admin), and with nobody else.
+    command:
+      - -a
+      - ${ADMIN_USERNAME}:${ADMIN_PASSWORD}
+      - -v
+      - /w::A,${ADMIN_USERNAME}
+      # The sign-in asks for the username and the password, not the password alone.
+      - --usernames
+      # The files are indexed, for search and for the uploads it has already seen, and so are the
+      # tags of music and videos; the index and thumbnails are kept beside the config, not among
+      # the files.
+      - -e2dsa
+      - -e2ts
+      - --hist
+      - /cfg/hists
+      # Links to a file or a folder, with a password or an expiry if wanted, under /share.
+      - --shr
+      - /share
+      # Requests come through the proxy, which sends the client's address in X-Forwarded-For.
+      - --xff-hdr
+      - x-forwarded-for
+      - --xff-src
+      - lan
+      - --rproxy
+      - "1"
+      - --no-robots
+    volumes:
+      - files:/w
+      # Sessions, shares, the index and thumbnails.
+      - state:/cfg
+
+volumes:
+  files:
+  state:

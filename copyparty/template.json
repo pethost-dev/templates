@@ -1,0 +1,282 @@
+{
+	"name": "copyparty",
+	"emoji": "📼",
+	"category": "files",
+	"alternatives": [
+		"Dropbox",
+		"Google Drive"
+	],
+	"plan": "starter",
+	"route": {
+		"service": "copyparty",
+		"port": 3923
+	},
+	"variables": [
+		{
+			"name": "ADMIN_USERNAME",
+			"ask": "username"
+		},
+		{
+			"name": "ADMIN_PASSWORD",
+			"ask": "adminPassword"
+		}
+	],
+	"texts": {
+		"en": {
+			"description": "A file server in the browser: resumable uploads, a media player and share links, with WebDAV",
+			"notes": "Sign in with the username and the admin password you gave: that account owns every file, and anyone else sees nothing. Upload by dropping files on the page, and make a link to a file or folder with the share button, with a password or an expiry if you want one. To open the files in Windows, macOS or Linux as a network drive, connect a WebDAV client to https://{host} with the same username and password: the connect button in the control panel shows how.",
+			"sizing": "copyparty is very light: about 40 MB of memory, and the disk holds your files with a little more for their thumbnails and index.",
+			"summary": "copyparty is a fast, open-source file server with resumable uploads, a media player, share links and WebDAV. Self-host it in one click, behind a password.",
+			"about": [
+				"copyparty turns a machine into a file server that any web browser can use. Its uploader, up2k, sends large files in parallel chunks and resumes an upload that broke off, with no size limit. Folders show as a list or as thumbnails of images and videos, music plays in the browser with transcoding, text and Markdown files open in a viewer and an editor, and folders download as zip or tar. It indexes the files to search them by name, date, size or music tags, and serves them over WebDAV too, so a computer can mount them as a drive.",
+				"People run copyparty to keep and share their files without Dropbox or Google Drive. This template shares one folder, kept in a volume, with the single account made from the fields, and with nobody else; share links give out a file or a folder, with a password or an expiry if wanted. More accounts and folders are more -a and -v arguments in compose.yaml. The catch: its interface is dense, made for speed more than looks, and its FTP, SFTP and SMB servers need ports this template does not publish, so only the browser and WebDAV reach it."
+			],
+			"faq": [
+				{
+					"q": "Is copyparty free?",
+					"a": "Yes. copyparty is open source under the MIT license, with no paid edition and no limits on files, users or upload size."
+				},
+				{
+					"q": "Is it safe to put copyparty online?",
+					"a": "This template asks for the username and password for everything, and an address without them sees no files. copyparty bans an address for 24 hours after 9 failed sign-ins within an hour, and it reads the client’s real address from the proxy, so the ban hits the right one."
+				},
+				{
+					"q": "Can I mount copyparty as a network drive?",
+					"a": "Yes, over WebDAV: in Windows with Map network drive, in macOS with Connect to Server in Finder, in Linux with the file manager or rclone. Sign in with the same username and password; the connect button in copyparty’s control panel lists the steps for each."
+				},
+				{
+					"q": "How do I share a file with copyparty?",
+					"a": "Select the file or folder and press share at the bottom right: copyparty makes a link under /share, with a password, an expiry and uploads by visitors if you choose. Its owner deletes or extends a share in the control panel."
+				},
+				{
+					"q": "How do I add more users to copyparty?",
+					"a": "Add an -a name:password argument for each to compose.yaml’s command, and name them in the -v line of the folder, such as A,owner:r,friend for read access only. Deploy again and they can sign in."
+				}
+			]
+		},
+		"de": {
+			"description": "Dateiserver im Browser: fortsetzbare Uploads, ein Mediaplayer und Freigabelinks, mit WebDAV",
+			"notes": "Melde dich mit dem Benutzernamen und dem Admin-Passwort an, die du angegeben hast: Diesem Konto gehört jede Datei, und alle anderen sehen nichts. Zum Hochladen ziehst du Dateien auf die Seite, und mit „share“ erstellst du einen Link zu einer Datei oder einem Ordner, auf Wunsch mit Passwort oder Ablaufdatum. Um die Dateien unter Windows, macOS oder Linux als Netzlaufwerk zu öffnen, verbinde einen WebDAV-Client mit https://{host}, mit demselben Benutzernamen und Passwort: Wie das geht, zeigt „connect“ im „control-panel“.",
+			"sizing": "copyparty ist sehr leicht: etwa 40 MB RAM, und auf der Disk liegen deine Dateien und etwas mehr für ihre Vorschaubilder und den Index.",
+			"summary": "copyparty selbst hosten: schneller Open-Source-Dateiserver mit fortsetzbaren Uploads, Mediaplayer, Freigabelinks und WebDAV. Mit Passwort, mit einem Klick.",
+			"about": [
+				"copyparty macht aus einer Maschine einen Dateiserver, den jeder Webbrowser nutzen kann. Sein Uploader up2k schickt große Dateien in parallelen Teilen und setzt einen abgebrochenen Upload fort, ohne Größenlimit. Ordner erscheinen als Liste oder als Vorschaubilder von Bildern und Videos, Musik läuft im Browser und wird dabei transcodiert, Text- und Markdown-Dateien öffnen sich in einem Betrachter und einem Editor, und Ordner lassen sich als zip oder tar herunterladen. copyparty indexiert die Dateien, um sie nach Name, Datum, Größe oder Musik-Tags zu durchsuchen, und stellt sie auch über WebDAV bereit, sodass ein Computer sie als Laufwerk mounten kann.",
+				"Viele betreiben copyparty, um ihre Dateien ohne Dropbox oder Google Drive aufzubewahren und zu teilen. Diese Vorlage gibt einen Ordner, der in einem Volume liegt, für das eine Konto aus den Feldern frei und für niemanden sonst; Freigabelinks geben eine Datei oder einen Ordner heraus, auf Wunsch mit Passwort oder Ablaufdatum. Weitere Konten und Ordner sind weitere Argumente -a und -v in der compose.yaml. Der Haken: Die Oberfläche ist dicht gepackt, eher auf Tempo als auf Optik gebaut, und die FTP-, SFTP- und SMB-Server von copyparty brauchen Ports, die diese Vorlage nicht veröffentlicht, sodass es nur über den Browser und WebDAV erreichbar ist."
+			],
+			"faq": [
+				{
+					"q": "Ist copyparty kostenlos?",
+					"a": "Ja. copyparty ist Open Source unter der MIT-Lizenz, ohne kostenpflichtige Edition und ohne Limits für Dateien, Benutzer oder Upload-Größe."
+				},
+				{
+					"q": "Ist es sicher, copyparty ins Internet zu stellen?",
+					"a": "Diese Vorlage verlangt für alles den Benutzernamen und das Passwort, und ohne sie sieht eine Adresse keine Dateien. copyparty sperrt eine Adresse für 24 h nach 9 fehlgeschlagenen Anmeldungen innerhalb einer Stunde und liest die echte Adresse des Clients vom Proxy, sodass die Sperre die richtige trifft."
+				},
+				{
+					"q": "Kann ich copyparty als Netzlaufwerk mounten?",
+					"a": "Ja, über WebDAV: unter Windows mit „Netzlaufwerk verbinden“, unter macOS im Finder mit „Mit Server verbinden“, unter Linux mit dem Dateimanager oder rclone. Melde dich mit demselben Benutzernamen und Passwort an; „connect“ im „control-panel“ von copyparty listet die Schritte für jedes System auf."
+				},
+				{
+					"q": "Wie teile ich eine Datei mit copyparty?",
+					"a": "Wähl die Datei oder den Ordner aus und klick unten rechts auf „share“: copyparty erstellt einen Link unter /share, auf Wunsch mit Passwort, Ablaufdatum und Uploads von allen, die den Link öffnen. Wer die Freigabe besitzt, löscht oder verlängert sie im „control-panel“."
+				},
+				{
+					"q": "Wie füge ich in copyparty weitere Benutzer hinzu?",
+					"a": "Füg für jede Person ein Argument -a name:password unter command in der compose.yaml hinzu und nenn sie in der Zeile -v des Ordners, etwa A,owner:r,friend für reinen Lesezugriff. Deploy das Projekt neu, dann können sie sich anmelden."
+				}
+			]
+		},
+		"es": {
+			"description": "Un servidor de archivos en el navegador: subidas reanudables, reproductor multimedia y enlaces para compartir, con WebDAV",
+			"notes": "Inicia sesión con el nombre de usuario y la contraseña de administrador que indicaste: esa cuenta es la dueña de todos los archivos, y nadie más ve nada. Sube archivos arrastrándolos a la página, y crea un enlace a un archivo o una carpeta con el botón “share”, con contraseña o fecha de caducidad si quieres. Para abrir los archivos en Windows, macOS o Linux como unidad de red, conecta un cliente WebDAV a https://{host} con el mismo nombre de usuario y contraseña: el botón “connect” del “control panel” muestra cómo.",
+			"sizing": "copyparty es muy ligero: unos 40 MB de memoria, y el disco guarda tus archivos y un poco más para sus miniaturas y su índice.",
+			"summary": "copyparty: servidor de archivos rápido y de código abierto con subidas reanudables, reproductor, enlaces y WebDAV. Autoalójalo en un clic, con contraseña.",
+			"about": [
+				"copyparty convierte una máquina en un servidor de archivos que cualquier navegador web puede usar. Su cargador, up2k, envía los archivos grandes en fragmentos paralelos y reanuda una subida que se cortó, sin límite de tamaño. Las carpetas se muestran como lista o como miniaturas de imágenes y videos, la música se reproduce en el navegador con transcodificación, los archivos de texto y Markdown se abren en un visor y un editor, y las carpetas se descargan como zip o tar. Indexa los archivos para buscarlos por nombre, fecha, tamaño o etiquetas de música, y también los sirve por WebDAV, así que un equipo puede montarlos como unidad.",
+				"La gente usa copyparty para guardar y compartir sus archivos sin Dropbox ni Google Drive. Esta plantilla comparte una carpeta, guardada en un volumen, con la única cuenta creada con los datos de los campos, y con nadie más; los enlaces para compartir dan acceso a un archivo o una carpeta, con contraseña o fecha de caducidad si se quiere. Más cuentas y carpetas son más argumentos -a y -v en compose.yaml. El inconveniente: su interfaz es densa, pensada más para la velocidad que para la estética, y sus servidores FTP, SFTP y SMB necesitan puertos que esta plantilla no publica, así que solo se llega a él desde el navegador y por WebDAV."
+			],
+			"faq": [
+				{
+					"q": "¿copyparty es gratis?",
+					"a": "Sí. copyparty es de código abierto bajo la licencia MIT, sin edición de pago y sin límites de archivos, usuarios ni tamaño de subida."
+				},
+				{
+					"q": "¿Es seguro poner copyparty en línea?",
+					"a": "Esta plantilla pide el nombre de usuario y la contraseña para todo, y quien llega sin ellos no ve ningún archivo. copyparty bloquea una dirección IP durante 24 horas tras 9 inicios de sesión fallidos en una hora, y lee la dirección real del cliente desde el proxy, así que el bloqueo cae sobre la correcta."
+				},
+				{
+					"q": "¿Puedo montar copyparty como unidad de red?",
+					"a": "Sí, por WebDAV: en Windows con “Conectar a unidad de red”, en macOS con “Conectarse al servidor” en el Finder, en Linux con el administrador de archivos o rclone. Inicia sesión con el mismo nombre de usuario y contraseña; el botón “connect” del “control panel” de copyparty indica los pasos para cada uno."
+				},
+				{
+					"q": "¿Cómo comparto un archivo con copyparty?",
+					"a": "Selecciona el archivo o la carpeta y haz clic en “share”, abajo a la derecha: copyparty crea un enlace bajo /share, con contraseña, fecha de caducidad y subidas de los visitantes si así lo eliges. El dueño de un enlace compartido lo elimina o lo prolonga en el “control panel”."
+				},
+				{
+					"q": "¿Cómo agrego más usuarios a copyparty?",
+					"a": "Agrega al command de compose.yaml un argumento -a name:password por cada uno, y nómbralos en la línea -v de la carpeta, como A,owner:r,friend para un acceso de solo lectura. Vuelve a desplegar y ya podrán iniciar sesión."
+				}
+			]
+		},
+		"fr": {
+			"description": "Un serveur de fichiers dans le navigateur : envois avec reprise, lecteur multimédia et liens de partage, avec WebDAV",
+			"notes": "Connectez-vous avec le nom d’utilisateur et le mot de passe administrateur indiqués : ce compte possède tous les fichiers, et personne d’autre ne voit rien. Envoyez des fichiers en les déposant sur la page, et créez un lien vers un fichier ou un dossier avec le bouton « share », avec un mot de passe ou une date d’expiration si vous le souhaitez. Pour ouvrir les fichiers comme un lecteur réseau sous Windows, macOS ou Linux, connectez un client WebDAV à https://{host} avec les mêmes nom d’utilisateur et mot de passe : le bouton « connect » du « control-panel » montre comment faire.",
+			"sizing": "copyparty est très léger : environ 40 MB de mémoire, et le disque contient vos fichiers, avec un peu plus pour leurs miniatures et leur index.",
+			"summary": "copyparty, serveur de fichiers open source rapide : reprise d’envoi, lecteur média, liens de partage, WebDAV. Auto-hébergé en un clic, sous mot de passe.",
+			"about": [
+				"copyparty transforme une machine en serveur de fichiers que n’importe quel navigateur web peut utiliser. Son outil d’envoi, up2k, transfère les gros fichiers en morceaux parallèles et reprend un envoi interrompu, sans limite de taille. Les dossiers s’affichent en liste ou en miniatures des images et des vidéos, la musique se lit dans le navigateur avec transcodage, les fichiers texte et Markdown s’ouvrent dans une visionneuse et un éditeur, et les dossiers se téléchargent en zip ou en tar. Il indexe les fichiers pour les chercher par nom, date, taille ou tags musicaux, et les sert aussi en WebDAV, si bien qu’un ordinateur peut les monter comme un lecteur.",
+				"On fait tourner copyparty pour garder et partager ses fichiers sans Dropbox ni Google Drive. Ce template partage un seul dossier, gardé dans un volume, avec le seul compte créé à partir des champs, et uniquement avec lui ; les liens de partage donnent accès à un fichier ou à un dossier, avec un mot de passe ou une date d’expiration au besoin. Ajouter des comptes et des dossiers, c’est ajouter des arguments -a et -v dans compose.yaml. Le revers : son interface est dense, faite pour la vitesse plus que pour l’apparence, et ses serveurs FTP, SFTP et SMB demandent des ports que ce template ne publie pas : seuls le navigateur et WebDAV y accèdent."
+			],
+			"faq": [
+				{
+					"q": "copyparty est-il gratuit ?",
+					"a": "Oui. copyparty est open source sous licence MIT, sans édition payante et sans limite de fichiers, d’utilisateurs ni de taille d’envoi."
+				},
+				{
+					"q": "Est-il sûr de mettre copyparty en ligne ?",
+					"a": "Ce template demande le nom d’utilisateur et le mot de passe pour tout, et une adresse qui ne les donne pas ne voit aucun fichier. copyparty bannit une adresse pendant 24 heures après 9 échecs de connexion en une heure, et il lit la vraie adresse du client transmise par le proxy, pour que le bannissement touche la bonne."
+				},
+				{
+					"q": "Puis-je monter copyparty comme lecteur réseau ?",
+					"a": "Oui, en WebDAV : sous Windows avec « Connecter un lecteur réseau », sous macOS avec « Se connecter au serveur » dans le Finder, sous Linux avec le gestionnaire de fichiers ou rclone. Connectez-vous avec les mêmes nom d’utilisateur et mot de passe ; le bouton « connect » du « control-panel » de copyparty détaille les étapes pour chacun."
+				},
+				{
+					"q": "Comment partager un fichier avec copyparty ?",
+					"a": "Sélectionnez le fichier ou le dossier et appuyez sur « share » en bas à droite : copyparty crée un lien sous /share, avec un mot de passe, une date d’expiration et des envois par les visiteurs si vous le choisissez. Le propriétaire d’un partage le supprime ou le prolonge dans le « control-panel »."
+				},
+				{
+					"q": "Comment ajouter des utilisateurs à copyparty ?",
+					"a": "Ajoutez un argument -a name:password pour chacun à la commande de compose.yaml, et nommez-les dans la ligne -v du dossier, par exemple A,owner:r,friend pour un accès en lecture seule de friend. Redéployez : ils peuvent alors se connecter."
+				}
+			]
+		},
+		"pl": {
+			"description": "Serwer plików w przeglądarce: wznawiane wgrywanie, odtwarzacz multimediów i linki udostępniania, z WebDAV",
+			"notes": "Zaloguj się nazwą użytkownika i hasłem administratora podanymi przy tworzeniu projektu: do tego konta należą wszystkie pliki, a nikt inny nic nie widzi. Pliki wgrasz, upuszczając je na stronę, a link do pliku albo katalogu utworzysz przyciskiem „share”, jeśli chcesz – z hasłem albo datą wygaśnięcia. Żeby otworzyć pliki w Windowsie, macOS albo Linuksie jako dysk sieciowy, połącz klienta WebDAV z https://{host}, logując się tą samą nazwą użytkownika i hasłem: przycisk „connect” na stronie „control panel” pokazuje, jak to zrobić.",
+			"sizing": "copyparty ma bardzo małe wymagania: około 40 MB pamięci, a dysk mieści twoje pliki i trochę więcej na ich miniatury i indeks.",
+			"summary": "copyparty to szybki serwer plików open source: wznawiane wgrywanie, odtwarzacz, linki udostępniania i WebDAV. Hostuj go u siebie w jeden klik, z hasłem.",
+			"about": [
+				"copyparty zmienia maszynę w serwer plików, z którego skorzysta każda przeglądarka. Jego mechanizm wgrywania, up2k, wysyła duże pliki równoległymi kawałkami i wznawia przerwane wgrywanie, bez limitu rozmiaru. Katalogi wyświetlają się jako lista albo jako miniatury obrazów i filmów, muzyka gra w przeglądarce z transkodowaniem, pliki tekstowe i Markdown otwierają się w podglądzie i edytorze, a katalogi pobiera się jako zip albo tar. copyparty indeksuje pliki, żeby wyszukiwać je po nazwie, dacie, rozmiarze albo tagach muzycznych, i udostępnia je też przez WebDAV, więc komputer może je zamontować jako dysk.",
+				"Ludzie uruchamiają copyparty, żeby trzymać i udostępniać swoje pliki bez Dropboxa czy Google Drive. Ten szablon udostępnia jeden katalog, trzymany na wolumenie, jedynemu kontu utworzonemu z pól formularza i nikomu więcej; linki udostępniania dają dostęp do pliku albo katalogu, w razie potrzeby z hasłem albo datą wygaśnięcia. Więcej kont i katalogów to kolejne argumenty -a i -v w compose.yaml. Haczyk: interfejs jest gęsty, zrobiony bardziej z myślą o szybkości niż o wyglądzie, a serwery FTP, SFTP i SMB copyparty wymagają portów, których ten szablon nie publikuje, więc dostęp jest tylko przez przeglądarkę i WebDAV."
+			],
+			"faq": [
+				{
+					"q": "Czy copyparty jest darmowy?",
+					"a": "Tak. copyparty to open source na licencji MIT, bez płatnej edycji i bez limitów plików, użytkowników ani rozmiaru wgrywanych plików."
+				},
+				{
+					"q": "Czy można bezpiecznie wystawić copyparty do internetu?",
+					"a": "Ten szablon wymaga nazwy użytkownika i hasła do wszystkiego, a bez nich nie widać żadnych plików. copyparty blokuje adres na 24 godziny po 9 nieudanych logowaniach w ciągu godziny i odczytuje prawdziwy adres klienta z proxy, więc blokada trafia we właściwy adres."
+				},
+				{
+					"q": "Czy mogę zamontować copyparty jako dysk sieciowy?",
+					"a": "Tak, przez WebDAV: w Windowsie poleceniem Mapuj dysk sieciowy, w macOS poleceniem Połącz z serwerem w Finderze, w Linuksie menedżerem plików albo rclone. Zaloguj się tą samą nazwą użytkownika i hasłem; przycisk „connect” na stronie „control panel” w copyparty podaje kroki dla każdego systemu."
+				},
+				{
+					"q": "Jak udostępnić plik w copyparty?",
+					"a": "Zaznacz plik albo katalog i kliknij „share” w prawym dolnym rogu: copyparty utworzy link pod /share, jeśli chcesz – z hasłem, datą wygaśnięcia i wgrywaniem przez odwiedzających. Właściciel udostępnienia usuwa je albo przedłuża na stronie „control panel”."
+				},
+				{
+					"q": "Jak dodać kolejnych użytkowników do copyparty?",
+					"a": "Dodaj argument -a name:password dla każdego z nich do klucza command w compose.yaml i dopisz ich w linii -v katalogu, na przykład A,owner:r,friend dla dostępu tylko do odczytu. Wdróż ponownie, a będą mogli się zalogować."
+				}
+			]
+		},
+		"pt": {
+			"description": "Um servidor de arquivos no navegador: uploads retomáveis, player de mídia e links de compartilhamento, com WebDAV",
+			"notes": "Entre com o usuário e a senha de administrador que você informou: essa conta é dona de todos os arquivos, e ninguém mais vê nada. Envie arquivos soltando-os na página e crie um link para um arquivo ou uma pasta com o botão “share”, com senha ou prazo de validade, se quiser. Para abrir os arquivos no Windows, no macOS ou no Linux como unidade de rede, conecte um cliente WebDAV a https://{host} com o mesmo usuário e a mesma senha: o botão “connect” no “control panel” mostra como.",
+			"sizing": "O copyparty é muito leve: cerca de 40 MB de memória, e o disco guarda seus arquivos, com um pouco mais para as miniaturas e o índice deles.",
+			"summary": "O copyparty é um servidor de arquivos rápido e open source: uploads retomáveis, player de mídia, links e WebDAV. Auto-hospede em um clique, com senha.",
+			"about": [
+				"O copyparty transforma uma máquina num servidor de arquivos que qualquer navegador consegue usar. O uploader dele, o up2k, envia arquivos grandes em partes paralelas e retoma um upload que foi interrompido, sem limite de tamanho. As pastas aparecem como lista ou como miniaturas de imagens e vídeos, as músicas tocam no navegador com transcodificação, arquivos de texto e Markdown abrem num visualizador e num editor, e as pastas são baixadas como zip ou tar. Ele indexa os arquivos para buscá-los por nome, data, tamanho ou tags de música, e também os serve por WebDAV, para que um computador possa montá-los como uma unidade.",
+				"As pessoas usam o copyparty para guardar e compartilhar seus arquivos sem Dropbox nem Google Drive. Este template compartilha uma pasta, guardada num volume, com a única conta criada a partir dos campos, e com mais ninguém; os links de compartilhamento liberam um arquivo ou uma pasta, com senha ou prazo de validade, se você quiser. Mais contas e pastas são mais argumentos -a e -v no compose.yaml. O porém: a interface é densa, feita mais para a velocidade que para a aparência, e os servidores FTP, SFTP e SMB dele precisam de portas que este template não publica, então só o navegador e o WebDAV chegam a ele."
+			],
+			"faq": [
+				{
+					"q": "O copyparty é gratuito?",
+					"a": "Sim. O copyparty é de código aberto sob a licença MIT, sem edição paga e sem limite de arquivos, usuários ou tamanho de upload."
+				},
+				{
+					"q": "É seguro colocar o copyparty no ar?",
+					"a": "Este template pede o usuário e a senha para tudo, e um endereço sem eles não vê nenhum arquivo. O copyparty bloqueia um endereço por 24 horas depois de 9 tentativas de login com falha em uma hora, e lê o endereço real do cliente pelo proxy, então o bloqueio atinge o endereço certo."
+				},
+				{
+					"q": "Posso montar o copyparty como unidade de rede?",
+					"a": "Sim, por WebDAV: no Windows com “Mapear unidade de rede”, no macOS com “Conectar ao Servidor” no Finder, no Linux com o gerenciador de arquivos ou o rclone. Entre com o mesmo usuário e a mesma senha; o botão “connect” no “control panel” do copyparty lista os passos para cada um."
+				},
+				{
+					"q": "Como compartilho um arquivo com o copyparty?",
+					"a": "Selecione o arquivo ou a pasta e clique em “share”, no canto inferior direito: o copyparty cria um link em /share, com senha, prazo de validade e uploads de visitantes, se você escolher. O dono de um compartilhamento o exclui ou o prorroga no “control panel”."
+				},
+				{
+					"q": "Como adiciono mais usuários ao copyparty?",
+					"a": "Adicione um argumento -a name:password para cada um na chave command do compose.yaml e cite-os na linha -v da pasta, por exemplo A,owner:r,friend para acesso somente leitura. Faça deploy de novo, e eles já podem entrar."
+				}
+			]
+		},
+		"ru": {
+			"description": "Файловый сервер в браузере: загрузки с докачкой, медиаплеер и ссылки для доступа, плюс WebDAV",
+			"notes": "Войдите с именем пользователя и паролем администратора, которые вы указали: этому аккаунту принадлежат все файлы, а остальные не видят ничего. Загружайте файлы, перетаскивая их на страницу, а ссылку на файл или папку делайте кнопкой «share», при желании с паролем или сроком действия. Чтобы открыть файлы в Windows, macOS или Linux как сетевой диск, подключите WebDAV-клиент к https://{host} с теми же именем пользователя и паролем: кнопка «connect» на странице «control panel» покажет, как это сделать.",
+			"sizing": "copyparty: совсем небольшие требования — около 40 MB памяти, а на диске лежат ваши файлы и немного сверх того для их миниатюр и индекса.",
+			"summary": "Self-hosted copyparty — быстрый open source файловый сервер с докачкой загрузок, медиаплеером, ссылками для доступа и WebDAV. В один клик, под паролем.",
+			"about": [
+				"copyparty превращает машину в файловый сервер, которым можно пользоваться из любого браузера. Его загрузчик up2k отправляет большие файлы параллельными частями и продолжает оборвавшуюся загрузку, без ограничения на размер. Папки показываются списком или миниатюрами изображений и видео, музыка играет в браузере с перекодированием, текстовые файлы и Markdown открываются в просмотрщике и редакторе, а папки скачиваются в zip или tar. Он индексирует файлы, чтобы искать их по имени, дате, размеру или музыкальным тегам, и отдает их еще и по WebDAV, так что компьютер может подключить их как диск.",
+				"copyparty запускают, чтобы хранить свои файлы и делиться ими без Dropbox или Google Drive. Этот шаблон дает доступ к одной папке, которая хранится в томе, единственному аккаунту, созданному по данным из полей, и больше никому; ссылки для доступа выдают файл или папку, при желании с паролем или сроком действия. Новые аккаунты и папки — это дополнительные аргументы -a и -v в compose.yaml. Подвох: интерфейс у него плотный и сделан скорее для скорости, чем для красоты, а его серверам FTP, SFTP и SMB нужны порты, которые этот шаблон не публикует, поэтому до него добираются только из браузера и по WebDAV."
+			],
+			"faq": [
+				{
+					"q": "copyparty бесплатный?",
+					"a": "Да. copyparty распространяется с открытым кодом под лицензией MIT, без платной редакции и без ограничений на файлы, пользователей или размер загрузки."
+				},
+				{
+					"q": "Безопасно ли держать copyparty в интернете?",
+					"a": "Этот шаблон спрашивает имя пользователя и пароль для всего, и без них файлов не видно ни с одного адреса. copyparty блокирует адрес на 24 часа после 9 неудачных попыток входа за час и берет настоящий адрес клиента у прокси, поэтому блокируется именно нужный адрес."
+				},
+				{
+					"q": "Можно ли подключить copyparty как сетевой диск?",
+					"a": "Да, по WebDAV: в Windows через «Подключить сетевой диск», в macOS через «Подключение к серверу» в Finder, в Linux через файловый менеджер или rclone. Входите с теми же именем пользователя и паролем; кнопка «connect» на странице «control panel» в copyparty расписывает шаги для каждой системы."
+				},
+				{
+					"q": "Как поделиться файлом через copyparty?",
+					"a": "Выделите файл или папку и нажмите «share» справа внизу: copyparty создаст ссылку в /share, по вашему выбору с паролем, сроком действия и загрузкой файлов посетителями. Ее владелец удаляет ссылку или продлевает ее на странице «control panel»."
+				},
+				{
+					"q": "Как добавить еще пользователей в copyparty?",
+					"a": "Добавьте в command файла compose.yaml аргумент -a name:password для каждого и укажите их в строке -v нужной папки, например A,owner:r,friend для доступа только на чтение. Передеплойте проект, и они смогут войти."
+				}
+			]
+		},
+		"uk": {
+			"description": "Файловий сервер у браузері: завантаження з докачуванням, медіаплеєр і спільні посилання, а також WebDAV",
+			"notes": "Увійдіть з іменем користувача й паролем адміністратора, які ви вказали: цьому акаунту належать усі файли, а будь-хто інший не бачить нічого. Щоб завантажити файли, перетягніть їх на сторінку, а посилання на файл чи папку створіть кнопкою «share», за бажання з паролем або терміном дії. Щоб відкрити файли у Windows, macOS чи Linux як мережевий диск, підключіть WebDAV-клієнт до https://{host} з тим самим іменем користувача й паролем: як це зробити, показує кнопка «connect» на сторінці «control-panel».",
+			"sizing": "copyparty має дуже скромні вимоги: близько 40 MB пам’яті, а на диску лежать ваші файли й трохи більше для їхніх мініатюр та індексу.",
+			"summary": "copyparty — швидкий open-source файловий сервер: завантаження з докачуванням, медіаплеєр, спільні посилання й WebDAV. Self-hosted в один клік, за паролем.",
+			"about": [
+				"copyparty перетворює машину на файловий сервер, з яким працює будь-який браузер. Його завантажувач, up2k, надсилає великі файли паралельними частинами й продовжує завантаження, що обірвалося, без обмеження розміру. Папки показуються списком або мініатюрами зображень і відео, музика грає в браузері з перекодуванням, текстові файли й Markdown відкриваються в переглядачі та редакторі, а папки звантажуються як zip або tar. Він індексує файли, щоб шукати їх за назвою, датою, розміром чи музичними тегами, і віддає їх також через WebDAV, тож комп’ютер може змонтувати їх як диск.",
+				"copyparty запускають, щоб зберігати файли й ділитися ними без Dropbox чи Google Drive. Цей шаблон відкриває одну папку, що зберігається в томі, лише одному акаунту, створеному з полів, і більше нікому; спільні посилання дають доступ до файлу чи папки, за бажання з паролем або терміном дії. Більше акаунтів і папок — це додаткові аргументи -a та -v у compose.yaml. Підводний камінь: інтерфейс щільний, зроблений радше для швидкості, ніж для краси, а його серверам FTP, SFTP і SMB потрібні порти, які цей шаблон не публікує, тож дістатися до нього можна лише з браузера й через WebDAV."
+			],
+			"faq": [
+				{
+					"q": "copyparty безкоштовний?",
+					"a": "Так. copyparty має відкритий код за ліцензією MIT, без платної редакції й без обмежень на файли, користувачів чи розмір завантажень."
+				},
+				{
+					"q": "Чи безпечно робити copyparty доступним з інтернету?",
+					"a": "Цей шаблон вимагає ім’я користувача й пароль для всього, і без них жодна адреса не бачить файлів. copyparty блокує адресу на 24 години після 9 невдалих спроб входу протягом години й бере справжню адресу клієнта від проксі, тож блокується саме та адреса, що треба."
+				},
+				{
+					"q": "Чи можна змонтувати copyparty як мережевий диск?",
+					"a": "Так, через WebDAV: у Windows — командою «Підключити мережевий диск», у macOS — «Під’єднатися до сервера» у Finder, у Linux — через файловий менеджер або rclone. Входьте з тим самим іменем користувача й паролем; кнопка «connect» на сторінці «control-panel» у copyparty перелічує кроки для кожної системи."
+				},
+				{
+					"q": "Як поділитися файлом через copyparty?",
+					"a": "Виберіть файл або папку й натисніть «share» внизу праворуч: copyparty створить посилання в /share, за вашим вибором — з паролем, терміном дії та завантаженнями від відвідувачів. Власник видаляє спільний доступ або подовжує його на сторінці «control-panel»."
+				},
+				{
+					"q": "Як додати інших користувачів у copyparty?",
+					"a": "Додайте для кожного аргумент -a name:password до command у файлі compose.yaml і вкажіть їх у рядку -v для папки, наприклад A,owner:r,friend, щоб дати доступ лише на читання. Задеплойте ще раз, і вони зможуть увійти."
+				}
+			]
+		}
+	}
+}
