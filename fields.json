@@ -117,5 +117,85 @@
 			"ru": "Сайт для отслеживания",
 			"uk": "Сайт для відстеження"
 		}
+	},
+	"resendKey": {
+		"type": "key",
+		"placeholder": "re_…",
+		"label": {
+			"en": "Resend API key",
+			"de": "Resend-API-Key",
+			"es": "Clave de API de Resend",
+			"fr": "Clé d’API Resend",
+			"pl": "Klucz API Resend",
+			"pt": "Chave de API do Resend",
+			"ru": "API-ключ Resend",
+			"uk": "API-ключ Resend"
+		}
+	},
+	"sendgridKey": {
+		"type": "key",
+		"placeholder": "SG.…",
+		"label": {
+			"en": "SendGrid API key",
+			"de": "SendGrid-API-Key",
+			"es": "Clave de API de SendGrid",
+			"fr": "Clé d’API SendGrid",
+			"pl": "Klucz API SendGrid",
+			"pt": "Chave de API do SendGrid",
+			"ru": "API-ключ SendGrid",
+			"uk": "API-ключ SendGrid"
+		}
+	},
+	"sesEndpoint": {
+		"placeholder": "email-smtp.eu-central-1.amazonaws.com",
+		"label": {
+			"en": "SMTP endpoint",
+			"de": "SMTP-Endpoint",
+			"es": "Endpoint SMTP",
+			"fr": "Endpoint SMTP",
+			"pl": "Endpoint SMTP",
+			"pt": "Endpoint SMTP",
+			"ru": "SMTP-эндпоинт",
+			"uk": "SMTP-ендпоінт"
+		}
+	},
+	"sesUsername": {
+		"placeholder": "AKIA…",
+		"label": {
+			"en": "SMTP username",
+			"de": "SMTP-Benutzername",
+			"es": "Nombre de usuario SMTP",
+			"fr": "Nom d’utilisateur SMTP",
+			"pl": "Nazwa użytkownika SMTP",
+			"pt": "Usuário SMTP",
+			"ru": "Имя пользователя SMTP",
+			"uk": "Ім’я користувача SMTP"
+		}
+	},
+	"sesPassword": {
+		"type": "key",
+		"label": {
+			"en": "SMTP password",
+			"de": "SMTP-Passwort",
+			"es": "Contraseña SMTP",
+			"fr": "Mot de passe SMTP",
+			"pl": "Hasło SMTP",
+			"pt": "Senha SMTP",
+			"ru": "SMTP-пароль",
+			"uk": "SMTP-пароль"
+		}
+	},
+	"mailFrom": {
+		"placeholder": "hello@example.com",
+		"label": {
+			"en": "Sender address",
+			"de": "Absenderadresse",
+			"es": "Dirección del remitente",
+			"fr": "Adresse de l’expéditeur",
+			"pl": "Adres nadawcy",
+			"pt": "Endereço do remetente",
+			"ru": "Адрес отправителя",
+			"uk": "Адреса відправника"
+		}
 	}
 }

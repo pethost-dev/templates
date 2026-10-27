@@ -5,23 +5,24 @@
 //   node catalog.mjs          checks the templates, and says what is wrong
 //
 // A template is a directory named by its id: compose.yaml, logo.svg or logo.png, and
-// template.json (README.md says what each holds). Beside them: languages.json, the languages
-// every text is written in; fields.json, the fields a template may ask the person to fill in;
+// template.json (README.md says what each holds); variables.mjs checks its variables and parts.
+// Beside them: languages.json, the languages every text is written in; fields.json, the fields a
+// template may ask the person to fill in; email.json, the providers an email part offers;
 // categories.json, the kinds of apps a template is listed under; order.json, the templates listed
 // first, in that order, before the rest by id.
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { checkVariables, databaseParts } from './variables.mjs';
+
 /** A template's id: also the project's, and the first name of its address. */
 const idRule = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const idLength = 40;
 
-/** A variable's name in the project's .env. */
-const variableRule = /^[A-Z][A-Z0-9_]*$/;
-
-/** Random bytes a secret may be made of, written in hex: twice as many characters. */
-const secretBytes = { min: 8, max: 64 };
+/** A host's name, as an email provider's: labels of letters, digits and hyphens, with dots
+ *  between them. */
+const hostRule = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/;
 
 /** What a search result shows under a page's title, at most: a longer one is cut. */
 const summaryLength = 155;
@@ -29,20 +30,22 @@ const summaryLength = 155;
 /** Pethost's plans, smallest first: a template's page says which one the app fits. */
 const plans = ['starter', 'grow', 'scale'];
 
-const templateKeys = ['name', 'emoji', 'category', 'alternatives', 'plan', 'route', 'variables', 'texts'];
+const templateKeys = ['name', 'emoji', 'category', 'alternatives', 'plan', 'route', 'variables', 'parts', 'texts'];
 
 /** The templates in their order, each with its compose.yaml's text and its logo's file name, and
- *  what they share: the languages, the fields and the categories. Throws with every problem
- *  found. */
+ *  what they share: the languages, the fields, the email providers, the categories and each
+ *  database part's prefix (databaseParts). Throws with every problem found. */
 export function readCatalog(dir) {
 	const problems = [];
 	const read = (file) => readJson(join(dir, file), file, problems);
 
 	const languages = read('languages.json') ?? [];
 	const fields = read('fields.json') ?? {};
+	const email = read('email.json') ?? {};
 	const categories = read('categories.json') ?? {};
 	const order = read('order.json') ?? [];
 	checkFields(fields, languages, problems);
+	checkEmail(email, fields, problems);
 
 	const ids = readdirSync(dir, { withFileTypes: true })
 		.filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
@@ -55,7 +58,7 @@ export function readCatalog(dir) {
 	const templates = listed.map((id) => readTemplate(dir, id, { languages, fields, categories }, problems));
 
 	if (problems.length > 0) throw new Error(`The templates have ${problems.length} problems:\n${problems.join('\n')}`);
-	return { languages, fields, categories, templates };
+	return { languages, fields, email, categories, databaseParts, templates };
 }
 
 function readTemplate(dir, id, shared, problems) {
@@ -89,8 +92,7 @@ function checkTemplate(template, compose, { languages, fields, categories }, own
 	if (!plans.includes(template.plan)) own(`plan is the smallest plan the app runs well on: ${plans.join(', ')}`);
 	if (template.route !== undefined) checkRoute(template.route, compose, own);
 
-	if (!Array.isArray(template.variables)) own('variables is a list, empty when the app needs none');
-	else checkVariables(template.variables, compose, fields, own);
+	checkVariables(template, compose, fields, own);
 
 	checkTexts(template.texts, languages, own);
 }
@@ -99,38 +101,6 @@ function checkRoute(route, compose, own) {
 	if (!text(route.service) || !Number.isInteger(route.port) || route.port < 1 || route.port > 65535)
 		own('route is the service and the port its page is served at: {"service": "app", "port": 8080}');
 	else if (!new RegExp(`^  ${route.service}:`, 'm').test(compose)) own(`route names ${route.service}, a service compose.yaml lacks`);
-}
-
-function checkVariables(variables, compose, fields, own) {
-	// A service with env_file: .env reads every variable.
-	const readsAll = /env_file:/.test(compose);
-	const names = new Set();
-	for (const variable of variables) {
-		const { name, ...source } = variable;
-		const where = `variable ${name}`;
-		if (!variableRule.test(name ?? '')) own(`${where}: a name is capitals, digits and underscores`);
-		if (names.has(name)) own(`${where} is listed twice`);
-		names.add(name);
-
-		if (!readsAll && !new RegExp(`\\$\\{?${name}\\b`).test(compose)) own(`${where} is read nowhere in compose.yaml`);
-		checkSource(source, fields, (problem) => own(`${where}: ${problem}`));
-	}
-}
-
-/** Where a variable's value comes from: the project's address, random bytes, or a field. */
-function checkSource(source, fields, own) {
-	const kinds = ['from', 'secret', 'ask'].filter((kind) => kind in source);
-	if (kinds.length !== 1) return own('has one of from, secret and ask');
-
-	const allowed = { from: ['from'], secret: ['secret'], ask: ['ask', 'optional'] }[kinds[0]];
-	const extra = Object.keys(source).filter((key) => !allowed.includes(key));
-	if (extra.length > 0) own(`has no ${extra.join(', ')}`);
-
-	if ('from' in source && !['url', 'host'].includes(source.from)) own('from is "url" or "host"');
-	if ('secret' in source && !(Number.isInteger(source.secret) && source.secret >= secretBytes.min && source.secret <= secretBytes.max))
-		own(`secret is a number of random bytes, from ${secretBytes.min} to ${secretBytes.max}`);
-	if ('ask' in source && !(source.ask in fields)) own(`ask is a field of fields.json: ${Object.keys(fields).join(', ')}`);
-	if ('optional' in source && source.optional !== true) own('optional is true, or left out');
 }
 
 function checkTexts(texts, languages, own) {
@@ -184,6 +154,40 @@ function checkFields(fields, languages, problems) {
 			if (!text(field.label?.[code])) own(`label.${code} is missing`);
 		}
 	}
+}
+
+/** The providers an email part offers, in New project's order, each sending by STARTTLS on its
+ *  port: its host and user, given or asked, and its password, asked unseen. */
+function checkEmail(email, fields, problems) {
+	const own = (problem) => problems.push(`email.json: ${problem}`);
+	const unknown = Object.keys(email).filter((key) => !['from', 'providers'].includes(key));
+	if (unknown.length > 0) own(`has no ${unknown.join(', ')}: it has from and providers`);
+	if (!(email.from in fields) || fields[email.from].type !== undefined) own('from is a field of fields.json with no type: the sender’s address');
+	if (!Array.isArray(email.providers) || email.providers.length === 0) return own('providers lists the providers New project offers');
+
+	const ids = new Set();
+	for (const [i, provider] of email.providers.entries()) {
+		const { id, name, host, port, user, password, help, ...extra } = provider;
+		const where = (problem) => own(`providers[${i}], ${id}: ${problem}`);
+		if (!idRule.test(id ?? '') || ids.has(id)) where('id is lower-case letters and digits, with hyphens between them, and no other provider’s');
+		ids.add(id);
+		if (Object.keys(extra).length > 0) where(`has no ${Object.keys(extra).join(', ')}: it has id, name, host, port, user, password and help`);
+
+		if (!text(name)) where('name is the provider’s own name');
+		if (!Number.isInteger(port) || port < 1 || port > 65535) where('port is the one its STARTTLS is on');
+		if (!givenOrAsked(host, fields) || ('value' in host && !hostRule.test(host.value)))
+			where('host is {"value": "smtp.example.com"}, or {"ask": "<field>"} for one the person copies');
+		if (!givenOrAsked(user, fields)) where('user is {"value": "<the same for everyone>"}, or {"ask": "<field>"}');
+		if (Object.keys(password ?? {}).join() !== 'ask' || fields[password.ask]?.type !== 'key')
+			where('password is {"ask": "<field>"}, a field of type key, which the person copies from the provider and types unseen');
+		if (!URL.canParse(help ?? '') || new URL(help).protocol !== 'https:') where('help is the https address of the provider’s page that gives these');
+	}
+}
+
+/** A value an email provider gives everyone, or a field of fields.json the person fills in. */
+function givenOrAsked(spec, fields) {
+	const keys = Object.keys(spec ?? {}).join();
+	return (keys === 'value' && text(spec.value)) || (keys === 'ask' && spec.ask in fields);
 }
 
 function checkOrder(order, ids, problems) {

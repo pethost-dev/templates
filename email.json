@@ -1,0 +1,32 @@
+{
+	"from": "mailFrom",
+	"providers": [
+		{
+			"id": "resend",
+			"name": "Resend",
+			"host": { "value": "smtp.resend.com" },
+			"port": 2587,
+			"user": { "value": "resend" },
+			"password": { "ask": "resendKey" },
+			"help": "https://resend.com/docs/send-with-smtp"
+		},
+		{
+			"id": "sendgrid",
+			"name": "SendGrid",
+			"host": { "value": "smtp.sendgrid.net" },
+			"port": 2525,
+			"user": { "value": "apikey" },
+			"password": { "ask": "sendgridKey" },
+			"help": "https://www.twilio.com/docs/sendgrid/for-developers/sending-email/integrating-with-the-smtp-api"
+		},
+		{
+			"id": "ses",
+			"name": "Amazon SES",
+			"host": { "ask": "sesEndpoint" },
+			"port": 2587,
+			"user": { "ask": "sesUsername" },
+			"password": { "ask": "sesPassword" },
+			"help": "https://docs.aws.amazon.com/ses/latest/dg/smtp-credentials.html"
+		}
+	]
+}
