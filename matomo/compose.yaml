@@ -1,0 +1,156 @@
+services:
+  matomo:
+    image: matomo:5.14-apache
+    restart: unless-stopped
+    environment:
+      HOST: ${HOST}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      ADMIN_USERNAME: ${ADMIN_USERNAME}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      WEBSITE: ${WEBSITE}
+    # Matomo's code is kept in the volume with its config, plugins and data, as the image does.
+    # The image copies it there at the first start; this copies it again when the image brings a
+    # newer Matomo than the volume holds (Matomo's own one-click update may have put a newer one
+    # there already), and then updates the database.
+    #
+    # A new Matomo offers its installer, which makes the Super User, to whoever opens it first. So
+    # while it is not installed, the installer runs on port 8081, which nobody reaches, and is
+    # filled in there: the database, the Super User from the username, email and password given,
+    # the website to track, and Matomo's own defaults for the rest. Only then does Apache answer
+    # on port 80. A refusal stops it and says why in its log, and the installer is tried again at
+    # the next start.
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        cd /var/www/html
+        as_matomo() { runuser -u www-data -- "$$@"; }
+
+        version() { sed -n "s/.*const VERSION = '\(.*\)';/\1/p" "$$1/core/Version.php"; }
+        if php -r 'exit(version_compare($$argv[1], $$argv[2], ">") ? 0 : 1);' "$$(version /usr/src/matomo)" "$$(version .)"; then
+          echo "Matomo $$(version /usr/src/matomo) into the volume, over $$(version .)"
+          tar cf - --one-file-system -C /usr/src/matomo . | tar xf -
+          chown -R www-data:www-data .
+        fi
+
+        # MariaDB may still be starting, as after a restart of the project.
+        until php -r 'new PDO("mysql:host=mariadb;dbname=matomo", "matomo", getenv("MARIADB_PASSWORD"));' 2> /dev/null; do sleep 2; done
+
+        installed() {
+          php -r '$$c = @parse_ini_file("config/config.ini.php", true);
+            exit(!empty($$c["database"]["username"]) && empty($$c["General"]["installation_in_progress"]) ? 0 : 1);'
+        }
+        if ! installed; then
+          echo "installing Matomo on a port nobody reaches"
+          as_matomo php -S 127.0.0.1:8081 -t . > /tmp/installer.log 2>&1 &
+          installer=$$!
+          # Each step is sent as the project's proxy sends a visitor's request, so Matomo sets
+          # itself up behind it: the address, HTTPS, and the visitor's IP from X-Forwarded-For.
+          step() {
+            action=$$1
+            shift
+            curl -sS -o /tmp/step.html -w '%{http_code}' -H "Host: $$HOST" -H 'X-Forwarded-For: 127.0.0.1' -H 'X-Forwarded-Proto: https' \
+              "$$@" "http://127.0.0.1:8081/index.php?module=Installation&action=$$action"
+          }
+          refused() {
+            php -r 'preg_match("~<div class=\"alert alert-(?:warning|danger)\">(.*?)</div>~s", file_get_contents("/tmp/step.html"), $$m);
+              fwrite(STDERR, "Matomo refused the " . $$argv[1] . ": " . trim(preg_replace("~\s+~", " ", html_entity_decode(strip_tags($$m[1] ?? "")))) . "\n");' "$$1"
+            kill $$installer
+            exit 1
+          }
+          until curl -s -o /dev/null http://127.0.0.1:8081/; do sleep 1; done
+
+          [ "$$(step databaseSetup --data-urlencode host=mariadb --data-urlencode username=matomo --data-urlencode "password=$$MARIADB_PASSWORD" \
+            --data-urlencode dbname=matomo --data-urlencode tables_prefix=matomo_ --data-urlencode 'adapter=PDO\MYSQL' --data-urlencode schema=Mariadb)" = 302 ] \
+            || refused database
+          # The tables, made new, or kept and updated where an earlier start made them.
+          step tablesCreation > /dev/null
+          step reuseTables > /dev/null
+          # A Super User made by an earlier start is kept, and this step skipped.
+          [ "$$(step setupSuperUser --data-urlencode "login=$$ADMIN_USERNAME" --data-urlencode "password=$$ADMIN_PASSWORD" \
+            --data-urlencode "password_bis=$$ADMIN_PASSWORD" --data-urlencode "email=$$ADMIN_EMAIL")" = 302 ] \
+            || refused "Super User"
+          case "$$WEBSITE" in
+            *://*) website=$$WEBSITE ;;
+            *) website=https://$$WEBSITE ;;
+          esac
+          name=$${website#*://}
+          name=$${name%%/*}
+          [ "$$(step firstWebsiteSetup --data-urlencode "siteName=$$name" --data-urlencode "url=$$website" \
+            --data-urlencode timezone=UTC --data-urlencode ecommerce=0)" = 302 ] \
+            || refused website
+          # Matomo's defaults: visitors' IPs anonymised, and DB-IP's free location database
+          # downloaded now and every month.
+          [ "$$(step finished --data-urlencode anonymise_ip=1 --data-urlencode setup_geoip2=1 --data-urlencode submit=1)" = 302 ] \
+            || refused settings
+          kill $$installer
+          wait $$installer 2> /dev/null || true
+          # What Matomo's System Check asks for: HTTPS only, which the proxy always serves, and the
+          # reports processed by the archiver below rather than as they are opened.
+          as_matomo php console config:set --section=General --key=force_ssl --value=1
+          as_matomo php console config:set --section=General --key=enable_browser_archiving_triggering --value=0
+          echo "Matomo is installed, with the Super User $$ADMIN_USERNAME"
+        fi
+
+        as_matomo php console core:update --yes --no-interaction \
+          || echo "Matomo's database update failed: its page says how to finish it" >&2
+        exec apache2-foreground
+    volumes:
+      - matomo:/var/www/html
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+  # Matomo's reports, processed in the background every 15 minutes, as Matomo advises; the Visits
+  # Log and Real-time show visits at once. Its own entrypoint, so the image's does not copy Matomo
+  # into the volume a second time.
+  archiver:
+    image: matomo:5.14-apache
+    restart: unless-stopped
+    init: true
+    environment:
+      HOST: ${HOST}
+    entrypoint:
+      - sh
+      - -c
+      - |
+        cd /var/www/html
+        while :; do
+          if grep -q '^\[database\]' config/config.ini.php 2>/dev/null && ! grep -q '^installation_in_progress' config/config.ini.php; then
+            runuser -u www-data -- php console core:archive --url="https://$$HOST/" || true
+            sleep 900
+          else
+            sleep 10
+          fi
+        done
+    volumes:
+      - matomo:/var/www/html
+    depends_on:
+      - matomo
+
+  mariadb:
+    image: mariadb:11.8
+    restart: unless-stopped
+    stop_grace_period: 15s
+    # Matomo asks for packets of 64 MB at least.
+    command: --max-allowed-packet=64M
+    environment:
+      MARIADB_AUTO_UPGRADE: "1"
+      MARIADB_DATABASE: matomo
+      MARIADB_USER: matomo
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+    volumes:
+      - db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+volumes:
+  matomo:
+  db:

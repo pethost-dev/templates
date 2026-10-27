@@ -104,5 +104,18 @@
 			"ru": "Электронная почта",
 			"uk": "Електронна пошта"
 		}
+	},
+	"website": {
+		"placeholder": "https://example.com",
+		"label": {
+			"en": "Website to track",
+			"de": "Zu messende Website",
+			"es": "Sitio web que medir",
+			"fr": "Site web à mesurer",
+			"pl": "Strona do mierzenia",
+			"pt": "Site a medir",
+			"ru": "Сайт для отслеживания",
+			"uk": "Сайт для відстеження"
+		}
 	}
 }

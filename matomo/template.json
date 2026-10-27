@@ -1,0 +1,333 @@
+{
+	"name": "Matomo",
+	"emoji": "📈",
+	"category": "monitoring",
+	"alternatives": [
+		"Google Analytics"
+	],
+	"plan": "starter",
+	"route": {
+		"service": "matomo",
+		"port": 80
+	},
+	"variables": [
+		{
+			"name": "HOST",
+			"from": "host"
+		},
+		{
+			"name": "MARIADB_PASSWORD",
+			"secret": 24
+		},
+		{
+			"name": "MARIADB_ROOT_PASSWORD",
+			"secret": 24
+		},
+		{
+			"name": "ADMIN_USERNAME",
+			"ask": "username"
+		},
+		{
+			"name": "ADMIN_EMAIL",
+			"ask": "email"
+		},
+		{
+			"name": "ADMIN_PASSWORD",
+			"ask": "adminPassword"
+		},
+		{
+			"name": "WEBSITE",
+			"ask": "website"
+		}
+	],
+	"texts": {
+		"en": {
+			"description": "Open-source web analytics, the Google Analytics alternative that keeps every visit",
+			"notes": "Sign in at {host} with the username and the admin password you gave: that account is the Super User, made before the page answered anyone, and the website to track is already there. Copy its code from Administration → Websites → Tracking Code into every page of the site, before </head>. Visits show in Visitors → Visits Log at once, and the other reports every 15 minutes. The website starts in UTC: set its time zone in Administration → Websites → Manage.",
+			"sizing": "Matomo takes about 250 MB of memory with MariaDB at rest, and its database grows by about 1 GB for every 5 million page views, as Matomo estimates.",
+			"summary": "Matomo is open-source web analytics, the Google Analytics alternative. Self-host Matomo On-Premise with MariaDB and HTTPS in one click.",
+			"about": [
+				"Matomo is an open-source web analytics platform and the best-known alternative to Google Analytics. A tracking code on a site’s pages records each visit, and the reports show visitors, pages, entry and exit pages, referrers, search engines, campaigns, countries, devices, goals and ecommerce sales, with segments, annotations, scheduled email reports and an HTTP API. The Visits Log and Real-time show visits as they happen, the data is never sampled, and Matomo Tag Manager comes with it. Matomo says more than a million organisations use it.",
+				"This template runs Matomo On-Premise, the free edition under the GPL v3, from the official image with MariaDB. The Super User and the first website are made from the fields before the page answers anyone, so Matomo’s installer is never open to a visitor. Visitors’ IP addresses are anonymised, as Matomo does by default; DB-IP’s free location database is downloaded and updated every month; and an archiver processes the reports every 15 minutes, as Matomo’s System Check asks. Paid plugins such as Heatmap & Session Recording, Funnels, A/B Testing and Form Analytics come from Matomo’s Marketplace."
+			],
+			"faq": [
+				{
+					"q": "Is Matomo free?",
+					"a": "Yes. Matomo On-Premise, which this template runs, is free and open source under the GPL v3 or later. Matomo Cloud is its maker’s hosted service, and the premium plugins of its Marketplace are paid."
+				},
+				{
+					"q": "Matomo or Google Analytics?",
+					"a": "Both report visits, traffic sources, goals and ecommerce. Matomo keeps every visit in its own database where you deploy it, unsampled, and anonymises IP addresses by default. The Google Analytics Importer, a free plugin by Matomo, brings a Google Analytics property’s history over."
+				},
+				{
+					"q": "Do I need a cookie banner with Matomo?",
+					"a": "It depends on where your visitors are and how Matomo is set up. Matomo can track without cookies, and its FAQ lists the conditions under which France’s CNIL lets it run without consent, such as anonymised IP addresses and no Visits Log or User ID. Elsewhere, consent may still be needed."
+				},
+				{
+					"q": "How do I add Matomo to my website?",
+					"a": "Paste the tracking code from Administration → Websites → Tracking Code before </head> on every page, or install it with Matomo Tag Manager. Matomo’s integrations page lists plugins for WordPress, Drupal, Joomla and many other platforms that add it for you."
+				},
+				{
+					"q": "Can I use my own domain for Matomo?",
+					"a": "Yes. Add the domain to the project in Pethost, then, signed in at the project’s address, add it under Administration → System → General settings → Trusted Matomo Hostname. Until then Matomo refuses to sign anyone in on that domain."
+				},
+				{
+					"q": "How do I update Matomo?",
+					"a": "Change the image’s tag in compose.yaml to a newer Matomo and deploy. At its start the container copies the new Matomo into its volume and updates the database, and the config, plugins and data stay as they were."
+				}
+			]
+		},
+		"de": {
+			"description": "Open-Source-Webanalyse: die Alternative zu Google Analytics, die jeden Besuch behält",
+			"notes": "Melde dich unter {host} mit dem Benutzernamen und dem Admin-Passwort an, die du angegeben hast: Dieses Konto ist der Hauptadministrator, angelegt, bevor die Seite irgendwem geantwortet hat, und die zu messende Website ist schon eingetragen. Kopier ihren Code aus „Administration“ → „Webseiten“ → „Tracking-Code“ in jede Seite der Website, vor </head>. Besuche erscheinen sofort unter „Besucher“ → „Besucher-Log“, die übrigen Berichte alle 15 Minuten. Die Website steht anfangs auf UTC: Stell ihre Zeitzone unter „Administration“ → „Webseiten“ → „Verwalten“ ein.",
+			"sizing": "Matomo braucht mit MariaDB im Ruhezustand etwa 250 MB RAM, und seine Datenbank wächst um etwa 1 GB pro 5 Millionen Seitenaufrufe, wie Matomo schätzt.",
+			"summary": "Matomo selbst hosten: Open-Source-Webanalyse, die Alternative zu Google Analytics. Matomo On-Premise mit MariaDB und HTTPS, mit einem Klick.",
+			"about": [
+				"Matomo ist eine Open-Source-Plattform für Webanalyse und die bekannteste Alternative zu Google Analytics. Ein Tracking-Code auf den Seiten einer Website erfasst jeden Besuch, und die Berichte zeigen Besuche, Seiten, Einstiegs- und Ausstiegsseiten, Verweise, Suchmaschinen, Kampagnen, Länder, Geräte, Ziele und E-Commerce-Umsätze, dazu kommen Segmente, Anmerkungen, geplante Berichte per E-Mail und eine HTTP-API. Das „Besucher-Log“ und „Echtzeit“ zeigen Besuche, während sie passieren, die Daten beruhen nie auf Stichproben, und Matomo Tag Manager gehört dazu. Laut Matomo nutzen es mehr als eine Million Organisationen.",
+				"Diese Vorlage betreibt Matomo On-Premise, die kostenlose Edition unter der GPL v3, aus dem offiziellen Image mit MariaDB. Der Hauptadministrator und die erste Website werden aus den Feldern angelegt, bevor die Seite irgendwem antwortet, sodass niemand, der die Adresse öffnet, den Installer von Matomo zu sehen bekommt. Die IP-Adresse jedes Besuchs wird anonymisiert, wie Matomo es standardmäßig tut; die kostenlose Standortdatenbank von DB-IP wird heruntergeladen und jeden Monat aktualisiert; und ein Archivierungsprozess verarbeitet die Berichte alle 15 Minuten, wie es die „Systemprüfung“ von Matomo verlangt. Kostenpflichtige Plugins wie Heatmap & Session Recording, Funnels, A/B Testing und Form Analytics gibt es im Marketplace von Matomo."
+			],
+			"faq": [
+				{
+					"q": "Ist Matomo kostenlos?",
+					"a": "Ja. Matomo On-Premise, das diese Vorlage betreibt, ist kostenlos und Open Source unter der GPL v3 oder neuer. Matomo Cloud ist das gehostete Angebot des Herstellers, und die Premium-Plugins in seinem Marketplace sind kostenpflichtig."
+				},
+				{
+					"q": "Matomo oder Google Analytics?",
+					"a": "Beide zeigen Besuche, Traffic-Quellen, Ziele und E-Commerce. Matomo behält jeden Besuch ohne Stichproben in seiner eigenen Datenbank, dort, wo du es deployst, und anonymisiert IP-Adressen standardmäßig. Der Google Analytics Importer, ein kostenloses Plugin von Matomo, übernimmt die bisherigen Daten einer Google-Analytics-Property."
+				},
+				{
+					"q": "Brauche ich mit Matomo einen Cookie-Banner?",
+					"a": "Das hängt davon ab, wo die Menschen sind, die deine Website besuchen, und wie Matomo eingerichtet ist. Matomo kann ohne Cookies tracken, und seine FAQ nennt die Bedingungen, unter denen die französische CNIL den Einsatz ohne Einwilligung erlaubt, etwa anonymisierte IP-Adressen, kein „Besucher-Log“ und keine User-ID. Anderswo kann trotzdem eine Einwilligung nötig sein."
+				},
+				{
+					"q": "Wie baue ich Matomo in meine Website ein?",
+					"a": "Füg den Tracking-Code aus „Administration“ → „Webseiten“ → „Tracking-Code“ auf jeder Seite vor </head> ein, oder installier ihn mit Matomo Tag Manager. Auf der Integrationsseite von Matomo stehen Plugins für WordPress, Drupal, Joomla und viele andere Plattformen, die das für dich übernehmen."
+				},
+				{
+					"q": "Kann ich eine eigene Domain für Matomo nutzen?",
+					"a": "Ja. Füg die Domain in Pethost zum Projekt hinzu, melde dich dann unter der Adresse des Projekts an und trag sie unter „Administration“ → „System“ → „Allgemeine Einstellungen“ → „Vertrauter Matomo Hostname“ ein. Bis dahin meldet Matomo auf dieser Domain niemanden an."
+				},
+				{
+					"q": "Wie aktualisiere ich Matomo?",
+					"a": "Ändere den Image-Tag in der compose.yaml auf eine neuere Matomo-Version und deploy neu. Beim Start kopiert der Container das neue Matomo in sein Volume und aktualisiert die Datenbank, und Konfiguration, Plugins und Daten bleiben, wie sie waren."
+				}
+			]
+		},
+		"es": {
+			"description": "Analítica web de código abierto, la alternativa a Google Analytics que conserva cada visita",
+			"notes": "Inicia sesión en {host} con el nombre de usuario y la contraseña de administrador que indicaste: esa cuenta, creada antes de que la página respondiera a nadie, es el Superusuario, y el sitio web que vas a medir ya está creado. Copia su código de Administración → Sitios de internet → Código de seguimiento y pégalo en todas las páginas del sitio, antes de </head>. Las visitas aparecen al instante en Visitantes → Registro de visitas, y los demás informes, cada 15 minutos. El sitio web empieza en UTC: configura su zona horaria en Administración → Sitios de internet → Administrar.",
+			"sizing": "Matomo ocupa unos 250 MB de memoria con MariaDB en reposo, y su base de datos crece alrededor de 1 GB por cada 5 millones de páginas vistas, según estima Matomo.",
+			"summary": "Matomo es una plataforma de analítica web de código abierto, la alternativa a Google Analytics. Autoaloja Matomo On-Premise con MariaDB y HTTPS en un clic.",
+			"about": [
+				"Matomo es una plataforma de analítica web de código abierto y la alternativa más conocida a Google Analytics. Un código de seguimiento en las páginas de un sitio registra cada visita, y los informes muestran visitantes, páginas, páginas de entrada y de salida, referencias, motores de búsqueda, campañas, países, dispositivos, objetivos y ventas de comercio electrónico, con segmentos, anotaciones, envío programado de informes por correo y una API HTTP. En “Registro de visitas” y “Tiempo real” las visitas se ven a medida que ocurren, los datos nunca se muestrean y Matomo Tag Manager viene incluido. Según Matomo, lo usan más de un millón de organizaciones.",
+				"Esta plantilla ejecuta Matomo On-Premise, la edición gratuita bajo la GPL v3, desde la imagen oficial con MariaDB. El Superusuario y el primer sitio web se crean con los datos de los campos antes de que la página responda a nadie, así que el instalador de Matomo nunca queda abierto a ningún visitante. Las direcciones IP de los visitantes se anonimizan, como hace Matomo por defecto; la base de datos gratuita de ubicaciones de DB-IP se descarga y se actualiza cada mes; y el archivado de los informes se ejecuta cada 15 minutos, como pide la “Comprobación del sistema” de Matomo. Los plugins de pago, como Heatmap & Session Recording, Funnels, A/B Testing y Form Analytics, se obtienen en el “Mercado” de Matomo."
+			],
+			"faq": [
+				{
+					"q": "¿Matomo es gratis?",
+					"a": "Sí. Matomo On-Premise, la edición que ejecuta esta plantilla, es gratis y de código abierto bajo la GPL v3 o posterior. Matomo Cloud es el servicio alojado de su fabricante, y los plugins premium de su “Mercado” son de pago."
+				},
+				{
+					"q": "¿Matomo o Google Analytics?",
+					"a": "Los dos ofrecen informes de visitas, fuentes de tráfico, objetivos y comercio electrónico. Matomo conserva todas las visitas, sin muestreo, en su propia base de datos, donde lo despliegues, y anonimiza las direcciones IP por defecto. Google Analytics Importer, un plugin gratuito de Matomo, trae el historial de una propiedad de Google Analytics."
+				},
+				{
+					"q": "¿Necesito un banner de cookies con Matomo?",
+					"a": "Depende de dónde estén tus visitantes y de cómo esté configurado Matomo. Matomo puede hacer el seguimiento sin cookies, y sus preguntas frecuentes enumeran las condiciones en las que la CNIL de Francia le permite funcionar sin consentimiento, como anonimizar las direcciones IP y no usar el “Registro de visitas” ni el User ID. En otros lugares, el consentimiento puede seguir siendo necesario."
+				},
+				{
+					"q": "¿Cómo agrego Matomo a mi sitio web?",
+					"a": "Pega el código de seguimiento de Administración → Sitios de internet → Código de seguimiento antes de </head> en cada página, o instálalo con Matomo Tag Manager. La página de integraciones de Matomo enumera plugins para WordPress, Drupal, Joomla y muchas otras plataformas que lo agregan por ti."
+				},
+				{
+					"q": "¿Puedo usar mi propio dominio para Matomo?",
+					"a": "Sí. Agrega el dominio al proyecto en Pethost y luego, con la sesión iniciada en la dirección del proyecto, agrégalo en Administración → Sistema → Ajustes generales → Nombre del servidor de confianza de Matomo. Hasta entonces, Matomo no deja que nadie inicie sesión en ese dominio."
+				},
+				{
+					"q": "¿Cómo actualizo Matomo?",
+					"a": "Cambia el tag de la imagen en el compose.yaml por el de una versión más reciente de Matomo y despliega. Al iniciarse, el contenedor copia el nuevo Matomo en su volumen y actualiza la base de datos, y la configuración, los plugins y los datos quedan como estaban."
+				}
+			]
+		},
+		"fr": {
+			"description": "La mesure d’audience open source, l’alternative à Google Analytics qui garde chaque visite",
+			"notes": "Connectez-vous sur {host} avec le nom d’utilisateur et le mot de passe administrateur indiqués : ce compte est le Super utilisateur, créé avant que la page ne réponde à quiconque, et le site web à mesurer est déjà ajouté. Dans Administration → Sites web → Code de suivi, copiez son code dans chaque page du site, avant </head>. Les visites apparaissent aussitôt dans Visiteurs → Journal des Visites, et les autres rapports toutes les 15 minutes. Le site est d’abord réglé sur UTC : choisissez son fuseau horaire dans Administration → Sites web → Gérer.",
+			"sizing": "Matomo prend environ 250 MB de mémoire au repos avec MariaDB, et sa base de données grossit d’environ 1 GB tous les 5 millions de pages vues, selon l’estimation de Matomo.",
+			"summary": "Matomo, la mesure d’audience open source, alternative à Google Analytics. Auto-hébergez Matomo On-Premise avec MariaDB et HTTPS en un clic.",
+			"about": [
+				"Matomo est une plateforme open source d’analyse web et l’alternative à Google Analytics la plus connue. Un code de suivi placé sur les pages d’un site enregistre chaque visite, et les rapports montrent les visiteurs, les pages, les pages d’entrée et de sortie, les référents, les moteurs de recherche, les campagnes, les pays, les périphériques, les objectifs et les ventes e-commerce, avec des segments, des annotations, des rapports programmés par e-mail et une API HTTP. Le Journal des Visites et la page « En temps réel » montrent les visites au moment où elles ont lieu, les données ne sont jamais échantillonnées, et Matomo Tag Manager, son gestionnaire de balises, est inclus. Selon Matomo, plus d’un million d’organisations l’utilisent.",
+				"Ce template fait tourner Matomo On-Premise, l’édition gratuite sous licence GPL v3, avec l’image officielle et MariaDB. Le Super utilisateur et le premier site web sont créés à partir des champs avant que la page ne réponde à quiconque, si bien que l’installateur de Matomo n’est jamais ouvert à un visiteur. Les adresses IP des visiteurs sont anonymisées, comme Matomo le fait par défaut ; la base de géolocalisation gratuite de DB-IP est téléchargée, puis mise à jour chaque mois ; et un processus d’archivage traite les rapports toutes les 15 minutes, comme le demande la Vérification du système de Matomo. Des plugins payants comme Heatmap & Session Recording, Funnels, A/B Testing et Form Analytics s’obtiennent sur la Marketplace de Matomo."
+			],
+			"faq": [
+				{
+					"q": "Matomo est-il gratuit ?",
+					"a": "Oui. Matomo On-Premise, que ce template fait tourner, est gratuit et open source sous licence GPL v3 ou ultérieure. Matomo Cloud est le service hébergé de son éditeur, et les plugins premium de sa Marketplace sont payants."
+				},
+				{
+					"q": "Matomo ou Google Analytics ?",
+					"a": "Les deux mesurent les visites, les sources de trafic, les objectifs et l’e-commerce. Matomo garde chaque visite dans sa propre base de données, là où vous le déployez, sans échantillonnage, et anonymise les adresses IP par défaut. Google Analytics Importer, un plugin gratuit de Matomo, reprend l’historique d’une propriété Google Analytics."
+				},
+				{
+					"q": "Faut-il un bandeau cookies avec Matomo ?",
+					"a": "Cela dépend de l’endroit où se trouvent vos visiteurs et de la façon dont Matomo est configuré. Matomo peut mesurer l’audience sans cookies, et sa FAQ liste les conditions dans lesquelles la CNIL française l’autorise à fonctionner sans consentement, comme l’anonymisation des adresses IP et l’absence de Journal des Visites et de User ID. Ailleurs, le consentement peut rester nécessaire."
+				},
+				{
+					"q": "Comment ajouter Matomo à mon site web ?",
+					"a": "Sur chaque page, collez avant </head> le code de suivi qu’affiche Administration → Sites web → Code de suivi, ou installez-le avec Matomo Tag Manager. La page des intégrations de Matomo liste des plugins pour WordPress, Drupal, Joomla et bien d’autres plateformes, qui l’ajoutent pour vous."
+				},
+				{
+					"q": "Puis-je utiliser mon propre domaine pour Matomo ?",
+					"a": "Oui. Ajoutez le domaine au projet dans Pethost, puis connectez-vous à l’adresse du projet et inscrivez-le dans Administration → Système → Paramètres généraux → Nom d’hôte de confiance de Matomo. D’ici là, Matomo refuse toute connexion sur ce domaine."
+				},
+				{
+					"q": "Comment mettre à jour Matomo ?",
+					"a": "Changez le tag de l’image dans compose.yaml pour une version plus récente de Matomo, puis déployez. À son démarrage, le conteneur copie le nouveau Matomo dans son volume et met à jour la base de données, et la configuration, les plugins et les données restent tels qu’ils étaient."
+				}
+			]
+		},
+		"pl": {
+			"description": "Analityka webowa open source, alternatywa dla Google Analytics, która zachowuje każdą wizytę",
+			"notes": "Zaloguj się pod adresem {host} nazwą użytkownika i hasłem administratora podanymi przy tworzeniu projektu: to konto ma rolę Super użytkownik i powstało, zanim adres projektu komukolwiek odpowiedział, a strona do mierzenia jest już dodana. Skopiuj jej kod z menu Ustawienia → Portale → Kod śledzenia i wklej go na każdą podstronę, przed </head>. Wizyty od razu widać w menu Oglądający → Dziennik wizyt, a pozostałe raporty odświeżają się co 15 minut. Na start strona ma strefę czasową UTC: ustaw swoją w menu Ustawienia → Portale → Zarządzaj.",
+			"sizing": "Matomo w spoczynku zajmuje razem z MariaDB około 250 MB pamięci, a jego baza danych rośnie o około 1 GB na każde 5 milionów odsłon, według szacunków Matomo.",
+			"summary": "Matomo to analityka webowa open source, alternatywa dla Google Analytics. Hostuj Matomo On-Premise u siebie z MariaDB i HTTPS w jeden klik.",
+			"about": [
+				"Matomo to platforma analityki webowej open source i najbardziej znana alternatywa dla Google Analytics. Kod śledzenia na podstronach zapisuje każdą wizytę, a raporty pokazują odwiedzających, strony, strony wejść i wyjść, odnośniki, wyszukiwarki, kampanie, kraje, urządzenia, cele i sprzedaż e-commerce. Do tego są segmenty, adnotacje, zaplanowane raporty e-mail i API HTTP. Dziennik wizyt i Czas rzeczywisty pokazują wizyty na żywo, dane nigdy nie są próbkowane, a Matomo Tag Manager jest w zestawie. Według Matomo korzysta z niego ponad milion organizacji.",
+				"Ten szablon uruchamia Matomo On-Premise, darmowe wydanie na licencji GPL v3, z oficjalnego obrazu, razem z MariaDB. Super użytkownik i pierwsza strona powstają z pól formularza, zanim adres projektu komukolwiek odpowie, więc instalator Matomo nigdy nie jest otwarty dla odwiedzających. Adresy IP odwiedzających są anonimizowane, tak jak domyślnie robi to Matomo; darmowa baza lokalizacji DB-IP jest pobierana i co miesiąc aktualizowana; a proces archiwizacji przetwarza raporty co 15 minut, o co prosi Sprawdzenie systemu w Matomo. Płatne pluginy, takie jak Heatmap & Session Recording, Funnels, A/B Testing i Form Analytics, pochodzą ze Sklepu Matomo."
+			],
+			"faq": [
+				{
+					"q": "Czy Matomo jest darmowe?",
+					"a": "Tak. Ten szablon uruchamia Matomo On-Premise, darmowe i open source na licencji GPL v3 lub nowszej. Matomo Cloud to hostowana usługa producenta, a pluginy premium ze Sklepu Matomo są płatne."
+				},
+				{
+					"q": "Matomo czy Google Analytics?",
+					"a": "Oba narzędzia raportują wizyty, źródła ruchu, cele i e-commerce. Matomo trzyma każdą wizytę, bez próbkowania, w swojej bazie danych tam, gdzie je wdrożysz, i domyślnie anonimizuje adresy IP. Google Analytics Importer, darmowy plugin od Matomo, przenosi historię usługi Google Analytics."
+				},
+				{
+					"q": "Czy z Matomo potrzebuję banera cookie?",
+					"a": "To zależy od tego, gdzie są twoi odwiedzający i jak skonfigurowano Matomo. Matomo potrafi mierzyć ruch bez plików cookie, a jego FAQ wymienia warunki, pod którymi francuska CNIL pozwala mu działać bez zgody, na przykład anonimizację adresów IP i rezygnację z Dziennika wizyt oraz User ID. Gdzie indziej zgoda może być nadal potrzebna."
+				},
+				{
+					"q": "Jak dodać Matomo do swojej strony?",
+					"a": "Wklej kod śledzenia z menu Ustawienia → Portale → Kod śledzenia przed </head> na każdej podstronie albo zainstaluj go przez Matomo Tag Manager (w menu: Menadżer Tagów). Strona integracji Matomo wymienia pluginy dla WordPressa, Drupala, Joomli i wielu innych platform, które dodadzą go za ciebie."
+				},
+				{
+					"q": "Czy mogę używać własnej domeny z Matomo?",
+					"a": "Tak. Dodaj domenę do projektu w Pethost, potem zaloguj się do Matomo pod adresem projektu i dodaj ją w menu Ustawienia → System → Ogólne ustawienia → Zaufana nazwa hosta Matomo. Do tego czasu Matomo nikogo nie zaloguje pod tą domeną."
+				},
+				{
+					"q": "Jak zaktualizować Matomo?",
+					"a": "Zmień tag obrazu w compose.yaml na nowszą wersję Matomo i wdróż. Przy starcie kontener kopiuje nową wersję Matomo do swojego wolumenu i aktualizuje bazę danych, a konfiguracja, pluginy i dane zostają takie, jak były."
+				}
+			]
+		},
+		"pt": {
+			"description": "Web analytics de código aberto, a alternativa ao Google Analytics que guarda todas as visitas",
+			"notes": "Entre em {host} com o usuário e a senha de administrador que você informou: essa conta, criada antes de a página responder a qualquer pessoa, é o Superusuário, e o site a medir já está cadastrado. Copie o código dele em Administração → Sites → Código de rastreamento e cole em todas as páginas do site, antes de </head>. As visitas aparecem na hora em Visitantes → Log de visitas, e os outros relatórios, a cada 15 minutos. O site começa em UTC: defina o fuso horário dele em Administração → Sites → Gerenciar.",
+			"sizing": "O Matomo usa cerca de 250 MB de memória com o MariaDB em repouso, e o banco de dados dele cresce por volta de 1 GB a cada 5 milhões de exibições de página, segundo a estimativa do Matomo.",
+			"summary": "O Matomo é web analytics de código aberto, a alternativa ao Google Analytics. Auto-hospede o Matomo On-Premise com MariaDB e HTTPS em um clique.",
+			"about": [
+				"O Matomo é uma plataforma de web analytics de código aberto e a alternativa mais conhecida ao Google Analytics. Um código de rastreamento nas páginas de um site registra cada visita, e os relatórios mostram visitantes, páginas, páginas de entrada e de saída, referenciadores, motores de busca, campanhas, países, dispositivos, metas e vendas de comércio eletrônico, com segmentos, anotações, relatórios agendados por e-mail e uma API HTTP. Em “Log de visitas” e “Tempo real”, as visitas aparecem enquanto acontecem, os dados nunca são amostrados e o Matomo Tag Manager vem incluído. Segundo o Matomo, mais de um milhão de organizações o usam.",
+				"Este template roda o Matomo On-Premise, a edição gratuita sob a GPL v3, a partir da imagem oficial com o MariaDB. O Superusuário e o primeiro site são criados a partir dos campos antes de a página responder a qualquer pessoa, então o instalador do Matomo nunca fica aberto para visitantes. Os endereços IP dos visitantes são anonimizados, como o Matomo faz por padrão; o banco de dados gratuito de localização da DB-IP é baixado e atualizado todo mês; e o arquivamento dos relatórios roda a cada 15 minutos, como pede a “Checagem do Sistema” do Matomo. Plugins pagos como Heatmap & Session Recording, Funnels, A/B Testing e Form Analytics vêm da “Loja de aplicativos” do Matomo."
+			],
+			"faq": [
+				{
+					"q": "O Matomo é gratuito?",
+					"a": "Sim. O Matomo On-Premise, a edição que este template roda, é gratuito e de código aberto sob a GPL v3 ou posterior. O Matomo Cloud é o serviço hospedado do fabricante, e os plugins premium da “Loja de aplicativos” do Matomo são pagos."
+				},
+				{
+					"q": "Matomo ou Google Analytics?",
+					"a": "Os dois têm relatórios de visitas, fontes de tráfego, metas e comércio eletrônico. O Matomo guarda todas as visitas, sem amostragem, no próprio banco de dados, onde você fizer o deploy dele, e anonimiza os endereços IP por padrão. O Google Analytics Importer, um plugin gratuito do Matomo, traz o histórico de uma propriedade do Google Analytics."
+				},
+				{
+					"q": "Preciso de um banner de cookies com o Matomo?",
+					"a": "Depende de onde estão seus visitantes e de como o Matomo está configurado. O Matomo consegue rastrear sem cookies, e as perguntas frequentes dele listam as condições em que a CNIL francesa permite que ele rode sem consentimento, como anonimizar os endereços IP e não usar o “Log de visitas” nem o User ID. Em outros lugares, o consentimento ainda pode ser necessário."
+				},
+				{
+					"q": "Como adiciono o Matomo ao meu site?",
+					"a": "Cole o código de rastreamento de Administração → Sites → Código de rastreamento antes de </head> em todas as páginas, ou instale-o com o Matomo Tag Manager. A página de integrações do Matomo lista plugins para WordPress, Drupal, Joomla e muitas outras plataformas que o adicionam por você."
+				},
+				{
+					"q": "Posso usar meu próprio domínio no Matomo?",
+					"a": "Sim. Adicione o domínio ao projeto no Pethost e depois, logado pelo endereço do projeto, adicione-o em Administração → Sistema → Configurações gerais → Hostname Matomo confiável. Até lá, o Matomo não deixa ninguém entrar por esse domínio."
+				},
+				{
+					"q": "Como atualizo o Matomo?",
+					"a": "Troque a tag da imagem no compose.yaml por uma versão mais nova do Matomo e faça o deploy. Ao iniciar, o container copia o novo Matomo para o volume dele e atualiza o banco de dados, e a configuração, os plugins e os dados continuam como estavam."
+				}
+			]
+		},
+		"ru": {
+			"description": "Веб-аналитика с открытым кодом — альтернатива Google Analytics, которая хранит каждое посещение",
+			"notes": "Войдите по адресу {host} с именем пользователя и паролем администратора, которые вы указали: этот аккаунт — суперпользователь, созданный еще до того, как страница кому-либо ответила, а сайт для отслеживания уже добавлен. Скопируйте его код из раздела «Администрирование» → «Веб-сайты» → «Код отслеживания» на каждую страницу сайта, перед </head>. Посещения сразу видны в разделе «Посетители» → «Журнал посещений», а остальные отчеты обновляются каждые 15 минут. Сайт создан с часовым поясом UTC: задайте свой в разделе «Администрирование» → «Веб-сайты» → «Управление».",
+			"sizing": "Matomo в простое занимает около 250 MB памяти вместе с MariaDB, а его база данных растет примерно на 1 GB на каждые 5 миллионов просмотров страниц — по оценке Matomo.",
+			"summary": "Matomo — веб-аналитика с открытым кодом, альтернатива Google Analytics. Self-hosted Matomo On-Premise с MariaDB и HTTPS в один клик.",
+			"about": [
+				"Matomo — платформа веб-аналитики с открытым кодом и самая известная альтернатива Google Analytics. Код отслеживания на страницах сайта записывает каждое посещение, а отчеты показывают посетителей, страницы, страницы входа и выхода, источники трафика, поисковые движки, кампании, страны, устройства, цели и продажи e-commerce. Еще есть сегменты, примечания, отчеты на почту по расписанию и HTTP API. Разделы «Журнал посещений» и «Реальное время» показывают посещения вживую, данные никогда не семплируются, а Matomo Tag Manager входит в комплект. По данным Matomo, им пользуются больше миллиона организаций.",
+				"Этот шаблон запускает Matomo On-Premise — бесплатную редакцию под лицензией GPL v3 — из официального образа вместе с MariaDB. Суперпользователь и первый сайт создаются по данным из полей еще до того, как страница кому-либо ответит, поэтому установщик Matomo никогда не бывает открыт посетителям. IP-адреса посетителей анонимизируются, как Matomo делает по умолчанию; бесплатная база геолокации DB-IP скачивается и обновляется каждый месяц; а архиватор обрабатывает отчеты каждые 15 минут, как того просит «Проверка системы» в Matomo. Платные плагины вроде Heatmap & Session Recording, Funnels, A/B Testing и Form Analytics берутся из Marketplace Matomo."
+			],
+			"faq": [
+				{
+					"q": "Matomo бесплатный?",
+					"a": "Да. Matomo On-Premise, который запускает этот шаблон, бесплатен и распространяется с открытым кодом под лицензией GPL v3 или более поздней. Matomo Cloud — хостинг от самих разработчиков, а премиум-плагины из Marketplace Matomo платные."
+				},
+				{
+					"q": "Matomo или Google Analytics?",
+					"a": "Оба дают отчеты по посещениям, источникам трафика, целям и e-commerce. Matomo хранит каждое посещение, без семплирования, в своей базе данных там, где вы его задеплоите, и по умолчанию анонимизирует IP-адреса. Google Analytics Importer, бесплатный плагин от Matomo, переносит историю ресурса Google Analytics."
+				},
+				{
+					"q": "Нужен ли с Matomo баннер о cookie?",
+					"a": "Зависит от того, где ваши посетители и как настроен Matomo. Matomo умеет отслеживать без cookie, а в его FAQ перечислены условия, при которых французская CNIL разрешает ему работать без согласия, например анонимизация IP-адресов и отказ от раздела «Журнал посещений» и от User ID. В других странах согласие все равно может понадобиться."
+				},
+				{
+					"q": "Как добавить Matomo на свой сайт?",
+					"a": "Вставьте код отслеживания из раздела «Администрирование» → «Веб-сайты» → «Код отслеживания» перед </head> на каждой странице или установите его через Matomo Tag Manager (в меню — «Менеджер Тегов»). На странице интеграций Matomo перечислены плагины для WordPress, Drupal, Joomla и многих других платформ, которые добавят его за вас."
+				},
+				{
+					"q": "Можно ли использовать для Matomo свой домен?",
+					"a": "Да. Добавьте домен к проекту в Pethost, затем войдите в Matomo по адресу проекта и добавьте домен в разделе «Администрирование» → «Система» → «Основные настройки» → «Доверенные хосты Matomo». Пока его там нет, Matomo никому не даст войти через этот домен."
+				},
+				{
+					"q": "Как обновить Matomo?",
+					"a": "Смените тег образа в compose.yaml на более новую версию Matomo и задеплойте. При запуске контейнер копирует новый Matomo в свой том и обновляет базу данных, а конфигурация, плагины и данные остаются как были."
+				}
+			]
+		},
+		"uk": {
+			"description": "Вебаналітика з відкритим кодом — альтернатива Google Analytics, яка зберігає кожне відвідування",
+			"notes": "Увійдіть за адресою {host} з іменем користувача й паролем адміністратора, які ви вказали: це акаунт із роллю «Суперкористувач», створений ще до того, як сторінка комусь відповіла, а сайт для відстеження вже додано. Скопіюйте його код із розділу «Адміністрування → Сайти → Код відстеження» на кожну сторінку сайту, перед </head>. Відвідування одразу видно в розділі «Відвідувачі → Журнал відвідувань», а решта звітів оновлюється кожні 15 хвилин. Сайт створено з часовим поясом UTC: змініть його в розділі «Адміністрування → Сайти → Управління».",
+			"sizing": "Matomo в спокої займає близько 250 MB пам’яті разом із MariaDB, а його база даних зростає приблизно на 1 GB на кожні 5 мільйонів переглядів сторінок — за оцінкою Matomo.",
+			"summary": "Matomo — вебаналітика з відкритим кодом, альтернатива Google Analytics. Self-hosted Matomo On-Premise з MariaDB і HTTPS в один клік.",
+			"about": [
+				"Matomo — платформа вебаналітики з відкритим кодом і найвідоміша альтернатива Google Analytics. Код відстеження на сторінках сайту записує кожне відвідування, а звіти показують відвідувачів, сторінки, сторінки входу й виходу, джерела трафіку, пошукові системи, кампанії, країни, пристрої, цілі та продажі e-commerce. Є також сегменти, примітки, звіти поштою за розкладом і HTTP API. Розділи «Журнал відвідувань» і «У реальному часі» показують відвідування наживо, дані ніколи не семплюються, а Matomo Tag Manager іде в комплекті. За словами Matomo, ним користуються понад мільйон організацій.",
+				"Цей шаблон запускає Matomo On-Premise, безкоштовну редакцію за ліцензією GPL v3, з офіційного образу разом із MariaDB. Суперкористувач і перший сайт створюються з полів ще до того, як сторінка комусь відповість, тож інсталятор Matomo ніколи не відкритий для відвідувачів. IP-адреси відвідувачів анонімізуються, як Matomo робить типово; безкоштовна база геолокації DB-IP завантажується й оновлюється щомісяця; а архіватор обробляє звіти кожні 15 хвилин, як просить «Перевірка системи» в Matomo. Платні плагіни, як-от Heatmap & Session Recording, Funnels, A/B Testing і Form Analytics, беруться з «Маркету» Matomo."
+			],
+			"faq": [
+				{
+					"q": "Matomo безкоштовний?",
+					"a": "Так. Matomo On-Premise, який запускає цей шаблон, безкоштовний і має відкритий код за ліцензією GPL v3 або новішою. Matomo Cloud — хостинг від самих розробників, а преміум-плагіни з «Маркету» Matomo платні."
+				},
+				{
+					"q": "Matomo чи Google Analytics?",
+					"a": "Обидва показують відвідування, джерела трафіку, цілі й e-commerce. Matomo зберігає кожне відвідування без семплювання у своїй базі даних там, де ви його задеплоїте, і типово анонімізує IP-адреси. Google Analytics Importer, безкоштовний плагін від Matomo, переносить історію ресурсу Google Analytics."
+				},
+				{
+					"q": "Чи потрібен банер про cookie з Matomo?",
+					"a": "Залежить від того, де ваші відвідувачі й як налаштовано Matomo. Matomo вміє відстежувати без cookie, а в його FAQ перелічено умови, за яких французька CNIL дозволяє йому працювати без згоди, як-от анонімізовані IP-адреси та відмова від «Журналу відвідувань» і User ID. Деінде згода все одно може знадобитися."
+				},
+				{
+					"q": "Як додати Matomo на свій сайт?",
+					"a": "Вставте код відстеження з розділу «Адміністрування → Сайти → Код відстеження» перед </head> на кожній сторінці або встановіть його через Matomo Tag Manager (у меню — «Менеджер теґів»). На сторінці інтеграцій Matomo перелічено плагіни для WordPress, Drupal, Joomla та багатьох інших платформ, які додадуть його за вас."
+				},
+				{
+					"q": "Чи можна використовувати свій домен для Matomo?",
+					"a": "Так. Додайте домен до проєкту в Pethost, потім увійдіть у Matomo за адресою проєкту й додайте домен у розділі «Адміністрування → Система → Загальні налаштування → Довірені хости Matomo». Доти Matomo не дає нікому увійти на цьому домені."
+				},
+				{
+					"q": "Як оновити Matomo?",
+					"a": "Змініть тег образу в compose.yaml на новішу версію Matomo й задеплойте. Під час запуску контейнер копіює новий Matomo у свій том і оновлює базу даних, а конфігурація, плагіни й дані лишаються такими, як були."
+				}
+			]
+		}
+	}
+}
