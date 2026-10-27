@@ -1,0 +1,290 @@
+{
+	"name": "Keycloak",
+	"emoji": "🔑",
+	"category": "security",
+	"alternatives": [
+		"Auth0",
+		"Okta"
+	],
+	"plan": "starter",
+	"route": {
+		"service": "keycloak",
+		"port": 8080
+	},
+	"variables": [
+		{
+			"name": "URL",
+			"from": "url"
+		},
+		{
+			"name": "POSTGRES_PASSWORD",
+			"secret": 24
+		},
+		{
+			"name": "ADMIN_USERNAME",
+			"ask": "username"
+		},
+		{
+			"name": "ADMIN_PASSWORD",
+			"ask": "adminPassword"
+		}
+	],
+	"texts": {
+		"en": {
+			"description": "Open-source identity and access management: single sign-on for your apps with OpenID Connect and SAML",
+			"notes": "Sign in to the admin console with the username and the admin password you gave. Keycloak calls that admin temporary until a permanent one exists: in the master realm, add a user under Users, set its password under Credentials, give it the admin role under Role mapping, then sign in as it and delete the temporary one. For your apps, make a realm with Manage realms → Create realm, and a client for each app under Clients.",
+			"sizing": "Keycloak runs on Java: about 550 MB of memory with Postgres at rest, more with many users and sessions; its database stays small.",
+			"summary": "Keycloak is open-source identity and access management: single sign-on, social login and two-factor auth. Self-host this Auth0 alternative in one click.",
+			"about": [
+				"Keycloak is an identity and access management server: your apps hand sign-in to it, and a person who has signed in once is signed in to all of them. It speaks OpenID Connect, OAuth 2.0 and SAML 2.0, so most apps and frameworks connect to it with their standard libraries. It signs people in with a password, a passkey or a social account such as Google or GitHub, adds two-factor authentication with one-time codes, syncs users from LDAP and Active Directory, and lets each user manage their profile, password and sessions in its account console.",
+				"Keycloak is a Cloud Native Computing Foundation incubation project, used by companies and home labs alike to put one sign-in in front of many apps. This template runs it in production mode with PostgreSQL behind the proxy, and makes the administrator of the master realm from the fields before Keycloak answers anyone. The catch: Keycloak is powerful and has many settings, so a first client takes some reading, and it runs on Java, which takes more memory than most sign-in servers."
+			],
+			"faq": [
+				{
+					"q": "Is Keycloak free?",
+					"a": "Yes. Keycloak is open source under the Apache 2.0 license, with no paid edition and no limit on users or apps. Red Hat sells support for its own build of it, the Red Hat build of Keycloak."
+				},
+				{
+					"q": "Keycloak vs Auth0: which should I use?",
+					"a": "Both sign users in over OpenID Connect and SAML with social login and two-factor authentication. Auth0 is a cloud service priced by monthly active users, while Keycloak is one you run yourself, free for any number of users, at the cost of looking after it."
+				},
+				{
+					"q": "Can Keycloak sign users in with Google or GitHub?",
+					"a": "Yes. Identity Providers in a realm adds Google, GitHub, Facebook, Microsoft and others, or any OpenID Connect or SAML 2.0 provider, as buttons on its sign-in page, with no change to your apps."
+				},
+				{
+					"q": "Does Keycloak support two-factor authentication and passkeys?",
+					"a": "Yes. It takes one-time codes from apps such as Google Authenticator or FreeOTP, recovery codes and passkeys, and a realm can require them for everyone or let users turn them on in the account console."
+				},
+				{
+					"q": "Why does Keycloak say I am a temporary admin?",
+					"a": "Keycloak marks the administrator it makes at its first start as temporary, and asks for a permanent one: add a user in the master realm, give it the admin role under Role mapping, sign in as it and delete the temporary admin."
+				}
+			]
+		},
+		"de": {
+			"description": "Open-Source-Identitäts- und Zugriffsmanagement: Single Sign-on für deine Apps mit OpenID Connect und SAML",
+			"notes": "Melde dich mit dem Benutzernamen und dem Admin-Passwort, die du angegeben hast, an der Admin-Konsole an. Keycloak nennt diesen Admin temporär, bis es einen dauerhaften gibt: Leg im Master-Realm unter „Benutzer“ einen Benutzer an, setz unter „Zugangsdaten“ sein Passwort, gib ihm unter „Rollenzuordnung“ die Rolle admin, melde dich dann als dieser Benutzer an und lösch den temporären. Für deine Apps legst du mit „Manage realms“ → „Create realm“ einen Realm an und unter „Clients“ für jede App einen Client.",
+			"sizing": "Keycloak läuft auf Java: im Ruhezustand etwa 550 MB RAM mit Postgres, mehr bei vielen Benutzern und Sitzungen; seine Datenbank bleibt klein.",
+			"summary": "Keycloak selbst hosten: Open-Source-Identitäts- und Zugriffsmanagement mit Single Sign-on, Social Login und 2FA. Die Auth0-Alternative, mit einem Klick.",
+			"about": [
+				"Keycloak ist ein Server für Identitäts- und Zugriffsmanagement: Deine Apps überlassen ihm die Anmeldung, und wer sich einmal angemeldet hat, ist bei allen angemeldet. Keycloak spricht OpenID Connect, OAuth 2.0 und SAML 2.0, sodass sich die meisten Apps und Frameworks mit ihren Standardbibliotheken anbinden lassen. Es meldet Personen mit Passwort, Passkey oder einem Konto bei einem Dienst wie Google oder GitHub an, ergänzt Zwei-Faktor-Authentifizierung mit Einmalcodes, synchronisiert Benutzer aus LDAP und Active Directory und lässt alle ihr Profil, ihr Passwort und ihre Sitzungen in seiner Account-Konsole verwalten.",
+				"Keycloak ist ein Inkubationsprojekt der Cloud Native Computing Foundation, das Unternehmen wie Homelabs nutzen, um eine einzige Anmeldung vor viele Apps zu setzen. Diese Vorlage betreibt es im Produktionsmodus mit PostgreSQL hinter dem Proxy und legt den Administrator des Master-Realms aus den Feldern an, bevor Keycloak irgendwem antwortet. Der Haken: Keycloak ist mächtig und hat viele Einstellungen, ein erster Client verlangt also etwas Lektüre, und es läuft auf Java und braucht damit mehr RAM als die meisten Anmeldeserver."
+			],
+			"faq": [
+				{
+					"q": "Ist Keycloak kostenlos?",
+					"a": "Ja. Keycloak ist Open Source unter der Apache-2.0-Lizenz, ohne kostenpflichtige Edition und ohne Limit für Benutzer oder Apps. Red Hat verkauft Support für einen eigenen Build davon, den Red Hat build of Keycloak."
+				},
+				{
+					"q": "Keycloak oder Auth0: Was soll ich nehmen?",
+					"a": "Beide melden Benutzer über OpenID Connect und SAML an, mit Social Login und Zwei-Faktor-Authentifizierung. Auth0 ist ein Cloud-Dienst, dessen Preis sich nach den monatlich aktiven Benutzern richtet, Keycloak dagegen betreibst du selbst, kostenlos für beliebig viele Benutzer, um den Preis, dich darum zu kümmern."
+				},
+				{
+					"q": "Kann Keycloak Benutzer mit Google oder GitHub anmelden?",
+					"a": "Ja. Unter „Identitätsanbieter“ in einem Realm kommen Google, GitHub, Facebook, Microsoft und andere oder jeder Anbieter für OpenID Connect oder SAML 2.0 als Buttons auf seine Anmeldeseite, ohne dass sich an deinen Apps etwas ändert."
+				},
+				{
+					"q": "Unterstützt Keycloak Zwei-Faktor-Authentifizierung und Passkeys?",
+					"a": "Ja. Keycloak nimmt Einmalcodes aus Apps wie Google Authenticator oder FreeOTP an, dazu Wiederherstellungscodes und Passkeys, und ein Realm kann sie für alle verlangen oder die Benutzer sie in der Account-Konsole selbst einschalten lassen."
+				},
+				{
+					"q": "Warum nennt mich Keycloak einen temporären Admin?",
+					"a": "Keycloak markiert den Administrator, den es beim ersten Start anlegt, als temporär und verlangt einen dauerhaften: Leg im Master-Realm einen Benutzer an, gib ihm unter „Rollenzuordnung“ die Rolle admin, melde dich als dieser Benutzer an und lösch den temporären Admin."
+				}
+			]
+		},
+		"es": {
+			"description": "Administración de identidades y accesos de código abierto: inicio de sesión único para tus apps con OpenID Connect y SAML",
+			"notes": "Inicia sesión en la consola de administración con el nombre de usuario y la contraseña de administrador que indicaste. Keycloak llama temporal a ese administrador hasta que exista uno permanente: en el realm master, agrega un usuario en “Usuarios”, establece su contraseña en “Credenciales”, asígnale el rol admin en “Mapeo de roles”, luego inicia sesión con él y elimina el temporal. Para tus apps, crea un realm con Administrar realms → Crear Realm, y un cliente para cada app en “Clientes”.",
+			"sizing": "Keycloak funciona con Java: unos 550 MB de memoria con Postgres en reposo, más con muchos usuarios y sesiones; su base de datos se mantiene pequeña.",
+			"summary": "Keycloak, administración de identidades y accesos de código abierto: inicio de sesión único, social y 2FA. Autoaloja esta alternativa a Auth0 en un clic.",
+			"about": [
+				"Keycloak es un servidor de administración de identidades y accesos: tus apps le delegan el inicio de sesión, y quien inicia sesión una vez queda con la sesión iniciada en todas ellas. Admite OpenID Connect, OAuth 2.0 y SAML 2.0, así que la mayoría de las apps y frameworks se conectan a él con sus bibliotecas estándar. Permite iniciar sesión con contraseña, con una passkey o con una cuenta social como Google o GitHub, agrega autenticación de dos factores con códigos de un solo uso, sincroniza usuarios desde LDAP y Active Directory, y deja que cada usuario administre su perfil, su contraseña y sus sesiones en la consola de la cuenta.",
+				"Keycloak es un proyecto en incubación de la Cloud Native Computing Foundation, que usan tanto empresas como home labs para poner un solo inicio de sesión delante de muchas apps. Esta plantilla lo ejecuta en modo producción con PostgreSQL detrás del proxy, y crea el administrador del realm master con los datos de los campos antes de que Keycloak responda a nadie. El inconveniente: Keycloak es potente y tiene muchos ajustes, así que el primer cliente requiere leer un poco, y funciona con Java, que ocupa más memoria que la mayoría de los servidores de inicio de sesión."
+			],
+			"faq": [
+				{
+					"q": "¿Keycloak es gratis?",
+					"a": "Sí. Keycloak es de código abierto bajo la licencia Apache 2.0, sin edición de pago y sin límite de usuarios ni de apps. Red Hat vende soporte para su propia versión, la Red Hat build of Keycloak."
+				},
+				{
+					"q": "Keycloak frente a Auth0: ¿cuál debería usar?",
+					"a": "Los dos inician la sesión de los usuarios con OpenID Connect y SAML, con inicio de sesión social y autenticación de dos factores. Auth0 es un servicio en la nube con precio según los usuarios activos al mes, mientras que Keycloak lo ejecutas tú, gratis para cualquier número de usuarios, a cambio de tener que mantenerlo."
+				},
+				{
+					"q": "¿Keycloak permite iniciar sesión con Google o GitHub?",
+					"a": "Sí. En un realm, “Proveedores de identidad” agrega Google, GitHub, Facebook, Microsoft y otros, o cualquier proveedor de OpenID Connect o SAML 2.0, como botones en su página de inicio de sesión, sin cambiar nada en tus apps."
+				},
+				{
+					"q": "¿Keycloak admite autenticación de dos factores y passkeys?",
+					"a": "Sí. Acepta códigos de un solo uso de apps como Google Authenticator o FreeOTP, códigos de recuperación y passkeys, y un realm puede exigirlos a todos o dejar que cada usuario los active en la consola de la cuenta."
+				},
+				{
+					"q": "¿Por qué Keycloak dice que soy un administrador temporal?",
+					"a": "Keycloak marca como temporal al administrador que crea en su primer inicio, y pide uno permanente: agrega un usuario en el realm master, asígnale el rol admin en “Mapeo de roles”, inicia sesión con él y elimina el administrador temporal."
+				}
+			]
+		},
+		"fr": {
+			"description": "La gestion des identités et des accès open source : l’authentification unique (SSO) pour vos applications, avec OpenID Connect et SAML",
+			"notes": "Connectez-vous à la console d’administration avec le nom d’utilisateur et le mot de passe administrateur indiqués. Keycloak considère cet administrateur comme temporaire tant qu’il n’en existe pas de permanent : dans le domaine (realm) master, ajoutez un utilisateur dans « Utilisateurs », définissez son mot de passe dans l’onglet « Identifiants », donnez-lui le rôle admin dans l’onglet « Mapping de rôle », puis connectez-vous avec ce compte et supprimez le compte temporaire. Pour vos applications, créez un domaine avec Gérer les domaines → Créer un domaine, et un client par application dans « Clients ».",
+			"sizing": "Keycloak tourne sur Java : environ 550 MB de mémoire au repos avec Postgres, davantage avec beaucoup d’utilisateurs et de sessions ; sa base de données reste petite.",
+			"summary": "Keycloak, gestion d’identités et d’accès open source : SSO, connexion sociale, double authentification. Auto-hébergez cette alternative à Auth0 en un clic.",
+			"about": [
+				"Keycloak est un serveur de gestion des identités et des accès : vos applications lui confient la connexion, et une personne connectée une fois l’est à toutes. Il parle OpenID Connect, OAuth 2.0 et SAML 2.0, si bien que la plupart des applications et des frameworks s’y connectent avec leurs bibliothèques standard. Il connecte les gens avec un mot de passe, une clé d’accès ou un compte social comme Google ou GitHub, ajoute l’authentification à deux facteurs avec des codes à usage unique, synchronise les utilisateurs depuis LDAP et Active Directory, et laisse chaque utilisateur gérer son profil, son mot de passe et ses sessions dans sa console Compte.",
+				"Keycloak est un projet en incubation de la Cloud Native Computing Foundation, utilisé aussi bien par des entreprises que dans des homelabs pour placer une seule connexion devant de nombreuses applications. Ce template le fait tourner en mode production avec PostgreSQL derrière le proxy, et crée l’administrateur du domaine (realm) master à partir des champs avant que Keycloak ne réponde à quiconque. Le revers : Keycloak est puissant et a beaucoup de réglages, donc un premier client demande un peu de lecture, et il tourne sur Java, qui prend plus de mémoire que la plupart des serveurs de connexion."
+			],
+			"faq": [
+				{
+					"q": "Keycloak est-il gratuit ?",
+					"a": "Oui. Keycloak est open source sous licence Apache 2.0, sans édition payante et sans limite d’utilisateurs ni d’applications. Red Hat vend du support pour sa propre version, le Red Hat build of Keycloak."
+				},
+				{
+					"q": "Keycloak ou Auth0 : lequel choisir ?",
+					"a": "Les deux connectent les utilisateurs en OpenID Connect et SAML, avec connexion sociale et authentification à deux facteurs. Auth0 est un service cloud facturé au nombre d’utilisateurs actifs par mois, alors que vous faites tourner Keycloak vous-même, gratuitement quel que soit le nombre d’utilisateurs, au prix de son entretien."
+				},
+				{
+					"q": "Keycloak peut-il connecter les utilisateurs avec Google ou GitHub ?",
+					"a": "Oui. La section « Fournisseurs d’identités » d’un domaine (realm) ajoute Google, GitHub, Facebook, Microsoft et d’autres, ou tout fournisseur OpenID Connect ou SAML 2.0, sous forme de boutons sur sa page de connexion, sans rien changer à vos applications."
+				},
+				{
+					"q": "Keycloak prend-il en charge l’authentification à deux facteurs et les clés d’accès ?",
+					"a": "Oui. Il accepte les codes à usage unique d’applications comme Google Authenticator ou FreeOTP, les codes de récupération et les clés d’accès, et un domaine peut les exiger de tous ou laisser les utilisateurs les activer dans la console Compte."
+				},
+				{
+					"q": "Pourquoi Keycloak dit-il que je suis un administrateur temporaire ?",
+					"a": "Keycloak marque comme temporaire l’administrateur qu’il crée à son premier démarrage, et en demande un permanent : ajoutez un utilisateur dans le domaine (realm) master, donnez-lui le rôle admin dans l’onglet « Mapping de rôle », connectez-vous avec ce compte et supprimez l’administrateur temporaire."
+				}
+			]
+		},
+		"pl": {
+			"description": "Zarządzanie tożsamością i dostępem open source: logowanie jednokrotne do twoich aplikacji przez OpenID Connect i SAML",
+			"notes": "Zaloguj się do konsoli administracyjnej nazwą użytkownika i hasłem administratora podanymi przy tworzeniu projektu. Keycloak nazywa tego administratora tymczasowym, dopóki nie powstanie stały: w obszarze master dodaj użytkownika w sekcji Użytkownicy, ustaw mu hasło w zakładce Poświadczenia, nadaj mu rolę admin w zakładce Mapowanie roli, a potem zaloguj się na to konto i usuń tymczasowe. Dla swoich aplikacji utwórz obszar (realm) przez Manage realms → Utwórz obszar, a w sekcji Klienci – klienta dla każdej aplikacji.",
+			"sizing": "Keycloak działa na Javie: w spoczynku zajmuje razem z Postgresem około 550 MB pamięci, więcej przy wielu użytkownikach i sesjach; jego baza danych pozostaje mała.",
+			"summary": "Keycloak to zarządzanie tożsamością i dostępem open source: SSO, social login i 2FA. Hostuj tę alternatywę dla Auth0 u siebie w jeden klik.",
+			"about": [
+				"Keycloak to serwer zarządzania tożsamością i dostępem: twoje aplikacje przekazują mu logowanie, a kto zalogował się raz, jest zalogowany we wszystkich. Obsługuje OpenID Connect, OAuth 2.0 i SAML 2.0, więc większość aplikacji i frameworków łączy się z nim swoimi standardowymi bibliotekami. Loguje ludzi hasłem, kluczem dostępu albo kontem społecznościowym, takim jak Google czy GitHub, dodaje uwierzytelnianie dwuskładnikowe z kodami jednorazowymi, synchronizuje użytkowników z LDAP i Active Directory, a każdemu użytkownikowi pozwala zarządzać profilem, hasłem i sesjami w konsoli konta.",
+				"Keycloak to projekt w fazie inkubacji w Cloud Native Computing Foundation, używany zarówno w firmach, jak i w homelabach, żeby postawić jedno logowanie przed wieloma aplikacjami. Ten szablon uruchamia go w trybie produkcyjnym z PostgreSQL za proxy i tworzy administratora obszaru master z pól formularza, zanim Keycloak komukolwiek odpowie. Haczyk: Keycloak ma duże możliwości i wiele ustawień, więc pierwszy klient wymaga trochę czytania, a działa na Javie, która zajmuje więcej pamięci niż większość serwerów logowania."
+			],
+			"faq": [
+				{
+					"q": "Czy Keycloak jest darmowy?",
+					"a": "Tak. Keycloak to open source na licencji Apache 2.0, bez płatnej edycji i bez limitu użytkowników ani aplikacji. Red Hat sprzedaje wsparcie dla własnej wersji, Red Hat build of Keycloak."
+				},
+				{
+					"q": "Keycloak czy Auth0: co wybrać?",
+					"a": "Oba logują użytkowników przez OpenID Connect i SAML, z logowaniem kontami społecznościowymi i uwierzytelnianiem dwuskładnikowym. Auth0 to usługa w chmurze wyceniana według liczby aktywnych użytkowników miesięcznie, a Keycloaka uruchamiasz u siebie, za darmo dla dowolnej liczby użytkowników, kosztem tego, że musisz o niego dbać."
+				},
+				{
+					"q": "Czy Keycloak może logować użytkowników przez Google albo GitHub?",
+					"a": "Tak. Sekcja Identyfikatory dostawców tożsamości w obszarze dodaje Google, GitHub, Facebook, Microsoft i innych albo dowolnego dostawcę OpenID Connect lub SAML 2.0 jako przyciski na stronie logowania, bez zmian w twoich aplikacjach."
+				},
+				{
+					"q": "Czy Keycloak obsługuje uwierzytelnianie dwuskładnikowe i klucze dostępu?",
+					"a": "Tak. Przyjmuje kody jednorazowe z aplikacji takich jak Google Authenticator czy FreeOTP, kody odzyskiwania i klucze dostępu, a obszar może wymagać ich od wszystkich albo pozwolić użytkownikom włączyć je w konsoli konta."
+				},
+				{
+					"q": "Dlaczego Keycloak pokazuje, że konto administratora jest tymczasowe?",
+					"a": "Keycloak oznacza administratora, którego tworzy przy pierwszym uruchomieniu, jako tymczasowego i prosi o stałego: dodaj użytkownika w obszarze master, nadaj mu rolę admin w zakładce Mapowanie roli, zaloguj się na to konto i usuń tymczasowego administratora."
+				}
+			]
+		},
+		"pt": {
+			"description": "Gerenciamento de identidade e acesso de código aberto: login único para seus apps com OpenID Connect e SAML",
+			"notes": "Entre no console de administração com o usuário e a senha de administrador que você informou. O Keycloak chama esse administrador de temporário até que exista um permanente: no realm master, adicione um usuário em “Usuários”, defina a senha dele em “Credenciais”, dê a ele a função admin em “Mapeamento de funções”, depois entre com ele e exclua o temporário. Para os seus apps, crie um realm com Gerenciar realms → Criar realm e um cliente para cada app em “Clientes”.",
+			"sizing": "O Keycloak roda em Java: cerca de 550 MB de memória com o Postgres em repouso, mais com muitos usuários e sessões; o banco de dados dele continua pequeno.",
+			"summary": "O Keycloak é gestão de identidade e acesso open source: SSO, login social e autenticação de dois fatores. Auto-hospede a alternativa ao Auth0 em um clique.",
+			"about": [
+				"O Keycloak é um servidor de gerenciamento de identidade e acesso: seus apps entregam o login a ele, e quem entrou uma vez está logado em todos eles. Ele suporta OpenID Connect, OAuth 2.0 e SAML 2.0, então a maioria dos apps e frameworks se conecta a ele com as bibliotecas padrão deles. Ele faz o login das pessoas com senha, passkey ou uma conta social como Google ou GitHub, adiciona autenticação de dois fatores com códigos de uso único, sincroniza usuários do LDAP e do Active Directory e deixa cada usuário gerenciar o perfil, a senha e as sessões no console da conta.",
+				"O Keycloak é um projeto em incubação da Cloud Native Computing Foundation, usado tanto por empresas quanto em home labs para colocar um só login na frente de muitos apps. Este template o roda em modo de produção com PostgreSQL atrás do proxy e cria o administrador do realm master a partir dos campos antes de o Keycloak responder a qualquer pessoa. O porém: o Keycloak é poderoso e tem muitas configurações, então o primeiro cliente exige alguma leitura, e ele roda em Java, que usa mais memória que a maioria dos servidores de login."
+			],
+			"faq": [
+				{
+					"q": "O Keycloak é gratuito?",
+					"a": "Sim. O Keycloak é de código aberto sob a licença Apache 2.0, sem edição paga e sem limite de usuários ou apps. A Red Hat vende suporte para a própria versão dele, o Red Hat build of Keycloak."
+				},
+				{
+					"q": "Keycloak ou Auth0: qual devo usar?",
+					"a": "Os dois fazem o login de usuários por OpenID Connect e SAML, com login social e autenticação de dois fatores. O Auth0 é um serviço na nuvem cobrado por usuários ativos por mês, enquanto o Keycloak é um que você mesmo roda, gratuito para qualquer número de usuários, ao custo de cuidar dele."
+				},
+				{
+					"q": "O Keycloak permite login com Google ou GitHub?",
+					"a": "Sim. Em “Provedores de identidade”, um realm ganha Google, GitHub, Facebook, Microsoft e outros, ou qualquer provedor OpenID Connect ou SAML 2.0, como botões na página de login dele, sem mudança nos seus apps."
+				},
+				{
+					"q": "O Keycloak suporta autenticação de dois fatores e passkeys?",
+					"a": "Sim. Ele aceita códigos de uso único de apps como Google Authenticator ou FreeOTP, códigos de recuperação e passkeys, e um realm pode exigi-los de todos ou deixar que os usuários os ativem no console da conta."
+				},
+				{
+					"q": "Por que o Keycloak diz que sou um administrador temporário?",
+					"a": "O Keycloak marca como temporário o administrador que cria na primeira inicialização e pede um permanente: adicione um usuário no realm master, dê a ele a função admin em “Mapeamento de funções”, entre com ele e exclua o administrador temporário."
+				}
+			]
+		},
+		"ru": {
+			"description": "Управление идентификацией и доступом с открытым кодом: единый вход в ваши приложения по OpenID Connect и SAML",
+			"notes": "Войдите в консоль администратора с именем пользователя и паролем администратора, которые вы указали. Keycloak считает этого администратора временным, пока нет постоянного: в realm master добавьте пользователя в разделе «Пользователи», задайте ему пароль на вкладке «Учетные данные», дайте ему роль admin на вкладке «Сопоставление ролей», затем войдите под ним и удалите временного. Для своих приложений создайте realm через «Управление realm» → «Создать realm», а для каждого приложения — клиента в разделе «Клиенты».",
+			"sizing": "Keycloak работает на Java: в простое около 550 MB памяти вместе с Postgres, больше при множестве пользователей и сессий; его база данных остается небольшой.",
+			"summary": "Self-hosted Keycloak — open source управление идентификацией и доступом: единый вход, вход через соцсети и 2FA. Альтернатива Auth0 в один клик.",
+			"about": [
+				"Keycloak — сервер управления идентификацией и доступом: ваши приложения поручают ему вход, и, войдя один раз, человек входит сразу во все. Он поддерживает OpenID Connect, OAuth 2.0 и SAML 2.0, поэтому большинство приложений и фреймворков подключаются к нему своими стандартными библиотеками. Он впускает людей по паролю, passkey или через аккаунт в соцсети или сервисе вроде Google или GitHub, добавляет двухфакторную аутентификацию с одноразовыми кодами, синхронизирует пользователей из LDAP и Active Directory и дает каждому пользователю управлять своим профилем, паролем и сессиями в консоли аккаунта.",
+				"Keycloak — инкубационный проект Cloud Native Computing Foundation. Его используют и компании, и домашние лаборатории, чтобы поставить один вход перед множеством приложений. Этот шаблон запускает его в продакшен-режиме с PostgreSQL за прокси и создает администратора realm master по данным из полей еще до того, как Keycloak начнет кому-либо отвечать. Подвох: Keycloak мощный, и настроек у него много, так что для первого клиента придется кое-что почитать, а работает он на Java и потому занимает больше памяти, чем большинство серверов аутентификации."
+			],
+			"faq": [
+				{
+					"q": "Keycloak бесплатный?",
+					"a": "Да. Keycloak распространяется с открытым кодом под лицензией Apache 2.0, без платной редакции и без ограничений на число пользователей или приложений. Red Hat продает поддержку своей сборки Keycloak — Red Hat build of Keycloak."
+				},
+				{
+					"q": "Keycloak или Auth0: что выбрать?",
+					"a": "Оба впускают пользователей по OpenID Connect и SAML, со входом через соцсети и двухфакторной аутентификацией. Auth0 — облачный сервис, цена которого зависит от числа активных пользователей в месяц, а Keycloak вы запускаете сами, бесплатно для любого числа пользователей, но и присматривать за ним вам."
+				},
+				{
+					"q": "Можно ли входить в Keycloak через Google или GitHub?",
+					"a": "Да. Раздел «Поставщики идентификации» в realm добавляет Google, GitHub, Facebook, Microsoft и другие сервисы или любого поставщика OpenID Connect или SAML 2.0 кнопками на странице входа, без изменений в ваших приложениях."
+				},
+				{
+					"q": "Поддерживает ли Keycloak двухфакторную аутентификацию и passkey?",
+					"a": "Да. Он принимает одноразовые коды из приложений вроде Google Authenticator или FreeOTP, коды восстановления и passkey, а realm может требовать их от всех или разрешить пользователям включать их в консоли аккаунта."
+				},
+				{
+					"q": "Почему Keycloak пишет, что я временный администратор?",
+					"a": "Keycloak помечает администратора, которого создает при первом запуске, как временного и просит завести постоянного: добавьте пользователя в realm master, дайте ему роль admin на вкладке «Сопоставление ролей», войдите под ним и удалите временного администратора."
+				}
+			]
+		},
+		"uk": {
+			"description": "Керування ідентифікацією та доступом із відкритим кодом: єдиний вхід для ваших застосунків з OpenID Connect і SAML",
+			"notes": "Увійдіть у консоль адміністратора з іменем користувача й паролем адміністратора, які ви вказали. Keycloak вважає цього адміністратора тимчасовим, доки немає постійного: у realm master додайте користувача в розділі «Users», задайте йому пароль на вкладці «Credentials», дайте роль admin на вкладці «Role mapping», потім увійдіть під ним і видаліть тимчасового. Для своїх застосунків створіть realm через «Manage realms → Create realm», а для кожного застосунку — клієнт у розділі «Clients».",
+			"sizing": "Keycloak працює на Java: у спокої близько 550 MB пам’яті разом із Postgres, більше — з багатьма користувачами й сесіями; база даних лишається невеликою.",
+			"summary": "Keycloak — керування ідентифікацією та доступом із відкритим кодом: SSO, вхід через соцмережі та 2FA. Self-hosted альтернатива Auth0 в один клік.",
+			"about": [
+				"Keycloak — сервер керування ідентифікацією та доступом: ваші застосунки доручають йому вхід, і людина, яка увійшла один раз, уже увійшла в усі. Він підтримує OpenID Connect, OAuth 2.0 і SAML 2.0, тож більшість застосунків і фреймворків підключаються до нього своїми стандартними бібліотеками. Він впускає людей за паролем, ключем доступу або соціальним акаунтом, як-от Google чи GitHub, додає двофакторну автентифікацію з одноразовими кодами, синхронізує користувачів з LDAP і Active Directory, а кожен користувач керує своїм профілем, паролем і сесіями в консолі акаунта.",
+				"Keycloak — інкубаційний проєкт Cloud Native Computing Foundation, яким і компанії, і домашні лабораторії користуються, щоб поставити один вхід перед багатьма застосунками. Цей шаблон запускає його в режимі продакшну з PostgreSQL за проксі й створює адміністратора realm master з полів ще до того, як Keycloak комусь відповість. Підводний камінь: Keycloak потужний і має багато налаштувань, тож щоб налаштувати першого клієнта, доведеться трохи почитати, а працює він на Java, яка займає більше пам’яті, ніж більшість серверів входу."
+			],
+			"faq": [
+				{
+					"q": "Keycloak безкоштовний?",
+					"a": "Так. Keycloak має відкритий код за ліцензією Apache 2.0, без платної редакції й без обмежень на кількість користувачів чи застосунків. Red Hat продає підтримку своєї збірки — Red Hat build of Keycloak."
+				},
+				{
+					"q": "Keycloak чи Auth0: що обрати?",
+					"a": "Обидва впускають користувачів через OpenID Connect і SAML, із входом через соцмережі та двофакторною автентифікацією. Auth0 — хмарний сервіс із ціною за кількістю активних користувачів на місяць, а Keycloak ви запускаєте самі, безкоштовно для будь-якої кількості користувачів, але й доглядати за ним доведеться вам."
+				},
+				{
+					"q": "Чи може Keycloak впускати користувачів через Google або GitHub?",
+					"a": "Так. Розділ «Identity providers» у realm додає Google, GitHub, Facebook, Microsoft та інших або будь-якого провайдера OpenID Connect чи SAML 2.0 кнопками на сторінці входу, без змін у ваших застосунках."
+				},
+				{
+					"q": "Чи підтримує Keycloak двофакторну автентифікацію та ключі доступу?",
+					"a": "Так. Він приймає одноразові коди із застосунків на кшталт Google Authenticator чи FreeOTP, коди відновлення та ключі доступу, а realm може вимагати їх від усіх або дозволити користувачам увімкнути їх у консолі акаунта."
+				},
+				{
+					"q": "Чому Keycloak каже, що я тимчасовий адміністратор?",
+					"a": "Keycloak позначає адміністратора, якого створює під час першого запуску, як тимчасового й просить створити постійного: додайте користувача в realm master, дайте йому роль admin на вкладці «Role mapping», увійдіть під ним і видаліть тимчасового адміністратора."
+				}
+			]
+		}
+	}
+}
