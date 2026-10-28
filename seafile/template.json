@@ -1,0 +1,310 @@
+{
+	"name": "Seafile",
+	"emoji": "☁️",
+	"category": "files",
+	"alternatives": [
+		"Dropbox",
+		"Google Drive"
+	],
+	"plan": "starter",
+	"route": {
+		"service": "seafile",
+		"port": 80
+	},
+	"variables": [
+		{
+			"name": "URL",
+			"from": "url"
+		},
+		{
+			"name": "HOST",
+			"from": "host"
+		},
+		{
+			"name": "JWT_PRIVATE_KEY",
+			"secret": 32
+		},
+		{
+			"name": "DB_PASSWORD",
+			"secret": 24
+		},
+		{
+			"name": "DB_ROOT_PASSWORD",
+			"secret": 24
+		},
+		{
+			"name": "ADMIN_EMAIL",
+			"ask": "email"
+		},
+		{
+			"name": "ADMIN_PASSWORD",
+			"ask": "adminPassword"
+		}
+	],
+	"texts": {
+		"en": {
+			"description": "File sync and share: libraries synced to your computers and phones, with history and links",
+			"notes": "Sign in with the email and the admin password you gave: that account is Seafile's admin, made at the first start. After each start Seafile takes a minute or so before its page answers. Nobody signs up by themselves: add people in System Admin → Users. Your files are in My Library; the desktop and mobile apps sync with https://{host}. Files, MariaDB and settings are kept in the data and db volumes.",
+			"sizing": "Seafile takes about 750 MB of memory with MariaDB and its cache; your files take what they take, plus their history.",
+			"summary": "Seafile is open-source file sync and share: libraries synced to every device, with file history, share links and encryption. Self-host it in one click.",
+			"about": [
+				"Seafile is open-source software for syncing and sharing files, run in place of Dropbox or Google Drive. Files live in libraries: each one syncs to the desktop app on Windows, macOS and Linux, and the apps for iOS and Android browse and upload. Seafile keeps the history of every file, so an earlier version or a deleted file comes back, and a library can be encrypted with a password of its own, so the server stores only what it cannot read.",
+				"Libraries are shared with users and groups, read-only or to edit, and a share link gives a file or a folder to anyone, with a password and an expiry if you like; an upload link lets others drop files in. Seafile is known for syncing large numbers of files quickly: it transfers only the blocks of a file that changed.",
+				"This template runs the Community Edition from Seafile's official image, version 14.0, with MariaDB and a Redis cache. The databases and the admin, from the email and password you give, are made at the first start; sign-up stays off. SeaDoc, Seafile's online document editor, and its notification and metadata servers are not included."
+			],
+			"faq": [
+				{
+					"q": "Is Seafile free and open source?",
+					"a": "Yes. Seafile's Community Edition is open source: the server under the AGPL-3.0 and its web interface, Seahub, under the Apache License 2.0. Seafile Ltd. also sells a Professional Edition with features for larger organisations."
+				},
+				{
+					"q": "Seafile vs Nextcloud: which should I pick?",
+					"a": "Seafile does one thing, file sync and share, and is known for syncing fast with little memory. Nextcloud is a larger suite, with calendar, contacts, office and many apps around its files, and needs more resources."
+				},
+				{
+					"q": "Does Seafile encrypt my files?",
+					"a": "It can. An encrypted library is encrypted on your computer with a password you choose, and the server keeps only the encrypted blocks. Without the password, even the server's admin cannot read the files."
+				},
+				{
+					"q": "Which apps work with Seafile?",
+					"a": "Seafile's own desktop sync client for Windows, macOS and Linux, SeaDrive, which shows libraries as a network drive without downloading them first, and the Seafile apps for iOS and Android. Each signs in with the server's address and your account."
+				},
+				{
+					"q": "Can I get back a deleted or older file in Seafile?",
+					"a": "Yes. Each library keeps the history of its files: History on a file shows its earlier versions, and the library's trash keeps deleted files and folders for restore. How long history is kept is set per library."
+				}
+			]
+		},
+		"de": {
+			"description": "Dateien synchronisieren und teilen: Bibliotheken, synchronisiert auf deine Computer und Handys, mit Verlauf und Links",
+			"notes": "Melde dich mit der E-Mail und dem Admin-Passwort an, die du angegeben hast: Dieses Konto ist der Admin von Seafile, angelegt beim ersten Start. Nach jedem Start braucht Seafile etwa eine Minute, bis seine Seite antwortet. Niemand kann sich selbst registrieren: Füg Personen unter „Systemverwaltung“ → „Benutzer“ hinzu. Deine Dateien liegen in „Meine Bibliothek“; die Desktop- und Mobil-Apps synchronisieren mit https://{host}. Dateien, MariaDB und Einstellungen liegen in den Volumes data und db.",
+			"sizing": "Seafile braucht etwa 750 MB RAM mit MariaDB und seinem Cache; deine Dateien belegen so viel, wie sie groß sind, dazu ihr Verlauf.",
+			"summary": "Seafile selbst hosten: Open-Source-Datei-Sync und -Freigabe mit Bibliotheken auf jedem Gerät, Dateiverlauf, Links und Verschlüsselung. In einem Klick.",
+			"about": [
+				"Seafile ist Open-Source-Software zum Synchronisieren und Teilen von Dateien, die du statt Dropbox oder Google Drive einsetzt. Dateien liegen in Bibliotheken: Jede synchronisiert sich mit der Desktop-App unter Windows, macOS und Linux, und mit den Apps für iOS und Android lassen sich Dateien ansehen und hochladen. Seafile behält den Verlauf jeder Datei, sodass eine frühere Version oder eine gelöschte Datei zurückkommt, und eine Bibliothek lässt sich mit einem eigenen Passwort verschlüsseln, sodass der Server nur speichert, was er nicht lesen kann.",
+				"Bibliotheken werden mit Benutzern und Gruppen geteilt, nur zum Lesen oder zum Bearbeiten, und ein Freigabe-Link gibt eine Datei oder einen Ordner an beliebige Personen weiter, auf Wunsch mit Passwort und Ablaufdatum; über einen Upload-Link können andere Dateien hineinlegen. Seafile ist dafür bekannt, große Mengen von Dateien schnell zu synchronisieren: Es überträgt nur die Blöcke einer Datei, die sich geändert haben.",
+				"Diese Vorlage startet die Community Edition aus dem offiziellen Image von Seafile, Version 14.0, mit MariaDB und einem Redis-Cache. Die Datenbanken und der Admin aus der E-Mail und dem Passwort, die du angibst, entstehen beim ersten Start; die Registrierung bleibt aus. SeaDoc, der Online-Dokumenteditor von Seafile, sowie seine Server für Benachrichtigungen und Metadaten sind nicht dabei."
+			],
+			"faq": [
+				{
+					"q": "Ist Seafile kostenlos und Open Source?",
+					"a": "Ja. Die Community Edition von Seafile ist Open Source: der Server unter der AGPL-3.0 und die Weboberfläche Seahub unter der Apache License 2.0. Seafile Ltd. verkauft außerdem eine Professional Edition mit Funktionen für größere Organisationen."
+				},
+				{
+					"q": "Seafile oder Nextcloud: Was soll ich nehmen?",
+					"a": "Seafile macht eine Sache, Dateien synchronisieren und teilen, und ist dafür bekannt, schnell und mit wenig RAM zu synchronisieren. Nextcloud ist eine größere Suite mit Kalender, Kontakten, Office und vielen Apps rund um die Dateien und braucht mehr Ressourcen."
+				},
+				{
+					"q": "Verschlüsselt Seafile meine Dateien?",
+					"a": "Das kann es. Eine verschlüsselte Bibliothek wird auf deinem Computer mit einem Passwort verschlüsselt, das du wählst, und der Server bewahrt nur die verschlüsselten Blöcke auf. Ohne das Passwort kann nicht einmal der Admin des Servers die Dateien lesen."
+				},
+				{
+					"q": "Welche Apps funktionieren mit Seafile?",
+					"a": "Der eigene Desktop-Sync-Client von Seafile für Windows, macOS und Linux, SeaDrive, das Bibliotheken als Netzlaufwerk zeigt, ohne sie vorher herunterzuladen, und die Seafile-Apps für iOS und Android. Alle melden sich mit der Adresse des Servers und deinem Konto an."
+				},
+				{
+					"q": "Kann ich in Seafile eine gelöschte oder ältere Datei zurückholen?",
+					"a": "Ja. Jede Bibliothek behält den Verlauf ihrer Dateien: „Versionen“ bei einer Datei zeigt ihre früheren Versionen, und der „Papierkorb“ der Bibliothek bewahrt gelöschte Dateien und Ordner zum Wiederherstellen auf. Wie lange der Verlauf bleibt, ist eine Einstellung jeder Bibliothek."
+				}
+			]
+		},
+		"es": {
+			"description": "Sincronización y uso compartido de archivos: bibliotecas sincronizadas con tus equipos y teléfonos, con historial y enlaces",
+			"notes": "Inicia sesión con el correo y la contraseña de administrador que indicaste: esa cuenta es la del administrador de Seafile, creada en el primer arranque. Tras cada arranque, la página de Seafile tarda alrededor de un minuto en responder. Nadie puede registrarse por sí solo: agrega personas en Administración del Sistema → Usuarios. Tus archivos están en Mi Biblioteca; las apps de escritorio y para teléfonos se sincronizan con https://{host}. Los archivos, MariaDB y los ajustes se conservan en los volúmenes data y db.",
+			"sizing": "Seafile ocupa unos 750 MB de memoria con MariaDB y su caché; tus archivos ocupan lo que ocupan, más su historial.",
+			"summary": "Seafile, de código abierto, sincroniza y comparte archivos: bibliotecas en cada dispositivo, con historial, enlaces y cifrado. Autoalójalo en un clic.",
+			"about": [
+				"Seafile es software de código abierto para sincronizar y compartir archivos, que se usa en lugar de Dropbox o Google Drive. Los archivos viven en bibliotecas: cada una se sincroniza con la app de escritorio en Windows, macOS y Linux, y las apps para iOS y Android permiten explorarlas y subir archivos. Seafile guarda el historial de cada archivo, así que una versión anterior o un archivo eliminado se pueden recuperar, y una biblioteca se puede cifrar con su propia contraseña, de modo que el servidor solo guarda lo que no puede leer.",
+				"Las bibliotecas se comparten con usuarios y grupos, en solo lectura o para editar, y un enlace para compartir da un archivo o una carpeta a cualquiera, con contraseña y fecha de vencimiento si quieres; un enlace de subida permite que otros dejen archivos. Seafile es conocido por sincronizar grandes cantidades de archivos con rapidez: solo transfiere los bloques de un archivo que cambiaron.",
+				"Esta plantilla ejecuta la edición Community de la imagen oficial de Seafile, versión 14.0, con MariaDB y una caché Redis. Las bases de datos y el administrador, con el correo y la contraseña que indicas, se crean en el primer arranque; el registro sigue desactivado. SeaDoc, el editor de documentos en línea de Seafile, y sus servidores de notificaciones y de metadatos no se incluyen."
+			],
+			"faq": [
+				{
+					"q": "¿Seafile es gratis y de código abierto?",
+					"a": "Sí. La edición Community de Seafile es de código abierto: el servidor bajo la AGPL-3.0 y su interfaz web, Seahub, bajo la Apache License 2.0. Seafile Ltd. también vende una edición Professional con funciones para organizaciones más grandes."
+				},
+				{
+					"q": "Seafile frente a Nextcloud: ¿cuál debería elegir?",
+					"a": "Seafile hace una sola cosa, sincronizar y compartir archivos, y es conocido por sincronizar rápido con poca memoria. Nextcloud es una suite más grande, con calendario, contactos, ofimática y muchas apps alrededor de sus archivos, y necesita más recursos."
+				},
+				{
+					"q": "¿Seafile cifra mis archivos?",
+					"a": "Puede hacerlo. Una biblioteca cifrada se cifra en tu equipo con una contraseña que eliges, y el servidor solo guarda los bloques cifrados. Sin la contraseña, ni siquiera el administrador del servidor puede leer los archivos."
+				},
+				{
+					"q": "¿Qué apps funcionan con Seafile?",
+					"a": "El cliente de sincronización de escritorio de Seafile para Windows, macOS y Linux; SeaDrive, que muestra las bibliotecas como una unidad de red sin descargarlas antes; y las apps de Seafile para iOS y Android. Cada uno inicia sesión con la dirección del servidor y tu cuenta."
+				},
+				{
+					"q": "¿Puedo recuperar en Seafile un archivo eliminado o una versión anterior?",
+					"a": "Sí. Cada biblioteca guarda el historial de sus archivos: “Historial” en un archivo muestra sus versiones anteriores, y la papelera de la biblioteca conserva los archivos y las carpetas eliminados para restaurarlos. Cuánto tiempo se conserva el historial se configura en cada biblioteca."
+				}
+			]
+		},
+		"fr": {
+			"description": "La synchronisation et le partage de fichiers : des bibliothèques synchronisées sur vos ordinateurs et vos téléphones, avec historique et liens de partage",
+			"notes": "Connectez-vous avec l’e-mail et le mot de passe administrateur indiqués : ce compte est l’administrateur de Seafile, créé au premier démarrage. Après chaque démarrage, Seafile met une minute environ avant que sa page réponde. Personne ne s’inscrit de lui-même : ajoutez des personnes dans Administration système → Utilisateurs. Vos fichiers sont dans « Ma bibliothèque » ; les applications de bureau et mobiles se synchronisent avec https://{host}. Les fichiers, MariaDB et les réglages sont conservés dans les volumes data et db.",
+			"sizing": "Seafile prend environ 750 MB de mémoire avec MariaDB et son cache ; vos fichiers prennent leur place, plus celle de leur historique.",
+			"summary": "Seafile, synchronisation et partage de fichiers open source : bibliothèques sur chaque appareil, historique, liens, chiffrement. Auto-hébergé en un clic.",
+			"about": [
+				"Seafile est un logiciel open source de synchronisation et de partage de fichiers, utilisé à la place de Dropbox ou de Google Drive. Les fichiers sont rangés dans des bibliothèques : chacune se synchronise avec l’application de bureau sous Windows, macOS et Linux, et les applications iOS et Android permettent de les parcourir et d’y envoyer des fichiers. Seafile garde l’historique de chaque fichier, si bien qu’une version précédente ou un fichier supprimé se récupère, et une bibliothèque peut être chiffrée avec son propre mot de passe : le serveur ne stocke alors que ce qu’il ne peut pas lire.",
+				"Les bibliothèques se partagent avec des utilisateurs et des groupes, en lecture seule ou en lecture et écriture, et un lien de partage donne un fichier ou un dossier à n’importe qui, avec un mot de passe et une date d’expiration si vous le souhaitez ; un lien d’envoi permet à d’autres d’y déposer des fichiers. Seafile est réputé pour synchroniser rapidement un grand nombre de fichiers : il ne transfère que les blocs d’un fichier qui ont changé.",
+				"Ce template fait tourner l’édition Community de l’image officielle de Seafile, version 14.0, avec MariaDB et un cache Redis. Les bases de données et l’administrateur, à partir de l’e-mail et du mot de passe que vous indiquez, sont créés au premier démarrage ; l’inscription reste désactivée. SeaDoc, l’éditeur de documents en ligne de Seafile, ainsi que ses serveurs de notifications et de métadonnées ne sont pas inclus."
+			],
+			"faq": [
+				{
+					"q": "Seafile est-il gratuit et open source ?",
+					"a": "Oui. L’édition Community de Seafile est open source : le serveur sous licence AGPL-3.0, et son interface web, Seahub, sous licence Apache 2.0. Seafile Ltd. vend aussi une édition Professional, avec des fonctionnalités pour les grandes organisations."
+				},
+				{
+					"q": "Seafile ou Nextcloud : lequel choisir ?",
+					"a": "Seafile fait une seule chose, la synchronisation et le partage de fichiers, et il est réputé pour synchroniser vite avec peu de mémoire. Nextcloud est une suite plus large, avec agenda, contacts, bureautique et de nombreuses applications autour de ses fichiers, et il demande plus de ressources."
+				},
+				{
+					"q": "Seafile chiffre-t-il mes fichiers ?",
+					"a": "Il le peut. Une bibliothèque chiffrée l’est sur votre ordinateur, avec un mot de passe que vous choisissez, et le serveur ne garde que les blocs chiffrés. Sans le mot de passe, même l’administrateur du serveur ne peut pas lire les fichiers."
+				},
+				{
+					"q": "Quelles applications fonctionnent avec Seafile ?",
+					"a": "Le client de synchronisation de bureau de Seafile pour Windows, macOS et Linux, SeaDrive, qui affiche les bibliothèques comme un lecteur réseau sans les télécharger d’abord, et les applications Seafile pour iOS et Android. Chacun se connecte avec l’adresse du serveur et votre compte."
+				},
+				{
+					"q": "Puis-je récupérer un fichier supprimé ou une ancienne version dans Seafile ?",
+					"a": "Oui. Chaque bibliothèque garde l’historique de ses fichiers : « Historique » sur un fichier montre ses versions précédentes, et la corbeille de la bibliothèque garde les fichiers et les dossiers supprimés pour les restaurer. La durée de conservation de l’historique se règle par bibliothèque."
+				}
+			]
+		},
+		"pl": {
+			"description": "Synchronizacja i udostępnianie plików: biblioteki synchronizowane z twoimi komputerami i telefonami, z historią i linkami",
+			"notes": "Zaloguj się adresem e-mail i hasłem administratora podanymi przy tworzeniu projektu: to konto jest administratorem Seafile, utworzonym przy pierwszym starcie. Po każdym starcie Seafile potrzebuje około minuty, zanim jego strona odpowie. Nikt nie zarejestruje się sam: dodawaj ludzi na stronie Administrator systemu → Użytkownicy. Twoje pliki są w bibliotece „Moja biblioteka”; aplikacje na komputer i telefon synchronizują się z https://{host}. Pliki, MariaDB i ustawienia zostają w wolumenach data i db.",
+			"sizing": "Seafile zajmuje około 750 MB pamięci razem z MariaDB i cache; twoje pliki zajmują tyle, ile ważą, plus ich historia.",
+			"summary": "Hostuj Seafile u siebie w jeden klik: synchronizacja i udostępnianie plików open source, biblioteki na każdym urządzeniu, historia, linki i szyfrowanie.",
+			"about": [
+				"Seafile to oprogramowanie open source do synchronizacji i udostępniania plików, używane zamiast Dropboxa czy Google Drive. Pliki są w bibliotekach: każda synchronizuje się z aplikacją na komputer z Windows, macOS i Linuksem, a aplikacje na iOS i Androida przeglądają je i wgrywają do nich pliki. Seafile przechowuje historię każdego pliku, więc wcześniejszą wersję albo usunięty plik można odzyskać, a bibliotekę można zaszyfrować osobnym hasłem, tak że serwer przechowuje tylko to, czego nie umie odczytać.",
+				"Biblioteki udostępnia się użytkownikom i grupom, tylko do odczytu albo do edycji, a link udostępniania daje plik lub katalog każdemu, jeśli chcesz, z hasłem i datą wygaśnięcia; link do wgrywania pozwala innym wrzucać pliki. Seafile słynie z szybkiej synchronizacji dużej liczby plików: przesyła tylko te bloki pliku, które się zmieniły.",
+				"Ten szablon uruchamia edycję Community z oficjalnego obrazu Seafile w wersji 14.0, z MariaDB i cache Redis. Bazy danych i administrator z podanego adresu e-mail i hasła powstają przy pierwszym starcie; rejestracja pozostaje wyłączona. Nie ma tu SeaDoc, edytora dokumentów online Seafile, ani jego serwerów powiadomień i metadanych."
+			],
+			"faq": [
+				{
+					"q": "Czy Seafile jest darmowy i open source?",
+					"a": "Tak. Edycja Community Seafile jest open source: serwer na licencji AGPL-3.0, a jego interfejs webowy, Seahub, na licencji Apache License 2.0. Seafile Ltd. sprzedaje też edycję Professional z funkcjami dla większych organizacji."
+				},
+				{
+					"q": "Seafile czy Nextcloud: co wybrać?",
+					"a": "Seafile robi jedną rzecz, synchronizację i udostępnianie plików, i słynie z szybkiej synchronizacji przy małym zużyciu pamięci. Nextcloud to większy zestaw, z kalendarzem, kontaktami, pakietem biurowym i wieloma aplikacjami wokół plików, i potrzebuje więcej zasobów."
+				},
+				{
+					"q": "Czy Seafile szyfruje moje pliki?",
+					"a": "Tak, jeśli tego chcesz. Zaszyfrowana biblioteka jest szyfrowana na twoim komputerze hasłem, które wybierasz, a serwer przechowuje tylko zaszyfrowane bloki. Bez hasła nawet administrator serwera nie odczyta plików."
+				},
+				{
+					"q": "Jakie aplikacje działają z Seafile?",
+					"a": "Klient synchronizacji Seafile na komputery z Windows, macOS i Linuksem, SeaDrive, który pokazuje biblioteki jako dysk sieciowy bez wcześniejszego pobierania, oraz aplikacje Seafile na iOS i Androida. Do każdego z nich logujesz się adresem serwera i swoim kontem."
+				},
+				{
+					"q": "Czy w Seafile mogę odzyskać usunięty albo starszy plik?",
+					"a": "Tak. Każda biblioteka przechowuje historię swoich plików: polecenie Historia przy pliku pokazuje jego wcześniejsze wersje, a Kosz biblioteki trzyma usunięte pliki i katalogi do przywrócenia. Jak długo historia jest przechowywana, ustawia się osobno dla każdej biblioteki."
+				}
+			]
+		},
+		"pt": {
+			"description": "Sincronização e compartilhamento de arquivos: bibliotecas sincronizadas com seus computadores e celulares, com histórico e links",
+			"notes": "Entre com o e-mail e a senha de administrador que você informou: essa conta é o admin do Seafile, criado no primeiro início. Depois de cada início, o Seafile leva mais ou menos um minuto até a página dele responder. Ninguém se cadastra sozinho: adicione pessoas em Administrador do sistema → Usuários. Os seus arquivos ficam em “Minha Biblioteca”; os apps para desktop e celular sincronizam com https://{host}. Os arquivos, o MariaDB e as configurações ficam guardados nos volumes data e db.",
+			"sizing": "O Seafile usa cerca de 750 MB de memória com o MariaDB e o cache dele; os seus arquivos ocupam o que ocupam, mais o histórico deles.",
+			"summary": "Seafile: sincronização e compartilhamento de arquivos open source em todo dispositivo, com histórico, links e criptografia. Auto-hospede em um clique.",
+			"about": [
+				"O Seafile é um software de código aberto para sincronizar e compartilhar arquivos, usado no lugar do Dropbox ou do Google Drive. Os arquivos ficam em bibliotecas: cada uma sincroniza com o app desktop no Windows, no macOS e no Linux, e os apps para iOS e Android navegam pelos arquivos e enviam novos. O Seafile guarda o histórico de cada arquivo, então uma versão anterior ou um arquivo excluído volta, e uma biblioteca pode ser criptografada com uma senha própria, para que o servidor guarde só o que não consegue ler.",
+				"As bibliotecas são compartilhadas com usuários e grupos, só para leitura ou para edição, e um link de compartilhamento entrega um arquivo ou uma pasta a qualquer pessoa, com senha e data de expiração se você quiser; um link de upload deixa outras pessoas enviarem arquivos. O Seafile é conhecido por sincronizar muitos arquivos rápido: ele transfere só os blocos de um arquivo que mudaram.",
+				"Este template roda a edição Community da imagem oficial do Seafile, versão 14.0, com MariaDB e um cache Redis. Os bancos de dados e o admin, com o e-mail e a senha que você informa, são criados no primeiro início; o cadastro continua desativado. O SeaDoc, o editor de documentos online do Seafile, e os servidores de notificações e de metadados dele não estão incluídos."
+			],
+			"faq": [
+				{
+					"q": "O Seafile é gratuito e de código aberto?",
+					"a": "Sim. A edição Community do Seafile é de código aberto: o servidor sob a AGPL-3.0 e a interface web, o Seahub, sob a Apache License 2.0. A Seafile Ltd. também vende uma edição Professional, com recursos para organizações maiores."
+				},
+				{
+					"q": "Seafile ou Nextcloud: qual escolher?",
+					"a": "O Seafile faz uma coisa só, sincronizar e compartilhar arquivos, e é conhecido por sincronizar rápido com pouca memória. O Nextcloud é uma suíte maior, com calendário, contatos, pacote office e muitos apps em volta dos arquivos, e precisa de mais recursos."
+				},
+				{
+					"q": "O Seafile criptografa meus arquivos?",
+					"a": "Sim, se você quiser. Uma biblioteca criptografada é criptografada no seu computador com uma senha que você escolhe, e o servidor guarda só os blocos criptografados. Sem a senha, nem o admin do servidor consegue ler os arquivos."
+				},
+				{
+					"q": "Quais apps funcionam com o Seafile?",
+					"a": "O cliente de sincronização desktop do próprio Seafile, para Windows, macOS e Linux, o SeaDrive, que mostra as bibliotecas como uma unidade de rede sem baixá-las antes, e os apps do Seafile para iOS e Android. Cada um entra com o endereço do servidor e a sua conta."
+				},
+				{
+					"q": "Posso recuperar no Seafile um arquivo excluído ou uma versão antiga?",
+					"a": "Sim. Cada biblioteca guarda o histórico dos seus arquivos: “Histórico”, num arquivo, mostra as versões anteriores dele, e a lixeira da biblioteca guarda arquivos e pastas excluídos para restaurar. Por quanto tempo o histórico fica guardado é definido em cada biblioteca."
+				}
+			]
+		},
+		"ru": {
+			"description": "Синхронизация и обмен файлами: библиотеки синхронизируются с вашими компьютерами и телефонами, есть история и ссылки",
+			"notes": "Войдите с почтой и паролем администратора, которые вы указали: этот аккаунт — администратор Seafile, он создается при первом запуске. После каждого запуска Seafile нужна примерно минута, прежде чем его страница начнет отвечать. Самостоятельно никто не зарегистрируется: добавляйте людей в разделе «Системный администратор» → «Пользователя(ей)». Ваши файлы — в библиотеке «Моя библиотека»; приложения для компьютера и телефона синхронизируются с https://{host}. Файлы, MariaDB и настройки хранятся в томах data и db.",
+			"sizing": "Seafile занимает около 750 MB памяти вместе с MariaDB и кешем; ваши файлы занимают столько, сколько весят, плюс их история.",
+			"summary": "Self-hosted Seafile в один клик: open source синхронизация и обмен файлами. Библиотеки на всех устройствах, история файлов, ссылки и шифрование.",
+			"about": [
+				"Seafile — программа с открытым кодом для синхронизации файлов и обмена ими, которую используют вместо Dropbox или Google Drive. Файлы живут в библиотеках: каждая синхронизируется с приложением для компьютера на Windows, macOS и Linux, а приложения для iOS и Android позволяют просматривать и загружать файлы. Seafile хранит историю каждого файла, поэтому можно вернуть прежнюю версию или удаленный файл, а библиотеку можно зашифровать отдельным паролем, и тогда сервер хранит только то, что не может прочитать.",
+				"Библиотеками делятся с пользователями и группами, только для чтения или с правом правки, а общедоступная ссылка открывает файл или папку кому угодно, при желании с паролем и сроком действия; ссылка для загрузки позволяет другим загружать туда файлы. Seafile известен тем, что быстро синхронизирует большое число файлов: он передает только изменившиеся блоки файла.",
+				"Этот шаблон запускает Seafile Community Edition из официального образа Seafile версии 14.0 с MariaDB и кешем на Redis. Базы данных и администратор с почтой и паролем, которые вы указали, создаются при первом запуске; регистрация остается выключенной. SeaDoc, онлайн-редактор документов Seafile, и его серверы уведомлений и метаданных в шаблон не входят."
+			],
+			"faq": [
+				{
+					"q": "Seafile бесплатный и с открытым кодом?",
+					"a": "Да. Seafile Community Edition распространяется с открытым кодом: сервер — под лицензией AGPL-3.0, а его веб-интерфейс Seahub — под Apache License 2.0. Seafile Ltd. также продает Professional Edition с возможностями для крупных организаций."
+				},
+				{
+					"q": "Seafile или Nextcloud: что выбрать?",
+					"a": "Seafile делает одно — синхронизирует файлы и дает ими делиться — и известен тем, что синхронизирует быстро и с небольшим расходом памяти. Nextcloud — более крупный набор с календарем, контактами, офисом и множеством приложений вокруг файлов, и ему нужно больше ресурсов."
+				},
+				{
+					"q": "Шифрует ли Seafile мои файлы?",
+					"a": "Может. Зашифрованная библиотека шифруется на вашем компьютере паролем, который вы выбираете, а сервер хранит только зашифрованные блоки. Без пароля даже администратор сервера не прочитает файлы."
+				},
+				{
+					"q": "Какие приложения работают с Seafile?",
+					"a": "Собственный клиент синхронизации Seafile для компьютеров на Windows, macOS и Linux, SeaDrive, который показывает библиотеки как сетевой диск, не скачивая их заранее, и приложения Seafile для iOS и Android. Каждое из них входит по адресу сервера и с вашим аккаунтом."
+				},
+				{
+					"q": "Можно ли вернуть удаленный или старый файл в Seafile?",
+					"a": "Да. Каждая библиотека хранит историю своих файлов: «История» у файла показывает его прежние версии, а «Корзина» библиотеки хранит удаленные файлы и папки, чтобы их можно было восстановить. Сколько хранится история, задается для каждой библиотеки отдельно."
+				}
+			]
+		},
+		"uk": {
+			"description": "Синхронізація файлів і спільний доступ до них: бібліотеки синхронізуються з вашими комп’ютерами й телефонами, з історією та посиланнями",
+			"notes": "Увійдіть з електронною поштою й паролем адміністратора, які ви вказали: цей акаунт — адміністратор Seafile, створений під час першого запуску. Після кожного запуску Seafile потрібна приблизно хвилина, перш ніж його сторінка почне відповідати. Ніхто не реєструється сам: додавайте людей у розділі «Системний адміністратор → Користувача(ів)». Ваші файли лежать у бібліотеці «Моя бібліотека»; застосунки для комп’ютерів і телефонів синхронізуються з https://{host}. Файли, MariaDB і налаштування зберігаються в томах data і db.",
+			"sizing": "Seafile займає близько 750 MB пам’яті разом із MariaDB і своїм кешем; ваші файли займають стільки, скільки важать, плюс їхня історія.",
+			"summary": "Self-hosted Seafile в один клік: синхронізація файлів і спільний доступ з відкритим кодом, бібліотеки на всіх пристроях, історія, посилання й шифрування.",
+			"about": [
+				"Seafile — програма з відкритим кодом для синхронізації файлів і спільного доступу до них, яку використовують замість Dropbox або Google Drive. Файли живуть у бібліотеках: кожна синхронізується з настільним застосунком для Windows, macOS і Linux, а застосунки для iOS та Android дають переглядати файли й завантажувати нові. Seafile зберігає історію кожного файлу, тож попередня версія чи видалений файл повертаються, а бібліотеку можна зашифрувати окремим паролем, і тоді сервер зберігає лише те, чого не може прочитати.",
+				"Бібліотеками діляться з користувачами й групами, лише для читання або для редагування, а загальнодоступне посилання відкриває файл чи папку будь-кому, за бажання з паролем і терміном дії; посилання з правами запису дає іншим скинути туди файли. Seafile відомий тим, що швидко синхронізує велику кількість файлів: він передає лише ті блоки файлу, які змінилися.",
+				"Цей шаблон запускає редакцію Community з офіційного образу Seafile версії 14.0, з MariaDB і кешем Redis. Під час першого запуску створюються бази даних і адміністратор із поштою й паролем, які ви вказали; реєстрація лишається вимкненою. SeaDoc, онлайн-редактор документів Seafile, а також сервери сповіщень і метаданих Seafile до шаблону не входять."
+			],
+			"faq": [
+				{
+					"q": "Seafile безкоштовний і з відкритим кодом?",
+					"a": "Так. Редакція Community Seafile має відкритий код: сервер — за ліцензією AGPL-3.0, а його вебінтерфейс Seahub — за Apache License 2.0. Seafile Ltd. також продає редакцію Professional з функціями для більших організацій."
+				},
+				{
+					"q": "Seafile чи Nextcloud: що обрати?",
+					"a": "Seafile робить одне: синхронізує файли й дає до них спільний доступ. Він відомий швидкою синхронізацією за невеликих витрат пам’яті. Nextcloud — більший пакет програм, з календарем, контактами, офісом і багатьма застосунками навколо файлів, і йому потрібно більше ресурсів."
+				},
+				{
+					"q": "Чи шифрує Seafile мої файли?",
+					"a": "Уміє. Зашифровану бібліотеку шифрують на вашому комп’ютері паролем, який ви обираєте, а сервер зберігає лише зашифровані блоки. Без пароля файли не прочитає навіть адміністратор сервера."
+				},
+				{
+					"q": "Які застосунки працюють із Seafile?",
+					"a": "Офіційний настільний клієнт синхронізації Seafile для Windows, macOS і Linux; SeaDrive, який показує бібліотеки як мережевий диск, не звантажуючи їх заздалегідь; і застосунки Seafile для iOS та Android. Кожен із них підключається до адреси сервера й входить у ваш акаунт."
+				},
+				{
+					"q": "Чи можна повернути в Seafile видалений або старіший файл?",
+					"a": "Так. Кожна бібліотека зберігає історію своїх файлів: пункт «Історія» в меню файлу показує його попередні версії, а кошик бібліотеки зберігає видалені файли й папки, щоб їх можна було відновити. Скільки зберігати історію, задається для кожної бібліотеки окремо."
+				}
+			]
+		}
+	}
+}

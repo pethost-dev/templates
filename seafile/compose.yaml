@@ -1,0 +1,75 @@
+services:
+  seafile:
+    image: seafileltd/seafile-mc:14.0-latest
+    restart: unless-stopped
+    environment:
+      SEAFILE_SERVER_HOSTNAME: ${HOST}
+      # HTTPS ends at the machine's proxy: Seafile writes https:// into its links.
+      SEAFILE_SERVER_PROTOCOL: https
+      SITE_ROOT: /
+      CSRF_TRUSTED_ORIGINS: ${URL}
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
+      TIME_ZONE: Etc/UTC
+      SEAFILE_MYSQL_DB_HOST: db
+      SEAFILE_MYSQL_DB_PORT: "3306"
+      SEAFILE_MYSQL_DB_USER: seafile
+      SEAFILE_MYSQL_DB_PASSWORD: ${DB_PASSWORD}
+      SEAFILE_MYSQL_DB_CCNET_DB_NAME: ccnet_db
+      SEAFILE_MYSQL_DB_SEAFILE_DB_NAME: seafile_db
+      SEAFILE_MYSQL_DB_SEAHUB_DB_NAME: seahub_db
+      # The first start makes the databases with MariaDB's root, and the admin from the fields;
+      # later starts read neither. Seafile has no sign-up unless an admin turns it on.
+      INIT_SEAFILE_MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      INIT_SEAFILE_ADMIN_EMAIL: ${ADMIN_EMAIL}
+      INIT_SEAFILE_ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      CACHE_PROVIDER: redis
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      REDIS_PASSWORD: ""
+      ENABLE_GO_FILESERVER: "true"
+      # SeaDoc, the notification server and the metadata server run as containers of their own,
+      # which this template leaves out.
+      ENABLE_SEADOC: "false"
+      ENABLE_NOTIFICATION_SERVER: "false"
+      ENABLE_METADATA_MANAGEMENT: "false"
+      ENABLE_SEAFDAV: "false"
+      NON_ROOT: "false"
+      SEAFILE_LOG_TO_STDOUT: "true"
+    volumes:
+      - data:/shared
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS -o /dev/null http://localhost:80/api2/ping/"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 120s
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  db:
+    image: mariadb:10.11
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MARIADB_AUTO_UPGRADE: "1"
+    volumes:
+      - db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+  # Seafile's cache: nothing in it is kept.
+  redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "64mb", "--maxmemory-policy", "allkeys-lru"]
+
+volumes:
+  data:
+  db:
