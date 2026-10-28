@@ -1,0 +1,56 @@
+services:
+  kavita:
+    image: jvmilazz0/kavita:0.9.1
+    restart: unless-stopped
+    environment:
+      ADMIN_USERNAME: ${ADMIN_USERNAME}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      TZ: Etc/UTC
+    # A new Kavita lets whoever opens it first register as its admin. So until the admin exists,
+    # Kavita runs on 127.0.0.1:5001, which nobody reaches, where the admin is registered from the
+    # fields; only then does it start as the image starts it, answering on 5000. Kavita reads the
+    # port and address of its appsettings.json only when it does not know it is in a container.
+    # A refusal stops the start with Kavita's reason in the log.
+    entrypoint:
+      - /bin/bash
+      - -c
+      - |
+        set -e
+        cd /kavita
+        if [ ! -f config/admin-registered ]; then
+          if [ ! -f config/appsettings.json ]; then
+            cp /tmp/config/appsettings.json config/appsettings.json
+          fi
+          sed -i -e 's/"Port": *[0-9]*/"Port": 5001/' -e 's/"IpAddresses": *"[^"]*"/"IpAddresses": "127.0.0.1"/' config/appsettings.json
+          env -u DOTNET_RUNNING_IN_CONTAINER ./Kavita &
+          kavita=$$!
+          until curl -sf -o /dev/null http://127.0.0.1:5001/api/health; do
+            kill -0 $$kavita
+            sleep 1
+          done
+          json() {
+            local s=$${1//\\/\\\\}
+            s=$${s//\"/\\\"}
+            printf '"%s"' "$$s"
+          }
+          body="{\"username\":$$(json "$$ADMIN_USERNAME"),\"email\":$$(json "$$ADMIN_EMAIL"),\"password\":$$(json "$$ADMIN_PASSWORD")}"
+          status=$$(curl -s -o /tmp/register -w '%{http_code}' -H 'Content-Type: application/json' -d "$$body" http://127.0.0.1:5001/api/Account/register)
+          kill $$kavita
+          wait $$kavita || true
+          sed -i -e 's/"Port": *[0-9]*/"Port": 5000/' -e 's/"IpAddresses": *"[^"]*"/"IpAddresses": ""/' config/appsettings.json
+          # 400 "denied": an admin exists already, registered by an earlier start.
+          if [ "$$status" != 200 ] && ! grep -qi denied /tmp/register; then
+            echo "Kavita refused the admin ($$status): $$(cat /tmp/register)"
+            exit 1
+          fi
+          touch config/admin-registered
+        fi
+        exec /entrypoint.sh
+    volumes:
+      - config:/kavita/config
+      # Writable, so that books can be uploaded or copied in over SFTP.
+      - books:/books
+volumes:
+  config:
+  books:

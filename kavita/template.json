@@ -1,0 +1,294 @@
+{
+	"name": "Kavita",
+	"emoji": "📚",
+	"category": "media",
+	"alternatives": [
+		"Kindle",
+		"Comixology"
+	],
+	"plan": "starter",
+	"route": {
+		"service": "kavita",
+		"port": 5000
+	},
+	"variables": [
+		{
+			"name": "ADMIN_USERNAME",
+			"ask": "username"
+		},
+		{
+			"name": "ADMIN_EMAIL",
+			"ask": "email"
+		},
+		{
+			"name": "ADMIN_PASSWORD",
+			"ask": "adminPassword"
+		}
+	],
+	"texts": {
+		"en": {
+			"description": "A reading server for manga, comics and books, with readers in the browser for every device",
+			"notes": "Sign in with the username and the admin password you gave: Kavita registers that admin before it answers, so nobody else gets its first page. Kavita wants a password of 6 characters at least: with a shorter one it does not start, and its log says so. Books go into /books in the kavita service, each series or book in a folder of its own: upload them in its Files tab or copy folders over SFTP. Then add a library under Settings → Libraries → Add Library with /books as its folder, and Kavita scans it. Invite others under Settings → Users.",
+			"sizing": "Kavita is light: about 250 MB of memory while you read, more while it scans a library; your books take what their files take.",
+			"summary": "Kavita is an open-source reading server for manga, comics, EPUB and PDF, with fast readers in the browser. Self-host your library in one click.",
+			"about": [
+				"Kavita is an open-source reading server for manga, webtoons, comics and books. It reads the files where they are, CBZ, CBR, ZIP, RAR and 7-Zip archives and folders of images for comics, EPUB and PDF for books, groups them into series with their covers and metadata, and serves them to readers in the browser that work on a phone, a tablet and a desktop. The readers have a webtoon mode, a continuous mode that goes on to the next chapter, and highlights and annotations in EPUB books.",
+				"People run Kavita to read their own collection anywhere and to share it with family and friends: each user has their own progress, and roles limit what they see and do, ages included. Collections, reading lists, Want to Read and smart filters organise a large library, and themes change its look. Kavita+, a paid subscription, adds metadata, reviews and recommendations from the internet; everything else is free.",
+				"This template runs Kavita's official image, version 0.9.1, with its database and settings in one volume and your books in another. The admin is registered from the username, email and password you give before Kavita answers anyone."
+			],
+			"faq": [
+				{
+					"q": "Is Kavita free?",
+					"a": "Yes. Kavita is open source under the GPL-3.0 and free to run, with every reader and every user feature. Kavita+ is an optional paid subscription for metadata, reviews, recommendations and scrobbling to AniList and other services."
+				},
+				{
+					"q": "Which formats does Kavita read?",
+					"a": "Comics and manga as CBZ, CBR, ZIP, RAR, RAR5 and 7-Zip archives or folders of images, and books as EPUB and PDF. Kavita reads the files as they are, without converting them."
+				},
+				{
+					"q": "How do I add books to Kavita?",
+					"a": "Put the files into the library's folder, each series or book in a folder of its own, then add the folder as a library under Settings → Libraries. Kavita scans it then, and again when files change."
+				},
+				{
+					"q": "Kavita vs Komga: which should I pick?",
+					"a": "Both serve comics, manga and books, EPUB and PDF included, to readers in the browser and to OPDS apps. Kavita's own readers add a webtoon mode, continuous reading into the next chapter, and highlights and annotations in EPUB books; Kavita+ sells metadata from the internet, while Komga has no paid tier."
+				},
+				{
+					"q": "Can I share my Kavita library with others?",
+					"a": "Yes. The admin invites users under Settings → Users and picks the libraries each one sees and their roles, such as download or age limits. Each user keeps their own reading progress."
+				}
+			]
+		},
+		"de": {
+			"description": "Ein Leseserver für Mangas, Comics und Bücher, mit Readern im Browser für jedes Gerät",
+			"notes": "Melde dich mit dem Benutzernamen und dem Admin-Passwort an, die du angegeben hast: Kavita registriert diesen Admin, bevor es antwortet, sodass niemand anderes seine erste Seite zu sehen bekommt. Kavita verlangt ein Passwort mit mindestens 6 Zeichen: Mit einem kürzeren startet es nicht, und das Log sagt, warum. Bücher kommen nach /books im Service kavita, jede Serie und jedes Buch in einen eigenen Ordner: Lade sie in dessen Tab „Dateien“ hoch oder kopier Ordner per SFTP. Leg dann unter „Einstellungen“ → „Bibliotheken“ → „Bibliothek hinzufügen“ eine Bibliothek mit /books als Ordner an, und Kavita scannt sie. Lade andere unter „Einstellungen“ → „Benutzer“ ein.",
+			"sizing": "Kavita ist leicht: etwa 250 MB RAM beim Lesen, mehr, während es eine Bibliothek scannt; deine Bücher belegen so viel, wie ihre Dateien groß sind.",
+			"summary": "Kavita selbst hosten: Open-Source-Leseserver für Mangas, Comics, EPUB und PDF, mit schnellen Readern im Browser. Deine Bibliothek in einem Klick.",
+			"about": [
+				"Kavita ist ein Open-Source-Leseserver für Mangas, Webtoons, Comics und Bücher. Es liest die Dateien dort, wo sie liegen (Archive als CBZ, CBR, ZIP, RAR und 7-Zip und Bilderordner für Comics, EPUB und PDF für Bücher), fasst sie mit ihren Covern und Metadaten zu Serien zusammen und zeigt sie in Readern im Browser, die auf Handy, Tablet und Desktop funktionieren. Die Reader haben einen Webtoon-Modus, einen fortlaufenden Modus, der ins nächste Kapitel weiterblättert, sowie Markierungen und Anmerkungen in EPUB-Büchern.",
+				"Viele betreiben Kavita, um ihre eigene Sammlung überall zu lesen und mit Familie und Freunden zu teilen: Jeder Benutzer hat einen eigenen Lesefortschritt, und Rollen begrenzen, was jemand sieht und tun darf, bis hin zu Altersbeschränkungen. Sammlungen, Leselisten, „Möchte ich lesen“ und intelligente Filter ordnen eine große Bibliothek, und Themes ändern ihr Aussehen. Kavita+, ein kostenpflichtiges Abo, ergänzt Metadaten, Rezensionen und Empfehlungen aus dem Internet; alles andere ist kostenlos.",
+				"Diese Vorlage startet das offizielle Image von Kavita, Version 0.9.1, mit der Datenbank und den Einstellungen in einem Volume und deinen Büchern in einem anderen. Den Admin registriert Kavita aus dem Benutzernamen, der E-Mail und dem Passwort, die du angibst, bevor es irgendwem antwortet."
+			],
+			"faq": [
+				{
+					"q": "Ist Kavita kostenlos?",
+					"a": "Ja. Kavita ist Open Source unter der GPL-3.0 und kostenlos zu betreiben, mit allen Readern und allen Funktionen für Benutzer. Kavita+ ist ein optionales, kostenpflichtiges Abo für Metadaten, Rezensionen, Empfehlungen und Scrobbling zu AniList und anderen Diensten."
+				},
+				{
+					"q": "Welche Formate liest Kavita?",
+					"a": "Comics und Mangas als Archive im Format CBZ, CBR, ZIP, RAR, RAR5 und 7-Zip oder als Bilderordner und Bücher als EPUB und PDF. Kavita liest die Dateien so, wie sie sind, ohne sie umzuwandeln."
+				},
+				{
+					"q": "Wie füge ich Bücher zu Kavita hinzu?",
+					"a": "Leg die Dateien in den Ordner der Bibliothek, jede Serie und jedes Buch in einen eigenen Ordner, und füg den Ordner dann unter „Einstellungen“ → „Bibliotheken“ als Bibliothek hinzu. Kavita scannt ihn dann und erneut, sobald sich Dateien ändern."
+				},
+				{
+					"q": "Kavita oder Komga: Was soll ich nehmen?",
+					"a": "Beide liefern Comics, Mangas und Bücher, EPUB und PDF eingeschlossen, an Reader im Browser und an OPDS-Apps. Die eigenen Reader von Kavita bieten zusätzlich einen Webtoon-Modus, fortlaufendes Lesen bis ins nächste Kapitel sowie Markierungen und Anmerkungen in EPUB-Büchern; Kavita+ verkauft Metadaten aus dem Internet, Komga dagegen hat keine kostenpflichtige Stufe."
+				},
+				{
+					"q": "Kann ich meine Kavita-Bibliothek mit anderen teilen?",
+					"a": "Ja. Der Admin lädt Benutzer unter „Einstellungen“ → „Benutzer“ ein und wählt pro Benutzer die sichtbaren Bibliotheken und die Rollen, etwa „Herunterladen“, oder eine Altersbeschränkung. Alle behalten ihren eigenen Lesefortschritt."
+				}
+			]
+		},
+		"es": {
+			"description": "Un servidor de lectura para manga, cómics y libros, con lectores en el navegador para cualquier dispositivo",
+			"notes": "Inicia sesión con el nombre de usuario y la contraseña de administrador que indicaste: Kavita registra ese administrador antes de responder, así que nadie más llega a su primera página. Kavita pide una contraseña de 6 caracteres como mínimo: con una más corta no se inicia, y su log lo indica. Los libros van en /books, en el servicio kavita, cada serie o libro en su propia carpeta: súbelos en su pestaña Archivos o copia carpetas por SFTP. Luego crea una biblioteca en Ajustes → Bibliotecas → Añadir biblioteca, con /books como carpeta, y Kavita la escanea. Invita a otras personas en Ajustes → Usuarios.",
+			"sizing": "Kavita es ligero: unos 250 MB de memoria mientras lees, más mientras escanea una biblioteca; tus libros ocupan lo que ocupan sus archivos.",
+			"summary": "Kavita, servidor de lectura de código abierto para manga, cómics, EPUB y PDF, con lectores rápidos en el navegador. Autoaloja tu biblioteca en un clic.",
+			"about": [
+				"Kavita es un servidor de lectura de código abierto para manga, webtoons, cómics y libros. Lee los archivos donde están (archivos comprimidos CBZ, CBR, ZIP, RAR y 7-Zip y carpetas de imágenes para los cómics, EPUB y PDF para los libros), los agrupa en series con sus portadas y metadatos, y los sirve a lectores en el navegador que funcionan en un teléfono, una tablet y un equipo de escritorio. Los lectores tienen un modo webtoon, un modo continuo que pasa al capítulo siguiente, y resaltados y anotaciones en los libros EPUB.",
+				"Mucha gente usa Kavita para leer su colección en cualquier lugar y compartirla con familia y amigos: cada usuario tiene su propio progreso, y los roles limitan lo que ve y hace, también por edad. Las colecciones, las listas de lectura, “Lecturas deseadas” y los filtros inteligentes organizan una biblioteca grande, y los temas cambian su aspecto. Kavita+, una suscripción de pago, agrega metadatos, reseñas y recomendaciones de internet; todo lo demás es gratis.",
+				"Esta plantilla ejecuta la imagen oficial de Kavita, versión 0.9.1, con su base de datos y sus ajustes en un volumen y tus libros en otro. El administrador se registra con el nombre de usuario, el correo y la contraseña que indicas, antes de que Kavita responda a nadie."
+			],
+			"faq": [
+				{
+					"q": "¿Kavita es gratis?",
+					"a": "Sí. Kavita es de código abierto bajo la GPL-3.0 y gratis de ejecutar, con todos los lectores y todas las funciones para usuarios. Kavita+ es una suscripción de pago opcional para metadatos, reseñas, recomendaciones y scrobbling a AniList y otros servicios."
+				},
+				{
+					"q": "¿Qué formatos lee Kavita?",
+					"a": "Cómics y manga en archivos comprimidos CBZ, CBR, ZIP, RAR, RAR5 y 7-Zip o en carpetas de imágenes, y libros en EPUB y PDF. Kavita lee los archivos tal como están, sin convertirlos."
+				},
+				{
+					"q": "¿Cómo agrego libros a Kavita?",
+					"a": "Pon los archivos en la carpeta de la biblioteca, cada serie o libro en su propia carpeta, y luego agrega esa carpeta como biblioteca en Ajustes → Bibliotecas. Kavita la escanea en ese momento, y de nuevo cuando cambian los archivos."
+				},
+				{
+					"q": "Kavita frente a Komga: ¿cuál debería elegir?",
+					"a": "Los dos sirven cómics, manga y libros, incluidos EPUB y PDF, a lectores en el navegador y a apps OPDS. Los lectores propios de Kavita agregan un modo webtoon, lectura continua que pasa al capítulo siguiente, y resaltados y anotaciones en los libros EPUB; Kavita+ vende metadatos de internet, mientras que Komga no tiene ninguna opción de pago."
+				},
+				{
+					"q": "¿Puedo compartir mi biblioteca de Kavita con otras personas?",
+					"a": "Sí. El administrador invita a usuarios en Ajustes → Usuarios y elige las bibliotecas que ve cada uno y sus roles, como el de descarga, o los límites de edad. Cada usuario conserva su propio progreso de lectura."
+				}
+			]
+		},
+		"fr": {
+			"description": "Un serveur de lecture pour mangas, BD et livres, avec des liseuses dans le navigateur pour tous les appareils",
+			"notes": "Connectez-vous avec le nom d’utilisateur et le mot de passe administrateur indiqués : Kavita enregistre cet administrateur avant de répondre, donc personne d’autre ne voit sa première page. Kavita demande un mot de passe d’au moins 6 caractères : avec un mot de passe plus court, il ne démarre pas, et ses logs l’indiquent. Les livres vont dans /books, dans le service kavita, chaque série ou livre dans son propre dossier : envoyez-les depuis son onglet Fichiers ou copiez des dossiers en SFTP. Ajoutez ensuite une bibliothèque dans Paramètres → Bibliothèques → Ajouter une bibliothèque, avec /books comme dossier, et Kavita la scanne. Invitez d’autres personnes dans Paramètres → Utilisateurs.",
+			"sizing": "Kavita est léger : environ 250 MB de mémoire pendant la lecture, davantage pendant le scan d’une bibliothèque ; vos livres prennent la place de leurs fichiers.",
+			"summary": "Kavita, serveur de lecture open source pour mangas, BD, EPUB et PDF, aux liseuses rapides dans le navigateur. Auto-hébergez votre bibliothèque en un clic.",
+			"about": [
+				"Kavita est un serveur de lecture open source pour mangas, webtoons, BD et livres. Il lit les fichiers là où ils sont : archives CBZ, CBR, ZIP, RAR et 7-Zip et dossiers d’images pour les BD, EPUB et PDF pour les livres. Il les regroupe en séries avec leurs couvertures et leurs métadonnées, et les sert à des liseuses dans le navigateur, qui fonctionnent sur téléphone, tablette et ordinateur. Les liseuses ont un mode webtoon, un mode continu qui enchaîne sur le chapitre suivant, et des surlignages et des annotations dans les livres EPUB.",
+				"Vous faites tourner Kavita pour lire votre collection partout et la partager avec votre famille et vos amis : chaque utilisateur a sa propre progression, et des rôles limitent ce que chacun voit et fait, restriction d’âge comprise. Les collections, les listes de lecture, « À lire » et les filtres intelligents organisent une grande bibliothèque, et des thèmes changent son apparence. Kavita+, un abonnement payant, ajoute des métadonnées, des avis et des recommandations venus d’internet ; tout le reste est gratuit.",
+				"Ce template lance l’image officielle de Kavita, version 0.9.1, avec sa base de données et ses réglages dans un volume et vos livres dans un autre. L’administrateur est enregistré à partir du nom d’utilisateur, de l’e-mail et du mot de passe que vous indiquez, avant que Kavita ne réponde à quiconque."
+			],
+			"faq": [
+				{
+					"q": "Kavita est-il gratuit ?",
+					"a": "Oui. Kavita est open source sous licence GPL-3.0 et gratuit à faire tourner, avec toutes ses liseuses et toutes les fonctionnalités pour les utilisateurs. Kavita+ est un abonnement payant facultatif pour les métadonnées, les avis, les recommandations et le suivi d’activité (scrobbling) vers AniList et d’autres services."
+				},
+				{
+					"q": "Quels formats Kavita lit-il ?",
+					"a": "Les BD et les mangas en archives CBZ, CBR, ZIP, RAR, RAR5 et 7-Zip ou en dossiers d’images, et les livres en EPUB et en PDF. Kavita lit les fichiers tels qu’ils sont, sans les convertir."
+				},
+				{
+					"q": "Comment ajouter des livres à Kavita ?",
+					"a": "Mettez les fichiers dans le dossier de la bibliothèque, chaque série ou livre dans son propre dossier, puis ajoutez ce dossier comme bibliothèque dans Paramètres → Bibliothèques. Kavita le scanne alors, puis à nouveau quand des fichiers changent."
+				},
+				{
+					"q": "Kavita ou Komga : lequel choisir ?",
+					"a": "Les deux servent BD, mangas et livres, EPUB et PDF compris, à des liseuses dans le navigateur et à des applications OPDS. Les liseuses de Kavita ajoutent un mode webtoon, la lecture continue jusque dans le chapitre suivant, et des surlignages et des annotations dans les livres EPUB ; Kavita+ vend des métadonnées venues d’internet, alors que Komga n’a aucune formule payante."
+				},
+				{
+					"q": "Puis-je partager ma bibliothèque Kavita avec d’autres ?",
+					"a": "Oui. L’administrateur invite des utilisateurs dans Paramètres → Utilisateurs, et choisit les bibliothèques que chacun voit ainsi que ses rôles, comme le téléchargement ou une restriction d’âge. Chaque utilisateur garde sa propre progression de lecture."
+				}
+			]
+		},
+		"pl": {
+			"description": "Serwer do czytania mang, komiksów i książek, z czytnikami w przeglądarce na każde urządzenie",
+			"notes": "Zaloguj się nazwą użytkownika i hasłem administratora podanymi przy tworzeniu projektu: Kavita rejestruje tego administratora, zanim komukolwiek odpowie, więc nikt inny nie dostanie jej pierwszej strony. Kavita wymaga hasła o długości co najmniej 6 znaków: z krótszym się nie uruchomi, a jej log poda przyczynę. Książki trafiają do /books w usłudze kavita, każda seria albo książka w osobnym katalogu: wgraj je w zakładce Pliki tej usługi albo skopiuj katalogi przez SFTP. Potem dodaj bibliotekę przez Ustawienia → Biblioteki → Dodaj bibliotekę, z /books jako folderem, a Kavita ją przeskanuje. Innych zaprosisz na stronie Ustawienia → Użytkownicy.",
+			"sizing": "Kavita ma małe wymagania: około 250 MB pamięci podczas czytania, więcej, gdy skanuje bibliotekę; twoje książki zajmują tyle miejsca, ile ważą ich pliki.",
+			"summary": "Kavita to serwer open source do czytania mang, komiksów, EPUB i PDF, z szybkimi czytnikami w przeglądarce. Hostuj swoją bibliotekę u siebie w jeden klik.",
+			"about": [
+				"Kavita to serwer open source do czytania mang, webtoonów, komiksów i książek. Czyta pliki tam, gdzie leżą: archiwa CBZ, CBR, ZIP, RAR i 7-Zip oraz katalogi z obrazkami w przypadku komiksów, a EPUB i PDF w przypadku książek. Grupuje je w serie z okładkami i metadanymi i udostępnia czytnikom w przeglądarce, które działają na telefonie, tablecie i komputerze. Czytniki mają tryb webtoon, tryb ciągły, który przechodzi do następnego rozdziału, a w książkach EPUB podświetlenia i adnotacje.",
+				"Kavitę uruchamia się, żeby czytać swoją kolekcję wszędzie i dzielić się nią z rodziną i znajomymi: każdy użytkownik ma własny postęp, a role ograniczają, co widzi i co może robić, łącznie z ograniczeniem wiekowym. Kolekcje, listy czytelnicze, lista Chcę przeczytać i inteligentne filtry porządkują dużą bibliotekę, a motywy zmieniają jej wygląd. Kavita+, płatna subskrypcja, dodaje metadane, recenzje i rekomendacje z internetu; cała reszta jest darmowa.",
+				"Ten szablon uruchamia oficjalny obraz Kavity w wersji 0.9.1, z bazą danych i ustawieniami w jednym wolumenie, a twoimi książkami w drugim. Administrator jest rejestrowany z podanej nazwy użytkownika, adresu e-mail i hasła, zanim Kavita komukolwiek odpowie."
+			],
+			"faq": [
+				{
+					"q": "Czy Kavita jest darmowa?",
+					"a": "Tak. Kavita jest open source na licencji GPL-3.0 i można ją uruchamiać za darmo, ze wszystkimi czytnikami i wszystkimi funkcjami dla użytkowników. Kavita+ to opcjonalna płatna subskrypcja na metadane, recenzje, rekomendacje i scrobblowanie do AniList i innych usług."
+				},
+				{
+					"q": "Jakie formaty czyta Kavita?",
+					"a": "Komiksy i mangi jako archiwa CBZ, CBR, ZIP, RAR, RAR5 i 7-Zip albo katalogi z obrazkami, a książki jako EPUB i PDF. Kavita czyta pliki takie, jakie są, bez konwertowania."
+				},
+				{
+					"q": "Jak dodać książki do Kavity?",
+					"a": "Wrzuć pliki do katalogu biblioteki, każdą serię albo książkę do osobnego katalogu, a potem dodaj ten katalog jako bibliotekę na stronie Ustawienia → Biblioteki. Kavita od razu go przeskanuje i zrobi to znowu, gdy pliki się zmienią."
+				},
+				{
+					"q": "Kavita czy Komga: co wybrać?",
+					"a": "Obie udostępniają komiksy, mangi i książki, także EPUB i PDF, czytnikom w przeglądarce i aplikacjom OPDS. Własne czytniki Kavity dodają tryb webtoon, ciągłe czytanie aż do następnego rozdziału oraz podświetlenia i adnotacje w książkach EPUB; Kavita+ sprzedaje metadane z internetu, a Komga nie ma płatnego planu."
+				},
+				{
+					"q": "Czy mogę udostępnić swoją bibliotekę Kavity innym?",
+					"a": "Tak. Administrator zaprasza użytkowników na stronie Ustawienia → Użytkownicy i wybiera biblioteki, które każdy z nich widzi, oraz ich uprawnienia, takie jak rola Pobierz albo ograniczenie wiekowe. Każdy użytkownik ma własny postęp czytania."
+				}
+			]
+		},
+		"pt": {
+			"description": "Um servidor de leitura para mangás, quadrinhos e livros, com leitores no navegador para qualquer dispositivo",
+			"notes": "Entre com o usuário e a senha de administrador que você informou: o Kavita registra esse admin antes de responder, então a primeira página dele não fica aberta para mais ninguém. O Kavita exige uma senha de pelo menos 6 caracteres: com uma mais curta, ele não inicia e o log dele diz isso. Os livros vão em /books, no serviço kavita, cada série ou livro numa pasta própria: envie-os pela aba Arquivos dele ou copie pastas por SFTP. Depois, no Kavita, adicione uma biblioteca em Configurações → Bibliotecas → Adicionar Biblioteca com /books como pasta, e o Kavita faz a varredura dela. Convide outras pessoas em Configurações → Usuários.",
+			"sizing": "O Kavita é leve: cerca de 250 MB de memória enquanto você lê, mais enquanto ele varre uma biblioteca; os seus livros ocupam o que os arquivos deles ocupam.",
+			"summary": "Kavita: servidor de leitura open source para mangás, quadrinhos, EPUB e PDF, com leitores rápidos no navegador. Auto-hospede sua biblioteca em um clique.",
+			"about": [
+				"O Kavita é um servidor de leitura de código aberto para mangás, webtoons, quadrinhos e livros. Ele lê os arquivos onde eles estão (arquivos compactados CBZ, CBR, ZIP, RAR e 7-Zip e pastas de imagens para quadrinhos, EPUB e PDF para livros), agrupa-os em séries com as capas e os metadados e os serve a leitores no navegador que funcionam no celular, no tablet e no computador. Os leitores têm um modo webtoon, um modo contínuo que segue para o próximo capítulo, e destaques e anotações nos livros EPUB.",
+				"As pessoas rodam o Kavita para ler a própria coleção em qualquer lugar e compartilhá-la com a família e os amigos: cada usuário tem o próprio progresso, e funções limitam o que cada um vê e faz, inclusive por idade. Coleções, listas de leitura, “Quero Ler” e filtros inteligentes organizam uma biblioteca grande, e temas mudam a aparência dele. O Kavita+, uma assinatura paga, adiciona metadados, resenhas e recomendações da internet; todo o resto é gratuito.",
+				"Este template roda a imagem oficial do Kavita, versão 0.9.1, com o banco de dados e as configurações dele em um volume e os seus livros em outro. O admin é registrado com o usuário, o e-mail e a senha que você informa, antes de o Kavita responder a qualquer pessoa."
+			],
+			"faq": [
+				{
+					"q": "O Kavita é gratuito?",
+					"a": "Sim. O Kavita é de código aberto sob a GPL-3.0 e gratuito para rodar, com todos os leitores e todos os recursos para usuários. O Kavita+ é uma assinatura paga opcional para metadados, resenhas, recomendações e scrobbling para o AniList e outros serviços."
+				},
+				{
+					"q": "Quais formatos o Kavita lê?",
+					"a": "Quadrinhos e mangás em arquivos compactados CBZ, CBR, ZIP, RAR, RAR5 e 7-Zip ou em pastas de imagens, e livros em EPUB e PDF. O Kavita lê os arquivos como eles estão, sem convertê-los."
+				},
+				{
+					"q": "Como adiciono livros ao Kavita?",
+					"a": "Coloque os arquivos na pasta da biblioteca, cada série ou livro numa pasta própria, e depois adicione a pasta como biblioteca em Configurações → Bibliotecas. O Kavita faz a varredura dela nessa hora e de novo quando os arquivos mudam."
+				},
+				{
+					"q": "Kavita ou Komga: qual escolher?",
+					"a": "Os dois servem quadrinhos, mangás e livros, EPUB e PDF inclusive, a leitores no navegador e a apps OPDS. Os leitores do próprio Kavita somam um modo webtoon, a leitura contínua até o próximo capítulo, e destaques e anotações nos livros EPUB; o Kavita+ vende metadados da internet, enquanto o Komga não tem plano pago."
+				},
+				{
+					"q": "Posso compartilhar minha biblioteca do Kavita com outras pessoas?",
+					"a": "Sim. O admin convida usuários em Configurações → Usuários e escolhe as bibliotecas que cada um vê e as funções dele, como a de baixar, ou um limite de idade. Cada usuário mantém o próprio progresso de leitura."
+				}
+			]
+		},
+		"ru": {
+			"description": "Сервер для чтения манги, комиксов и книг с читалками в браузере для любого устройства",
+			"notes": "Войдите с именем пользователя и паролем администратора, которые вы указали: Kavita регистрирует этого администратора еще до того, как начнет отвечать, поэтому его первая страница никому другому не достанется. Kavita требует пароль не короче 6 символов: с более коротким он не запускается и пишет об этом в лог. Книги кладите в /books в сервисе kavita, каждую серию или книгу в отдельную папку: загрузите их на его вкладке «Файлы» или скопируйте папки по SFTP. Затем добавьте библиотеку в разделе «Настройки» → «Libraries» → «Добавить библиотеку» с папкой /books, и Kavita ее просканирует. Других людей приглашайте в разделе «Настройки» → «Пользователи».",
+			"sizing": "Kavita: небольшие требования — около 250 MB памяти во время чтения, больше — пока он сканирует библиотеку; ваши книги занимают столько, сколько весят их файлы.",
+			"summary": "Self-hosted Kavita — open source сервер для чтения манги, комиксов, EPUB и PDF с быстрыми читалками в браузере. Ваша библиотека в один клик.",
+			"about": [
+				"Kavita — open source сервер для чтения манги, вебтунов, комиксов и книг. Он читает файлы там, где они лежат: для комиксов — архивы CBZ, CBR, ZIP, RAR и 7-Zip и папки с изображениями, для книг — EPUB и PDF, группирует их в серии с обложками и метаданными и отдает читалкам в браузере, которые работают на телефоне, планшете и компьютере. В читалках есть режим Webtoon, непрерывный режим, который переходит к следующей главе, а также выделения и аннотации в книгах EPUB.",
+				"Kavita запускают, чтобы читать свою коллекцию где угодно и делиться ею с семьей и друзьями: у каждого пользователя свой прогресс, а роли ограничивают, что он видит и может делать, в том числе по возрасту. Большую библиотеку упорядочивают «Коллекции», «Списки чтения», «Хочу прочитать» и «Умные фильтры», а темы меняют ее вид. Kavita+, платная подписка, добавляет метаданные, отзывы и рекомендации из интернета; все остальное бесплатно.",
+				"Этот шаблон запускает официальный образ Kavita версии 0.9.1: его база данных и настройки хранятся в одном томе, а ваши книги — в другом. Администратор с именем пользователя, почтой и паролем, которые вы указали, регистрируется еще до того, как Kavita начнет кому-либо отвечать."
+			],
+			"faq": [
+				{
+					"q": "Kavita бесплатный?",
+					"a": "Да. Kavita распространяется с открытым кодом под лицензией GPL-3.0, и его можно запускать бесплатно, со всеми читалками и всеми возможностями для пользователей. Kavita+ — необязательная платная подписка на метаданные, отзывы, рекомендации и скробблинг в AniList и другие сервисы."
+				},
+				{
+					"q": "Какие форматы читает Kavita?",
+					"a": "Комиксы и мангу — в архивах CBZ, CBR, ZIP, RAR, RAR5 и 7-Zip или в папках с изображениями, а книги — в EPUB и PDF. Kavita читает файлы как есть, не конвертируя их."
+				},
+				{
+					"q": "Как добавить книги в Kavita?",
+					"a": "Положите файлы в папку библиотеки, каждую серию или книгу в отдельную папку, затем добавьте эту папку как библиотеку в разделе «Настройки» → «Libraries». Kavita сразу ее просканирует, а потом снова — когда файлы изменятся."
+				},
+				{
+					"q": "Kavita или Komga: что выбрать?",
+					"a": "Оба отдают комиксы, мангу и книги, включая EPUB и PDF, читалкам в браузере и приложениям с поддержкой OPDS. Собственные читалки Kavita добавляют режим Webtoon, непрерывное чтение с переходом к следующей главе, а также выделения и аннотации в книгах EPUB; Kavita+ продает метаданные из интернета, а у Komga платной версии нет."
+				},
+				{
+					"q": "Можно ли поделиться библиотекой Kavita с другими?",
+					"a": "Да. Администратор приглашает пользователей в разделе «Настройки» → «Пользователи» и выбирает, какие библиотеки видит каждый и какие у него роли, например право на скачивание или возрастные ограничения. У каждого пользователя сохраняется свой прогресс чтения."
+				}
+			]
+		},
+		"uk": {
+			"description": "Сервер для читання манги, коміксів і книжок, із читалками в браузері для будь-якого пристрою",
+			"notes": "Увійдіть з іменем користувача й паролем адміністратора, які ви вказали: Kavita реєструє цього адміністратора ще до того, як комусь відповість, тож її першою сторінкою ніхто інший не скористається. Kavita вимагає пароль щонайменше з 6 символів: з коротшим вона не запуститься, і її лог про це скаже. Книжки кладіть у /books сервісу kavita, кожну серію чи книжку в окрему папку: завантажте їх на вкладці «Файли» цього сервісу або скопіюйте папки через SFTP. Потім додайте бібліотеку в розділі «Налаштування → Бібліотеки → Додати бібліотеку» з папкою /books, і Kavita її просканує. Інших людей запрошуйте в розділі «Налаштування → Користувачі».",
+			"sizing": "Kavita має скромні вимоги: близько 250 MB пам’яті, поки ви читаєте, і більше, поки вона сканує бібліотеку; книжки займають стільки, скільки їхні файли.",
+			"summary": "Kavita — сервер з відкритим кодом для читання манги, коміксів, EPUB і PDF зі швидкими читалками в браузері. Self-hosted бібліотека в один клік.",
+			"about": [
+				"Kavita — сервер з відкритим кодом для читання манги, вебтунів, коміксів і книжок. Вона читає файли там, де вони лежать (архіви CBZ, CBR, ZIP, RAR і 7-Zip та папки із зображеннями для коміксів, EPUB і PDF для книжок), групує їх у серії з обкладинками й метаданими та показує в читалках у браузері, які працюють на телефоні, планшеті й комп’ютері. Читалки мають режим для вебтунів, безперервний режим, що переходить до наступного розділу, а також виділення й анотації в книжках EPUB.",
+				"Kavita запускають, щоб читати свою колекцію будь-де й ділитися нею з родиною та друзями: кожен користувач має свій прогрес, а ролі обмежують, що він бачить і може робити, зокрема за віком. Колекції, списки для читання, «Хочу прочитати» й розумні фільтри впорядковують велику бібліотеку, а теми змінюють її вигляд. Kavita+, платна передплата, додає метадані, рецензії та рекомендації з інтернету; усе інше безкоштовне.",
+				"Цей шаблон запускає офіційний образ Kavita версії 0.9.1: її база даних і налаштування лежать в одному томі, а ваші книжки — в іншому. Адміністратор реєструється з імені користувача, пошти й пароля, які ви вказали, ще до того, як Kavita комусь відповість."
+			],
+			"faq": [
+				{
+					"q": "Kavita безкоштовна?",
+					"a": "Так. Kavita має відкритий код за ліцензією GPL-3.0, і її можна запускати безкоштовно, з усіма читалками й усіма функціями для користувачів. Kavita+ — необов’язкова платна передплата на метадані, рецензії, рекомендації й скроблінг в AniList та інші сервіси."
+				},
+				{
+					"q": "Які формати читає Kavita?",
+					"a": "Комікси й мангу — в архівах CBZ, CBR, ZIP, RAR, RAR5 і 7-Zip або в папках із зображеннями, а книжки — в EPUB і PDF. Kavita читає файли такими, як вони є, без конвертації."
+				},
+				{
+					"q": "Як додати книжки в Kavita?",
+					"a": "Покладіть файли в папку бібліотеки, кожну серію чи книжку в окрему папку, потім додайте цю папку як бібліотеку в розділі «Налаштування → Бібліотеки». Kavita одразу її просканує й сканує знову, щойно файли зміняться."
+				},
+				{
+					"q": "Kavita чи Komga: що обрати?",
+					"a": "Обидві віддають комікси, мангу й книжки, зокрема EPUB і PDF, у читалки в браузері та в застосунки з підтримкою OPDS. Вбудовані читалки Kavita додають режим для вебтунів, безперервне читання з переходом до наступного розділу, а також виділення й анотації в книжках EPUB; Kavita+ продає метадані з інтернету, а Komga не має платного тарифу."
+				},
+				{
+					"q": "Чи можна поділитися бібліотекою Kavita з іншими?",
+					"a": "Так. Адміністратор запрошує користувачів у розділі «Налаштування → Користувачі» й обирає, які бібліотеки бачить кожен і які в нього ролі та обмеження, як-от роль «Завантажити» чи вікове обмеження. Кожен користувач має свій прогрес читання."
+				}
+			]
+		}
+	}
+}
