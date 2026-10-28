@@ -1,0 +1,290 @@
+{
+	"name": "Gotify",
+	"emoji": "📨",
+	"category": "monitoring",
+	"alternatives": [
+		"Pushover",
+		"Pushbullet"
+	],
+	"plan": "starter",
+	"route": {
+		"service": "gotify",
+		"port": 80
+	},
+	"variables": [
+		{
+			"name": "ADMIN_USERNAME",
+			"ask": "username"
+		},
+		{
+			"name": "ADMIN_PASSWORD",
+			"ask": "adminPassword"
+		}
+	],
+	"texts": {
+		"en": {
+			"description": "A push message server: scripts send over a REST API, and the web app and the Android app show it live",
+			"notes": "Sign in with the username and the admin password you gave; registration is closed, so others get an account only from Users. Create an application under Apps: its token is shown once, so copy it then. A script sends with curl https://{host}/message -H \"X-Gotify-Key: <token>\" -F message=Hello. In the Android app, add https://{host} as the server. Messages and images are kept in the data volume.",
+			"sizing": "Gotify is very light: about 10 MB of memory, and its SQLite database grows only with the messages you keep.",
+			"summary": "Gotify is an open-source server for push messages: scripts send over a REST API, apps receive live. A Pushover alternative you self-host in one click.",
+			"about": [
+				"Gotify is an open-source server for sending and receiving messages, written in Go and run in place of Pushover or Pushbullet. A script, a cron job or a monitoring tool sends a message with one HTTP request and an application's token; the web app and the Android app receive it at once over a WebSocket and show it as a notification. Each message has a title, a text and a priority, and its extras can render it as Markdown or open a link when the notification is tapped.",
+				"Gotify tells applications from clients: an application can only send, and a client, such as a phone or a browser, receives and manages. Each user has their own applications, clients and messages, and an admin adds users in the web app. The Android app is on Google Play and F-Droid, the gotify CLI sends from a terminal, and plugins written in Go add features on the server.",
+				"This template runs Gotify's official image, version 3, with its SQLite database and uploaded images in a volume. The admin is made from the username and password you give when Gotify first creates its database, before it answers anyone, and registration stays closed."
+			],
+			"faq": [
+				{
+					"q": "Is Gotify free and open source?",
+					"a": "Yes. Gotify's server, web app, Android app and CLI are open source under the MIT license, and there is no paid edition: running it costs only the server it runs on."
+				},
+				{
+					"q": "How do I send a message to Gotify with curl?",
+					"a": "Create an application in the web app, copy its token, and POST to /message: curl https://gotify.example.com/message -H \"X-Gotify-Key: <token>\" -F title=Backup -F message=Done -F priority=5. Only message is required."
+				},
+				{
+					"q": "Gotify vs ntfy: which should I pick?",
+					"a": "Both push messages from scripts to phones. Gotify gives each sender an application token and each user their own inbox, and its own app is for Android. ntfy publishes to topics anyone with access can subscribe to, and has apps for Android and iOS."
+				},
+				{
+					"q": "Does Gotify work on iPhone?",
+					"a": "Gotify's own app is for Android only. On an iPhone the web app shows messages while it is open, and third-party apps such as iGotify forward them through Apple's push service."
+				},
+				{
+					"q": "Can I see my Gotify token again?",
+					"a": "No. Since Gotify 3 an application's token is shown once, when it is created or rotated, so copy it then. If it is lost, rotate it in the Apps page and update the script that sends with it."
+				}
+			]
+		},
+		"de": {
+			"description": "Ein Server für Push-Nachrichten: Skripte senden über eine REST-API, und die Web-App und die Android-App zeigen sie live an",
+			"notes": "Melde dich mit dem Benutzernamen und dem Admin-Passwort an, die du angegeben hast; die Registrierung ist geschlossen, andere bekommen ein Konto also nur über „Users“. Erstelle unter „Apps“ eine Anwendung: Das Token wird nur einmal angezeigt, also kopier es gleich. Ein Skript sendet mit curl https://{host}/message -H \"X-Gotify-Key: <token>\" -F message=Hello. Trag in der Android-App https://{host} als Server ein. Nachrichten und Bilder liegen im Volume data.",
+			"sizing": "Gotify ist sehr leicht: etwa 10 MB RAM, und seine SQLite-Datenbank wächst nur mit den Nachrichten, die du behältst.",
+			"summary": "Gotify selbst hosten: Open-Source-Server für Push-Nachrichten. Skripte senden per REST-API, Apps empfangen live. Pushover-Alternative mit einem Klick.",
+			"about": [
+				"Gotify ist ein in Go geschriebener Open-Source-Server zum Senden und Empfangen von Nachrichten, den du statt Pushover oder Pushbullet einsetzt. Ein Skript, ein Cronjob oder ein Monitoring-Tool schickt eine Nachricht mit einem einzigen HTTP-Request und dem Token einer Anwendung; die Web-App und die Android-App empfangen sie sofort über einen WebSocket und zeigen sie als Benachrichtigung an. Jede Nachricht hat einen Titel, einen Text und eine Priorität, und ihre Extras können sie als Markdown darstellen oder beim Antippen der Benachrichtigung einen Link öffnen.",
+				"Gotify unterscheidet Anwendungen von Clients: Eine Anwendung kann nur senden, ein Client, etwa ein Handy oder ein Browser, empfängt und verwaltet. Jeder Benutzer hat eigene Anwendungen, Clients und Nachrichten, und ein Admin legt Benutzer in der Web-App an. Die Android-App gibt es bei Google Play und F-Droid, das Kommandozeilen-Tool gotify sendet aus einem Terminal, und in Go geschriebene Plugins erweitern den Server um Funktionen.",
+				"Diese Vorlage startet das offizielle Image von Gotify, Version 3, mit der SQLite-Datenbank und den hochgeladenen Bildern in einem Volume. Den Admin legt Gotify aus dem Benutzernamen und dem Passwort an, die du angibst, wenn es zum ersten Mal seine Datenbank erstellt, bevor es irgendwem antwortet, und die Registrierung bleibt geschlossen."
+			],
+			"faq": [
+				{
+					"q": "Ist Gotify kostenlos und Open Source?",
+					"a": "Ja. Server, Web-App, Android-App und CLI von Gotify sind Open Source unter der MIT-Lizenz, und es gibt keine kostenpflichtige Edition: Der Betrieb kostet nur die Maschine, auf der es läuft."
+				},
+				{
+					"q": "Wie schicke ich mit curl eine Nachricht an Gotify?",
+					"a": "Erstelle in der Web-App eine Anwendung, kopier ihr Token und schick einen POST an /message: curl https://gotify.example.com/message -H \"X-Gotify-Key: <token>\" -F title=Backup -F message=Done -F priority=5. Nur message ist Pflicht."
+				},
+				{
+					"q": "Gotify oder ntfy: Was soll ich nehmen?",
+					"a": "Beide schicken Nachrichten von Skripten aufs Handy. Gotify gibt jedem Absender das Token einer Anwendung und jedem Benutzer einen eigenen Posteingang, und seine eigene App ist für Android. Bei ntfy gehen Nachrichten an Topics, die alle mit Zugriff abonnieren können, und es gibt Apps für Android und iOS."
+				},
+				{
+					"q": "Funktioniert Gotify auf dem iPhone?",
+					"a": "Die eigene App von Gotify gibt es nur für Android. Auf einem iPhone zeigt die Web-App Nachrichten an, solange sie geöffnet ist, und Apps von Drittanbietern wie iGotify leiten sie über den Push-Dienst von Apple weiter."
+				},
+				{
+					"q": "Kann ich mein Gotify-Token noch einmal sehen?",
+					"a": "Nein. Seit Gotify 3 wird das Token einer Anwendung nur einmal angezeigt, beim Erstellen oder Rotieren, also kopier es gleich. Wenn es verloren ist, rotier es auf der Seite „Apps“ und aktualisiere das Skript, das damit sendet."
+				}
+			]
+		},
+		"es": {
+			"description": "Un servidor de mensajes push: los scripts envían por una API REST, y la app web y la app de Android los muestran en tiempo real",
+			"notes": "Inicia sesión con el nombre de usuario y la contraseña de administrador que indicaste; el registro está cerrado, así que los demás solo obtienen una cuenta si la creas en Users. Crea una aplicación en Apps: su token se muestra una sola vez, así que cópialo en ese momento. Un script envía con curl https://{host}/message -H \"X-Gotify-Key: <token>\" -F message=Hello. En la app de Android, agrega https://{host} como servidor. Los mensajes y las imágenes se conservan en el volumen data.",
+			"sizing": "Gotify es muy ligero: unos 10 MB de memoria, y su base de datos SQLite solo crece con los mensajes que conservas.",
+			"summary": "Gotify, servidor push de código abierto: los scripts envían por API REST y las apps reciben al instante. Autoaloja esta alternativa a Pushover en un clic.",
+			"about": [
+				"Gotify es un servidor de código abierto para enviar y recibir mensajes, escrito en Go, que se usa en lugar de Pushover o Pushbullet. Un script, un cron job o una herramienta de monitoreo envía un mensaje con una sola petición HTTP y el token de una aplicación; la app web y la app de Android lo reciben al instante por un WebSocket y lo muestran como una notificación. Cada mensaje tiene un título, un texto y una prioridad, y sus extras pueden mostrarlo como Markdown o abrir un enlace al tocar la notificación.",
+				"Gotify distingue las aplicaciones de los clientes: una aplicación solo puede enviar, y un cliente, como un teléfono o un navegador, recibe y administra. Cada usuario tiene sus propias aplicaciones, clientes y mensajes, y un administrador agrega usuarios en la app web. La app de Android está en Google Play y F-Droid, la CLI gotify envía desde tu terminal, y los plugins escritos en Go agregan funciones en el servidor.",
+				"Esta plantilla ejecuta la imagen oficial de Gotify, versión 3, con su base de datos SQLite y las imágenes subidas en un volumen. El administrador se crea con el nombre de usuario y la contraseña que indicas cuando Gotify crea su base de datos por primera vez, antes de responder a nadie, y el registro sigue cerrado."
+			],
+			"faq": [
+				{
+					"q": "¿Gotify es gratis y de código abierto?",
+					"a": "Sí. El servidor, la app web, la app de Android y la CLI de Gotify son de código abierto con licencia MIT, y no hay edición de pago: ejecutarlo solo cuesta el servidor en el que funciona."
+				},
+				{
+					"q": "¿Cómo envío un mensaje a Gotify con curl?",
+					"a": "Crea una aplicación en la app web, copia su token y envía un POST a /message: curl https://gotify.example.com/message -H \"X-Gotify-Key: <token>\" -F title=Backup -F message=Done -F priority=5. Solo message es obligatorio."
+				},
+				{
+					"q": "Gotify frente a ntfy: ¿cuál debería elegir?",
+					"a": "Los dos envían mensajes push desde scripts a teléfonos. Gotify da a cada remitente un token de aplicación y a cada usuario su propia bandeja de entrada, y su propia app es para Android. ntfy publica en temas a los que puede suscribirse cualquiera con acceso, y tiene apps para Android e iOS."
+				},
+				{
+					"q": "¿Gotify funciona en iPhone?",
+					"a": "La propia app de Gotify es solo para Android. En un iPhone, la app web muestra los mensajes mientras está abierta, y apps de terceros como iGotify los reenvían a través del servicio push de Apple."
+				},
+				{
+					"q": "¿Puedo volver a ver mi token de Gotify?",
+					"a": "No. Desde Gotify 3, el token de una aplicación se muestra una sola vez, cuando se crea o se rota, así que cópialo en ese momento. Si se pierde, rótalo en la página Apps y actualiza el script que envía con él."
+				}
+			]
+		},
+		"fr": {
+			"description": "Un serveur de messages push : les scripts envoient par une API REST, et l’application web et l’application Android les affichent en direct",
+			"notes": "Connectez-vous avec le nom d’utilisateur et le mot de passe administrateur indiqués ; l’inscription est fermée, donc les autres n’obtiennent un compte que depuis Users. Créez une application dans Apps : son token n’est affiché qu’une fois, alors copiez-le à ce moment-là. Un script envoie avec curl https://{host}/message -H \"X-Gotify-Key: <token>\" -F message=Hello. Dans l’application Android, ajoutez https://{host} comme serveur. Les messages et les images sont conservés dans le volume data.",
+			"sizing": "Gotify est très léger : environ 10 MB de mémoire, et sa base SQLite ne grossit qu’avec les messages que vous gardez.",
+			"summary": "Gotify, serveur push open source : un script envoie par API REST, l’application reçoit en direct. Auto-hébergez cette alternative à Pushover en un clic.",
+			"about": [
+				"Gotify est un serveur open source pour envoyer et recevoir des messages, écrit en Go et utilisé à la place de Pushover ou de Pushbullet. Un script, une tâche cron ou un outil de monitoring envoie un message avec une seule requête HTTP et le token d’une application ; l’application web et l’application Android le reçoivent aussitôt par un WebSocket et l’affichent en notification. Chaque message a un titre, un texte et une priorité, et ses extras peuvent l’afficher en Markdown ou ouvrir un lien quand on touche la notification.",
+				"Gotify distingue les applications des clients : une application ne peut qu’envoyer, et un client, comme un téléphone ou un navigateur, reçoit et gère. Chaque utilisateur a ses propres applications, clients et messages, et un administrateur ajoute les utilisateurs dans l’application web. L’application Android est sur Google Play et F-Droid, la CLI gotify envoie depuis un terminal, et des plugins écrits en Go ajoutent des fonctionnalités côté serveur.",
+				"Ce template lance l’image officielle de Gotify, version 3, avec sa base SQLite et les images envoyées dans un volume. L’administrateur est créé à partir du nom d’utilisateur et du mot de passe que vous indiquez quand Gotify crée sa base pour la première fois, avant de répondre à quiconque, et l’inscription reste fermée."
+			],
+			"faq": [
+				{
+					"q": "Gotify est-il gratuit et open source ?",
+					"a": "Oui. Le serveur de Gotify, son application web, son application Android et sa CLI sont open source sous licence MIT, et il n’existe pas d’édition payante : le faire tourner ne coûte que la machine qui l’héberge."
+				},
+				{
+					"q": "Comment envoyer un message à Gotify avec curl ?",
+					"a": "Dans l’application web, créez une application, copiez son token et envoyez un POST à /message : curl https://gotify.example.com/message -H \"X-Gotify-Key: <token>\" -F title=Backup -F message=Done -F priority=5. Seul le champ message est obligatoire."
+				},
+				{
+					"q": "Gotify ou ntfy : lequel choisir ?",
+					"a": "Les deux envoient des messages push depuis des scripts vers des téléphones. Gotify donne à chaque expéditeur un token d’application et à chaque utilisateur sa propre boîte de réception, et sa propre application n’existe que sur Android. ntfy publie dans des topics auxquels toute personne qui y a accès peut s’abonner, et a des applications pour Android et iOS."
+				},
+				{
+					"q": "Gotify fonctionne-t-il sur iPhone ?",
+					"a": "L’application de Gotify n’existe que pour Android. Sur un iPhone, l’application web affiche les messages tant qu’elle est ouverte, et des applications tierces comme iGotify les relaient par le service de notifications push d’Apple."
+				},
+				{
+					"q": "Puis-je revoir mon token Gotify ?",
+					"a": "Non. Depuis Gotify 3, le token d’une application n’est affiché qu’une fois, à sa création ou à son renouvellement : copiez-le à ce moment-là. S’il est perdu, renouvelez-le dans la page Apps et mettez à jour le script qui s’en sert pour envoyer."
+				}
+			]
+		},
+		"pl": {
+			"description": "Serwer powiadomień push: skrypty wysyłają wiadomości przez REST API, a aplikacja webowa i aplikacja na Androida pokazują je na żywo",
+			"notes": "Zaloguj się nazwą użytkownika i hasłem administratora podanymi przy tworzeniu projektu; rejestracja jest zamknięta, więc konta dla innych założysz tylko w sekcji Users. Utwórz aplikację w sekcji Apps: jej token jest pokazywany tylko raz, więc od razu go skopiuj. Skrypt wysyła wiadomość poleceniem curl https://{host}/message -H \"X-Gotify-Key: <token>\" -F message=Hello. W aplikacji na Androida dodaj https://{host} jako serwer. Wiadomości i obrazki zostają w wolumenie data.",
+			"sizing": "Gotify ma bardzo małe wymagania: około 10 MB pamięci, a jego baza danych SQLite rośnie tylko wraz z wiadomościami, które zachowujesz.",
+			"summary": "Gotify to serwer push open source: skrypty wysyłają przez REST API, aplikacje odbierają na żywo. Hostuj tę alternatywę dla Pushovera u siebie w jeden klik.",
+			"about": [
+				"Gotify to serwer open source do wysyłania i odbierania wiadomości, napisany w Go i używany zamiast Pushovera czy Pushbulleta. Skrypt, zadanie cron albo narzędzie do monitoringu wysyła wiadomość jednym żądaniem HTTP z tokenem aplikacji, a aplikacja webowa i aplikacja na Androida od razu odbierają ją przez WebSocket i pokazują jako powiadomienie. Każda wiadomość ma tytuł, treść i priorytet, a jej pole extras pozwala wyświetlić ją jako Markdown albo otworzyć link po stuknięciu w powiadomienie.",
+				"Gotify odróżnia aplikacje od klientów: aplikacja może tylko wysyłać, a klient, taki jak telefon czy przeglądarka, odbiera wiadomości i nimi zarządza. Każdy użytkownik ma własne aplikacje, klientów i wiadomości, a administrator dodaje użytkowników w aplikacji webowej. Aplikacja na Androida jest w Google Play i F-Droid, CLI gotify wysyła wiadomości z terminala, a pluginy napisane w Go dodają funkcje po stronie serwera.",
+				"Ten szablon uruchamia oficjalny obraz Gotify w wersji 3, z bazą danych SQLite i wgranymi obrazkami w wolumenie. Administrator powstaje z podanej nazwy użytkownika i hasła, gdy Gotify po raz pierwszy tworzy swoją bazę danych, zanim komukolwiek odpowie, a rejestracja pozostaje zamknięta."
+			],
+			"faq": [
+				{
+					"q": "Czy Gotify jest darmowy i open source?",
+					"a": "Tak. Serwer Gotify, jego aplikacja webowa, aplikacja na Androida i CLI są open source na licencji MIT i nie ma płatnej edycji: jego uruchomienie kosztuje tylko maszynę, na której działa."
+				},
+				{
+					"q": "Jak wysłać wiadomość do Gotify za pomocą curl?",
+					"a": "W aplikacji webowej utwórz aplikację, skopiuj jej token i wyślij żądanie POST na /message: curl https://gotify.example.com/message -H \"X-Gotify-Key: <token>\" -F title=Backup -F message=Done -F priority=5. Wymagane jest tylko pole message."
+				},
+				{
+					"q": "Gotify czy ntfy: co wybrać?",
+					"a": "Oba wysyłają wiadomości push ze skryptów na telefony. Gotify daje każdemu nadawcy token aplikacji, a każdemu użytkownikowi osobną skrzynkę, a jego własna aplikacja jest na Androida. ntfy publikuje wiadomości w tematach, które może subskrybować każdy, kto ma do nich dostęp, i ma aplikacje na Androida i iOS."
+				},
+				{
+					"q": "Czy Gotify działa na iPhonie?",
+					"a": "Własna aplikacja Gotify jest tylko na Androida. Na iPhonie aplikacja webowa pokazuje wiadomości, dopóki jest otwarta, a aplikacje innych autorów, takie jak iGotify, przekazują je przez usługę powiadomień push Apple."
+				},
+				{
+					"q": "Czy mogę jeszcze raz zobaczyć swój token Gotify?",
+					"a": "Nie. Od Gotify 3 token aplikacji jest pokazywany tylko raz, przy utworzeniu albo rotacji, więc skopiuj go od razu. Jeśli go zgubisz, zrób jego rotację na stronie Apps i zaktualizuj skrypt, który nim wysyła."
+				}
+			]
+		},
+		"pt": {
+			"description": "Um servidor de mensagens push: scripts enviam por uma API REST, e o app web e o app para Android mostram as mensagens na hora",
+			"notes": "Entre com o usuário e a senha de administrador que você informou; o cadastro está fechado, então outras pessoas só ganham uma conta pela página Users. Crie uma aplicação em Apps: o token dela aparece uma vez só, então copie-o nessa hora. Um script envia com curl https://{host}/message -H \"X-Gotify-Key: <token>\" -F message=Hello. No app para Android, adicione https://{host} como servidor. As mensagens e as imagens ficam guardadas no volume data.",
+			"sizing": "O Gotify é muito leve: cerca de 10 MB de memória, e o banco de dados SQLite dele só cresce com as mensagens que você guarda.",
+			"summary": "Gotify: servidor open source de mensagens push. Scripts enviam por API REST, apps recebem na hora. Auto-hospede a alternativa ao Pushover em um clique.",
+			"about": [
+				"O Gotify é um servidor de código aberto para enviar e receber mensagens, escrito em Go e usado no lugar do Pushover ou do Pushbullet. Um script, um cron job ou uma ferramenta de monitoramento envia uma mensagem com uma única requisição HTTP e o token de uma aplicação; o app web e o app para Android a recebem na hora por um WebSocket e a mostram como notificação. Cada mensagem tem título, texto e prioridade, e os extras dela podem renderizá-la como Markdown ou abrir um link quando alguém toca na notificação.",
+				"O Gotify separa aplicações de clientes: uma aplicação só envia, e um cliente, como um celular ou um navegador, recebe e gerencia as mensagens. Cada usuário tem as próprias aplicações, clientes e mensagens, e um admin adiciona usuários no app web. O app para Android está no Google Play e no F-Droid, a CLI gotify envia do terminal, e plugins escritos em Go adicionam recursos ao servidor.",
+				"Este template roda a imagem oficial do Gotify, versão 3, com o banco de dados SQLite e as imagens enviadas em um volume. O admin é criado com o usuário e a senha que você informa quando o Gotify cria o banco de dados pela primeira vez, antes de responder a qualquer pessoa, e o cadastro continua fechado."
+			],
+			"faq": [
+				{
+					"q": "O Gotify é gratuito e de código aberto?",
+					"a": "Sim. O servidor, o app web, o app para Android e a CLI do Gotify são de código aberto sob a licença MIT, e não há edição paga: rodá-lo custa só a máquina onde ele roda."
+				},
+				{
+					"q": "Como envio uma mensagem para o Gotify com curl?",
+					"a": "Crie uma aplicação no app web, copie o token dela e faça um POST para /message: curl https://gotify.example.com/message -H \"X-Gotify-Key: <token>\" -F title=Backup -F message=Done -F priority=5. Só o campo message é obrigatório."
+				},
+				{
+					"q": "Gotify ou ntfy: qual escolher?",
+					"a": "Os dois levam mensagens push de scripts para celulares. O Gotify dá a cada remetente um token de aplicação e a cada usuário a própria caixa de entrada, e o app dele é para Android. O ntfy publica em tópicos nos quais qualquer pessoa com acesso pode se inscrever e tem apps para Android e iOS."
+				},
+				{
+					"q": "O Gotify funciona no iPhone?",
+					"a": "O app do próprio Gotify é só para Android. No iPhone, o app web mostra as mensagens enquanto está aberto, e apps de terceiros como o iGotify as repassam pelo serviço de push da Apple."
+				},
+				{
+					"q": "Posso ver meu token do Gotify de novo?",
+					"a": "Não. Desde o Gotify 3, o token de uma aplicação aparece uma vez só, quando é criado ou trocado, então copie-o nessa hora. Se ele se perder, troque-o na página Apps e atualize o script que envia com ele."
+				}
+			]
+		},
+		"ru": {
+			"description": "Сервер push-сообщений: скрипты отправляют их через REST API, а веб-приложение и приложение для Android сразу их показывают",
+			"notes": "Войдите с именем пользователя и паролем администратора, которые вы указали; регистрация закрыта, поэтому другим людям аккаунт можно создать только в разделе Users. Создайте приложение в разделе Apps: его токен показывается один раз, так что сразу скопируйте его. Скрипт отправляет сообщение так: curl https://{host}/message -H \"X-Gotify-Key: <token>\" -F message=Hello. В приложении для Android добавьте https://{host} как сервер. Сообщения и изображения хранятся в томе data.",
+			"sizing": "Gotify: совсем небольшие требования — около 10 MB памяти, а его база данных SQLite растет только вместе с сообщениями, которые вы храните.",
+			"summary": "Self-hosted Gotify — open source сервер push-сообщений: скрипты отправляют их по REST API, а приложения сразу получают. Альтернатива Pushover в один клик.",
+			"about": [
+				"Gotify — open source сервер для отправки и получения сообщений, написанный на Go, который используют вместо Pushover или Pushbullet. Скрипт, cron-задача или система мониторинга отправляет сообщение одним HTTP-запросом с токеном приложения, а веб-приложение и приложение для Android сразу получают его по WebSocket и показывают как уведомление. У каждого сообщения есть заголовок, текст и приоритет, а через его extras сообщение можно показать как Markdown или открыть ссылку, когда на уведомление нажимают.",
+				"Gotify различает приложения и клиентов: приложение может только отправлять, а клиент, например телефон или браузер, получает сообщения и управляет ими. У каждого пользователя свои приложения, клиенты и сообщения, а пользователей добавляет администратор в веб-приложении. Приложение для Android есть в Google Play и F-Droid, gotify CLI отправляет сообщения из терминала, а плагины, написанные на Go, добавляют возможности на сервере.",
+				"Этот шаблон запускает официальный образ Gotify версии 3, а его база данных SQLite и загруженные изображения хранятся в томе. Администратор с именем пользователя и паролем, которые вы указали, создается, когда Gotify впервые создает свою базу данных, еще до того, как он начнет кому-либо отвечать, а регистрация остается закрытой."
+			],
+			"faq": [
+				{
+					"q": "Gotify бесплатный и с открытым кодом?",
+					"a": "Да. Сервер, веб-приложение, приложение для Android и CLI Gotify распространяются с открытым кодом под лицензией MIT, а платной редакции нет: запуск обходится лишь в стоимость машины, на которой он работает."
+				},
+				{
+					"q": "Как отправить сообщение в Gotify через curl?",
+					"a": "Создайте приложение в веб-интерфейсе, скопируйте его токен и отправьте POST-запрос на /message: curl https://gotify.example.com/message -H \"X-Gotify-Key: <token>\" -F title=Backup -F message=Done -F priority=5. Обязательно только поле message."
+				},
+				{
+					"q": "Gotify или ntfy: что выбрать?",
+					"a": "Оба доставляют сообщения из скриптов на телефоны. Gotify выдает токен приложения каждому отправителю и отдельный ящик входящих каждому пользователю, а его собственное приложение сделано для Android. ntfy публикует сообщения в топики, на которые может подписаться любой, у кого есть доступ, и у него есть приложения для Android и iOS."
+				},
+				{
+					"q": "Работает ли Gotify на iPhone?",
+					"a": "Собственное приложение Gotify есть только для Android. На iPhone веб-приложение показывает сообщения, пока оно открыто, а сторонние приложения вроде iGotify пересылают их через push-сервис Apple."
+				},
+				{
+					"q": "Можно ли снова посмотреть токен в Gotify?",
+					"a": "Нет. Начиная с Gotify 3 токен приложения показывается один раз — когда его создают или перевыпускают, так что сразу скопируйте его. Если токен потерян, перевыпустите его на странице Apps и обновите скрипт, который отправляет с ним сообщения."
+				}
+			]
+		},
+		"uk": {
+			"description": "Сервер push-повідомлень: скрипти надсилають їх через REST API, а вебзастосунок і застосунок для Android одразу їх показують",
+			"notes": "Увійдіть з іменем користувача й паролем адміністратора, які ви вказали; реєстрацію закрито, тож акаунти іншим людям створюють лише в розділі «Users». Створіть застосунок у розділі «Apps»: його токен показується лише раз, тож одразу скопіюйте його. Скрипт надсилає повідомлення так: curl https://{host}/message -H \"X-Gotify-Key: <token>\" -F message=Hello. У застосунку для Android додайте https://{host} як сервер. Повідомлення й зображення зберігаються в томі data.",
+			"sizing": "Gotify має дуже скромні вимоги: близько 10 MB пам’яті, а його база даних SQLite росте лише з повідомленнями, які ви зберігаєте.",
+			"summary": "Gotify — сервер push-повідомлень з відкритим кодом: скрипти шлють через REST API, застосунки отримують одразу. Self-hosted заміна Pushover в один клік.",
+			"about": [
+				"Gotify — сервер з відкритим кодом для надсилання й отримання повідомлень, написаний на Go; його використовують замість Pushover або Pushbullet. Скрипт, cron-задача чи інструмент моніторингу надсилає повідомлення одним HTTP-запитом із токеном застосунку, а вебзастосунок і застосунок для Android одразу отримують його через WebSocket і показують як сповіщення. Кожне повідомлення має заголовок, текст і пріоритет, а через поле extras його можна показати як Markdown або відкрити посилання, коли людина торкнеться сповіщення.",
+				"Gotify розрізняє застосунки й клієнти: застосунок може лише надсилати, а клієнт, як-от телефон чи браузер, отримує повідомлення й керує ними. Кожен користувач має свої застосунки, клієнти й повідомлення, а адміністратор додає користувачів у вебзастосунку. Застосунок для Android є в Google Play і F-Droid, CLI gotify надсилає повідомлення з термінала, а плагіни, написані на Go, розширюють можливості сервера.",
+				"Цей шаблон запускає офіційний образ Gotify версії 3, а його база даних SQLite й завантажені зображення лежать у томі. Адміністратор створюється з імені користувача й пароля, які ви вказали, коли Gotify уперше створює свою базу даних, ще до того, як він комусь відповість, а реєстрація лишається закритою."
+			],
+			"faq": [
+				{
+					"q": "Gotify безкоштовний і з відкритим кодом?",
+					"a": "Так. Сервер Gotify, його вебзастосунок, застосунок для Android і CLI мають відкритий код за ліцензією MIT, а платної редакції немає: платити доведеться лише за сервер, на якому він працює."
+				},
+				{
+					"q": "Як надіслати повідомлення в Gotify через curl?",
+					"a": "Створіть застосунок у вебінтерфейсі, скопіюйте його токен і надішліть POST-запит на /message: curl https://gotify.example.com/message -H \"X-Gotify-Key: <token>\" -F title=Backup -F message=Done -F priority=5. Обов’язкове лише поле message."
+				},
+				{
+					"q": "Gotify чи ntfy: що обрати?",
+					"a": "Обидва доставляють повідомлення від скриптів на телефони. Gotify дає кожному відправникові токен застосунку, а кожному користувачеві — окрему скриньку, і його офіційний застосунок створено для Android. ntfy публікує повідомлення в теми, на які може підписатися будь-хто з доступом, і має застосунки для Android та iOS."
+				},
+				{
+					"q": "Чи працює Gotify на iPhone?",
+					"a": "Офіційний застосунок Gotify є лише для Android. На iPhone вебзастосунок показує повідомлення, поки він відкритий, а сторонні застосунки, як-от iGotify, пересилають їх через push-сервіс Apple."
+				},
+				{
+					"q": "Чи можна ще раз побачити токен Gotify?",
+					"a": "Ні. Починаючи з Gotify 3, токен застосунку показується лише раз, коли його створюють або перевипускають, тож одразу скопіюйте його. Якщо його втрачено, перевипустіть його на сторінці «Apps» і оновіть скрипт, який ним надсилає."
+				}
+			]
+		}
+	}
+}

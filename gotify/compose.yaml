@@ -1,0 +1,19 @@
+services:
+  gotify:
+    image: gotify/server:3
+    restart: unless-stopped
+    environment:
+      # The admin is made from these when Gotify creates its database, at the first start, before
+      # it answers anyone; a later change of the password is made in Gotify's Users page.
+      GOTIFY_DEFAULTUSER_NAME: ${ADMIN_USERNAME}
+      GOTIFY_DEFAULTUSER_PASS: ${ADMIN_PASSWORD}
+      # Only the admin adds users: nobody registers by the address.
+      GOTIFY_REGISTRATION: "false"
+      # The machine's proxy, whose X-Forwarded-For carries the visitor's address.
+      GOTIFY_SERVER_TRUSTEDPROXIES: 10.192.0.0/10
+      GOTIFY_SERVER_SECURECOOKIE: "true"
+      TZ: Etc/UTC
+    volumes:
+      - data:/app/data
+volumes:
+  data:
