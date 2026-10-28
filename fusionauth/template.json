@@ -1,0 +1,332 @@
+{
+	"name": "FusionAuth",
+	"emoji": "🔐",
+	"category": "security",
+	"alternatives": [
+		"Auth0",
+		"Okta",
+		"Amazon Cognito"
+	],
+	"plan": "starter",
+	"route": {
+		"service": "fusionauth",
+		"port": 9011
+	},
+	"variables": [
+		{
+			"name": "URL",
+			"from": "url"
+		},
+		{
+			"name": "ADMIN_EMAIL",
+			"ask": "email"
+		},
+		{
+			"name": "ADMIN_PASSWORD",
+			"ask": "adminPassword"
+		},
+		{
+			"name": "SETUP_API_KEY",
+			"secret": 32
+		}
+	],
+	"parts": {
+		"postgres": {
+			"memory_mib": 512
+		},
+		"email": {
+			"variables": [
+				{
+					"name": "SMTP_HOST",
+					"value": "host"
+				},
+				{
+					"name": "SMTP_PORT",
+					"value": "port"
+				},
+				{
+					"name": "SMTP_USER",
+					"value": "user"
+				},
+				{
+					"name": "SMTP_PASSWORD",
+					"value": "password"
+				},
+				{
+					"name": "SMTP_FROM",
+					"value": "from"
+				},
+				{
+					"name": "SMTP_FROM_NAME",
+					"value": "from_name"
+				}
+			]
+		}
+	},
+	"texts": {
+		"en": {
+			"description": "Customer identity and access management: sign-in, registration, single sign-on and MFA for your apps",
+			"notes": "Sign in with the email and the admin password (8 characters at least) you gave: that account is FusionAuth's administrator, made before FusionAuth answers anyone, and you change its password in FusionAuth. Add each of your apps under Applications, with its authorized redirect URL on the OAuth tab, and point the app's OpenID Connect library at https://{host}, the issuer of the default tenant. Users sign up only for an application whose Registration tab allows self-service registration. FusionAuth keeps its users and settings in the Postgres database linked to the project. Email goes through the provider you picked in New project, if any: change it under Tenants → Edit → Email.",
+			"sizing": "FusionAuth runs on Java: about 600–800 MB of memory at rest, beside its Postgres of 512 MB, more with many users and logins; its database grows slowly, with the users and their login records.",
+			"summary": "FusionAuth is customer identity and access management: sign-in, SSO, MFA and social login for your apps. Self-host this Auth0 alternative in one click.",
+			"about": [
+				"FusionAuth is a customer identity and access management (CIAM) server: your web, mobile and API apps hand sign-in, registration and user management to it. It speaks OAuth 2.0, OpenID Connect and SAML 2.0, so most frameworks connect to it with their standard libraries, and it has client libraries of its own for JavaScript, Python, Java, Go, PHP, .NET, Ruby and more. Its hosted login pages sign people in with a password, a magic link or a social account such as Google, Apple or Facebook, add two-factor authentication with an authenticator app, and can be themed to look like your app.",
+				"FusionAuth is made by FusionAuth, Inc. of Denver, and its Community plan is free with no limit on users; paid plans add features such as email and SMS codes, breached password detection, custom registration forms and SCIM. It is not open source: you run it under FusionAuth's license. Everything is in one admin UI and a REST API: applications, tenants for separate user pools, roles, groups, webhooks, JWT settings and lambdas that shape tokens.",
+				"This template runs FusionAuth's official image, version 1.69.4, with a Postgres 18 database that New project makes beside it, or one of yours that you pick, and searches users in Postgres, with no Elasticsearch. FusionAuth first starts on a port nobody reaches, where its administrator is made from the email and password you type, so its setup wizard is never open to a stranger. Its email goes through Resend, SendGrid or Amazon SES, whichever you pick in New project, or nowhere until you set a provider on the tenant."
+			],
+			"faq": [
+				{
+					"q": "Is FusionAuth free?",
+					"a": "FusionAuth's Community plan is free to self-host, with no limit on users and the core features: OAuth 2.0, OpenID Connect and SAML, social login, authenticator-app MFA, themes and the full API. Paid plans add email and SMS codes, breached password detection, custom registration forms, SCIM and threat detection. FusionAuth is free to use but not open source."
+				},
+				{
+					"q": "FusionAuth vs Auth0: which should I use?",
+					"a": "Both sign users in over OAuth 2.0, OpenID Connect and SAML, with social login and MFA. Auth0 is a cloud service priced by monthly active users; FusionAuth's Community plan runs where you host it, free for any number of users, and its data stays in your database."
+				},
+				{
+					"q": "How do I add login to my app with FusionAuth?",
+					"a": "Create an application in FusionAuth's admin UI and add your app's callback address as an authorized redirect URL. Your app then sends users to FusionAuth's hosted login page with an OpenID Connect library, using the application's client id and secret, and gets back their tokens."
+				},
+				{
+					"q": "Does FusionAuth support social login and passkeys?",
+					"a": "Yes. Identity Providers adds Google, Apple, Facebook, Twitter and any OpenID Connect or SAML 2.0 provider to the login page in the Community plan. Passkeys (WebAuthn) need a free Licensed Community plan, registered at FusionAuth's account portal."
+				},
+				{
+					"q": "Can FusionAuth migrate users from Auth0 or Firebase?",
+					"a": "Yes. Its User Import API takes existing password hashes, so users keep their passwords, and FusionAuth documents migrations from Auth0, Amazon Cognito, Firebase, Keycloak and others."
+				}
+			]
+		},
+		"de": {
+			"description": "Identitäts- und Zugriffsmanagement für Kunden: Anmeldung, Registrierung, Single Sign-on und MFA für deine Apps",
+			"notes": "Melde dich mit der E-Mail und dem Admin-Passwort (mindestens 8 Zeichen) an, die du angegeben hast: Dieses Konto ist der Administrator von FusionAuth, angelegt, bevor FusionAuth irgendwem antwortet, und sein Passwort änderst du in FusionAuth. Füg jede deiner Apps unter „Applications“ hinzu, mit ihrer autorisierten Redirect-URL im Tab „OAuth“, und richte die OpenID-Connect-Bibliothek der App auf https://{host} aus: Das ist der Issuer des Standard-Tenants. Registrieren können sich Benutzer nur bei einer Anwendung, in deren Tab „Registration“ die Option „Self-service registration“ eingeschaltet ist. Seine Benutzer und Einstellungen speichert FusionAuth in der Postgres-Datenbank, die mit dem Projekt verbunden ist. E-Mails gehen über den Anbieter aus „Neues Projekt“, sofern du einen gewählt hast: Ändere ihn unter „Tenants“ → „Edit“ → „Email“.",
+			"sizing": "FusionAuth läuft auf Java: im Ruhezustand etwa 600–800 MB RAM neben seiner Postgres-Datenbank mit 512 MB, mehr bei vielen Benutzern und Anmeldungen; seine Datenbank wächst langsam, mit den Benutzern und den Einträgen zu ihren Anmeldungen.",
+			"summary": "FusionAuth selbst hosten: Identitäts- und Zugriffsmanagement für Kunden mit Anmeldung, SSO, MFA und Social Login. Die Auth0-Alternative, mit einem Klick.",
+			"about": [
+				"FusionAuth ist ein Server für das Identitäts- und Zugriffsmanagement von Kunden (CIAM): Deine Web-, Mobil- und API-Apps überlassen ihm Anmeldung, Registrierung und Benutzerverwaltung. Er spricht OAuth 2.0, OpenID Connect und SAML 2.0, sodass sich die meisten Frameworks mit ihren Standardbibliotheken anbinden lassen, und bringt eigene Client-Bibliotheken für JavaScript, Python, Java, Go, PHP, .NET, Ruby und mehr mit. Die gehosteten Login-Seiten von FusionAuth melden Personen mit Passwort, Magic Link oder einem Konto bei einem Dienst wie Google, Apple oder Facebook an, ergänzen Zwei-Faktor-Authentifizierung mit einer Authenticator-App und lassen sich per Theme an das Aussehen deiner App anpassen.",
+				"FusionAuth kommt von FusionAuth, Inc. aus Denver, und sein Community-Tarif ist kostenlos, ohne Limit für Benutzer; kostenpflichtige Tarife bringen Funktionen wie Codes per E-Mail und SMS, die Erkennung kompromittierter Passwörter, eigene Registrierungsformulare und SCIM dazu. Open Source ist FusionAuth nicht: Du betreibst die Software unter der Lizenz von FusionAuth. Alles steckt in einer Admin-Oberfläche und einer REST-API: Anwendungen, Tenants für getrennte Benutzerbestände, Rollen, Gruppen, Webhooks, JWT-Einstellungen und Lambdas, die Tokens formen.",
+				"Diese Vorlage startet das offizielle Image von FusionAuth, Version 1.69.4, mit einer Postgres-18-Datenbank, die „Neues Projekt“ daneben erstellt, oder einer deiner Datenbanken, die du wählst, und sucht Benutzer in Postgres, ohne Elasticsearch. FusionAuth startet zuerst auf einem Port, den niemand erreicht, und legt dort seinen Administrator mit der E-Mail und dem Passwort an, die du eingibst, sodass sein Einrichtungsassistent nie für Fremde offensteht. E-Mails verschickt FusionAuth über Resend, SendGrid oder Amazon SES, je nachdem, welchen Anbieter du in „Neues Projekt“ wählst, und gar keine, solange du am Tenant keinen Anbieter einträgst."
+			],
+			"faq": [
+				{
+					"q": "Ist FusionAuth kostenlos?",
+					"a": "Den Community-Tarif von FusionAuth kannst du kostenlos selbst hosten, ohne Limit für Benutzer und mit den Kernfunktionen: OAuth 2.0, OpenID Connect und SAML, Social Login, MFA per Authenticator-App, Themes und die vollständige API. Kostenpflichtige Tarife bringen Codes per E-Mail und SMS, die Erkennung kompromittierter Passwörter, eigene Registrierungsformulare, SCIM und Bedrohungserkennung dazu. FusionAuth ist kostenlos nutzbar, aber nicht Open Source."
+				},
+				{
+					"q": "FusionAuth oder Auth0: Was soll ich nehmen?",
+					"a": "Beide melden Benutzer über OAuth 2.0, OpenID Connect und SAML an, mit Social Login und MFA. Auth0 ist ein Cloud-Dienst, dessen Preis sich nach den monatlich aktiven Benutzern richtet; der Community-Tarif von FusionAuth läuft dort, wo du ihn hostest, kostenlos für beliebig viele Benutzer, und die Daten bleiben in deiner Datenbank."
+				},
+				{
+					"q": "Wie baue ich mit FusionAuth eine Anmeldung in meine App ein?",
+					"a": "Leg in der Admin-Oberfläche von FusionAuth eine Anwendung an und trag die Callback-Adresse deiner App als autorisierte Redirect-URL ein. Deine App schickt Benutzer dann mit einer OpenID-Connect-Bibliothek auf die gehostete Login-Seite von FusionAuth, mit der Client-ID und dem Client-Secret der Anwendung, und bekommt ihre Tokens zurück."
+				},
+				{
+					"q": "Unterstützt FusionAuth Social Login und Passkeys?",
+					"a": "Ja. Unter „Identity Providers“ kommen schon im Community-Tarif Google, Apple, Facebook, Twitter und jeder Anbieter für OpenID Connect oder SAML 2.0 auf die Login-Seite. Passkeys (WebAuthn) brauchen einen kostenlosen Tarif Licensed Community, den du im Kontoportal von FusionAuth registrierst."
+				},
+				{
+					"q": "Kann FusionAuth Benutzer aus Auth0 oder Firebase migrieren?",
+					"a": "Ja. Die User Import API nimmt bestehende Passwort-Hashes an, sodass Benutzer ihre Passwörter behalten, und FusionAuth dokumentiert Migrationen von Auth0, Amazon Cognito, Firebase, Keycloak und anderen."
+				}
+			]
+		},
+		"es": {
+			"description": "Administración de identidades y accesos de clientes: inicio de sesión, registro, inicio de sesión único y MFA para tus apps",
+			"notes": "Inicia sesión con el correo y la contraseña de administrador que indicaste, de al menos 8 caracteres: esa cuenta es la del administrador de FusionAuth, que se crea antes de que FusionAuth responda a nadie, y su contraseña se cambia en FusionAuth. Agrega cada una de tus apps en Applications, con su URL de redirección autorizada en la pestaña OAuth, y apunta la biblioteca de OpenID Connect de la app a https://{host}, el emisor (issuer) del tenant predeterminado. Los usuarios solo se registran en una aplicación cuya pestaña Registration tiene activado “Self-service registration”. FusionAuth guarda sus usuarios y su configuración en la base de datos Postgres conectada al proyecto. El correo sale por el proveedor que elegiste en Nuevo proyecto, si elegiste alguno: cámbialo en Tenants → Edit → Email.",
+			"sizing": "FusionAuth funciona con Java: unos 600–800 MB de memoria en reposo, junto a su Postgres de 512 MB, y más con muchos usuarios e inicios de sesión; su base de datos crece despacio, con los usuarios y el historial de sus inicios de sesión.",
+			"summary": "FusionAuth, identidad y acceso de clientes: inicio de sesión, SSO, MFA e inicio de sesión social. Autoaloja esta alternativa a Auth0 en un clic.",
+			"about": [
+				"FusionAuth es un servidor de administración de identidades y accesos de clientes (CIAM): tus apps web, móviles y de API le delegan el inicio de sesión, el registro y la administración de usuarios. Admite OAuth 2.0, OpenID Connect y SAML 2.0, así que la mayoría de los frameworks se conectan a él con sus bibliotecas estándar, y tiene bibliotecas cliente propias para JavaScript, Python, Java, Go, PHP, .NET, Ruby y más. Sus páginas de inicio de sesión alojadas permiten iniciar sesión con contraseña, con un enlace mágico o con una cuenta social como Google, Apple o Facebook, agregan autenticación de dos factores con una app de autenticación y se pueden personalizar con temas para que se parezcan a tu app.",
+				"FusionAuth lo desarrolla FusionAuth, Inc., de Denver, y su plan Community es gratis y sin límite de usuarios; los planes de pago agregan funciones como códigos por correo y SMS, detección de contraseñas filtradas, formularios de registro personalizados y SCIM. No es de código abierto: lo ejecutas bajo la licencia de FusionAuth. Todo está en una sola interfaz de administración y una API REST: aplicaciones, tenants para conjuntos de usuarios separados, roles, grupos, webhooks, configuración de JWT y lambdas que dan forma a los tokens.",
+				"Esta plantilla ejecuta la imagen oficial de FusionAuth, versión 1.69.4, con una base de datos Postgres 18 que Nuevo proyecto crea a su lado, o una de las tuyas que elijas, y busca a los usuarios en Postgres, sin Elasticsearch. FusionAuth se inicia primero en un puerto al que nadie llega, donde su administrador se crea con el correo y la contraseña que escribes, así que su asistente de configuración nunca queda abierto a un desconocido. Su correo sale por Resend, SendGrid o Amazon SES, el que elijas en Nuevo proyecto, y no envía ninguno hasta que configures un proveedor en el tenant."
+			],
+			"faq": [
+				{
+					"q": "¿FusionAuth es gratis?",
+					"a": "El plan Community de FusionAuth es gratis si lo alojas tú, sin límite de usuarios y con las funciones principales: OAuth 2.0, OpenID Connect y SAML, inicio de sesión social, MFA con app de autenticación, temas y la API completa. Los planes de pago agregan códigos por correo y SMS, detección de contraseñas filtradas, formularios de registro personalizados, SCIM y detección de amenazas. FusionAuth se usa gratis, pero no es de código abierto."
+				},
+				{
+					"q": "FusionAuth frente a Auth0: ¿cuál debería usar?",
+					"a": "Los dos inician la sesión de los usuarios con OAuth 2.0, OpenID Connect y SAML, con inicio de sesión social y MFA. Auth0 es un servicio en la nube con precio según los usuarios activos al mes; el plan Community de FusionAuth funciona donde lo alojes, gratis para cualquier número de usuarios, y sus datos se quedan en tu base de datos."
+				},
+				{
+					"q": "¿Cómo agrego inicio de sesión a mi app con FusionAuth?",
+					"a": "Crea una aplicación en la interfaz de administración de FusionAuth y agrega la dirección de callback de tu app como URL de redirección autorizada. Luego tu app envía a los usuarios a la página de inicio de sesión alojada de FusionAuth con una biblioteca de OpenID Connect, usando el ID de cliente y el secreto de la aplicación, y recibe sus tokens."
+				},
+				{
+					"q": "¿FusionAuth admite inicio de sesión social y passkeys?",
+					"a": "Sí. En el plan Community, la sección Identity Providers agrega a la página de inicio de sesión Google, Apple, Facebook, Twitter y cualquier proveedor de OpenID Connect o SAML 2.0. Las passkeys (WebAuthn) necesitan un plan Licensed Community gratuito, que se registra en el portal de cuenta de FusionAuth."
+				},
+				{
+					"q": "¿FusionAuth puede migrar usuarios desde Auth0 o Firebase?",
+					"a": "Sí. Su User Import API acepta los hashes de contraseña existentes, así que los usuarios conservan sus contraseñas, y FusionAuth documenta migraciones desde Auth0, Amazon Cognito, Firebase, Keycloak y otros."
+				}
+			]
+		},
+		"fr": {
+			"description": "La gestion des identités et des accès clients : connexion, inscription, authentification unique (SSO) et MFA pour vos applications",
+			"notes": "Connectez-vous avec l’e-mail et le mot de passe administrateur indiqués, d’au moins 8 caractères : ce compte est l’administrateur de FusionAuth, créé avant que FusionAuth ne réponde à quiconque, et vous changez son mot de passe dans FusionAuth. Ajoutez chacune de vos applications dans Applications, avec son URL de redirection autorisée dans l’onglet OAuth, et faites pointer la bibliothèque OpenID Connect de l’application vers https://{host}, l’émetteur (issuer) du tenant par défaut. Les utilisateurs ne s’inscrivent qu’à une application dont l’onglet Registration active « Self-service registration ». FusionAuth garde ses utilisateurs et ses réglages dans la base de données Postgres connectée au projet. Les e-mails passent par le fournisseur choisi dans Nouveau projet, s’il y en a un : changez-le dans Tenants → Edit → Email.",
+			"sizing": "FusionAuth tourne sur Java : environ 600–800 MB de mémoire au repos, à côté de sa base Postgres de 512 MB, davantage avec beaucoup d’utilisateurs et de connexions ; sa base de données grossit lentement, avec les utilisateurs et l’historique de leurs connexions.",
+			"summary": "FusionAuth, gestion des identités et des accès clients : connexion, SSO, MFA et connexion sociale. Auto-hébergez cette alternative à Auth0 en un clic.",
+			"about": [
+				"FusionAuth est un serveur de gestion des identités et des accès clients (CIAM) : vos applications web, mobiles et API lui confient la connexion, l’inscription et la gestion des utilisateurs. Il parle OAuth 2.0, OpenID Connect et SAML 2.0, si bien que la plupart des frameworks s’y connectent avec leurs bibliothèques standard, et il a ses propres bibliothèques clientes pour JavaScript, Python, Java, Go, PHP, .NET, Ruby et d’autres. Ses pages de connexion hébergées connectent les gens avec un mot de passe, un lien magique ou un compte social comme Google, Apple ou Facebook, ajoutent l’authentification à deux facteurs avec une application d’authentification, et se personnalisent par des thèmes pour ressembler à votre application.",
+				"FusionAuth est édité par FusionAuth, Inc., à Denver, et son offre Community est gratuite, sans limite d’utilisateurs ; les offres payantes ajoutent des fonctionnalités comme les codes par e-mail et SMS, la détection des mots de passe compromis, les formulaires d’inscription personnalisés et SCIM. Il n’est pas open source : vous le faites tourner sous la licence de FusionAuth. Tout se trouve dans une seule interface d’administration et une API REST : applications, tenants pour des bases d’utilisateurs séparées, rôles, groupes, webhooks, réglages JWT et lambdas qui façonnent les tokens.",
+				"Ce template fait tourner l’image officielle de FusionAuth, version 1.69.4, avec une base de données Postgres 18 que Nouveau projet crée à côté, ou l’une des vôtres que vous choisissez, et cherche les utilisateurs dans Postgres, sans Elasticsearch. FusionAuth démarre d’abord sur un port que personne n’atteint, où son administrateur est créé à partir de l’e-mail et du mot de passe que vous saisissez : son assistant de configuration n’est donc jamais ouvert à un inconnu. Ses e-mails passent par Resend, SendGrid ou Amazon SES, celui que vous choisissez dans Nouveau projet, et il n’en envoie aucun tant que vous n’avez pas défini de fournisseur sur le tenant."
+			],
+			"faq": [
+				{
+					"q": "FusionAuth est-il gratuit ?",
+					"a": "L’offre Community de FusionAuth est gratuite en auto-hébergement, sans limite d’utilisateurs et avec les fonctionnalités essentielles : OAuth 2.0, OpenID Connect et SAML, connexion sociale, MFA par application d’authentification, thèmes et l’API complète. Les offres payantes ajoutent les codes par e-mail et SMS, la détection des mots de passe compromis, les formulaires d’inscription personnalisés, SCIM et la détection des menaces. FusionAuth est gratuit à l’usage, mais pas open source."
+				},
+				{
+					"q": "FusionAuth ou Auth0 : lequel choisir ?",
+					"a": "Les deux connectent les utilisateurs en OAuth 2.0, OpenID Connect et SAML, avec connexion sociale et MFA. Auth0 est un service cloud facturé au nombre d’utilisateurs actifs par mois ; l’offre Community de FusionAuth tourne là où vous l’hébergez, gratuitement quel que soit le nombre d’utilisateurs, et ses données restent dans votre base de données."
+				},
+				{
+					"q": "Comment ajouter la connexion à mon application avec FusionAuth ?",
+					"a": "Créez une application dans l’interface d’administration de FusionAuth et ajoutez l’adresse de callback de votre application comme URL de redirection autorisée. Votre application envoie ensuite les utilisateurs vers la page de connexion hébergée de FusionAuth avec une bibliothèque OpenID Connect, avec l’ID client et le secret de l’application, et reçoit leurs tokens en retour."
+				},
+				{
+					"q": "FusionAuth prend-il en charge la connexion sociale et les clés d’accès ?",
+					"a": "Oui. Dans l’offre Community, la section Identity Providers ajoute à la page de connexion Google, Apple, Facebook, Twitter et tout fournisseur OpenID Connect ou SAML 2.0. Les clés d’accès (WebAuthn) demandent une offre Licensed Community gratuite, enregistrée sur le portail de compte de FusionAuth."
+				},
+				{
+					"q": "FusionAuth peut-il migrer des utilisateurs depuis Auth0 ou Firebase ?",
+					"a": "Oui. La User Import API accepte les hachages de mots de passe existants, si bien que les utilisateurs gardent leur mot de passe, et FusionAuth documente les migrations depuis Auth0, Amazon Cognito, Firebase, Keycloak et d’autres."
+				}
+			]
+		},
+		"pl": {
+			"description": "Zarządzanie tożsamością i dostępem klientów: logowanie, rejestracja, logowanie jednokrotne i MFA dla twoich aplikacji",
+			"notes": "Zaloguj się adresem e-mail i hasłem administratora (co najmniej 8 znaków) podanymi przy tworzeniu projektu: to konto jest administratorem FusionAuth, utworzonym, zanim FusionAuth komukolwiek odpowie, a jego hasło zmienisz w FusionAuth. Każdą swoją aplikację dodaj w sekcji Applications, z jej autoryzowanym adresem przekierowania w zakładce OAuth, a bibliotekę OpenID Connect aplikacji skieruj na https://{host}, czyli issuera domyślnego tenanta. Użytkownicy rejestrują się tylko w aplikacji, która ma w zakładce Registration włączoną opcję Self-service registration. FusionAuth trzyma użytkowników i ustawienia w bazie danych Postgres podłączonej do projektu. E-maile idą przez dostawcę wybranego w oknie „Nowy projekt”, jeśli go wybrano: zmień go w Tenants → Edit → Email.",
+			"sizing": "FusionAuth działa na Javie: w spoczynku zajmuje około 600–800 MB pamięci obok bazy Postgres z 512 MB, więcej przy wielu użytkownikach i logowaniach; jego baza danych rośnie powoli, razem z użytkownikami i zapisami ich logowań.",
+			"summary": "FusionAuth to zarządzanie tożsamością i dostępem klientów: logowanie, SSO, MFA i social login. Hostuj tę alternatywę dla Auth0 u siebie w jeden klik.",
+			"about": [
+				"FusionAuth to serwer zarządzania tożsamością i dostępem klientów (CIAM): twoje aplikacje webowe, mobilne i API przekazują mu logowanie, rejestrację i zarządzanie użytkownikami. Obsługuje OAuth 2.0, OpenID Connect i SAML 2.0, więc większość frameworków łączy się z nim swoimi standardowymi bibliotekami, a do tego ma własne biblioteki klienckie dla JavaScriptu, Pythona, Javy, Go, PHP, .NET, Ruby i innych języków. Jego hostowane strony logowania logują ludzi hasłem, magic linkiem albo kontem społecznościowym, takim jak Google, Apple czy Facebook, dodają uwierzytelnianie dwuskładnikowe przez aplikację uwierzytelniającą i można je dopasować motywem do wyglądu twojej aplikacji.",
+				"FusionAuth tworzy firma FusionAuth, Inc. z Denver, a jego plan Community jest darmowy, bez limitu użytkowników; płatne plany dodają funkcje takie jak kody e-mailem i SMS-em, wykrywanie wyciekłych haseł, własne formularze rejestracji i SCIM. To nie jest open source: uruchamiasz go na licencji FusionAuth. Wszystko jest w jednym interfejsie administracyjnym i REST API: aplikacje, tenanty dla oddzielnych pul użytkowników, role, grupy, webhooki, ustawienia JWT i lambdy, które kształtują tokeny.",
+				"Ten szablon uruchamia oficjalny obraz FusionAuth w wersji 1.69.4, z bazą danych Postgres 18, którą Nowy projekt tworzy obok, albo jedną z twoich, którą wybierzesz, i wyszukuje użytkowników w Postgresie, bez Elasticsearcha. FusionAuth najpierw uruchamia się na porcie, do którego nikt nie dociera, i tam powstaje jego administrator z wpisanego adresu e-mail i hasła, więc kreator konfiguracji nigdy nie jest otwarty dla obcych. E-maile FusionAuth wysyła przez Resend, SendGrid albo Amazon SES, zależnie od wyboru w oknie „Nowy projekt”, a dopóki nie ustawisz dostawcy w tenancie, nie wysyła ich wcale."
+			],
+			"faq": [
+				{
+					"q": "Czy FusionAuth jest darmowy?",
+					"a": "Plan Community FusionAuth można hostować u siebie za darmo, bez limitu użytkowników i z podstawowymi funkcjami: OAuth 2.0, OpenID Connect i SAML, logowaniem kontami społecznościowymi, MFA przez aplikację uwierzytelniającą, motywami i pełnym API. Płatne plany dodają kody e-mailem i SMS-em, wykrywanie wyciekłych haseł, własne formularze rejestracji, SCIM i wykrywanie zagrożeń. Z FusionAuth można korzystać za darmo, ale nie jest to open source."
+				},
+				{
+					"q": "FusionAuth czy Auth0: co wybrać?",
+					"a": "Oba logują użytkowników przez OAuth 2.0, OpenID Connect i SAML, z logowaniem kontami społecznościowymi i MFA. Auth0 to usługa w chmurze wyceniana według liczby aktywnych użytkowników miesięcznie; plan Community FusionAuth działa tam, gdzie go hostujesz, za darmo dla dowolnej liczby użytkowników, a jego dane zostają w twojej bazie danych."
+				},
+				{
+					"q": "Jak dodać logowanie do mojej aplikacji przez FusionAuth?",
+					"a": "Utwórz aplikację w interfejsie administracyjnym FusionAuth i dodaj adres callback swojej aplikacji jako autoryzowany adres przekierowania. Potem twoja aplikacja wysyła użytkowników na hostowaną stronę logowania FusionAuth przez bibliotekę OpenID Connect, z identyfikatorem klienta (client ID) i sekretem tej aplikacji, i dostaje z powrotem ich tokeny."
+				},
+				{
+					"q": "Czy FusionAuth obsługuje social login i klucze dostępu?",
+					"a": "Tak. Sekcja Identity Providers dodaje do strony logowania Google, Apple, Facebook, Twitter i dowolnego dostawcę OpenID Connect lub SAML 2.0 już w planie Community. Klucze dostępu (WebAuthn) wymagają darmowego planu Licensed Community, zarejestrowanego w portalu konta FusionAuth."
+				},
+				{
+					"q": "Czy FusionAuth może przenieść użytkowników z Auth0 albo Firebase?",
+					"a": "Tak. Jego User Import API przyjmuje istniejące hashe haseł, więc użytkownicy zachowują swoje hasła, a FusionAuth opisuje w dokumentacji migracje z Auth0, Amazon Cognito, Firebase, Keycloaka i innych."
+				}
+			]
+		},
+		"pt": {
+			"description": "Gerenciamento de identidade e acesso de clientes: login, cadastro, login único e MFA para seus apps",
+			"notes": "Entre com o e-mail e a senha de administrador que você informou, de pelo menos 8 caracteres: essa é a conta de administrador do FusionAuth, criada antes de o FusionAuth responder a qualquer pessoa, e a senha dela se troca no próprio FusionAuth. Adicione cada um dos seus apps em Applications, com a URL de redirecionamento autorizada dele na aba OAuth, e aponte a biblioteca OpenID Connect do app para https://{host}, o emissor (issuer) do tenant padrão. Os usuários só se cadastram em uma aplicação cuja aba Registration tem “Self-service registration” ativado. O FusionAuth guarda os usuários e as configurações no banco de dados Postgres conectado ao projeto. O e-mail sai pelo provedor que você escolheu no Novo projeto, se escolheu algum: troque-o em Tenants → Edit → Email.",
+			"sizing": "O FusionAuth roda em Java: cerca de 600–800 MB de memória em repouso, ao lado do seu Postgres de 512 MB, mais com muitos usuários e logins; o banco de dados dele cresce devagar, com os usuários e os registros de login deles.",
+			"summary": "O FusionAuth é gestão de identidade e acesso de clientes: login, SSO, MFA e login social para seus apps. Auto-hospede a alternativa ao Auth0 em um clique.",
+			"about": [
+				"O FusionAuth é um servidor de gerenciamento de identidade e acesso de clientes (CIAM): seus apps web, mobile e de API entregam a ele o login, o cadastro e o gerenciamento de usuários. Ele suporta OAuth 2.0, OpenID Connect e SAML 2.0, então a maioria dos frameworks se conecta a ele com as bibliotecas padrão deles, e ele tem bibliotecas de cliente próprias para JavaScript, Python, Java, Go, PHP, .NET, Ruby e mais. As páginas de login hospedadas dele fazem o login das pessoas com senha, link mágico ou uma conta social como Google, Apple ou Facebook, adicionam autenticação de dois fatores com um app autenticador e podem ganhar um tema com a cara do seu app.",
+				"O FusionAuth é feito pela FusionAuth, Inc., de Denver, e o plano Community dele é gratuito, sem limite de usuários; os planos pagos adicionam recursos como códigos por e-mail e SMS, detecção de senhas vazadas, formulários de cadastro personalizados e SCIM. Ele não é de código aberto: você o roda sob a licença do FusionAuth. Tudo fica em uma só interface de administração e uma API REST: aplicações, tenants para bases de usuários separadas, funções, grupos, webhooks, configurações de JWT e lambdas que moldam os tokens.",
+				"Este template roda a imagem oficial do FusionAuth, versão 1.69.4, com um banco de dados Postgres 18 que o Novo projeto cria ao lado dele, ou um dos seus que você escolher, e busca usuários no Postgres, sem Elasticsearch. O FusionAuth inicia primeiro em uma porta que ninguém alcança, onde o administrador dele é criado com o e-mail e a senha que você digita, então o assistente de configuração dele nunca fica aberto a um estranho. Os e-mails dele saem pelo Resend, SendGrid ou Amazon SES, o que você escolher no Novo projeto, e nenhum sai até você definir um provedor no tenant."
+			],
+			"faq": [
+				{
+					"q": "O FusionAuth é gratuito?",
+					"a": "O plano Community do FusionAuth é gratuito para auto-hospedar, sem limite de usuários e com os recursos principais: OAuth 2.0, OpenID Connect e SAML, login social, MFA com app autenticador, temas e a API completa. Os planos pagos adicionam códigos por e-mail e SMS, detecção de senhas vazadas, formulários de cadastro personalizados, SCIM e detecção de ameaças. O FusionAuth é de uso gratuito, mas não é de código aberto."
+				},
+				{
+					"q": "FusionAuth ou Auth0: qual devo usar?",
+					"a": "Os dois fazem o login de usuários por OAuth 2.0, OpenID Connect e SAML, com login social e MFA. O Auth0 é um serviço na nuvem cobrado por usuários ativos por mês; o plano Community do FusionAuth roda onde você o hospeda, gratuito para qualquer número de usuários, e os dados dele ficam no seu banco de dados."
+				},
+				{
+					"q": "Como adiciono login ao meu app com o FusionAuth?",
+					"a": "Crie uma aplicação na interface de administração do FusionAuth e adicione o endereço de callback do seu app como URL de redirecionamento autorizada. Depois, o seu app manda os usuários para a página de login hospedada do FusionAuth com uma biblioteca OpenID Connect, usando o client ID e o segredo da aplicação, e recebe de volta os tokens deles."
+				},
+				{
+					"q": "O FusionAuth suporta login social e passkeys?",
+					"a": "Sim. Em Identity Providers, a página de login ganha Google, Apple, Facebook, Twitter e qualquer provedor OpenID Connect ou SAML 2.0, já no plano Community. As passkeys (WebAuthn) precisam de um plano Licensed Community gratuito, registrado no portal de contas do FusionAuth."
+				},
+				{
+					"q": "O FusionAuth consegue migrar usuários do Auth0 ou do Firebase?",
+					"a": "Sim. A User Import API dele aceita hashes de senha existentes, então os usuários mantêm as senhas, e o FusionAuth documenta migrações do Auth0, Amazon Cognito, Firebase, Keycloak e outros."
+				}
+			]
+		},
+		"ru": {
+			"description": "Управление идентификацией и доступом клиентов: вход, регистрация, единый вход и MFA для ваших приложений",
+			"notes": "Войдите с почтой и паролем администратора, которые вы указали, не короче 8 символов: этот аккаунт — администратор FusionAuth, он создается еще до того, как FusionAuth начнет кому-либо отвечать, а его пароль меняется в самом FusionAuth. Добавьте каждое свое приложение в разделе «Applications», указав на вкладке «OAuth» его разрешенный URL перенаправления, а в библиотеке OpenID Connect приложения укажите адрес https://{host} — это issuer тенанта по умолчанию. Пользователи регистрируются только в приложении, у которого на вкладке «Registration» включена опция «Self-service registration». Пользователей и настройки FusionAuth хранит в базе данных Postgres, подключенной к проекту. Почта уходит через сервис, выбранный в окне «Новый проект», если вы его выбрали: поменяйте его в «Tenants» → «Edit» → «Email».",
+			"sizing": "FusionAuth работает на Java: в простое около 600–800 MB памяти рядом с его базой Postgres на 512 MB, больше — при множестве пользователей и входов; его база данных растет медленно, вместе с пользователями и записями об их входах.",
+			"summary": "Self-hosted FusionAuth — управление идентификацией и доступом клиентов: вход, SSO, MFA и вход через соцсети. Альтернатива Auth0 в один клик.",
+			"about": [
+				"FusionAuth — сервер управления идентификацией и доступом клиентов (CIAM): ваши веб-, мобильные и API-приложения поручают ему вход, регистрацию и управление пользователями. Он поддерживает OAuth 2.0, OpenID Connect и SAML 2.0, поэтому большинство фреймворков подключаются к нему своими стандартными библиотеками, а еще у него есть собственные клиентские библиотеки для JavaScript, Python, Java, Go, PHP, .NET, Ruby и других языков. Его готовые страницы входа впускают людей по паролю, по ссылке для входа (magic link) или через аккаунт в соцсети или сервисе вроде Google, Apple или Facebook, добавляют двухфакторную аутентификацию через приложение-аутентификатор и оформляются темами под ваше приложение.",
+				"FusionAuth делает компания FusionAuth, Inc. из Денвера, и его тариф Community бесплатный, без ограничений на число пользователей; платные тарифы добавляют такие функции, как коды по почте и SMS, проверка паролей на утечки, свои формы регистрации и SCIM. Код у него не открытый: вы запускаете его по лицензии FusionAuth. Все находится в одном интерфейсе администратора и REST API: приложения, тенанты для раздельных пулов пользователей, роли, группы, вебхуки, настройки JWT и лямбды, которые формируют токены.",
+				"Этот шаблон запускает официальный образ FusionAuth версии 1.69.4 с базой данных Postgres 18, которую «Новый проект» создает рядом, или одной из ваших, которую вы выберете, и ищет пользователей в Postgres, без Elasticsearch. Сначала FusionAuth запускается на порту, до которого никто не может достучаться, и там его администратор создается из почты и пароля, которые вы ввели, поэтому мастер настройки никогда не открыт посторонним. Почту FusionAuth отправляет через Resend, SendGrid или Amazon SES — какой сервис вы выберете в окне «Новый проект», а пока вы не зададите сервис в тенанте, не отправляет вовсе."
+			],
+			"faq": [
+				{
+					"q": "FusionAuth бесплатный?",
+					"a": "Тариф Community у FusionAuth бесплатен, если вы запускаете его сами: без ограничений на число пользователей и с основными функциями — OAuth 2.0, OpenID Connect и SAML, вход через соцсети, MFA через приложение-аутентификатор, темы оформления и полный API. Платные тарифы добавляют коды по почте и SMS, проверку паролей на утечки, свои формы регистрации, SCIM и обнаружение угроз. FusionAuth можно использовать бесплатно, но его код не открыт."
+				},
+				{
+					"q": "FusionAuth или Auth0: что выбрать?",
+					"a": "Оба впускают пользователей по OAuth 2.0, OpenID Connect и SAML, со входом через соцсети и MFA. Auth0 — облачный сервис, цена которого зависит от числа активных пользователей в месяц; тариф Community у FusionAuth работает там, где вы его разместите, бесплатно для любого числа пользователей, а его данные остаются в вашей базе данных."
+				},
+				{
+					"q": "Как добавить вход в свое приложение с FusionAuth?",
+					"a": "Создайте приложение в интерфейсе администратора FusionAuth и добавьте адрес обратного вызова (callback) вашего приложения как разрешенный URL перенаправления. Затем ваше приложение отправляет пользователей на готовую страницу входа FusionAuth через библиотеку OpenID Connect, с client ID и секретом этого приложения, и получает обратно их токены."
+				},
+				{
+					"q": "Поддерживает ли FusionAuth вход через соцсети и passkey?",
+					"a": "Да. Раздел «Identity Providers» уже в тарифе Community добавляет на страницу входа Google, Apple, Facebook, Twitter и любого поставщика OpenID Connect или SAML 2.0. Для passkey (WebAuthn) нужен бесплатный тариф Licensed Community, который регистрируется в личном кабинете на сайте FusionAuth."
+				},
+				{
+					"q": "Может ли FusionAuth перенести пользователей из Auth0 или Firebase?",
+					"a": "Да. Его User Import API принимает существующие хеши паролей, так что пользователи сохраняют свои пароли, а FusionAuth описывает в документации миграцию из Auth0, Amazon Cognito, Firebase, Keycloak и других систем."
+				}
+			]
+		},
+		"uk": {
+			"description": "Керування ідентифікацією та доступом клієнтів: вхід, реєстрація, єдиний вхід і MFA для ваших застосунків",
+			"notes": "Увійдіть з поштою й паролем адміністратора, які ви вказали, не коротшим за 8 символів: цей акаунт — адміністратор FusionAuth, створений ще до того, як FusionAuth комусь відповість, а пароль до нього змінюють у самому FusionAuth. Додайте кожен свій застосунок у розділі «Applications», вказавши на вкладці «OAuth» його дозволений URL перенаправлення, а в бібліотеці OpenID Connect застосунку вкажіть адресу https://{host} — це issuer типового тенанта. Користувачі реєструються лише в застосунку, у якого на вкладці «Registration» увімкнено «Self-service registration». Користувачів і налаштування FusionAuth зберігає в базі даних Postgres, підключеній до проєкту. Пошта йде через сервіс, обраний у вікні «Новий проєкт», якщо ви його обрали: змініть його в «Tenants → Edit → Email».",
+			"sizing": "FusionAuth працює на Java: у спокої близько 600–800 MB пам’яті поруч із його базою Postgres на 512 MB, більше — з багатьма користувачами й входами; база даних росте повільно, разом із користувачами та записами про їхні входи.",
+			"summary": "FusionAuth — керування ідентифікацією та доступом клієнтів: вхід, SSO, MFA і вхід через соцмережі. Self-hosted альтернатива Auth0 в один клік.",
+			"about": [
+				"FusionAuth — сервер керування ідентифікацією та доступом клієнтів (CIAM): ваші веб-, мобільні та API-застосунки доручають йому вхід, реєстрацію й керування користувачами. Він підтримує OAuth 2.0, OpenID Connect і SAML 2.0, тож більшість фреймворків підключаються до нього своїми стандартними бібліотеками, а ще в нього є власні клієнтські бібліотеки для JavaScript, Python, Java, Go, PHP, .NET, Ruby та інших мов. Його готові сторінки входу впускають людей за паролем, за посиланням для входу (magic link) або через соціальний акаунт, як-от Google, Apple чи Facebook, додають двофакторну автентифікацію через застосунок-автентифікатор і оформлюються темами під ваш застосунок.",
+				"FusionAuth створює компанія FusionAuth, Inc. з Денвера, і його тариф Community безкоштовний, без обмежень на кількість користувачів; платні тарифи додають такі функції, як коди поштою та SMS, перевірка паролів на витоки, власні форми реєстрації та SCIM. Код у нього не відкритий: ви запускаєте його за ліцензією FusionAuth. Усе зібрано в одному інтерфейсі адміністратора та REST API: застосунки, тенанти для окремих пулів користувачів, ролі, групи, вебхуки, налаштування JWT і лямбди, що формують токени.",
+				"Цей шаблон запускає офіційний образ FusionAuth версії 1.69.4 разом із базою даних Postgres 18, яку «Новий проєкт» створює поруч, або однією з ваших, яку ви оберете, і шукає користувачів у Postgres, без Elasticsearch. Спершу FusionAuth запускається на порту, до якого ніхто не дістанеться, і там його адміністратора створюють з пошти й пароля, які ви вводите, тож майстер налаштування ніколи не відкритий для сторонніх. Пошту FusionAuth надсилає через Resend, SendGrid або Amazon SES — який сервіс ви оберете у вікні «Новий проєкт», а поки ви не задасте сервіс у тенанті, не надсилає зовсім."
+			],
+			"faq": [
+				{
+					"q": "FusionAuth безкоштовний?",
+					"a": "Тариф Community у FusionAuth безкоштовний, якщо ви запускаєте його самі: без обмежень на кількість користувачів і з основними функціями — OAuth 2.0, OpenID Connect і SAML, вхід через соцмережі, MFA через застосунок-автентифікатор, теми оформлення й повний API. Платні тарифи додають коди поштою та SMS, перевірку паролів на витоки, власні форми реєстрації, SCIM і виявлення загроз. FusionAuth можна використовувати безкоштовно, але його код не відкритий."
+				},
+				{
+					"q": "FusionAuth чи Auth0: що обрати?",
+					"a": "Обидва впускають користувачів через OAuth 2.0, OpenID Connect і SAML, із входом через соцмережі та MFA. Auth0 — хмарний сервіс із ціною за кількістю активних користувачів на місяць; тариф Community у FusionAuth працює там, де ви його розмістите, безкоштовно для будь-якої кількості користувачів, а його дані лишаються у вашій базі даних."
+				},
+				{
+					"q": "Як додати вхід у свій застосунок за допомогою FusionAuth?",
+					"a": "Створіть застосунок в інтерфейсі адміністратора FusionAuth і додайте адресу зворотного виклику (callback) вашого застосунку як дозволений URL перенаправлення. Потім ваш застосунок надсилає користувачів на готову сторінку входу FusionAuth через бібліотеку OpenID Connect, з client ID і секретом цього застосунку, й отримує назад їхні токени."
+				},
+				{
+					"q": "Чи підтримує FusionAuth вхід через соцмережі та ключі доступу?",
+					"a": "Так. Розділ «Identity Providers» уже в тарифі Community додає на сторінку входу Google, Apple, Facebook, Twitter і будь-якого провайдера OpenID Connect чи SAML 2.0. Для ключів доступу (WebAuthn) потрібен безкоштовний тариф Licensed Community, зареєстрований в особистому кабінеті на сайті FusionAuth."
+				},
+				{
+					"q": "Чи може FusionAuth перенести користувачів з Auth0 або Firebase?",
+					"a": "Так. Його User Import API приймає наявні хеші паролів, тож користувачі зберігають свої паролі, а FusionAuth документує міграції з Auth0, Amazon Cognito, Firebase, Keycloak та інших систем."
+				}
+			]
+		}
+	}
+}

@@ -1,0 +1,136 @@
+services:
+  fusionauth:
+    image: fusionauth/fusionauth-app:1.69.4
+    restart: unless-stopped
+    environment:
+      # FusionAuth reads DATABASE_URL as a JDBC URL, so it is made here from the part's parts.
+      DATABASE_URL: jdbc:postgresql://${DATABASE_HOST:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}:${DATABASE_PORT:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}/${DATABASE_NAME:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      DATABASE_USERNAME: ${DATABASE_USER:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      # Silent mode makes the schema in the linked database, which the app's user owns, and
+      # applies a new release's migrations at its start; production mode never shows the
+      # migration screen to a visitor.
+      FUSIONAUTH_APP_SILENT_MODE: "true"
+      FUSIONAUTH_APP_RUNTIME_MODE: production
+      # Users are searched in Postgres, with no Elasticsearch or OpenSearch beside it.
+      SEARCH_TYPE: database
+      FUSIONAUTH_APP_MEMORY: 512M
+      # 20 connections at most, FusionAuth's default, within the 47 of the Postgres part.
+      DATABASE_MAXIMUM_POOL_SIZE: "20"
+      URL: ${URL}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      SETUP_API_KEY: ${SETUP_API_KEY}
+      # The mail provider picked in New project, by STARTTLS on its port; with none, FusionAuth
+      # sends no mail until one is set on the tenant.
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      SMTP_FROM: ${SMTP_FROM}
+      SMTP_FROM_NAME: ${SMTP_FROM_NAME}
+    # A new FusionAuth shows its setup wizard to whoever opens it first, also in the seconds
+    # before Kickstart has run, and counts the setup as done only when Kickstart made the
+    # administrator. So FusionAuth runs first on port 9019, which nobody reaches, and only then on
+    # port 9011, the page's. On a new database, Kickstart makes the set-up's API key and the
+    # administrator, with a stand-in email and password, and gives the default tenant the
+    # project's address as its issuer; the API then gives the administrator the email and
+    # password of the fields, and the tenant the mail provider, since Kickstart takes a quote or
+    # a backslash out of what it is given. The set-up's key is deleted last: while it answers,
+    # the set-up is unfinished, and once it is refused and the setup wizard sends a visitor to
+    # sign in, FusionAuth is set up.
+    command:
+      - bash
+      - -c
+      - |
+        set -e
+        cd /usr/local/fusionauth
+        json() { printf '%s' "$$1" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g'; }
+        # The set-up's API key, and the ids of it and of the administrator, all from SETUP_API_KEY.
+        key=$$SETUP_API_KEY
+        key_id=$${key:0:8}-$${key:8:4}-$${key:12:4}-$${key:16:4}-$${key:20:12}
+        admin_id=$${key:32:8}-$${key:40:4}-$${key:44:4}-$${key:48:4}-$${key:52:12}
+
+        # Kickstart runs only on a FusionAuth with no API key and no user yet.
+        cat > /tmp/kickstart.json <<KICKSTART
+        {
+          "apiKeys": [{"id": "$$key_id", "key": "$$key", "keyManager": true, "description": "The template's set-up"}],
+          "requests": [
+            {"method": "PATCH", "url": "/api/tenant/#{FUSIONAUTH_TENANT_ID}", "body": {"tenant": {"issuer": "$$URL"}}},
+            {
+              "method": "POST",
+              "url": "/api/user/registration/$$admin_id",
+              "body": {
+                "user": {"email": "setup@example.com", "password": "$$key"},
+                "registration": {"applicationId": "#{FUSIONAUTH_APPLICATION_ID}", "roles": ["admin"]}
+              }
+            }
+          ]
+        }
+        KICKSTART
+        FUSIONAUTH_APP_HTTP_PORT=9019 FUSIONAUTH_APP_KICKSTART_FILE=/tmp/kickstart.json fusionauth-app/bin/start.sh &
+        first=$$!
+        stop_first() {
+          kill $$first
+          wait $$first 2> /dev/null || true
+        }
+        api() {
+          method=$$1
+          path=$$2
+          shift 2
+          curl -sS -o /tmp/api.json -w '%{http_code}' -X "$$method" -H "Authorization: $$key" \
+            -H 'Content-Type: application/json' "$$@" "http://127.0.0.1:9019$$path" 2> /dev/null || true
+        }
+        refused() {
+          echo "FusionAuth refused $$1: $$(cat /tmp/api.json)" >&2
+          stop_first
+          exit 1
+        }
+
+        # Silent mode migrates the database first; a database that does not answer stops the
+        # start after 5 minutes, and the next start tries again.
+        for wait in $$(seq 300); do
+          kill -0 $$first 2> /dev/null || { echo "FusionAuth stopped at its first start." >&2; exit 1; }
+          admin=$$(api GET "/api/user/$$admin_id")
+          [ "$$admin" = 200 ] && break
+          wizard=$$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:9019/admin/setup-wizard || true)
+          [ "$$admin" = 401 ] && [ "$$wizard" = 302 ] && break
+          sleep 1
+        done
+        if [ "$$admin" != 200 ] && [ "$$wizard" != 302 ]; then
+          echo "FusionAuth did not answer on its first start within 5 minutes." >&2
+          stop_first
+          exit 1
+        fi
+
+        if [ "$$admin" = 200 ]; then
+          echo "setting FusionAuth up on a port nobody reaches"
+          tenant=$$(grep -o '"tenantId":"[^"]*"' /tmp/api.json | head -n 1 | cut -d '"' -f 4)
+          if [ "$${#ADMIN_PASSWORD}" -lt 8 ]; then
+            echo "The admin password has fewer than 8 characters, which FusionAuth refuses: give one of 8 or more in ADMIN_PASSWORD of the project's .env, then deploy again." >&2
+            stop_first
+            exit 1
+          fi
+          [ "$$(api PATCH "/api/user/$$admin_id" \
+            -d "{\"user\": {\"email\": \"$$(json "$$ADMIN_EMAIL")\", \"password\": \"$$(json "$$ADMIN_PASSWORD")\"}}")" = 200 ] \
+            || refused "the administrator's email and password"
+          if [ -n "$$SMTP_HOST" ]; then
+            [ "$$(api PATCH "/api/tenant/$$tenant" -d "{\"tenant\": {\"emailConfiguration\": {\"host\": \"$$(json "$$SMTP_HOST")\",
+              \"port\": $$SMTP_PORT, \"security\": \"TLS\", \"username\": \"$$(json "$$SMTP_USER")\", \"password\": \"$$(json "$$SMTP_PASSWORD")\",
+              \"defaultFromEmail\": \"$$(json "$$SMTP_FROM")\", \"defaultFromName\": \"$$(json "$$SMTP_FROM_NAME")\"}}}")" = 200 ] \
+              || refused "the mail provider"
+          fi
+          # The set-up's API key can do anything, and nothing needs it any more.
+          [ "$$(api DELETE "/api/api-key/$$key_id")" = 200 ] || refused "to delete the set-up's API key"
+          echo "FusionAuth is set up, with the administrator $$ADMIN_EMAIL"
+        fi
+        stop_first
+        rm /tmp/kickstart.json
+
+        exec fusionauth-app/bin/start.sh
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "-o", "/dev/null", "http://127.0.0.1:9011/api/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 300s
