@@ -1,0 +1,250 @@
+{
+	"name": "OpenSearch",
+	"emoji": "🔎",
+	"category": "developer-tools",
+	"alternatives": [
+		"Elasticsearch",
+		"Algolia"
+	],
+	"plan": "starter",
+	"route": {
+		"service": "dashboards",
+		"port": 5601
+	},
+	"variables": [
+		{
+			"name": "ADMIN_PASSWORD",
+			"ask": "adminPassword"
+		},
+		{
+			"name": "DASHBOARDS_PASSWORD",
+			"secret": 32
+		}
+	],
+	"texts": {
+		"en": {
+			"description": "Open-source search and analytics engine, with OpenSearch Dashboards: full-text and vector search, logs and dashboards",
+			"notes": "Sign in to OpenSearch Dashboards with the username admin and the admin password you gave, and change that password under the user menu → Reset password. Dev Tools in Dashboards sends requests to OpenSearch's REST API. To reach the API from your apps, add a host on the project's Domains tab with a route to the opensearch service on port 9200, and sign in to it as admin, or as a user you make under Security → Internal users.",
+			"sizing": "OpenSearch runs on Java with a 512 MB heap: about 1.3 GB of memory with OpenSearch Dashboards at rest, more as indexes grow; for large indexes, raise the heap in OPENSEARCH_JAVA_OPTS.",
+			"summary": "OpenSearch is an open-source search and analytics engine, forked from Elasticsearch. Self-host it with OpenSearch Dashboards in one click.",
+			"about": [
+				"OpenSearch is a search and analytics engine: you send it JSON documents over a REST API, and it finds them by full text, filters and aggregates them, and searches them by vector for AI apps with its k-NN plugin. OpenSearch Dashboards is its web interface: dashboards and charts, Discover for exploring logs and events, Dev Tools for sending queries, and pages for its plugins, such as security, alerting and anomaly detection.",
+				"OpenSearch began in 2021 as a fork of Elasticsearch 7.10.2 and Kibana, when Elastic changed their license, and is open source under Apache 2.0. Since 2024 it is run by the OpenSearch Software Foundation, part of the Linux Foundation. This template runs one node with OpenSearch Dashboards at the project's address, with the security plugin on: its only users are the administrator, made from the fields before OpenSearch answers anyone, and Dashboards' own, so none of the image's demo users with published passwords. The catch: it runs on Java and takes more memory than lighter search engines, and one node keeps no replica of its indexes."
+			],
+			"faq": [
+				{
+					"q": "Is OpenSearch free?",
+					"a": "Yes. OpenSearch and OpenSearch Dashboards are open source under the Apache 2.0 license, with every plugin included and no paid edition. Amazon sells a managed version, Amazon OpenSearch Service."
+				},
+				{
+					"q": "OpenSearch vs Elasticsearch: what is the difference?",
+					"a": "OpenSearch started as a fork of Elasticsearch 7.10.2 in 2021, so its query language and REST API look familiar, but the two have moved apart since. OpenSearch is Apache 2.0 with security, alerting and vector search built in, while Elasticsearch is sold by Elastic under its own licenses and the AGPL."
+				},
+				{
+					"q": "Can I use OpenSearch for vector search?",
+					"a": "Yes. Its k-NN plugin stores vectors beside your documents and finds the nearest ones, with the Lucene and Faiss engines, and its neural search plugin combines that with text search, for semantic search and retrieval for AI apps."
+				},
+				{
+					"q": "How do my apps connect to OpenSearch?",
+					"a": "Over its REST API on port 9200. Add a host on the project's Domains tab with a route to the opensearch service on that port, and connect with an official client (Python, JavaScript, Java, Go, Ruby, PHP, .NET or Rust) or plain HTTPS, signed in as admin or as a user you make for the app."
+				}
+			]
+		},
+		"de": {
+			"description": "Open-Source-Such- und Analyse-Engine, mit OpenSearch Dashboards: Volltext- und Vektorsuche, Logs und Dashboards",
+			"notes": "Melde dich mit dem Benutzernamen admin und dem Admin-Passwort, das du angegeben hast, bei OpenSearch Dashboards an, und ändere dieses Passwort im Benutzermenü unter „Reset password“. „Dev Tools“ in Dashboards sendet Requests an die REST-API von OpenSearch. Damit deine Apps die API erreichen, füg im Tab „Domains“ des Projekts einen Host hinzu, mit einer Route zum Service opensearch auf Port 9200, und melde dich dort als admin an oder als ein Benutzer, den du unter „Security“ → „Internal users“ anlegst.",
+			"sizing": "OpenSearch läuft auf Java mit einem Heap von 512 MB: im Ruhezustand etwa 1,3 GB RAM mit OpenSearch Dashboards, mehr, wenn die Indizes wachsen; für große Indizes erhöhst du den Heap in OPENSEARCH_JAVA_OPTS.",
+			"summary": "OpenSearch selbst hosten: Open-Source-Such- und Analyse-Engine, ein Fork von Elasticsearch. Mit OpenSearch Dashboards, mit einem Klick.",
+			"about": [
+				"OpenSearch ist eine Such- und Analyse-Engine: Du schickst JSON-Dokumente über eine REST-API, und OpenSearch findet sie per Volltextsuche, filtert und aggregiert sie und durchsucht sie mit seinem k-NN-Plugin nach Vektoren, für KI-Apps. OpenSearch Dashboards ist die Weboberfläche dazu: Dashboards und Diagramme, „Discover“ zum Erkunden von Logs und Events, „Dev Tools“ zum Senden von Abfragen und Seiten für die Plugins, etwa für Sicherheit, Alerts und Anomalieerkennung.",
+				"OpenSearch entstand 2021 als Fork von Elasticsearch 7.10.2 und Kibana, nachdem Elastic deren Lizenz geändert hatte, und ist Open Source unter Apache 2.0. Seit 2024 führt die OpenSearch Software Foundation, ein Teil der Linux Foundation, das Projekt. Diese Vorlage betreibt einen Knoten mit OpenSearch Dashboards unter der Adresse des Projekts, mit eingeschaltetem Sicherheits-Plugin: Die einzigen Benutzer sind der Administrator, aus den Feldern angelegt, bevor OpenSearch irgendwem antwortet, und der eigene Benutzer von Dashboards, also keiner der Demo-Benutzer des Images, deren Passwörter veröffentlicht sind. Der Haken: OpenSearch läuft auf Java und braucht mehr RAM als schlankere Suchmaschinen, und ein einzelner Knoten hält keine Replikate seiner Indizes."
+			],
+			"faq": [
+				{
+					"q": "Ist OpenSearch kostenlos?",
+					"a": "Ja. OpenSearch und OpenSearch Dashboards sind Open Source unter der Apache-2.0-Lizenz, alle Plugins inklusive und ohne kostenpflichtige Edition. Amazon verkauft eine verwaltete Version: Amazon OpenSearch Service."
+				},
+				{
+					"q": "OpenSearch oder Elasticsearch: Was ist der Unterschied?",
+					"a": "OpenSearch entstand 2021 als Fork von Elasticsearch 7.10.2, daher wirken seine Abfragesprache und seine REST-API vertraut, doch die beiden haben sich seitdem auseinanderentwickelt. OpenSearch steht unter Apache 2.0 und hat Sicherheit, Alerts und Vektorsuche schon eingebaut, während Elastic Elasticsearch unter eigenen Lizenzen und der AGPL verkauft."
+				},
+				{
+					"q": "Kann ich OpenSearch für Vektorsuche nutzen?",
+					"a": "Ja. Sein k-NN-Plugin speichert Vektoren neben deinen Dokumenten und findet die nächstgelegenen, mit den Engines Lucene und Faiss, und sein Plugin für neuronale Suche verbindet das mit Textsuche, für semantische Suche und Retrieval für KI-Apps."
+				},
+				{
+					"q": "Wie verbinden sich meine Apps mit OpenSearch?",
+					"a": "Über seine REST-API auf Port 9200. Füg im Tab „Domains“ des Projekts einen Host hinzu, mit einer Route zum Service opensearch auf diesem Port, und verbinde deine Apps über einen offiziellen Client (Python, JavaScript, Java, Go, Ruby, PHP, .NET oder Rust) oder direkt über HTTPS, angemeldet als admin oder als ein Benutzer, den du für die App anlegst."
+				}
+			]
+		},
+		"es": {
+			"description": "Motor de búsqueda y analítica de código abierto, con OpenSearch Dashboards: búsqueda de texto completo y vectorial, logs y paneles de control",
+			"notes": "Inicia sesión en OpenSearch Dashboards con el nombre de usuario admin y la contraseña de administrador que indicaste, y cambia esa contraseña en el menú de usuario → Reset password. Desde Dev Tools, en Dashboards, se envían peticiones a la API REST de OpenSearch. Para llegar a la API desde tus apps, agrega un host en la pestaña Dominios del proyecto con una ruta al servicio opensearch en el puerto 9200, e inicia sesión en ella como admin o como un usuario que crees en Security → Internal users.",
+			"sizing": "OpenSearch funciona con Java y un heap de 512 MB: unos 1,3 GB de memoria con OpenSearch Dashboards en reposo, más a medida que crecen los índices; para índices grandes, aumenta el heap en OPENSEARCH_JAVA_OPTS.",
+			"summary": "OpenSearch es un motor de búsqueda y analítica de código abierto, un fork de Elasticsearch. Autoalójalo con OpenSearch Dashboards en un clic.",
+			"about": [
+				"OpenSearch es un motor de búsqueda y analítica: le envías documentos JSON por una API REST, y los encuentra por texto completo, los filtra y los agrupa, y los busca por vectores para apps de IA con su plugin k-NN. OpenSearch Dashboards es su interfaz web: paneles de control y gráficos, Discover para explorar logs y eventos, Dev Tools para enviar consultas, y páginas para sus plugins, como seguridad, alertas y detección de anomalías.",
+				"OpenSearch nació en 2021 como fork de Elasticsearch 7.10.2 y Kibana, cuando Elastic les cambió la licencia, y es de código abierto bajo Apache 2.0. Desde 2024 lo dirige la OpenSearch Software Foundation, parte de la Linux Foundation. Esta plantilla ejecuta un nodo con OpenSearch Dashboards en la dirección del proyecto, con el plugin de seguridad activado: sus únicos usuarios son el administrador, creado con los datos de los campos antes de que OpenSearch responda a nadie, y el propio de Dashboards, así que no hay ninguno de los usuarios de demostración de la imagen, cuyas contraseñas están publicadas. El inconveniente: funciona con Java y ocupa más memoria que motores de búsqueda más ligeros, y un solo nodo no guarda réplicas de sus índices."
+			],
+			"faq": [
+				{
+					"q": "¿OpenSearch es gratis?",
+					"a": "Sí. OpenSearch y OpenSearch Dashboards son de código abierto bajo la licencia Apache 2.0, con todos los plugins incluidos y sin edición de pago. Amazon vende una versión administrada, Amazon OpenSearch Service."
+				},
+				{
+					"q": "OpenSearch frente a Elasticsearch: ¿en qué se diferencian?",
+					"a": "OpenSearch empezó como fork de Elasticsearch 7.10.2 en 2021, así que su lenguaje de consultas y su API REST resultan familiares, pero desde entonces los dos se distanciaron. OpenSearch usa la licencia Apache 2.0 e integra seguridad, alertas y búsqueda vectorial, mientras que Elastic vende Elasticsearch bajo sus propias licencias y la AGPL."
+				},
+				{
+					"q": "¿Puedo usar OpenSearch para búsqueda vectorial?",
+					"a": "Sí. Su plugin k-NN guarda vectores junto a tus documentos y encuentra los más cercanos, con los motores Lucene y Faiss, y su plugin de búsqueda neuronal lo combina con la búsqueda de texto, para la búsqueda semántica y la recuperación en apps de IA."
+				},
+				{
+					"q": "¿Cómo se conectan mis apps a OpenSearch?",
+					"a": "Por su API REST en el puerto 9200. Agrega un host en la pestaña Dominios del proyecto con una ruta al servicio opensearch en ese puerto, y conecta tus apps con un cliente oficial (Python, JavaScript, Java, Go, Ruby, PHP, .NET o Rust) o directamente por HTTPS, iniciando sesión como admin o como un usuario que crees para la app."
+				}
+			]
+		},
+		"fr": {
+			"description": "Moteur de recherche et d’analyse open source, avec OpenSearch Dashboards : recherche plein texte et vectorielle, logs et tableaux de bord",
+			"notes": "Connectez-vous à OpenSearch Dashboards avec le nom d’utilisateur admin et le mot de passe administrateur que vous avez indiqué, et changez ce mot de passe dans le menu utilisateur → Reset password. Dev Tools, dans Dashboards, envoie des requêtes à l’API REST d’OpenSearch. Pour joindre l’API depuis vos applications, ajoutez un hôte dans l’onglet Domaines du projet avec une route vers le service opensearch sur le port 9200, et connectez-vous-y avec l’utilisateur admin, ou avec un utilisateur que vous créez dans Security → Internal users.",
+			"sizing": "OpenSearch tourne sur Java avec un heap de 512 MB : environ 1,3 GB de mémoire au repos avec OpenSearch Dashboards, davantage à mesure que les index grossissent ; pour de gros index, augmentez le heap dans OPENSEARCH_JAVA_OPTS.",
+			"summary": "OpenSearch, le moteur de recherche et d’analyse open source issu d’un fork d’Elasticsearch. Auto-hébergez-le avec OpenSearch Dashboards en un clic.",
+			"about": [
+				"OpenSearch est un moteur de recherche et d’analyse : vous lui envoyez des documents JSON par une API REST, et il les retrouve par recherche plein texte, les filtre et les agrège, et les cherche par vecteur pour les applications d’IA avec son plugin k-NN. OpenSearch Dashboards est son interface web : tableaux de bord et graphiques, Discover pour explorer les logs et les événements, Dev Tools pour envoyer des requêtes, et des pages pour ses plugins, comme la sécurité, les alertes et la détection d’anomalies.",
+				"OpenSearch est né en 2021 d’un fork d’Elasticsearch 7.10.2 et de Kibana, quand Elastic en a changé la licence, et il est open source sous licence Apache 2.0. Depuis 2024, il est dirigé par l’OpenSearch Software Foundation, qui fait partie de la Linux Foundation. Ce template fait tourner un nœud avec OpenSearch Dashboards à l’adresse du projet, avec le plugin de sécurité activé : ses seuls utilisateurs sont l’administrateur, créé à partir des champs avant qu’OpenSearch ne réponde à quiconque, et celui de Dashboards, donc aucun des utilisateurs de démonstration de l’image, aux mots de passe publiés. Le revers : il tourne sur Java et prend plus de mémoire que des moteurs de recherche plus légers, et un seul nœud ne garde aucune réplique de ses index."
+			],
+			"faq": [
+				{
+					"q": "OpenSearch est-il gratuit ?",
+					"a": "Oui. OpenSearch et OpenSearch Dashboards sont open source sous licence Apache 2.0, avec tous les plugins inclus et sans édition payante. Amazon vend une version gérée, Amazon OpenSearch Service."
+				},
+				{
+					"q": "OpenSearch ou Elasticsearch : quelle différence ?",
+					"a": "OpenSearch est né d’un fork d’Elasticsearch 7.10.2 en 2021 : son langage de requête et son API REST semblent donc familiers, mais les deux ont divergé depuis. OpenSearch est sous licence Apache 2.0, avec la sécurité, les alertes et la recherche vectorielle intégrées, alors qu’Elastic vend Elasticsearch sous ses propres licences et l’AGPL."
+				},
+				{
+					"q": "Puis-je utiliser OpenSearch pour la recherche vectorielle ?",
+					"a": "Oui. Son plugin k-NN stocke des vecteurs à côté de vos documents et trouve les plus proches, avec les moteurs Lucene et Faiss, et son plugin de recherche neuronale combine cela avec la recherche textuelle, pour la recherche sémantique et la récupération dans les applications d’IA."
+				},
+				{
+					"q": "Comment mes applications se connectent-elles à OpenSearch ?",
+					"a": "Par son API REST, sur le port 9200. Ajoutez un hôte dans l’onglet Domaines du projet avec une route vers le service opensearch sur ce port, et connectez vos applications avec un client officiel (Python, JavaScript, Java, Go, Ruby, PHP, .NET ou Rust) ou directement en HTTPS, avec l’utilisateur admin ou un utilisateur que vous créez pour l’application."
+				}
+			]
+		},
+		"pl": {
+			"description": "Silnik wyszukiwania i analityki open source z OpenSearch Dashboards: wyszukiwanie pełnotekstowe i wektorowe, logi i dashboardy",
+			"notes": "Zaloguj się do OpenSearch Dashboards nazwą użytkownika admin i podanym hasłem administratora, a potem zmień to hasło w menu użytkownika → Reset password. Dev Tools w Dashboards wysyła żądania do REST API OpenSearch. Żeby twoje aplikacje miały dostęp do API, dodaj hosta w zakładce Domeny projektu z trasą do usługi opensearch na porcie 9200 i loguj się do API jako admin albo jako użytkownik, którego utworzysz w sekcji Security → Internal users.",
+			"sizing": "OpenSearch działa na Javie z heapem 512 MB: razem z OpenSearch Dashboards zajmuje w spoczynku około 1,3 GB pamięci, więcej w miarę wzrostu indeksów; przy dużych indeksach zwiększ heap w OPENSEARCH_JAVA_OPTS.",
+			"summary": "OpenSearch to silnik wyszukiwania i analityki open source, fork Elasticsearch. Hostuj go u siebie z OpenSearch Dashboards w jeden klik.",
+			"about": [
+				"OpenSearch to silnik wyszukiwania i analityki: wysyłasz mu dokumenty JSON przez REST API, a on wyszukuje je pełnotekstowo, filtruje, agreguje i swoim pluginem k-NN przeszukuje wektorowo dla aplikacji AI. OpenSearch Dashboards to jego interfejs webowy: dashboardy i wykresy, Discover do przeglądania logów i zdarzeń, Dev Tools do wysyłania zapytań oraz strony jego pluginów, takich jak bezpieczeństwo, alerty i wykrywanie anomalii.",
+				"OpenSearch powstał w 2021 roku jako fork projektów Elasticsearch 7.10.2 i Kibana, gdy firma Elastic zmieniła ich licencję, i jest open source na licencji Apache 2.0. Od 2024 roku zarządza nim OpenSearch Software Foundation, część Linux Foundation. Ten szablon uruchamia jeden węzeł z OpenSearch Dashboards pod adresem projektu, z włączonym pluginem bezpieczeństwa: jego jedyni użytkownicy to administrator, utworzony z pól formularza, zanim OpenSearch komukolwiek odpowie, i własny użytkownik Dashboards, więc nie ma tu żadnego z demonstracyjnych użytkowników obrazu, których hasła opublikowano. Haczyk: OpenSearch działa na Javie i zajmuje więcej pamięci niż lżejsze silniki wyszukiwania, a jeden węzeł nie trzyma żadnej repliki swoich indeksów."
+			],
+			"faq": [
+				{
+					"q": "Czy OpenSearch jest darmowy?",
+					"a": "Tak. OpenSearch i OpenSearch Dashboards to open source na licencji Apache 2.0, ze wszystkimi pluginami w zestawie i bez płatnej edycji. Amazon sprzedaje wersję zarządzaną, Amazon OpenSearch Service."
+				},
+				{
+					"q": "OpenSearch a Elasticsearch: czym się różnią?",
+					"a": "OpenSearch powstał w 2021 roku jako fork Elasticsearch 7.10.2, więc jego język zapytań i REST API wyglądają znajomo, ale od tamtej pory oba projekty się rozeszły. OpenSearch jest na licencji Apache 2.0 i ma wbudowane bezpieczeństwo, alerty i wyszukiwanie wektorowe, a Elasticsearch sprzedaje firma Elastic na własnych licencjach i na licencji AGPL."
+				},
+				{
+					"q": "Czy mogę używać OpenSearch do wyszukiwania wektorowego?",
+					"a": "Tak. Jego plugin k-NN przechowuje wektory obok twoich dokumentów i znajduje najbliższe, z silnikami Lucene i Faiss, a plugin wyszukiwania neuronowego łączy to z wyszukiwaniem tekstowym, do wyszukiwania semantycznego i pobierania danych dla aplikacji AI."
+				},
+				{
+					"q": "Jak moje aplikacje łączą się z OpenSearch?",
+					"a": "Przez jego REST API na porcie 9200. Dodaj hosta w zakładce Domeny projektu z trasą do usługi opensearch na tym porcie i połącz się oficjalnym klientem (Python, JavaScript, Java, Go, Ruby, PHP, .NET lub Rust) albo zwykłym HTTPS, logując się jako admin albo jako użytkownik, którego utworzysz dla aplikacji."
+				}
+			]
+		},
+		"pt": {
+			"description": "Mecanismo de busca e análise de código aberto, com o OpenSearch Dashboards: busca em texto completo e vetorial, logs e dashboards",
+			"notes": "Entre no OpenSearch Dashboards com o usuário admin e a senha de administrador que você informou, e altere essa senha no menu do usuário → Reset password. O Dev Tools, no Dashboards, envia requisições para a API REST do OpenSearch. Para acessar a API a partir dos seus apps, adicione um host na aba Domínios do projeto com uma rota para o serviço opensearch na porta 9200, e autentique-se como admin ou como um usuário que você criar em Security → Internal users.",
+			"sizing": "O OpenSearch roda em Java com um heap de 512 MB: cerca de 1,3 GB de memória com o OpenSearch Dashboards em repouso, mais conforme os índices crescem; para índices grandes, aumente o heap em OPENSEARCH_JAVA_OPTS.",
+			"summary": "O OpenSearch é um mecanismo de busca e análise de código aberto, fork do Elasticsearch. Auto-hospede-o com o OpenSearch Dashboards em um clique.",
+			"about": [
+				"O OpenSearch é um mecanismo de busca e análise: você envia documentos JSON a ele por uma API REST, e ele os encontra por texto completo, os filtra e os agrega, e faz busca vetorial neles para apps de IA com o plugin k-NN dele. O OpenSearch Dashboards é a interface web dele: dashboards e gráficos, o Discover para explorar logs e eventos, o Dev Tools para enviar consultas, e páginas para os plugins dele, como segurança, alertas e detecção de anomalias.",
+				"O OpenSearch nasceu em 2021 como um fork do Elasticsearch 7.10.2 e do Kibana, quando a Elastic mudou a licença deles, e é de código aberto sob a licença Apache 2.0. Desde 2024 ele é gerido pela OpenSearch Software Foundation, parte da Linux Foundation. Este template roda um nó com o OpenSearch Dashboards no endereço do projeto, com o plugin de segurança ativado: os únicos usuários são o administrador, criado a partir dos campos antes de o OpenSearch responder a qualquer pessoa, e o do próprio Dashboards, então não existe nenhum dos usuários de demonstração da imagem, cujas senhas foram publicadas. O porém: ele roda em Java e usa mais memória que mecanismos de busca mais leves, e um só nó não mantém réplicas dos índices dele."
+			],
+			"faq": [
+				{
+					"q": "O OpenSearch é gratuito?",
+					"a": "Sim. O OpenSearch e o OpenSearch Dashboards são de código aberto sob a licença Apache 2.0, com todos os plugins incluídos e sem edição paga. A Amazon vende uma versão gerenciada, o Amazon OpenSearch Service."
+				},
+				{
+					"q": "OpenSearch ou Elasticsearch: qual é a diferença?",
+					"a": "O OpenSearch começou como um fork do Elasticsearch 7.10.2 em 2021, então a linguagem de consulta e a API REST dele parecem familiares, mas os dois se afastaram desde então. O OpenSearch usa a licença Apache 2.0 e já traz segurança, alertas e busca vetorial integrados, enquanto o Elasticsearch é vendido pela Elastic sob licenças próprias e a AGPL."
+				},
+				{
+					"q": "Posso usar o OpenSearch para busca vetorial?",
+					"a": "Sim. O plugin k-NN dele guarda vetores ao lado dos seus documentos e encontra os mais próximos, com os motores Lucene e Faiss, e o plugin de busca neural dele combina isso com a busca de texto, para busca semântica e recuperação em apps de IA."
+				},
+				{
+					"q": "Como os meus apps se conectam ao OpenSearch?",
+					"a": "Pela API REST dele, na porta 9200. Adicione um host na aba Domínios do projeto com uma rota para o serviço opensearch nessa porta, e conecte os seus apps com um cliente oficial (Python, JavaScript, Java, Go, Ruby, PHP, .NET ou Rust) ou por HTTPS puro, autenticados como admin ou como um usuário que você criar para o app."
+				}
+			]
+		},
+		"ru": {
+			"description": "Движок поиска и аналитики с открытым кодом, вместе с OpenSearch Dashboards: полнотекстовый и векторный поиск, логи и дашборды",
+			"notes": "Войдите в OpenSearch Dashboards с именем пользователя admin и паролем администратора, который вы указали, и смените этот пароль: меню пользователя → «Reset password». Раздел «Dev Tools» в Dashboards отправляет запросы в REST API OpenSearch. Чтобы обращаться к API из ваших приложений, добавьте хост на вкладке «Домены» проекта с маршрутом на порт 9200 сервиса opensearch и входите в API как admin или как пользователь, которого вы создадите в разделе «Security» → «Internal users».",
+			"sizing": "OpenSearch работает на Java с хипом 512 MB: в простое около 1,3 GB памяти вместе с OpenSearch Dashboards, больше по мере роста индексов; для больших индексов увеличьте хип в OPENSEARCH_JAVA_OPTS.",
+			"summary": "OpenSearch — движок поиска и аналитики с открытым кодом, форк Elasticsearch. Self-hosted OpenSearch с OpenSearch Dashboards в один клик.",
+			"about": [
+				"OpenSearch — движок поиска и аналитики: вы отправляете ему JSON-документы через REST API, а он находит их полнотекстовым поиском, фильтрует, агрегирует и с плагином k-NN ищет по векторам для ИИ-приложений. OpenSearch Dashboards — его веб-интерфейс: дашборды и графики, «Discover» для изучения логов и событий, «Dev Tools» для отправки запросов и страницы его плагинов, например безопасности, оповещений и обнаружения аномалий.",
+				"OpenSearch появился в 2021 году как форк Elasticsearch 7.10.2 и Kibana, когда компания Elastic сменила их лицензию, и распространяется с открытым кодом под лицензией Apache 2.0. С 2024 года им управляет OpenSearch Software Foundation, часть Linux Foundation. Этот шаблон запускает один узел с OpenSearch Dashboards по адресу проекта, с включенным плагином безопасности: его единственные пользователи — администратор, созданный по данным из полей еще до того, как OpenSearch кому-либо ответит, и собственный пользователь Dashboards, так что ни одного из демо-пользователей образа с опубликованными паролями здесь нет. Подвох: OpenSearch работает на Java и занимает больше памяти, чем более легкие поисковые движки, а один узел не хранит реплик своих индексов."
+			],
+			"faq": [
+				{
+					"q": "OpenSearch бесплатный?",
+					"a": "Да. OpenSearch и OpenSearch Dashboards распространяются с открытым кодом под лицензией Apache 2.0, со всеми плагинами в комплекте и без платной редакции. Amazon продает управляемую версию — Amazon OpenSearch Service."
+				},
+				{
+					"q": "OpenSearch и Elasticsearch: в чем разница?",
+					"a": "OpenSearch появился в 2021 году как форк Elasticsearch 7.10.2, поэтому его язык запросов и REST API выглядят знакомо, но с тех пор проекты разошлись. OpenSearch распространяется под лицензией Apache 2.0, и безопасность, оповещения и векторный поиск в нем встроены, а Elasticsearch компания Elastic продает под собственными лицензиями и под AGPL."
+				},
+				{
+					"q": "Можно ли использовать OpenSearch для векторного поиска?",
+					"a": "Да. Его плагин k-NN хранит векторы рядом с вашими документами и находит ближайшие с помощью движков Lucene и Faiss, а плагин нейронного поиска сочетает это с текстовым поиском — для семантического поиска и извлечения данных для ИИ-приложений."
+				},
+				{
+					"q": "Как мои приложения подключаются к OpenSearch?",
+					"a": "Через его REST API на порту 9200. Добавьте хост на вкладке «Домены» проекта с маршрутом на этот порт сервиса opensearch и подключайтесь официальным клиентом (Python, JavaScript, Java, Go, Ruby, PHP, .NET или Rust) либо обычным HTTPS, входя как admin или как пользователь, которого вы создадите для приложения."
+				}
+			]
+		},
+		"uk": {
+			"description": "Рушій пошуку й аналітики з відкритим кодом, разом з OpenSearch Dashboards: повнотекстовий і векторний пошук, логи й дашборди",
+			"notes": "Увійдіть до OpenSearch Dashboards з іменем користувача admin і паролем адміністратора, який ви вказали, і змініть цей пароль: меню користувача → «Reset password». Розділ «Dev Tools» у Dashboards надсилає запити до REST API OpenSearch. Щоб звертатися до API з ваших застосунків, додайте хост на вкладці «Домени» проєкту з маршрутом на порт 9200 сервісу opensearch і входьте в API як admin або як користувач, якого ви створите в розділі «Security → Internal users».",
+			"sizing": "OpenSearch працює на Java з хіпом 512 MB: у спокої близько 1,3 GB пам’яті разом з OpenSearch Dashboards, більше — з ростом індексів; для великих індексів збільште хіп в OPENSEARCH_JAVA_OPTS.",
+			"summary": "OpenSearch — рушій пошуку й аналітики з відкритим кодом, форк Elasticsearch. Self-hosted OpenSearch з OpenSearch Dashboards в один клік.",
+			"about": [
+				"OpenSearch — рушій пошуку й аналітики: ви надсилаєте йому JSON-документи через REST API, а він знаходить їх повнотекстовим пошуком, фільтрує, агрегує й за допомогою плагіна k-NN шукає за векторами для ШІ-застосунків. OpenSearch Dashboards — його вебінтерфейс: дашборди й графіки, «Discover» для перегляду логів і подій, «Dev Tools» для надсилання запитів і сторінки його плагінів, як-от безпеки, сповіщень і виявлення аномалій.",
+				"OpenSearch з’явився в 2021 році як форк Elasticsearch 7.10.2 і Kibana, коли компанія Elastic змінила їхню ліцензію, і має відкритий код за ліцензією Apache 2.0. З 2024 року ним керує OpenSearch Software Foundation, частина Linux Foundation. Цей шаблон запускає один вузол з OpenSearch Dashboards за адресою проєкту, з увімкненим плагіном безпеки: його єдині користувачі — адміністратор, створений з полів ще до того, як OpenSearch комусь відповість, і власний користувач Dashboards, тож жодного з демонстраційних користувачів образу з опублікованими паролями тут немає. Підводний камінь: OpenSearch працює на Java й займає більше пам’яті, ніж легші пошукові рушії, а один вузол не тримає жодної репліки своїх індексів."
+			],
+			"faq": [
+				{
+					"q": "OpenSearch безкоштовний?",
+					"a": "Так. OpenSearch і OpenSearch Dashboards мають відкритий код за ліцензією Apache 2.0, з усіма плагінами в комплекті й без платної редакції. Amazon продає керовану версію — Amazon OpenSearch Service."
+				},
+				{
+					"q": "OpenSearch і Elasticsearch: у чому різниця?",
+					"a": "OpenSearch з’явився в 2021 році як форк Elasticsearch 7.10.2, тож його мова запитів і REST API виглядають знайомо, але відтоді проєкти розійшлися. OpenSearch виходить за ліцензією Apache 2.0 із вбудованими безпекою, сповіщеннями й векторним пошуком, а Elasticsearch компанія Elastic продає за власними ліцензіями та за AGPL."
+				},
+				{
+					"q": "Чи можна використовувати OpenSearch для векторного пошуку?",
+					"a": "Так. Його плагін k-NN зберігає вектори поруч із вашими документами й знаходить найближчі за допомогою рушіїв Lucene і Faiss, а плагін нейронного пошуку поєднує це з текстовим пошуком — для семантичного пошуку й отримання даних для ШІ-застосунків."
+				},
+				{
+					"q": "Як мої застосунки підключаються до OpenSearch?",
+					"a": "Через його REST API на порту 9200. Додайте хост на вкладці «Домени» проєкту з маршрутом на цей порт сервісу opensearch і підключайтеся офіційним клієнтом (Python, JavaScript, Java, Go, Ruby, PHP, .NET або Rust) чи звичайним HTTPS, входячи як admin або як користувач, якого ви створите для застосунку."
+				}
+			]
+		}
+	}
+}

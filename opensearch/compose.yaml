@@ -1,0 +1,102 @@
+services:
+  opensearch:
+    image: opensearchproject/opensearch:3
+    restart: unless-stopped
+    environment:
+      OPENSEARCH_JAVA_OPTS: -Xms512m -Xmx512m
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      DASHBOARDS_PASSWORD: ${DASHBOARDS_PASSWORD}
+      # The image's demo configuration would add its demo users, whose passwords are published,
+      # and certificates whose keys are too: this start writes its own instead.
+      DISABLE_INSTALL_DEMO_CONFIG: "true"
+    # At each start: a certificate authority and a node certificate of this container's own for
+    # the security plugin's transport layer, made with the JDK's keytool, as the image has no
+    # openssl; opensearch.yml with them; and the users the security index is made from at the
+    # first start: the administrator with the password given, not reserved, so that it can change
+    # its password with no admin certificate, and OpenSearch Dashboards' server user. Once the index exists, OpenSearch reads its users from it, and a password changed in
+    # OpenSearch Dashboards stays. A single node holds no replica, so an index asks for none. The
+    # REST API answers over HTTP inside the project, where the proxy brings HTTPS requests.
+    command:
+      - bash
+      - -c
+      - |
+        set -e
+        cd /usr/share/opensearch
+        if [ "$${#ADMIN_PASSWORD}" -lt 8 ]; then
+          echo "The admin password must have 8 characters at least, as OpenSearch asks." >&2
+          exit 1
+        fi
+        keytool=jdk/bin/keytool
+        certs=config/certs
+        store=$$(head -c 16 /dev/urandom | od -An -tx1 | tr -d ' \n')
+        rm -rf "$$certs"
+        mkdir -p "$$certs"
+        $$keytool -genkeypair -alias ca -keyalg RSA -keysize 2048 -validity 3650 -dname CN=opensearch-ca -ext bc:c \
+          -keystore "$$certs/ca.p12" -storetype PKCS12 -storepass "$$store" 2> /dev/null
+        $$keytool -exportcert -rfc -alias ca -keystore "$$certs/ca.p12" -storepass "$$store" -file "$$certs/ca.pem" 2> /dev/null
+        $$keytool -genkeypair -alias node -keyalg RSA -keysize 2048 -validity 3650 -dname CN=opensearch \
+          -keystore "$$certs/node.p12" -storetype PKCS12 -storepass "$$store" 2> /dev/null
+        $$keytool -certreq -alias node -keystore "$$certs/node.p12" -storepass "$$store" -file "$$certs/node.csr" 2> /dev/null
+        $$keytool -gencert -rfc -alias ca -keystore "$$certs/ca.p12" -storepass "$$store" -validity 3650 \
+          -ext SAN=dns:opensearch,dns:localhost -ext KU=digitalSignature,keyEncipherment -ext EKU=serverAuth,clientAuth \
+          -infile "$$certs/node.csr" -outfile "$$certs/node.pem" 2> /dev/null
+        $$keytool -importcert -noprompt -alias ca -file "$$certs/ca.pem" -keystore "$$certs/node.p12" -storepass "$$store" 2> /dev/null
+        $$keytool -importcert -noprompt -alias node -file "$$certs/node.pem" -keystore "$$certs/node.p12" -storepass "$$store" 2> /dev/null
+        $$keytool -importcert -noprompt -alias ca -file "$$certs/ca.pem" -keystore "$$certs/trust.p12" -storetype PKCS12 -storepass "$$store" 2> /dev/null
+        rm "$$certs/ca.p12" "$$certs/node.csr"
+        cat > config/opensearch.yml <<YAML
+        cluster.name: opensearch
+        network.host: 0.0.0.0
+        discovery.type: single-node
+        cluster.default_number_of_replicas: 0
+        plugins.security.ssl.transport.keystore_type: PKCS12
+        plugins.security.ssl.transport.keystore_filepath: certs/node.p12
+        plugins.security.ssl.transport.keystore_password: $$store
+        plugins.security.ssl.transport.truststore_type: PKCS12
+        plugins.security.ssl.transport.truststore_filepath: certs/trust.p12
+        plugins.security.ssl.transport.truststore_password: $$store
+        plugins.security.ssl.transport.enforce_hostname_verification: false
+        plugins.security.ssl.http.enabled: false
+        plugins.security.nodes_dn: ["CN=opensearch"]
+        plugins.security.allow_default_init_securityindex: true
+        plugins.security.restapi.roles_enabled: ["all_access", "security_rest_api_access"]
+        YAML
+        hash() { plugins/opensearch-security/tools/hash.sh -env "$$1" 2> /dev/null | tail -n 1; }
+        cat > config/opensearch-security/internal_users.yml <<YAML
+        _meta:
+          type: internalusers
+          config_version: 2
+        admin:
+          hash: "$$(hash ADMIN_PASSWORD)"
+          reserved: false
+          backend_roles: [admin]
+          description: The administrator
+        kibanaserver:
+          hash: "$$(hash DASHBOARDS_PASSWORD)"
+          reserved: true
+          description: OpenSearch Dashboards' server
+        YAML
+        exec ./opensearch-docker-entrypoint.sh opensearch
+    volumes:
+      - data:/usr/share/opensearch/data
+    # Up means answering, which asks for a password: 401 to a request with none.
+    healthcheck:
+      test: ["CMD-SHELL", "code=$$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:9200/); [ \"$$code\" = 401 ]"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 120s
+
+  dashboards:
+    image: opensearchproject/opensearch-dashboards:3
+    restart: unless-stopped
+    environment:
+      OPENSEARCH_HOSTS: '["http://opensearch:9200"]'
+      OPENSEARCH_USERNAME: kibanaserver
+      OPENSEARCH_PASSWORD: ${DASHBOARDS_PASSWORD}
+    depends_on:
+      opensearch:
+        condition: service_healthy
+
+volumes:
+  data:
