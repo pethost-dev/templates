@@ -118,6 +118,18 @@
 			"uk": "Сайт для відстеження"
 		}
 	},
+	"siteName": {
+		"label": {
+			"en": "Site name",
+			"de": "Name der Website",
+			"es": "Nombre del sitio",
+			"fr": "Nom du site",
+			"pl": "Nazwa strony",
+			"pt": "Nome do site",
+			"ru": "Название сайта",
+			"uk": "Назва сайту"
+		}
+	},
 	"resendKey": {
 		"type": "key",
 		"placeholder": "re_…",

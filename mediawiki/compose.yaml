@@ -1,0 +1,80 @@
+services:
+  mediawiki:
+    image: mediawiki:1.46
+    restart: unless-stopped
+    environment:
+      WIKI_URL: ${URL}
+      WIKI_NAME: ${WIKI_NAME}
+      ADMIN_USERNAME: ${ADMIN_USERNAME}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+    # A new MediaWiki offers its installer, which makes the administrator, to whoever opens it
+    # first. So the wiki is installed here before Apache answers anyone: its SQLite database and
+    # LocalSettings.php in the data volume, the administrator from the fields. LocalSettings.php is
+    # written there only once the install has succeeded; a start that finds none puts what an
+    # earlier, failed install left aside in data/failed-<time> and installs again. Every start
+    # then runs MediaWiki's update, which a newer image of the line may need.
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        cd /var/www/html
+        if [ ! -f /var/www/data/LocalSettings.php ]; then
+          if ls /var/www/data/*.sqlite >/dev/null 2>&1; then
+            aside=/var/www/data/failed-$$(date +%s)
+            mkdir "$$aside"
+            mv /var/www/data/*.sqlite* "$$aside"/
+          fi
+          rm -rf /var/www/data/install
+          mkdir -p /var/www/data/install
+          php maintenance/run.php install --dbtype=sqlite --dbpath=/var/www/data --dbname=wiki \
+            --server="$$WIKI_URL" --scriptpath= --lang=en --pass="$$ADMIN_PASSWORD" \
+            --with-extensions --confpath=/var/www/data/install "$$WIKI_NAME" "$$ADMIN_USERNAME"
+          cat /var/www/data/install/LocalSettings.php - > /var/www/data/LocalSettings.php <<'PHP'
+
+        # The wiki's name and address are the project's .env's, read at every start.
+        $$wgSitename = getenv('WIKI_NAME') ?: $$wgSitename;
+        $$wgMetaNamespace = false;
+        $$wgServer = getenv('WIKI_URL') ?: $$wgServer;
+        # MediaWiki is at the address's root, and its pages at /wiki/Page_name: Apache sends every
+        # address that is no file to index.php.
+        $$wgScriptPath = '';
+        $$wgResourceBasePath = $$wgScriptPath;
+        $$wgArticlePath = '/wiki/$$1';
+        # Anyone reads; only signed-in users edit, and only an administrator makes accounts, at
+        # Special:CreateAccount.
+        $$wgGroupPermissions['*']['createaccount'] = false;
+        $$wgGroupPermissions['*']['edit'] = false;
+        # MediaWiki's flower beside the wiki's name, until a logo of the wiki's own is set here.
+        $$wgLogos = ['icon' => "$$wgResourceBasePath/resources/assets/mediawiki_compact.svg", '1x' => "$$wgResourceBasePath/resources/assets/mediawiki.png"];
+        # Uploaded files are kept in the images volume.
+        $$wgEnableUploads = true;
+        # The visitor's address is in X-Forwarded-For, from the machine's proxy.
+        $$wgUsePrivateIPs = true;
+        $$wgCdnServersNoPurge = ['10.192.0.0/10'];
+        PHP
+          rm -rf /var/www/data/install
+        fi
+        # The image's html folder is sticky and www-data's, where Linux lets www-data follow only a
+        # link of its own.
+        ln -sf /var/www/data/LocalSettings.php LocalSettings.php
+        chown -h www-data:www-data LocalSettings.php
+        php maintenance/run.php update --quick
+        printf 'upload_max_filesize = 100M\npost_max_size = 100M\n' > /usr/local/etc/php/conf.d/uploads.ini
+        # The web installer is never needed here, and it would greet a stranger: the wiki is
+        # installed above, and updated at every start.
+        echo 'RedirectMatch 404 ^/mw-config' > /etc/apache2/conf-enabled/no-installer.conf
+        chown -R www-data:www-data /var/www/data /var/www/html/images
+        exec apache2-foreground
+    volumes:
+      - data:/var/www/data
+      - images:/var/www/html/images
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "-o", "/dev/null", "http://127.0.0.1/api.php"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 120s
+volumes:
+  data:
+  images:

@@ -1,0 +1,298 @@
+{
+	"name": "MediaWiki",
+	"emoji": "🌻",
+	"category": "notes",
+	"alternatives": [
+		"Confluence",
+		"Fandom"
+	],
+	"plan": "starter",
+	"route": {
+		"service": "mediawiki",
+		"port": 80
+	},
+	"variables": [
+		{
+			"name": "URL",
+			"from": "url"
+		},
+		{
+			"name": "WIKI_NAME",
+			"ask": "siteName"
+		},
+		{
+			"name": "ADMIN_USERNAME",
+			"ask": "username"
+		},
+		{
+			"name": "ADMIN_PASSWORD",
+			"ask": "adminPassword"
+		}
+	],
+	"texts": {
+		"en": {
+			"description": "The wiki software of Wikipedia: pages anyone can read, edited in the visual or the source editor",
+			"notes": "Sign in with the username and the admin password you gave: that account is the wiki's administrator. MediaWiki wants an administrator's password of 10 characters at least: with a shorter one the wiki does not start, and its log says so. Anyone can read the wiki; only signed-in users edit, and nobody creates an account by themselves, so make one for each editor at Special:CreateAccount. To rename the wiki, change WIKI_NAME in the project's .env and deploy again. Other settings, such as $wgLogos for your logo, go in LocalSettings.php in the data volume, beside the SQLite database; uploads are kept in the images volume.",
+			"sizing": "MediaWiki is light: about 200 MB of memory, and its SQLite database grows with each page's history; uploads take what their files take.",
+			"summary": "MediaWiki is the open-source wiki software that runs Wikipedia: pages, history, templates and a visual editor. Self-host your own wiki in one click.",
+			"about": [
+				"MediaWiki is the free and open-source wiki software made by the Wikimedia Foundation for Wikipedia, and used by thousands of other wikis, from game and fan wikis to company knowledge bases. Pages link to each other by their titles, every edit is kept in the page's history and can be compared or reverted, and each page has a talk page for discussion. Templates, categories and the Special pages help to organise a large wiki, and its API lets bots and scripts read and edit.",
+				"Editors write in wikitext, MediaWiki's markup, or in VisualEditor, which edits a page as it looks. This template enables the extensions that come with MediaWiki, among them VisualEditor, WikiEditor, ParserFunctions, Cite, Scribunto for Lua modules, SyntaxHighlight and DiscussionTools, and the skins Vector, MonoBook, Timeless and MinervaNeue for phones.",
+				"This template runs MediaWiki's official image, version 1.46, with Apache and PHP, and its database in SQLite, which MediaWiki supports for small and medium wikis. The wiki is installed before it answers anyone, with the name, username and password you give; anyone can read it, only signed-in users edit, and accounts are made by the administrator."
+			],
+			"faq": [
+				{
+					"q": "Is MediaWiki free?",
+					"a": "Yes. MediaWiki is open source under the GNU General Public License, version 2 or later, and free to use for any wiki, public or private. Wikipedia runs on the same software."
+				},
+				{
+					"q": "Does MediaWiki have a visual editor?",
+					"a": "Yes. VisualEditor comes with MediaWiki and is enabled by this template: Edit opens a page as it looks, and Edit source opens its wikitext. Both save to the same page history."
+				},
+				{
+					"q": "How do I make my MediaWiki private?",
+					"a": "Add $wgGroupPermissions['*']['read'] = false; to LocalSettings.php, in the data volume, and restart the project: then only signed-in users read. Special:UserLogin stays open, so editors can still sign in."
+				},
+				{
+					"q": "How do I add users to my wiki?",
+					"a": "Sign in as the administrator and open Special:CreateAccount: give a username and a password, or an email address for a temporary one. Special:UserRights then gives a user the rights of a group, such as administrator."
+				},
+				{
+					"q": "Can I install MediaWiki extensions?",
+					"a": "Yes. The extensions that ship with MediaWiki are enabled already. Another one is copied into the container's extensions folder and loaded with wfLoadExtension in LocalSettings.php; a change of the image replaces that folder, so keep the extensions you add in a volume of your own."
+				}
+			]
+		},
+		"de": {
+			"description": "Die Wiki-Software von Wikipedia: Seiten, die alle lesen können, bearbeitet im visuellen oder im Quelltext-Editor",
+			"notes": "Melde dich mit dem Benutzernamen und dem Admin-Passwort an, die du angegeben hast: Dieses Konto ist der Administrator des Wikis. MediaWiki verlangt für den Administrator ein Passwort mit mindestens 10 Zeichen: Mit einem kürzeren startet das Wiki nicht, und das Log sagt, warum. Lesen können das Wiki alle, bearbeiten nur angemeldete Benutzer, und ein Konto anlegen kann niemand selbst: Leg unter Special:CreateAccount für jede Person, die bearbeiten soll, eins an. Um das Wiki umzubenennen, ändere WIKI_NAME in der .env des Projekts und deploy neu. Weitere Einstellungen, etwa $wgLogos für dein Logo, kommen in die LocalSettings.php im Volume data, neben der SQLite-Datenbank; Uploads liegen im Volume images.",
+			"sizing": "MediaWiki ist leicht: etwa 200 MB RAM, und seine SQLite-Datenbank wächst mit der Versionsgeschichte jeder Seite; Uploads belegen so viel, wie ihre Dateien groß sind.",
+			"summary": "MediaWiki selbst hosten: die Open-Source-Wiki-Software hinter Wikipedia, mit Seiten, Verlauf, Vorlagen und visuellem Editor. Dein Wiki in einem Klick.",
+			"about": [
+				"MediaWiki ist die freie Open-Source-Wiki-Software, die die Wikimedia Foundation für Wikipedia entwickelt hat und die Tausende andere Wikis nutzen, von Spiele- und Fan-Wikis bis zu Wissensdatenbanken von Unternehmen. Seiten verlinken einander über ihre Titel, jede Bearbeitung bleibt in der Versionsgeschichte der Seite erhalten und lässt sich vergleichen oder zurücksetzen, und jede Seite hat eine Diskussionsseite. Vorlagen, Kategorien und die Spezialseiten helfen, ein großes Wiki zu ordnen, und über seine API lesen und bearbeiten Bots und Skripte.",
+				"Wer schreibt, nutzt Wikitext, die Auszeichnungssprache von MediaWiki, oder den VisualEditor, der eine Seite so bearbeitet, wie sie aussieht. Diese Vorlage aktiviert die Erweiterungen, die mit MediaWiki kommen, darunter VisualEditor, WikiEditor, ParserFunctions, Cite, Scribunto für Lua-Module, SyntaxHighlight und DiscussionTools, sowie die Skins Vector, MonoBook, Timeless und MinervaNeue für Handys.",
+				"Diese Vorlage startet das offizielle Image von MediaWiki, Version 1.46, mit Apache und PHP und der Datenbank in SQLite, das MediaWiki für kleine und mittlere Wikis unterstützt. Das Wiki wird installiert, bevor es irgendwem antwortet, mit dem Namen, dem Benutzernamen und dem Passwort, die du angibst; lesen können es alle, bearbeiten nur angemeldete Benutzer, und Konten legt der Administrator an."
+			],
+			"faq": [
+				{
+					"q": "Ist MediaWiki kostenlos?",
+					"a": "Ja. MediaWiki ist Open Source unter der GNU General Public License, Version 2 oder später, und für jedes Wiki kostenlos nutzbar, öffentlich oder privat. Wikipedia läuft mit derselben Software."
+				},
+				{
+					"q": "Hat MediaWiki einen visuellen Editor?",
+					"a": "Ja. Der VisualEditor kommt mit MediaWiki und ist in dieser Vorlage aktiviert: „Bearbeiten“ öffnet eine Seite so, wie sie aussieht, und „Quelltext bearbeiten“ ihren Wikitext. Beide speichern in dieselbe Versionsgeschichte."
+				},
+				{
+					"q": "Wie mache ich mein MediaWiki privat?",
+					"a": "Füg $wgGroupPermissions['*']['read'] = false; in die LocalSettings.php im Volume data ein und starte das Projekt neu: Dann lesen nur angemeldete Benutzer. Special:UserLogin bleibt offen, sodass sich alle, die bearbeiten, weiterhin anmelden können."
+				},
+				{
+					"q": "Wie füge ich meinem Wiki Benutzer hinzu?",
+					"a": "Melde dich als Administrator an und öffne Special:CreateAccount: Gib einen Benutzernamen und ein Passwort an oder eine E-Mail-Adresse für ein temporäres Passwort. Über Special:UserRights bekommt ein Benutzer dann die Rechte einer Gruppe, etwa die eines Administrators."
+				},
+				{
+					"q": "Kann ich MediaWiki-Erweiterungen installieren?",
+					"a": "Ja. Die Erweiterungen, die mit MediaWiki ausgeliefert werden, sind schon aktiviert. Eine weitere kopierst du in den Ordner extensions des Containers und lädst sie mit wfLoadExtension in der LocalSettings.php; ein Wechsel des Images ersetzt diesen Ordner, also leg die Erweiterungen, die du hinzufügst, in ein eigenes Volume."
+				}
+			]
+		},
+		"es": {
+			"description": "El software de wiki de Wikipedia: páginas que cualquiera puede leer, editadas con el editor visual o con el de código",
+			"notes": "Inicia sesión con el nombre de usuario y la contraseña de administrador que indicaste: esa cuenta es la del administrador de la wiki. MediaWiki pide una contraseña de administrador de 10 caracteres como mínimo: con una más corta la wiki no se inicia, y su log lo indica. Cualquiera puede leer la wiki; solo editan los usuarios con la sesión iniciada, y nadie puede registrarse por sí solo, así que crea una cuenta para cada editor en Special:CreateAccount. Para cambiar el nombre de la wiki, cambia WIKI_NAME en el .env del proyecto y vuelve a desplegar. Los demás ajustes, como $wgLogos para tu logo, van en LocalSettings.php, en el volumen data, junto a la base de datos SQLite; los archivos subidos se conservan en el volumen images.",
+			"sizing": "MediaWiki es ligero: unos 200 MB de memoria, y su base de datos SQLite crece con el historial de cada página; los archivos subidos ocupan lo que ocupan.",
+			"summary": "MediaWiki, el software de wiki de código abierto que usa Wikipedia: páginas, historial, plantillas y editor visual. Autoaloja tu propia wiki en un clic.",
+			"about": [
+				"MediaWiki es el software de wiki libre y de código abierto que la Fundación Wikimedia creó para Wikipedia, y que usan miles de wikis más, desde wikis de juegos y de fans hasta bases de conocimiento de empresas. Las páginas se enlazan entre sí por sus títulos, cada edición se guarda en el historial de la página y se puede comparar o revertir, y cada página tiene su página de discusión. Las plantillas, las categorías y las páginas especiales ayudan a organizar una wiki grande, y su API permite que bots y scripts lean y editen.",
+				"Quienes editan escriben en wikitexto, el lenguaje de marcado de MediaWiki, o en VisualEditor, que edita la página tal como se ve. Esta plantilla activa las extensiones que vienen con MediaWiki, entre ellas VisualEditor, WikiEditor, ParserFunctions, Cite, Scribunto para módulos en Lua, SyntaxHighlight y DiscussionTools, y las apariencias Vector, MonoBook, Timeless y MinervaNeue para teléfonos.",
+				"Esta plantilla ejecuta la imagen oficial de MediaWiki, versión 1.46, con Apache y PHP, y su base de datos en SQLite, que MediaWiki admite para wikis pequeñas y medianas. La wiki se instala antes de responder a nadie, con el nombre, el nombre de usuario y la contraseña que indicas; cualquiera puede leerla, solo editan los usuarios con la sesión iniciada, y las cuentas las crea el administrador."
+			],
+			"faq": [
+				{
+					"q": "¿MediaWiki es gratis?",
+					"a": "Sí. MediaWiki es de código abierto bajo la GNU General Public License, versión 2 o posterior, y es gratis para cualquier wiki, pública o privada. Wikipedia funciona con el mismo software."
+				},
+				{
+					"q": "¿MediaWiki tiene editor visual?",
+					"a": "Sí. VisualEditor viene con MediaWiki y esta plantilla lo activa: “Editar” abre una página tal como se ve, y “Editar código” abre su wikitexto. Los dos guardan en el mismo historial de la página."
+				},
+				{
+					"q": "¿Cómo hago privada mi wiki de MediaWiki?",
+					"a": "Agrega $wgGroupPermissions['*']['read'] = false; a LocalSettings.php, en el volumen data, y reinicia el proyecto: desde entonces solo leen los usuarios con la sesión iniciada. La página Special:UserLogin sigue abierta, así que los editores pueden seguir iniciando sesión."
+				},
+				{
+					"q": "¿Cómo agrego usuarios a mi wiki?",
+					"a": "Inicia sesión como administrador y abre Special:CreateAccount: indica un nombre de usuario y una contraseña, o una dirección de correo, a la que se envía una contraseña temporal. Después, Special:UserRights da a un usuario los permisos de un grupo, como el de administrador."
+				},
+				{
+					"q": "¿Puedo instalar extensiones de MediaWiki?",
+					"a": "Sí. Las extensiones que vienen con MediaWiki ya están activadas. Otra se copia en la carpeta extensions del contenedor y se carga con wfLoadExtension en LocalSettings.php; un cambio de imagen reemplaza esa carpeta, así que guarda las extensiones que agregues en un volumen aparte."
+				}
+			]
+		},
+		"fr": {
+			"description": "Le logiciel de wiki de Wikipédia : des pages que tout le monde peut lire, modifiées dans l’éditeur visuel ou dans l’éditeur de wikicode",
+			"notes": "Connectez-vous avec le nom d’utilisateur et le mot de passe administrateur indiqués : ce compte est l’administrateur du wiki. MediaWiki demande pour l’administrateur un mot de passe d’au moins 10 caractères : avec un mot de passe plus court, le wiki ne démarre pas, et ses logs l’indiquent. Tout le monde peut lire le wiki ; seuls les utilisateurs connectés le modifient, et personne ne crée de compte de lui-même : créez-en un pour chaque contributeur sur la page Special:CreateAccount. Pour renommer le wiki, changez WIKI_NAME dans le .env du projet et redéployez. Les autres réglages, comme $wgLogos pour votre logo, vont dans LocalSettings.php, dans le volume data, à côté de la base SQLite ; les médias envoyés sont conservés dans le volume images.",
+			"sizing": "MediaWiki est léger : environ 200 MB de mémoire, et sa base SQLite grossit avec l’historique de chaque page ; les médias envoyés prennent la place de leurs fichiers.",
+			"summary": "MediaWiki, le logiciel de wiki open source qui fait tourner Wikipédia : pages, historique, modèles et éditeur visuel. Auto-hébergez votre wiki en un clic.",
+			"about": [
+				"MediaWiki est le logiciel de wiki libre et open source créé par la Wikimedia Foundation pour Wikipédia, et utilisé par des milliers d’autres wikis, des wikis de jeux et de fans aux bases de connaissances d’entreprise. Les pages se lient entre elles par leurs titres, chaque modification est gardée dans l’historique de la page et peut être comparée ou annulée, et chaque page a sa page de discussion. Les modèles, les catégories et les pages spéciales aident à organiser un grand wiki, et son API permet à des bots et à des scripts de lire et de modifier le wiki.",
+				"Les contributeurs écrivent en wikicode, le langage de balisage de MediaWiki, ou dans VisualEditor, qui modifie une page telle qu’elle s’affiche. Ce template active les extensions livrées avec MediaWiki, parmi lesquelles VisualEditor, WikiEditor, ParserFunctions, Cite, Scribunto pour les modules Lua, SyntaxHighlight et DiscussionTools, ainsi que les habillages Vector, MonoBook, Timeless et MinervaNeue pour les téléphones.",
+				"Ce template lance l’image officielle de MediaWiki, version 1.46, avec Apache et PHP, et sa base de données en SQLite, que MediaWiki prend en charge pour les petits et moyens wikis. Le wiki est installé avant de répondre à quiconque, avec le nom, le nom d’utilisateur et le mot de passe que vous indiquez ; tout le monde peut le lire, seuls les utilisateurs connectés le modifient, et c’est l’administrateur qui crée les comptes."
+			],
+			"faq": [
+				{
+					"q": "MediaWiki est-il gratuit ?",
+					"a": "Oui. MediaWiki est open source sous licence GNU General Public License, version 2 ou ultérieure, et gratuit pour tout wiki, public ou privé. Wikipédia tourne sur le même logiciel."
+				},
+				{
+					"q": "MediaWiki a-t-il un éditeur visuel ?",
+					"a": "Oui. VisualEditor est livré avec MediaWiki et ce template l’active : « Modifier » ouvre une page telle qu’elle s’affiche, et « Modifier le wikicode » ouvre son wikicode. Les deux enregistrent dans le même historique de la page."
+				},
+				{
+					"q": "Comment rendre mon MediaWiki privé ?",
+					"a": "Ajoutez $wgGroupPermissions['*']['read'] = false; à LocalSettings.php, dans le volume data, et redémarrez le projet : seuls les utilisateurs connectés peuvent alors lire. La page Special:UserLogin reste ouverte, donc les contributeurs peuvent toujours se connecter."
+				},
+				{
+					"q": "Comment ajouter des utilisateurs à mon wiki ?",
+					"a": "Connectez-vous en tant qu’administrateur et ouvrez la page Special:CreateAccount : indiquez un nom d’utilisateur et un mot de passe, ou une adresse e-mail pour un mot de passe temporaire. La page Special:UserRights donne ensuite à un utilisateur les droits d’un groupe, comme administrateur."
+				},
+				{
+					"q": "Puis-je installer des extensions MediaWiki ?",
+					"a": "Oui. Les extensions livrées avec MediaWiki sont déjà activées. Une autre se copie dans le dossier extensions du conteneur et se charge avec wfLoadExtension dans LocalSettings.php ; un changement d’image remplace ce dossier, gardez donc les extensions que vous ajoutez dans un volume que vous créez vous-même."
+				}
+			]
+		},
+		"pl": {
+			"description": "Oprogramowanie wiki, na którym działa Wikipedia: strony, które każdy może czytać, edytowane wizualnie albo w kodzie źródłowym",
+			"notes": "Zaloguj się nazwą użytkownika i hasłem administratora podanymi przy tworzeniu projektu: to konto jest administratorem wiki. MediaWiki wymaga hasła administratora o długości co najmniej 10 znaków: z krótszym wiki się nie uruchomi, a jego log poda przyczynę. Wiki może czytać każdy; edytują tylko zalogowani użytkownicy, a nikt nie założy konta sam, więc utwórz je dla każdego, kto ma edytować, na stronie Special:CreateAccount. Żeby zmienić nazwę wiki, zmień WIKI_NAME w pliku .env projektu i wdróż ponownie. Inne ustawienia, takie jak $wgLogos dla twojego logo, trafiają do LocalSettings.php w wolumenie data, obok bazy danych SQLite; wgrane pliki zostają w wolumenie images.",
+			"sizing": "MediaWiki ma małe wymagania: około 200 MB pamięci, a jego baza danych SQLite rośnie z historią każdej strony; wgrane pliki zajmują tyle miejsca, ile ważą.",
+			"summary": "MediaWiki to silnik wiki open source, na którym działa Wikipedia: strony, historia, szablony i edytor wizualny. Hostuj swoje wiki u siebie w jeden klik.",
+			"about": [
+				"MediaWiki to darmowe oprogramowanie wiki open source, stworzone przez Fundację Wikimedia dla Wikipedii i używane przez tysiące innych wiki, od wiki o grach i fandomach po firmowe bazy wiedzy. Strony linkują do siebie po tytułach, każda edycja zostaje w historii strony i można ją porównać albo wycofać, a każda strona ma stronę dyskusji. Szablony, kategorie i strony specjalne pomagają uporządkować duże wiki, a API MediaWiki pozwala botom i skryptom czytać i edytować strony.",
+				"Redaktorzy piszą w wikitekście, języku znaczników MediaWiki, albo w edytorze VisualEditor, który edytuje stronę tak, jak wygląda. Ten szablon włącza rozszerzenia dołączone do MediaWiki, między innymi VisualEditor, WikiEditor, ParserFunctions, Cite, Scribunto dla modułów w Lua, SyntaxHighlight i DiscussionTools, oraz skórki Vector, MonoBook, Timeless i MinervaNeue dla telefonów.",
+				"Ten szablon uruchamia oficjalny obraz MediaWiki w wersji 1.46, z Apache i PHP, oraz bazą danych SQLite, którą MediaWiki obsługuje w małych i średnich wiki. Wiki jest instalowane, zanim komukolwiek odpowie, z podaną nazwą, nazwą użytkownika i hasłem; każdy może je czytać, edytują tylko zalogowani użytkownicy, a konta zakłada administrator."
+			],
+			"faq": [
+				{
+					"q": "Czy MediaWiki jest darmowe?",
+					"a": "Tak. MediaWiki jest open source na licencji GNU General Public License w wersji 2 lub nowszej i można go używać za darmo w dowolnym wiki, publicznym czy prywatnym. Wikipedia działa na tym samym oprogramowaniu."
+				},
+				{
+					"q": "Czy MediaWiki ma edytor wizualny?",
+					"a": "Tak. VisualEditor jest dołączony do MediaWiki, a ten szablon go włącza: zakładka Edytuj otwiera stronę tak, jak wygląda, a zakładka Edytuj kod źródłowy – jej wikitekst. Obie zapisują zmiany w tej samej historii strony."
+				},
+				{
+					"q": "Jak zrobić z MediaWiki prywatne wiki?",
+					"a": "Dopisz $wgGroupPermissions['*']['read'] = false; do LocalSettings.php w wolumenie data i zrestartuj projekt: wtedy czytać mogą tylko zalogowani użytkownicy. Strona Special:UserLogin pozostaje dostępna, więc redaktorzy nadal mogą się zalogować."
+				},
+				{
+					"q": "Jak dodać użytkowników do swojego wiki?",
+					"a": "Zaloguj się jako administrator i otwórz Special:CreateAccount: podaj nazwę użytkownika i hasło albo adres e-mail, na który przyjdzie hasło tymczasowe. Na stronie Special:UserRights nadasz potem użytkownikowi uprawnienia grupy, na przykład administratorów."
+				},
+				{
+					"q": "Czy mogę instalować rozszerzenia MediaWiki?",
+					"a": "Tak. Rozszerzenia dołączone do MediaWiki są już włączone. Inne kopiuje się do katalogu extensions w kontenerze i ładuje przez wfLoadExtension w LocalSettings.php; zmiana obrazu zastępuje ten katalog, więc dodane rozszerzenia trzymaj w wolumenie, który utworzysz sam."
+				}
+			]
+		},
+		"pt": {
+			"description": "O software de wiki da Wikipédia: páginas que qualquer pessoa pode ler, editadas no editor visual ou no de código-fonte",
+			"notes": "Entre com o usuário e a senha de administrador que você informou: essa é a conta de administrador da wiki. O MediaWiki exige uma senha de administrador de pelo menos 10 caracteres: com uma mais curta, a wiki não inicia e o log dela diz isso. Qualquer pessoa pode ler a wiki; só usuários logados editam, e ninguém cria uma conta sozinho, então crie uma para cada editor em Special:CreateAccount. Para renomear a wiki, altere WIKI_NAME no .env do projeto e faça o deploy de novo. Outras configurações, como $wgLogos para o seu logo, vão no LocalSettings.php, no volume data, ao lado do banco de dados SQLite; os uploads ficam guardados no volume images.",
+			"sizing": "O MediaWiki é leve: cerca de 200 MB de memória, e o banco de dados SQLite dele cresce com o histórico de cada página; os uploads ocupam o que os arquivos deles ocupam.",
+			"summary": "O MediaWiki é o software de wiki open source da Wikipédia: páginas, histórico, predefinições e editor visual. Auto-hospede sua wiki em um clique.",
+			"about": [
+				"O MediaWiki é o software de wiki livre e de código aberto que a Fundação Wikimedia fez para a Wikipédia e que milhares de outras wikis usam, de wikis de jogos e de fãs a bases de conhecimento de empresas. As páginas apontam umas para as outras pelos títulos, cada edição fica guardada no histórico da página e pode ser comparada ou desfeita, e cada página tem uma página de discussão. Predefinições, categorias e as páginas especiais ajudam a organizar uma wiki grande, e a API dele deixa bots e scripts lerem e editarem.",
+				"Os editores escrevem em wikitexto, a marcação do MediaWiki, ou no VisualEditor, que edita a página do jeito que ela aparece. Este template ativa as extensões que vêm com o MediaWiki, entre elas VisualEditor, WikiEditor, ParserFunctions, Cite, Scribunto para módulos Lua, SyntaxHighlight e DiscussionTools, e as skins Vector, MonoBook, Timeless e MinervaNeue, para celulares.",
+				"Este template roda a imagem oficial do MediaWiki, versão 1.46, com Apache e PHP, e o banco de dados em SQLite, que o MediaWiki suporta para wikis pequenas e médias. A wiki é instalada antes de responder a qualquer pessoa, com o nome, o usuário e a senha que você informa; qualquer pessoa pode lê-la, só usuários logados editam, e as contas são criadas pelo administrador."
+			],
+			"faq": [
+				{
+					"q": "O MediaWiki é gratuito?",
+					"a": "Sim. O MediaWiki é de código aberto sob a GNU General Public License, versão 2 ou posterior, e de uso gratuito para qualquer wiki, pública ou privada. A Wikipédia roda no mesmo software."
+				},
+				{
+					"q": "O MediaWiki tem editor visual?",
+					"a": "Sim. O VisualEditor vem com o MediaWiki e este template o ativa: “Editar” abre a página do jeito que ela aparece, e “Editar código-fonte” abre o wikitexto dela. Os dois salvam no mesmo histórico da página."
+				},
+				{
+					"q": "Como deixo meu MediaWiki privado?",
+					"a": "Adicione $wgGroupPermissions['*']['read'] = false; ao LocalSettings.php, no volume data, e reinicie o projeto: aí só usuários logados leem. A Special:UserLogin continua aberta, então os editores ainda conseguem entrar."
+				},
+				{
+					"q": "Como adiciono usuários à minha wiki?",
+					"a": "Entre como administrador e abra Special:CreateAccount: informe um nome de usuário e uma senha, ou um endereço de e-mail, que recebe uma senha temporária. Depois, Special:UserRights dá a um usuário os direitos de um grupo, como o de administrador."
+				},
+				{
+					"q": "Posso instalar extensões no MediaWiki?",
+					"a": "Sim. As extensões que vêm com o MediaWiki já estão ativadas. Outra extensão é copiada para a pasta extensions do container e carregada com wfLoadExtension no LocalSettings.php; uma troca de imagem substitui essa pasta, então mantenha as extensões que você adicionar num volume criado por você."
+				}
+			]
+		},
+		"ru": {
+			"description": "Движок вики, на котором работает Википедия: страницы, которые может читать любой, а править можно в визуальном редакторе или в редакторе кода",
+			"notes": "Войдите с именем пользователя и паролем администратора, которые вы указали: этот аккаунт — администратор вики. MediaWiki требует пароль администратора не короче 10 символов: с более коротким вики не запускается и пишет об этом в лог. Читать вики может любой; править могут только вошедшие пользователи, а сам себе аккаунт никто не создаст, поэтому заведите его каждому редактору на странице Special:CreateAccount. Чтобы переименовать вики, измените WIKI_NAME в .env проекта и задеплойте проект заново. Остальные настройки, например $wgLogos для вашего логотипа, задаются в LocalSettings.php в томе data, рядом с базой данных SQLite; загруженные файлы хранятся в томе images.",
+			"sizing": "MediaWiki: небольшие требования — около 200 MB памяти, а база данных SQLite растет с историей каждой страницы; загруженные файлы занимают столько, сколько весят.",
+			"summary": "Self-hosted MediaWiki — open source движок вики, на котором работает Википедия: страницы, история, шаблоны и визуальный редактор. Ваша вики в один клик.",
+			"about": [
+				"MediaWiki — свободный движок вики с открытым кодом, который Фонд Викимедиа создал для Википедии и на котором работают тысячи других вики, от вики по играм и фандомам до баз знаний компаний. Страницы ссылаются друг на друга по названиям, каждая правка сохраняется в истории страницы, где ее можно сравнить с другими версиями или откатить, а у каждой страницы есть страница обсуждения. Шаблоны, категории и служебные страницы помогают упорядочить большую вики, а через ее API боты и скрипты читают и правят страницы.",
+				"Редакторы пишут на вики-тексте, языке разметки MediaWiki, или в VisualEditor, который правит страницу в том виде, в каком она выглядит. Этот шаблон включает расширения, которые поставляются с MediaWiki, среди них VisualEditor, WikiEditor, ParserFunctions, Cite, Scribunto для модулей на Lua, SyntaxHighlight и DiscussionTools, а также темы оформления Vector, MonoBook, Timeless и MinervaNeue для телефонов.",
+				"Этот шаблон запускает официальный образ MediaWiki версии 1.46 с Apache и PHP, а базу данных хранит в SQLite, которую MediaWiki поддерживает для небольших и средних вики. Вики устанавливается еще до того, как начнет кому-либо отвечать, с названием, именем пользователя и паролем, которые вы указали; читать ее может любой, править — только вошедшие пользователи, а аккаунты создает администратор."
+			],
+			"faq": [
+				{
+					"q": "MediaWiki бесплатный?",
+					"a": "Да. MediaWiki распространяется с открытым кодом под лицензией GNU General Public License версии 2 или более поздней, и его можно бесплатно использовать для любой вики, публичной или закрытой. Википедия работает на том же движке."
+				},
+				{
+					"q": "Есть ли в MediaWiki визуальный редактор?",
+					"a": "Да. VisualEditor поставляется с MediaWiki и включен в этом шаблоне: вкладка «Править» открывает страницу в том виде, в каком она выглядит, а вкладка «Править код» — ее вики-текст. Обе сохраняют правки в одну и ту же историю страницы."
+				},
+				{
+					"q": "Как сделать вики на MediaWiki закрытой?",
+					"a": "Добавьте $wgGroupPermissions['*']['read'] = false; в LocalSettings.php в томе data и перезапустите проект: тогда читать вики смогут только вошедшие пользователи. Страница Special:UserLogin остается открытой, так что редакторы по-прежнему могут войти."
+				},
+				{
+					"q": "Как добавить пользователей в вики?",
+					"a": "Войдите как администратор и откройте Special:CreateAccount: укажите имя пользователя и пароль или адрес почты, чтобы отправить на него временный пароль. Затем страница Special:UserRights дает пользователю права группы, например администраторов."
+				},
+				{
+					"q": "Можно ли устанавливать расширения MediaWiki?",
+					"a": "Да. Расширения, которые поставляются с MediaWiki, уже включены. Любое другое копируют в папку extensions контейнера и подключают через wfLoadExtension в LocalSettings.php; при смене образа эта папка заменяется, поэтому храните добавленные расширения в отдельном томе, который добавите сами."
+				}
+			]
+		},
+		"uk": {
+			"description": "Рушій вікі, на якому працює Вікіпедія: сторінки, які читає кожен, а редагують у візуальному редакторі або в редакторі коду",
+			"notes": "Увійдіть з іменем користувача й паролем адміністратора, які ви вказали: цей акаунт — адміністратор вікі. MediaWiki вимагає пароль адміністратора щонайменше з 10 символів: з коротшим вікі не запуститься, і її лог про це скаже. Читати вікі може кожен; редагують лише користувачі, які увійшли, і ніхто не створює акаунт сам, тож створіть його для кожного редактора на сторінці Special:CreateAccount. Щоб перейменувати вікі, змініть WIKI_NAME у .env проєкту й задеплойте ще раз. Інші налаштування, як-от $wgLogos, що задає ваш логотип, пишуться в LocalSettings.php у томі data, поруч із базою даних SQLite; завантажені файли зберігаються в томі images.",
+			"sizing": "MediaWiki має скромні вимоги: близько 200 MB пам’яті, а його база даних SQLite росте з історією кожної сторінки; завантажені файли займають стільки, скільки вони важать.",
+			"summary": "MediaWiki — рушій вікі з відкритим кодом, на якому працює Вікіпедія: сторінки, історія, шаблони й візуальний редактор. Self-hosted вікі в один клік.",
+			"about": [
+				"MediaWiki — безкоштовний рушій вікі з відкритим кодом, який Фонд Вікімедіа створив для Вікіпедії і на якому працюють тисячі інших вікі, від ігрових і фанатських до корпоративних баз знань. Сторінки посилаються одна на одну за назвами, кожна правка зберігається в історії сторінки, де її можна порівняти з іншими або скасувати, а кожна сторінка має свою сторінку обговорення. Шаблони, категорії та спеціальні сторінки допомагають упорядкувати велику вікі, а через API боти й скрипти можуть її читати й редагувати.",
+				"Редактори пишуть вікітекстом, розміткою MediaWiki, або у VisualEditor, який редагує сторінку такою, якою вона виглядає. Цей шаблон вмикає розширення, що постачаються з MediaWiki, серед них VisualEditor, WikiEditor, ParserFunctions, Cite, Scribunto для модулів Lua, SyntaxHighlight і DiscussionTools, а також теми оформлення Vector, MonoBook, Timeless і MinervaNeue для телефонів.",
+				"Цей шаблон запускає офіційний образ MediaWiki версії 1.46 з Apache і PHP та базою даних у SQLite: MediaWiki підтримує SQLite для малих і середніх вікі. Вікі встановлюється ще до того, як комусь відповість, із назвою, іменем користувача й паролем, які ви вказали; читати її може кожен, редагують лише користувачі, які увійшли, а акаунти створює адміністратор."
+			],
+			"faq": [
+				{
+					"q": "MediaWiki безкоштовний?",
+					"a": "Так. MediaWiki має відкритий код за ліцензією GNU General Public License версії 2 або новішої, і його можна безкоштовно використовувати для будь-якої вікі, публічної чи приватної. На тому самому рушії працює Вікіпедія."
+				},
+				{
+					"q": "Чи є в MediaWiki візуальний редактор?",
+					"a": "Так. VisualEditor постачається з MediaWiki, і цей шаблон його вмикає: вкладка «Редагувати» відкриває сторінку такою, якою вона виглядає, а «Редагувати код» — її вікітекст. Обидві зберігають правки в ту саму історію сторінки."
+				},
+				{
+					"q": "Як зробити вікі на MediaWiki приватною?",
+					"a": "Додайте $wgGroupPermissions['*']['read'] = false; у LocalSettings.php в томі data і перезапустіть проєкт: тоді читати зможуть лише користувачі, які увійшли. Сторінка Special:UserLogin лишається відкритою, тож редактори й далі зможуть увійти."
+				},
+				{
+					"q": "Як додати користувачів у вікі?",
+					"a": "Увійдіть як адміністратор і відкрийте сторінку Special:CreateAccount: вкажіть ім’я користувача й пароль або адресу електронної пошти для тимчасового пароля. Потім на сторінці Special:UserRights можна дати користувачеві права групи, як-от адміністратора."
+				},
+				{
+					"q": "Чи можна встановити розширення MediaWiki?",
+					"a": "Так. Розширення, що постачаються з MediaWiki, уже ввімкнено. Інше копіюють у каталог extensions контейнера й завантажують через wfLoadExtension у LocalSettings.php; зміна образу замінює цей каталог, тож тримайте додані розширення в окремому томі."
+				}
+			]
+		}
+	}
+}
