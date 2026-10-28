@@ -1,0 +1,86 @@
+services:
+  odoo:
+    image: odoo:20
+    restart: unless-stopped
+    environment:
+      PGHOST: ${DATABASE_HOST:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      PGPORT: ${DATABASE_PORT:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      PGUSER: ${DATABASE_USER:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      PGPASSWORD: ${DATABASE_PASSWORD:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      PGDATABASE: ${DATABASE_NAME:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      # Odoo's bus and cron listen on this database: the app's own, as it may reach no other.
+      PGDATABASE_SYSTEM: ${DATABASE_NAME:?reload New project to link a Postgres database, or send link_databases with env_prefix DATABASE}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      MASTER_PASSWORD: ${MASTER_PASSWORD}
+      # The mail provider picked in New project, by STARTTLS on its port; with none, Odoo sends no
+      # mail until an outgoing mail server is added in its settings.
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      SMTP_FROM: ${SMTP_FROM}
+    # The configuration is written at every start from the lines above: one database, the
+    # database manager closed, the proxy's headers trusted, and a pool within the connections the
+    # Postgres part gives. A new database is initialised before Odoo answers anyone, with
+    # auth_signup, which turns free sign-up on when it is installed: so it is installed here, and
+    # sign-up set to "On invitation" in the step that gives Odoo's administrator, whose login Odoo
+    # makes "admin" with the password "admin", the email and password of the fields. A start that
+    # finds auth_signup not installed, or the login still "admin", does what an earlier start left
+    # undone.
+    command:
+      - bash
+      - -c
+      - |
+        set -e
+        {
+          echo "[options]"
+          echo "addons_path = /mnt/extra-addons"
+          echo "data_dir = /var/lib/odoo"
+          echo "http_interface = 0.0.0.0"
+          echo "admin_passwd = $$MASTER_PASSWORD"
+          echo "db_name = $$PGDATABASE"
+          echo "dbfilter = ^$$PGDATABASE\$$"
+          echo "list_db = False"
+          echo "proxy_mode = True"
+          echo "db_maxconn = 24"
+          echo "max_cron_threads = 1"
+          if [ -n "$$SMTP_HOST" ]; then
+            echo "smtp_server = $$SMTP_HOST"
+            echo "smtp_port = $$SMTP_PORT"
+            echo "smtp_ssl = True"
+            echo "smtp_user = $$SMTP_USER"
+            echo "smtp_password = $$SMTP_PASSWORD"
+            echo "email_from = $$SMTP_FROM"
+          fi
+        } > /etc/odoo/odoo.conf
+        wait-for-psql.py --timeout=120
+        installed="select 1 from ir_module_module where name = 'auth_signup' and state = 'installed'"
+        if [ -z "$$(psql -tAc "$$installed" 2>/dev/null)" ]; then
+          psql -c 'create extension if not exists pg_trgm'
+          odoo -d "$$PGDATABASE" -i base,auth_signup --stop-after-init --no-http
+        fi
+        admin="select u.login from res_users u join ir_model_data d on d.res_id = u.id where d.module = 'base' and d.name = 'user_admin'"
+        if [ "$$(psql -tAc "$$admin" 2>/dev/null)" = admin ]; then
+          odoo shell -d "$$PGDATABASE" --no-http <<'PYTHON'
+        import os
+        admin = env.ref('base.user_admin')
+        admin.write({'login': os.environ['ADMIN_EMAIL'], 'email': os.environ['ADMIN_EMAIL'], 'password': os.environ['ADMIN_PASSWORD']})
+        env['ir.config_parameter'].set_str('auth_signup.invitation_scope', 'b2b')
+        env.cr.commit()
+        PYTHON
+        fi
+        exec odoo
+    volumes:
+      # Attachments, sessions and the files of installed apps.
+      - data:/var/lib/odoo
+      - addons:/mnt/extra-addons
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "-o", "/dev/null", "http://127.0.0.1:8069/web/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 300s
+volumes:
+  data:
+  addons:

@@ -1,0 +1,324 @@
+{
+	"name": "Odoo",
+	"emoji": "🏢",
+	"category": "productivity",
+	"alternatives": [
+		"Salesforce",
+		"SAP Business One",
+		"NetSuite"
+	],
+	"plan": "starter",
+	"route": {
+		"service": "odoo",
+		"port": 8069
+	},
+	"variables": [
+		{
+			"name": "MASTER_PASSWORD",
+			"secret": 24
+		},
+		{
+			"name": "ADMIN_EMAIL",
+			"ask": "email"
+		},
+		{
+			"name": "ADMIN_PASSWORD",
+			"ask": "adminPassword"
+		}
+	],
+	"parts": {
+		"postgres": {
+			"memory_mib": 512
+		},
+		"email": {
+			"variables": [
+				{
+					"name": "SMTP_HOST",
+					"value": "host"
+				},
+				{
+					"name": "SMTP_PORT",
+					"value": "port"
+				},
+				{
+					"name": "SMTP_USER",
+					"value": "user"
+				},
+				{
+					"name": "SMTP_PASSWORD",
+					"value": "password"
+				},
+				{
+					"name": "SMTP_FROM",
+					"value": "from"
+				}
+			]
+		}
+	},
+	"texts": {
+		"en": {
+			"description": "Business apps in one: CRM, sales, invoicing, inventory, website, projects and more",
+			"notes": "Sign in with the email and the admin password you gave: that account is Odoo's administrator, made before Odoo answers anyone. Install the apps you need from Apps, such as CRM, Sales or Inventory, and name your company in Settings → Users & Companies → Companies. Add users in Settings → Users & Companies → Users. Customers sign up only by invitation: Customer Account in Settings changes it, and the Forum app turns free sign-up on when it is installed. Odoo keeps its data in the Postgres database linked to the project, and attachments in the data volume. Email goes through the provider you picked in New project, if any: change it in the SMTP_ lines of the project's .env, then deploy again.",
+			"sizing": "Odoo takes about 150 MB of memory beside its Postgres of 512 MB, more as you install and use apps; attachments take what their files take.",
+			"summary": "Odoo is open-source business software: CRM, sales, invoicing, inventory, website and more in one. Self-host Odoo Community in one click.",
+			"about": [
+				"Odoo is a suite of open-source business apps that work alone or together as one ERP. A small company runs its CRM and sales pipeline, quotations and invoices, purchases and inventory, manufacturing, projects and timesheets, employees and time off, a point of sale, a website with an online shop, email marketing, events and live chat from the same database, so a won deal becomes an order, a delivery and an invoice without being typed again.",
+				"Each app is installed from Odoo's Apps menu when you need it, and every user signs in to the same web interface, with access rights per app. Odoo Community, the free edition, has the apps above; Odoo S.A. sells Odoo Enterprise, which adds full accounting, Studio, Helpdesk, Documents, Sign, Planning, Field Service and Knowledge.",
+				"This template runs Odoo Community from Odoo's official image, version 20, with a Postgres 18 database that New project makes beside it, or one of yours that you pick. The database is initialised and the administrator given the email and password you type before Odoo answers anyone; the database manager stays closed, and customers sign up only by invitation. Its email goes through Resend, SendGrid or Amazon SES, whichever you pick in New project, or nowhere until you pick one."
+			],
+			"faq": [
+				{
+					"q": "Is Odoo free?",
+					"a": "Odoo Community is open source under the LGPL-3.0 and free to use for any number of users. Odoo Enterprise is paid per user and adds apps such as full accounting, Studio, Helpdesk and Documents."
+				},
+				{
+					"q": "Which apps are in Odoo Community?",
+					"a": "Among others CRM, Sales, Invoicing, Purchase, Inventory, Manufacturing, Project, Employees, Time Off, Point of Sale, Website, eCommerce, Email Marketing, Events, Surveys, Live Chat and Discuss."
+				},
+				{
+					"q": "Odoo vs Salesforce: what is the difference?",
+					"a": "Salesforce is a CRM sold per user in its own cloud. Odoo's CRM is one app of many: the same database also holds sales, invoicing, inventory and projects, and Odoo Community costs nothing to run."
+				},
+				{
+					"q": "Can I add modules from the Odoo App Store?",
+					"a": "Yes. A module made for Odoo 20 Community is copied into the addons volume, at /mnt/extra-addons in the odoo service; then Update Apps List in Apps, with developer mode on, shows it for installing."
+				},
+				{
+					"q": "Does Odoo Community have accounting?",
+					"a": "It has Invoicing: customer invoices and vendor bills, payments, taxes and the chart of accounts of your country. Full accounting, with bank synchronisation and reconciliation, financial reports and the accountant's tools, is in Odoo Enterprise."
+				}
+			]
+		},
+		"de": {
+			"description": "Business-Apps in einem: CRM, Verkauf, Rechnungsstellung, Lager, Website, Projekte und mehr",
+			"notes": "Melde dich mit der E-Mail und dem Admin-Passwort an, die du angegeben hast: Dieses Konto ist der Administrator von Odoo, angelegt, bevor Odoo irgendwem antwortet. Installiere unter „Apps“ die Apps, die du brauchst, etwa „CRM“, „Verkauf“ oder „Lager“, und gib deinem Unternehmen unter „Einstellungen“ → „Benutzer & Unternehmen“ → „Unternehmen“ einen Namen. Benutzer fügst du unter „Einstellungen“ → „Benutzer & Unternehmen“ → „Benutzer“ hinzu. Kunden registrieren sich nur auf Einladung: Die Einstellung „Kundenkonto“ unter „Einstellungen“ ändert das, und die App „Forum“ schaltet bei ihrer Installation „Freie Registrierung“ ein. Seine Daten speichert Odoo in der Postgres-Datenbank, die mit dem Projekt verbunden ist, und Anhänge im Volume data. E-Mails gehen über den Anbieter aus „Neues Projekt“, sofern du einen gewählt hast: Ändere ihn in den SMTP_-Zeilen der .env des Projekts und deploy dann neu.",
+			"sizing": "Odoo braucht etwa 150 MB RAM neben seiner Postgres-Datenbank mit 512 MB, mehr, je mehr Apps du installierst und nutzt; Anhänge belegen so viel, wie ihre Dateien groß sind.",
+			"summary": "Odoo Community selbst hosten: Open-Source-Business-Software mit CRM, Verkauf, Rechnungsstellung, Lager, Website und mehr in einem. Mit einem Klick.",
+			"about": [
+				"Odoo ist eine Suite von Open-Source-Business-Apps, die allein oder zusammen als ein ERP arbeiten. Ein kleines Unternehmen betreibt sein CRM und seine Vertriebspipeline, Angebote und Rechnungen, Einkäufe und Lager, Fertigung, Projekte und Zeiterfassung, Mitarbeiter und Abwesenheiten, ein Kassensystem, eine Website mit Onlineshop, E-Mail-Marketing, Veranstaltungen und Livechat in derselben Datenbank, sodass aus einer gewonnenen Verkaufschance ein Auftrag, eine Lieferung und eine Rechnung werden, ohne dass jemand etwas neu eintippt.",
+				"Jede App installierst du über das Menü „Apps“ von Odoo, wenn du sie brauchst, und alle Benutzer melden sich an derselben Weboberfläche an, mit Zugriffsrechten pro App. Odoo Community, die kostenlose Edition, enthält die genannten Apps; Odoo S.A. verkauft Odoo Enterprise, das die volle Buchhaltung und die Apps Studio, Kundendienst, Dokumente, E-Signatur, Planung, Außendienst und Wissensdatenbank dazubringt.",
+				"Diese Vorlage startet Odoo Community aus dem offiziellen Image von Odoo, Version 20, mit einer Postgres-18-Datenbank, die „Neues Projekt“ daneben erstellt, oder einer deiner Datenbanken, die du wählst. Die Datenbank wird initialisiert, und der Administrator bekommt die E-Mail und das Passwort, die du eingibst, bevor Odoo irgendwem antwortet; der Datenbankmanager bleibt gesperrt, und Kunden registrieren sich nur auf Einladung. E-Mails verschickt Odoo über Resend, SendGrid oder Amazon SES, je nachdem, welchen Anbieter du in „Neues Projekt“ wählst, und gar keine, solange du keinen wählst."
+			],
+			"faq": [
+				{
+					"q": "Ist Odoo kostenlos?",
+					"a": "Odoo Community ist Open Source unter der LGPL-3.0 und für beliebig viele Benutzer kostenlos nutzbar. Odoo Enterprise kostet pro Benutzer und bringt Apps wie die volle Buchhaltung, Studio, Kundendienst und Dokumente dazu."
+				},
+				{
+					"q": "Welche Apps hat Odoo Community?",
+					"a": "Unter anderem CRM, Verkauf, Rechnungsstellung, Einkauf, Lager, Fertigung, Projekt, Mitarbeiter, Abwesenheiten, Kassensystem, Website, E-Commerce, E-Mail-Marketing, Veranstaltungen, Umfragen, Livechat und Dialog."
+				},
+				{
+					"q": "Odoo oder Salesforce: Was ist der Unterschied?",
+					"a": "Salesforce ist ein CRM, das pro Benutzer in der eigenen Cloud von Salesforce verkauft wird. Das CRM von Odoo ist eine App unter vielen: Dieselbe Datenbank enthält auch Verkauf, Rechnungsstellung, Lager und Projekte, und der Betrieb von Odoo Community kostet nichts."
+				},
+				{
+					"q": "Kann ich Module aus dem Odoo App Store hinzufügen?",
+					"a": "Ja. Ein Modul für Odoo 20 Community kopierst du in das Volume addons, unter /mnt/extra-addons im Service odoo; dann klickst du bei eingeschaltetem Entwicklermodus unter „Apps“ auf „App-Liste aktualisieren“, und das Modul erscheint zum Installieren."
+				},
+				{
+					"q": "Hat Odoo Community eine Buchhaltung?",
+					"a": "Es hat die App „Rechnungsstellung“: Kundenrechnungen und Lieferantenrechnungen, Zahlungen, Steuern und den Kontenplan deines Landes. Die volle Buchhaltung mit Banksynchronisierung und Abstimmung, Finanzberichten und den Werkzeugen für Buchhalter gibt es in Odoo Enterprise."
+				}
+			]
+		},
+		"es": {
+			"description": "Aplicaciones empresariales en una sola suite: CRM, ventas, facturación, inventario, sitio web, proyectos y más",
+			"notes": "Inicia sesión con el correo y la contraseña de administrador que indicaste: esa cuenta es la del administrador de Odoo, que se crea antes de que Odoo responda a nadie. Instala las aplicaciones que necesites desde Aplicaciones, como CRM, Ventas o Inventario, y pon el nombre de tu empresa en Ajustes → Usuarios y compañías → Compañías. Agrega usuarios en Ajustes → Usuarios y compañías → Usuarios. Los clientes solo se registran por invitación: se cambia en Ajustes, en “Cuenta de cliente”, y la aplicación Foro activa el registro libre al instalarse. Odoo guarda sus datos en la base de datos Postgres conectada al proyecto, y los archivos adjuntos en el volumen data. El correo sale por el proveedor que elegiste en Nuevo proyecto, si elegiste alguno: cámbialo en las líneas SMTP_ del .env del proyecto y vuelve a desplegar.",
+			"sizing": "Odoo ocupa unos 150 MB de memoria junto a su Postgres de 512 MB, y más a medida que instalas y usas aplicaciones; los adjuntos ocupan lo que ocupan sus archivos.",
+			"summary": "Odoo, software empresarial de código abierto: CRM, ventas, facturación, inventario, sitio web y más, todo en uno. Autoaloja Odoo Community en un clic.",
+			"about": [
+				"Odoo es una suite de aplicaciones empresariales de código abierto que funcionan por separado o juntas como un solo ERP. Una pequeña empresa lleva desde la misma base de datos su CRM y su flujo de ventas, presupuestos y facturas, compras e inventario, fabricación, proyectos y partes de horas, empleados y ausencias, un punto de venta, un sitio web con tienda en línea, marketing por correo electrónico, eventos y chat en tiempo real, así que una oportunidad ganada se convierte en un pedido, una entrega y una factura sin volver a escribir nada.",
+				"Cada aplicación se instala desde el menú Aplicaciones de Odoo cuando la necesitas, y todos los usuarios inician sesión en la misma interfaz web, con permisos de acceso por aplicación. Odoo Community, la edición gratuita, tiene las aplicaciones anteriores; Odoo S.A. vende Odoo Enterprise, que agrega la contabilidad completa, Studio, Servicio de asistencia, Documentos, Firma electrónica, Planificación, Servicio de campo e Información.",
+				"Esta plantilla ejecuta Odoo Community con la imagen oficial de Odoo, versión 20, y una base de datos Postgres 18 que Nuevo proyecto crea a su lado, o una de las tuyas que elijas. La base de datos se inicializa y el administrador recibe el correo y la contraseña que escribes antes de que Odoo responda a nadie; la página “Gestionar bases de datos” sigue cerrada, y los clientes solo se registran por invitación. Su correo sale por Resend, SendGrid o Amazon SES, el que elijas en Nuevo proyecto, y no envía ninguno hasta que elijas uno."
+			],
+			"faq": [
+				{
+					"q": "¿Odoo es gratis?",
+					"a": "Odoo Community es de código abierto bajo la LGPL-3.0 y gratis para cualquier número de usuarios. Odoo Enterprise se paga por usuario y agrega aplicaciones como la contabilidad completa, Studio, Servicio de asistencia y Documentos."
+				},
+				{
+					"q": "¿Qué aplicaciones tiene Odoo Community?",
+					"a": "Entre otras, CRM, Ventas, Facturación, Compra, Inventario, Fabricación, Proyecto, Empleados, Ausencias, Punto de venta, Sitio web, Comercio electrónico, Marketing por correo electrónico, Eventos, Encuestas, Chat en directo y Conversaciones."
+				},
+				{
+					"q": "Odoo frente a Salesforce: ¿en qué se diferencian?",
+					"a": "Salesforce es un CRM que se vende por usuario en su propia nube. El CRM de Odoo es una aplicación entre muchas: la misma base de datos guarda también las ventas, la facturación, el inventario y los proyectos, y ejecutar Odoo Community no cuesta nada."
+				},
+				{
+					"q": "¿Puedo agregar módulos de la Odoo App Store?",
+					"a": "Sí. Un módulo hecho para Odoo 20 Community se copia en el volumen addons, en /mnt/extra-addons del servicio odoo; luego, con el modo de desarrollador activado, “Actualizar lista de aplicaciones” en Aplicaciones lo muestra para instalarlo."
+				},
+				{
+					"q": "¿Odoo Community tiene contabilidad?",
+					"a": "Tiene Facturación: facturas de cliente y facturas de proveedores, pagos, impuestos y el plan contable de tu país. La contabilidad completa, con sincronización y conciliación bancaria, informes financieros y las herramientas para quien lleva la contabilidad, está en Odoo Enterprise."
+				}
+			]
+		},
+		"fr": {
+			"description": "Des applications de gestion réunies en une seule : CRM, ventes, facturation, inventaire, site web, projets et plus encore",
+			"notes": "Connectez-vous avec l’e-mail et le mot de passe administrateur indiqués : ce compte est l’administrateur d’Odoo, créé avant qu’Odoo ne réponde à quiconque. Installez les applications dont vous avez besoin depuis Apps, comme CRM, Ventes ou Inventaire, et nommez votre société dans Paramètres → Utilisateurs & Sociétés → Sociétés. Ajoutez des utilisateurs dans Paramètres → Utilisateurs & Sociétés → Utilisateurs. Les clients ne s’inscrivent que sur invitation : le réglage « Compte client » des Paramètres change cela, et l’application Forum le passe à « Inscription gratuite » quand elle est installée. Odoo garde ses données dans la base de données Postgres connectée au projet, et les pièces jointes dans le volume data. Les e-mails passent par le fournisseur choisi dans Nouveau projet, s’il y en a un : changez-le dans les lignes SMTP_ du .env du projet, puis redéployez.",
+			"sizing": "Odoo prend environ 150 MB de mémoire à côté de sa base Postgres de 512 MB, davantage à mesure que vous installez et utilisez des applications ; les pièces jointes prennent la place de leurs fichiers.",
+			"summary": "Odoo, logiciel de gestion open source tout-en-un : CRM, ventes, facturation, inventaire, site web et plus encore. Auto-hébergez Odoo Community en un clic.",
+			"about": [
+				"Odoo est une suite d’applications de gestion open source, qui fonctionnent seules ou ensemble comme un seul ERP. Une petite entreprise y gère, depuis la même base de données, son CRM et son pipeline de ventes, ses devis et ses factures, ses achats et son inventaire, sa fabrication, ses projets et ses feuilles de temps, ses employés et leurs congés, un point de vente, un site web avec une boutique en ligne, ses campagnes d’e-mail marketing, des événements et le chat en direct : une opportunité gagnée devient ainsi une commande, une livraison et une facture sans rien ressaisir.",
+				"Chaque application s’installe depuis le menu Apps d’Odoo quand vous en avez besoin, et chaque utilisateur se connecte à la même interface web, avec des droits d’accès par application. Odoo Community, l’édition gratuite, a les applications ci-dessus ; Odoo S.A. vend Odoo Enterprise, qui ajoute la comptabilité complète, Studio, Assistance, Documents, Signature, Planification, Services sur site et Connaissances.",
+				"Ce template lance Odoo Community depuis l’image officielle d’Odoo, version 20, avec une base de données Postgres 18 que Nouveau projet crée à côté, ou l’une des vôtres que vous choisissez. La base est initialisée, et l’administrateur reçoit l’e-mail et le mot de passe que vous saisissez, avant qu’Odoo ne réponde à quiconque ; le gestionnaire de bases de données reste fermé, et les clients ne s’inscrivent que sur invitation. Ses e-mails passent par Resend, SendGrid ou Amazon SES, celui que vous choisissez dans Nouveau projet, et il n’en envoie aucun tant que vous n’en avez pas choisi."
+			],
+			"faq": [
+				{
+					"q": "Odoo est-il gratuit ?",
+					"a": "Odoo Community est open source sous licence LGPL-3.0 et gratuit quel que soit le nombre d’utilisateurs. Odoo Enterprise est payant par utilisateur et ajoute des applications comme la comptabilité complète, Studio, Assistance et Documents."
+				},
+				{
+					"q": "Quelles applications Odoo Community comprend-il ?",
+					"a": "Entre autres CRM, Ventes, Facturation, Achats, Inventaire, Fabrication, Projet, Employés, Congés, Point de Vente, Site Web, eCommerce, E-mail Marketing, Événements, Sondages, Live Chat et Discussion."
+				},
+				{
+					"q": "Odoo ou Salesforce : quelle différence ?",
+					"a": "Salesforce est un CRM vendu par utilisateur, dans son propre cloud. Le CRM d’Odoo est une application parmi d’autres : la même base de données contient aussi les ventes, la facturation, l’inventaire et les projets, et Odoo Community ne coûte rien à faire tourner."
+				},
+				{
+					"q": "Puis-je ajouter des modules depuis l’Odoo App Store ?",
+					"a": "Oui. Un module conçu pour Odoo 20 Community se copie dans le volume addons, à /mnt/extra-addons dans le service odoo ; ensuite, « Mettre à jour la liste des Apps » dans Apps, avec le mode développeur activé, le fait apparaître, prêt à être installé."
+				},
+				{
+					"q": "Odoo Community a-t-il une comptabilité ?",
+					"a": "Il a l’application Facturation : factures clients et factures fournisseurs, paiements, taxes et le plan comptable de votre pays. La comptabilité complète, avec la synchronisation et le rapprochement bancaires, les rapports financiers et les outils du comptable, fait partie d’Odoo Enterprise."
+				}
+			]
+		},
+		"pl": {
+			"description": "Aplikacje dla firmy w jednym: CRM, sprzedaż, fakturowanie, magazyn, strona internetowa, projekty i nie tylko",
+			"notes": "Zaloguj się adresem e-mail i hasłem administratora podanymi przy tworzeniu projektu: to konto jest administratorem Odoo, utworzonym, zanim Odoo komukolwiek odpowie. Potrzebne aplikacje, takie jak CRM, Sprzedaż czy Magazyn, zainstalujesz z menu Aplikacje, a nazwę firmy ustawisz na stronie Ustawienia → Użytkownicy i firmy → Firmy. Użytkowników dodasz na stronie Ustawienia → Użytkownicy i firmy → Użytkownicy. Klienci rejestrują się tylko na zaproszenie: zmienia to ustawienie Konto klienta w Ustawieniach, a aplikacja Forum po instalacji włącza opcję Darmowa rejestracja. Odoo trzyma dane w bazie danych Postgres podłączonej do projektu, a załączniki w wolumenie data. E-maile idą przez dostawcę wybranego w oknie „Nowy projekt”, jeśli go wybrano: zmień go w wierszach SMTP_ pliku .env projektu i wdróż ponownie.",
+			"sizing": "Odoo zajmuje około 150 MB pamięci obok bazy Postgres z 512 MB, więcej, gdy instalujesz kolejne aplikacje i ich używasz; załączniki zajmują tyle miejsca, ile ważą ich pliki.",
+			"summary": "Odoo to oprogramowanie dla firm open source: CRM, sprzedaż, faktury, magazyn, strona WWW i więcej w jednym. Hostuj Odoo Community u siebie w jeden klik.",
+			"about": [
+				"Odoo to pakiet aplikacji biznesowych open source, które działają osobno albo razem jako jeden system ERP. Mała firma prowadzi w jednej bazie danych CRM i lejek sprzedaży, oferty i faktury, zakupy i magazyn, produkcję, projekty i karty pracy, pracowników i dni wolne, punkt sprzedaży, stronę internetową ze sklepem online, e-mail marketing, wydarzenia i czat na żywo, więc wygrana szansa sprzedaży staje się zamówieniem, dostawą i fakturą bez ponownego wpisywania.",
+				"Każdą aplikację instalujesz z menu Aplikacje, gdy jest potrzebna, a każdy użytkownik loguje się do tego samego interfejsu webowego, z prawami dostępu do poszczególnych aplikacji. Odoo Community, darmowa edycja, ma wszystkie wymienione wyżej aplikacje; Odoo S.A. sprzedaje edycję Odoo Enterprise, która dodaje pełną księgowość i aplikacje Studio, Punkt Pomocy, Dokumenty, ePodpis, Planowanie, Serwis Terenowy i Baza wiedzy.",
+				"Ten szablon uruchamia Odoo Community z oficjalnego obrazu Odoo w wersji 20, z bazą danych Postgres 18, którą Nowy projekt tworzy obok Odoo, albo jedną z twoich, którą wybierzesz. Baza danych jest inicjalizowana, a administrator dostaje wpisany adres e-mail i hasło, zanim Odoo komukolwiek odpowie; menedżer baz danych pozostaje zamknięty, a klienci rejestrują się tylko na zaproszenie. E-maile Odoo wysyła przez Resend, SendGrid albo Amazon SES, zależnie od wyboru w oknie „Nowy projekt”, a dopóki żadnego nie wybierzesz, nie wysyła ich wcale."
+			],
+			"faq": [
+				{
+					"q": "Czy Odoo jest darmowe?",
+					"a": "Odoo Community jest open source na licencji LGPL-3.0 i można z niego korzystać za darmo przy dowolnej liczbie użytkowników. Odoo Enterprise jest płatne za użytkownika i dodaje aplikacje, takie jak pełna księgowość, Studio, Punkt Pomocy i Dokumenty."
+				},
+				{
+					"q": "Jakie aplikacje są w Odoo Community?",
+					"a": "Między innymi CRM, Sprzedaż, Fakturowanie, Zakup, Magazyn, Produkcja, Projekt, Pracownicy, Dni wolne, Punkt sprzedaży, Strona internetowa, eCommerce, E-mail Marketing, Wydarzenia, Ankiety, Czat na żywo i Dyskusje."
+				},
+				{
+					"q": "Odoo czy Salesforce: jaka jest różnica?",
+					"a": "Salesforce to CRM sprzedawany za użytkownika w chmurze Salesforce. CRM w Odoo to jedna z wielu aplikacji: ta sama baza danych trzyma też sprzedaż, fakturowanie, magazyn i projekty, a samo Odoo Community nic nie kosztuje."
+				},
+				{
+					"q": "Czy mogę dodać moduły z Odoo App Store?",
+					"a": "Tak. Moduł zrobiony dla Odoo 20 Community kopiuje się do wolumenu addons, czyli do /mnt/extra-addons w usłudze odoo; potem polecenie Aktualizuj listę aplikacji w menu Aplikacje, przy włączonym trybie deweloperskim, pokaże go do instalacji."
+				},
+				{
+					"q": "Czy Odoo Community ma księgowość?",
+					"a": "Ma Fakturowanie: faktury sprzedaży i faktury zakupu, płatności, podatki i plan kont twojego kraju. Pełna księgowość, z synchronizacją z bankiem i uzgadnianiem, raportami finansowymi i narzędziami dla księgowych, jest w Odoo Enterprise."
+				}
+			]
+		},
+		"pt": {
+			"description": "Apps de negócios num só lugar: CRM, vendas, faturamento, inventário, site, projetos e mais",
+			"notes": "Entre com o e-mail e a senha de administrador que você informou: essa é a conta de administrador do Odoo, criada antes de o Odoo responder a qualquer pessoa. Instale os apps de que você precisa em Aplicativos, como CRM, Vendas ou Inventário, e dê o nome da sua empresa em Definições → Usuários e Empresas → Empresas. Adicione usuários em Definições → Usuários e Empresas → Usuários. Os clientes só se cadastram com convite: “Conta do cliente”, em Definições, muda isso, e o app Fórum ativa o cadastro livre quando é instalado. O Odoo guarda os dados no banco de dados Postgres conectado ao projeto, e os anexos no volume data. O e-mail sai pelo provedor que você escolheu no Novo projeto, se escolheu algum: troque-o nas linhas SMTP_ do .env do projeto e faça o deploy de novo.",
+			"sizing": "O Odoo usa cerca de 150 MB de memória ao lado do seu Postgres de 512 MB, mais à medida que você instala e usa apps; os anexos ocupam o que os arquivos deles ocupam.",
+			"summary": "O Odoo é um sistema de gestão open source: CRM, vendas, faturamento, inventário, site e mais num só lugar. Auto-hospede o Odoo Community em um clique.",
+			"about": [
+				"O Odoo é uma suíte de apps de negócios de código aberto que funcionam sozinhos ou juntos, como um só ERP. Uma empresa pequena gerencia, no mesmo banco de dados, o CRM e o funil de vendas, cotações e faturas, compras e inventário, fabricação, projetos e planilhas de horas, funcionários e folgas, um ponto de venda, um site com loja online, marketing por e-mail, eventos e chat ao vivo, então uma oportunidade ganha vira um pedido, uma entrega e uma fatura sem ser digitada de novo.",
+				"Cada app é instalado pelo menu Aplicativos do Odoo quando você precisar dele, e todos os usuários entram na mesma interface web, com direitos de acesso por app. O Odoo Community, a edição gratuita, tem os apps acima; a Odoo S.A. vende o Odoo Enterprise, que adiciona a contabilidade completa e os apps Estúdio, Central de Ajuda, Documentos, Assinatura de Documentos, Planejamento, Serviço de Campo e Conhecimento.",
+				"Este template roda o Odoo Community a partir da imagem oficial do Odoo, versão 20, com um banco de dados Postgres 18 que o Novo projeto cria ao lado dele, ou um dos seus que você escolher. O banco de dados é inicializado, e o administrador recebe o e-mail e a senha que você digita, antes de o Odoo responder a qualquer pessoa; o gerenciador de bancos de dados continua fechado, e os clientes só se cadastram com convite. Os e-mails dele saem pelo Resend, SendGrid ou Amazon SES, o que você escolher no Novo projeto, e nenhum sai até você escolher um."
+			],
+			"faq": [
+				{
+					"q": "O Odoo é gratuito?",
+					"a": "O Odoo Community é de código aberto sob a LGPL-3.0 e de uso gratuito para qualquer número de usuários. O Odoo Enterprise é pago por usuário e adiciona apps como a contabilidade completa, Estúdio, Central de Ajuda e Documentos."
+				},
+				{
+					"q": "Quais apps vêm no Odoo Community?",
+					"a": "Entre outros, CRM, Vendas, Faturamento, Compras, Inventário, Fabricação, Projeto, Funcionários, Folga, Ponto de Venda, Site, e-Commerce, Marketing por e-mail, Eventos, Pesquisas, Chat ao Vivo e Mensagens."
+				},
+				{
+					"q": "Odoo ou Salesforce: qual é a diferença?",
+					"a": "O Salesforce é um CRM vendido por usuário, na nuvem da própria empresa. O CRM do Odoo é um app entre muitos: o mesmo banco de dados também guarda vendas, faturamento, inventário e projetos, e o Odoo Community não custa nada para rodar."
+				},
+				{
+					"q": "Posso adicionar módulos da Odoo App Store?",
+					"a": "Sim. Um módulo feito para o Odoo 20 Community é copiado para o volume addons, em /mnt/extra-addons no serviço odoo; depois, “Atualizar lista de aplicativos”, em Aplicativos, com o modo de desenvolvedor ativado, mostra o módulo para instalar."
+				},
+				{
+					"q": "O Odoo Community tem contabilidade?",
+					"a": "Tem o app Faturamento: faturas de clientes e de fornecedores, pagamentos, impostos e o plano de contas do seu país. A contabilidade completa, com sincronização e conciliação bancárias, relatórios financeiros e as ferramentas do contador, fica no Odoo Enterprise."
+				}
+			]
+		},
+		"ru": {
+			"description": "Бизнес-приложения в одной системе: CRM, продажи, выставление счетов, склад, сайт, проекты и многое другое",
+			"notes": "Войдите с почтой и паролем администратора, которые вы указали: этот аккаунт — администратор Odoo, он создается еще до того, как Odoo начнет кому-либо отвечать. Установите нужные приложения в разделе «Приложения», например CRM, «Продажи» или «Склад», и задайте название своей компании в разделе «Настройки» → «Пользователи и компании» → «Компании». Пользователей добавляйте в разделе «Настройки» → «Пользователи и компании» → «Пользователи». Клиенты регистрируются только по приглашению: это меняет настройка «Аккаунт клиента» в разделе «Настройки», а приложение «Форум» при установке включает вариант «Свободная регистрация». Свои данные Odoo хранит в базе данных Postgres, подключенной к проекту, а вложения — в томе data. Почта уходит через сервис, выбранный в окне «Новый проект», если вы его выбрали: поменяйте его в строках SMTP_ в .env проекта и задеплойте проект заново.",
+			"sizing": "Odoo занимает около 150 MB памяти рядом с его базой Postgres на 512 MB, больше — по мере того, как вы устанавливаете приложения и работаете в них; вложения занимают столько, сколько весят их файлы.",
+			"summary": "Self-hosted Odoo — open source бизнес-приложения: CRM, продажи, счета, склад, сайт и многое другое в одной системе. Odoo Community в один клик.",
+			"about": [
+				"Odoo — набор бизнес-приложений с открытым кодом, которые работают по отдельности или вместе, как одна ERP-система. Небольшая компания ведет в одной базе данных CRM и воронку продаж, коммерческие предложения и счета, закупки и склад, производство, проекты и табели учета времени, сотрудников и отпуска, торговую точку, сайт с интернет-магазином, email-рассылки, мероприятия и живой чат, так что выигранная сделка становится заказом, доставкой и счетом без повторного ввода.",
+				"Каждое приложение устанавливается из меню «Приложения» в Odoo, когда оно понадобится, а все пользователи входят в один и тот же веб-интерфейс, с правами доступа для каждого приложения. В бесплатной редакции Odoo Community есть все перечисленные приложения; Odoo S.A. продает редакцию Odoo Enterprise, которая добавляет полноценную бухгалтерию и приложения «Студия», «Служба поддержки», «Документы», «Подпись», «Планирование», «Выездное обслуживание» и «Знания».",
+				"Этот шаблон запускает Odoo Community из официального образа Odoo версии 20 с базой данных Postgres 18, которую «Новый проект» создает рядом, или одной из ваших, которую вы выберете. База данных инициализируется, а администратор получает почту и пароль, которые вы ввели, еще до того, как Odoo начнет кому-либо отвечать; менеджер баз данных остается закрытым, а клиенты регистрируются только по приглашению. Почту Odoo отправляет через Resend, SendGrid или Amazon SES — какой сервис вы выберете в окне «Новый проект», а пока сервис не выбран, не отправляет вовсе."
+			],
+			"faq": [
+				{
+					"q": "Odoo бесплатный?",
+					"a": "Редакция Odoo Community распространяется с открытым кодом под лицензией LGPL-3.0, и ее можно бесплатно использовать для любого числа пользователей. Odoo Enterprise оплачивается за каждого пользователя и добавляет такие приложения, как полноценная бухгалтерия, «Студия», «Служба поддержки» и «Документы»."
+				},
+				{
+					"q": "Какие приложения есть в Odoo Community?",
+					"a": "Среди прочих CRM, «Продажи», «Выставление счетов», «Покупка», «Склад», «Производство», «Проект», «Сотрудники», «Отпуск», «Торговая точка», «Сайт», eCommerce, «Рекламная рассылка», «События», «Опросы», «Живой чат» и «Обсуждения»."
+				},
+				{
+					"q": "Odoo или Salesforce: в чем разница?",
+					"a": "Salesforce — это CRM, которую продают за каждого пользователя и которая работает в облаке Salesforce. CRM в Odoo — одно приложение из многих: в той же базе данных хранятся еще продажи, счета, склад и проекты, а сама Odoo Community ничего не стоит."
+				},
+				{
+					"q": "Можно ли добавлять модули из Odoo App Store?",
+					"a": "Да. Модуль, сделанный для Odoo 20 Community, копируют в том addons, в /mnt/extra-addons в сервисе odoo; затем при включенном режиме разработчика пункт «Обновить список приложений» в разделе «Приложения» покажет его, и модуль можно будет установить."
+				},
+				{
+					"q": "Есть ли в Odoo Community бухгалтерия?",
+					"a": "В ней есть приложение «Выставление счетов»: счета клиентам и счета поставщиков, платежи, налоги и план счетов вашей страны. Полноценная бухгалтерия с синхронизацией с банком и сверкой, финансовыми отчетами и инструментами бухгалтера есть в Odoo Enterprise."
+				}
+			]
+		},
+		"uk": {
+			"description": "Бізнес-застосунки в одному: CRM, продажі, рахунки, склад, вебсайт, проєкти та інше",
+			"notes": "Увійдіть з електронною поштою й паролем адміністратора, які ви вказали: цей акаунт — адміністратор Odoo, створений ще до того, як Odoo комусь відповість. Встановіть потрібні застосунки в меню «Додатки», як-от «CRM», «Продажі» чи «Склад», і дайте назву своїй компанії в розділі «Налаштування → Користувачі та компанії → Компанії». Користувачів додавайте в розділі «Налаштування → Користувачі та компанії → Користувачі». Клієнти реєструються лише за запрошенням: це змінює параметр «Клієнтський обліковий запис» у «Налаштуваннях», а застосунок «Форум», коли його встановлюють, вмикає вільну реєстрацію. Свої дані Odoo зберігає в базі даних Postgres, підключеній до проєкту, а вкладення — в томі data. Пошта йде через сервіс, обраний у вікні «Новий проєкт», якщо ви його обрали: змініть його в рядках SMTP_ у .env проєкту й задеплойте ще раз.",
+			"sizing": "Odoo займає близько 150 MB пам’яті поруч із його базою Postgres на 512 MB, а більше — коли ви встановлюєте й використовуєте застосунки; вкладення займають стільки, скільки їхні файли.",
+			"summary": "Odoo — бізнес-програма з відкритим кодом: CRM, продажі, рахунки, склад, вебсайт та інше в одному. Self-hosted Odoo Community в один клік.",
+			"about": [
+				"Odoo — набір бізнес-застосунків з відкритим кодом, які працюють окремо або разом як одна ERP-система. Невелика компанія веде в одній базі даних CRM і воронку продажів, комерційні пропозиції й рахунки, закупівлі й склад, виробництво, проєкти й табелі, співробітників і відпустки, касовий термінал, вебсайт з онлайн-магазином, email-маркетинг, події й живий чат, тож виграна угода стає замовленням, доставкою й рахунком без повторного введення.",
+				"Кожен застосунок встановлюється з меню «Додатки», коли він вам знадобиться, а всі користувачі входять в один вебінтерфейс із правами доступу для кожного застосунку. Безкоштовна редакція Odoo Community має застосунки, названі вище; Odoo S.A. продає Odoo Enterprise, де є ще повний бухоблік, «Студія», «Служба підтримки», «Документи», «Підписати», «Планування», «Виїзне обслуговування» і «Знання».",
+				"Цей шаблон запускає Odoo Community з офіційного образу Odoo версії 20 разом із базою даних Postgres 18, яку «Новий проєкт» створює поруч, або однією з ваших, яку ви оберете. База даних ініціалізується, а адміністратор отримує пошту й пароль, які ви вводите, ще до того, як Odoo комусь відповість; сторінка керування базами даних лишається закритою, а клієнти реєструються лише за запрошенням. Пошту Odoo надсилає через Resend, SendGrid або Amazon SES — який сервіс ви оберете у вікні «Новий проєкт», а поки сервіс не обрано, не надсилає зовсім."
+			],
+			"faq": [
+				{
+					"q": "Odoo безкоштовний?",
+					"a": "Odoo Community має відкритий код за ліцензією LGPL-3.0 і безкоштовний для будь-якої кількості користувачів. Odoo Enterprise оплачується за кожного користувача й додає такі застосунки, як повний бухоблік, «Студія», «Служба підтримки» й «Документи»."
+				},
+				{
+					"q": "Які застосунки є в Odoo Community?",
+					"a": "Серед інших — «CRM», «Продажі», «Виставлення рахунків», «Купівля», «Склад», «Виробництво», «Проект», «Співробітники», «Відпустка», «Касовий термінал», «Веб-сайт», «Електронна комерція», «Email-маркетинг», «Події», «Опитування», «Живий чат» і «Обговорення»."
+				},
+				{
+					"q": "Odoo чи Salesforce: у чому різниця?",
+					"a": "Salesforce — CRM у хмарі самої Salesforce з оплатою за кожного користувача. CRM в Odoo — один застосунок із багатьох: у тій самій базі даних є ще продажі, рахунки, склад і проєкти, а Odoo Community нічого не коштує."
+				},
+				{
+					"q": "Чи можна додати модулі з Odoo App Store?",
+					"a": "Так. Модуль для Odoo 20 Community копіюють у том addons, тобто в /mnt/extra-addons сервісу odoo; потім пункт «Оновити список додатків» у «Додатках», коли ввімкнено режим розробника, показує його для встановлення."
+				},
+				{
+					"q": "Чи є в Odoo Community бухоблік?",
+					"a": "У ньому є застосунок «Виставлення рахунків»: рахунки клієнтам і рахунки постачальників, платежі, податки й план рахунків вашої країни. Повний бухоблік із синхронізацією з банком і звіркою, фінансовими звітами та інструментами бухгалтера є в Odoo Enterprise."
+				}
+			]
+		}
+	}
+}
