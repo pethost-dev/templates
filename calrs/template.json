@@ -1,0 +1,20 @@
+{
+	"name": "Cal.rs",
+	"emoji": "🗓️",
+	"route": {
+		"service": "calrs",
+		"port": 3000
+	},
+	"variables": [
+		{
+			"name": "CALRS_BASE_URL",
+			"from": "url"
+		}
+	],
+	"texts": {
+		"en": {
+			"description": "Fast, self-hostable scheduling. Like Cal.com, but written in Rust.",
+			"notes": "calrs is an open-source scheduling platform built in Rust. Connect your CalDAV calendar (Nextcloud, Fastmail, BlueMind, iCloud...), define bookable meeting types, and share a link. No Node.js, no PostgreSQL, no subscription."
+		}
+	}
+}

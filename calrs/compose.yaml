@@ -1,0 +1,13 @@
+services:
+  calrs:
+    image: ghcr.io/olivierlambert/calrs:latest
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - data:/var/lib/calrs
+    environment:
+      - CALRS_BASE_URL=${CALRS_BASE_URL}
+
+volumes:
+  data:
